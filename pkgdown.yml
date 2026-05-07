@@ -8,7 +8,7 @@ articles:
   getting-started: getting-started.html
   articles/namespace-architecture: namespace-architecture.html
   articles/sparql-strategy: sparql-strategy.html
-last_built: 2026-05-07T22:01Z
+last_built: 2026-05-07T22:20Z
 urls:
   reference: https://ryanstraight.github.io/cybedtools/reference
   article: https://ryanstraight.github.io/cybedtools/articles
