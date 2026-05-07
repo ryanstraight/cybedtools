@@ -176,7 +176,7 @@ Each framework retains its upstream license; source text is not bundled.
 Users stage source files locally per
 [`docs/framework-data-sources.md`](https://ryanstraight.github.io/cybedtools/docs/framework-data-sources.md),
 and each ingestion script writes a per-framework `provenance.yml`. See
-[`LICENSE-NOTES.md`](https://ryanstraight.github.io/cybedtools/LICENSE-NOTES.md)
+[`LICENSING.md`](https://ryanstraight.github.io/cybedtools/LICENSING.md)
 for layered guidance on academic vs. commercial use.
 
 ## Code of Conduct
