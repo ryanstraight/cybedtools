@@ -1,7 +1,7 @@
 {
   "$schema": "https://context7.com/schema/context7.json",
   "projectTitle": "cybedtools",
-  "description": "R package for analyzing cybersecurity workforce competency and learning-standards frameworks via JSON-LD and SPARQL. Provides a framework-agnostic 'cybed:' schema spanning NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA, ACM/IEEE CSEC2017, and DigComp 2.2.",
+  "description": "R package for cross-framework analysis of cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2) via a shared JSON-LD schema and SPARQL.",
   "folders": [
     "R",
     "man",
@@ -24,7 +24,7 @@
     "*.Rcheck"
   ],
   "rules": [
-    "When using cybedtools' SPARQL helpers, write single basic graph patterns only (one triple match per query). Multi-pattern joins via shared variables hang for many minutes; multi-property selects on a single subject silently return zero rows. This is a librdf limitation, not a cybedtools bug. Decompose into single-BGP calls and join in R with dplyr.",
+    "SPARQL helpers must use single basic graph patterns (one triple match per query). librdf hangs on multi-pattern joins and silently drops multi-property selects. Compose with R-side dplyr joins instead. librdf limitation, not a cybedtools bug.",
     "Errors raised by cybedtools use rlang::abort() with classed conditions: cybedtools_unknown_prefix, cybedtools_file_not_found, cybedtools_framework_not_found. Branch on class via tryCatch, not regex matching of the error message.",
     "make_demo_graph() returns a small in-memory two-framework synthetic graph that exercises every domain helper. Use it for quick sanity checks before running the full pipeline against staged framework data.",
     "The package does not redistribute upstream framework text. Real-data pipelines require staging source files under data/raw/<slug>/ per docs/framework-data-sources.md.",
