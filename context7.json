@@ -1,6 +1,8 @@
 {
   "$schema": "https://context7.com/schema/context7.json",
   "projectTitle": "cybedtools",
+  "url": "https://context7.com/ryanstraight/cybedtools",
+  "public_key": "pk_yg1eLuzggjzE1LDr0zMPi",
   "description": "R package for cross-framework analysis of cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2) via a shared JSON-LD schema and SPARQL.",
   "folders": [
     "R",
