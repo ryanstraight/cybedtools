@@ -1,0 +1,78 @@
+# cybedtools licensing
+
+## TL;DR
+
+If you are using cybedtools for academic research:
+
+- Install the package, run analyses, cite it in your papers, you’re
+  fine.
+- Code (R helpers, SPARQL templates, scripts) is MIT-licensed. Reuse
+  freely.
+- Framework source text is each framework’s own license. The package
+  does not redistribute it. You stage source files yourself per
+  `docs/framework-data-sources.md`.
+- Derivative analytical outputs (counts, comparisons, mappings) are
+  publishable with attribution to the source frameworks, subject to the
+  upstream license.
+
+If you are integrating cybedtools into a commercial product:
+
+- The MIT license on the code accommodates this.
+- Framework content is mixed. Some frameworks (NICE, DCWF) are public
+  domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE) impose
+  non-commercial or attribution constraints. Read the per-framework
+  licenses below before redistributing framework text. **It is incumbent
+  upon you to obtain proper licensing**.
+
+The full layered license description follows.
+
+------------------------------------------------------------------------
+
+# MIT License
+
+Copyright (c) 2026 Ryan Straight
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+------------------------------------------------------------------------
+
+## Scope of this license
+
+This MIT license applies to the **code** in this repository: R scripts,
+SPARQL queries, schema definitions, and supporting infrastructure.
+
+This license does NOT extend to:
+
+- **Framework source text** that users stage under `data/raw/`. Each
+  framework carries its own licensing, recorded in
+  `data/raw/<framework>/provenance.yml` by the ingestion scripts.
+  Notably: SFIA content is under SFIA Foundation’s non-commercial
+  free-use provision; Cyber.org K-12 standards are CC BY-NC 4.0
+  (non-commercial); CSTA standards are CC BY-NC-SA 4.0; ENISA ECSF is
+  typically CC BY 4.0; CSEC2017 is ACM/IEEE/AIS/IFIP copyright with
+  educational-use permission; DigComp is JRC EU open re-use; NICE and
+  DCWF are US Government works in the public domain.
+- **Framework analyses** produced by running this pipeline on framework
+  source text. Derivative analytical outputs (code frequencies, cross-
+  framework mappings) are generally safe to publish with attribution,
+  but specific licensing turns on the source framework.
+
+When redistributing or building on this toolkit, respect the upstream
+framework licenses in addition to this MIT license on the code.

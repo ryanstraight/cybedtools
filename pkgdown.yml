@@ -1,0 +1,14 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  adding-a-framework: adding-a-framework.html
+  cross-framework-analysis: cross-framework-analysis.html
+  articles/data-integrity: data-integrity.html
+  getting-started: getting-started.html
+  articles/namespace-architecture: namespace-architecture.html
+  articles/sparql-strategy: sparql-strategy.html
+last_built: 2026-05-07T20:37Z
+urls:
+  reference: https://ryanstraight.github.io/cybedtools/reference
+  article: https://ryanstraight.github.io/cybedtools/articles
