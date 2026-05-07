@@ -1,0 +1,165 @@
+# Framework Invariants
+#
+# Declared expected entity counts per framework. Actual extraction must
+# fall within the tolerance band. Bands are deliberately tight. If an
+# extraction falls outside, the source has likely been revised and human
+# review updates these numbers with audit trail.
+#
+# Rule: every entry here is justified in a comment citing the source.
+# No unjustified tolerances.
+
+frameworks:
+
+  nice:
+    version: "v2 (NIST SP 800-181 Rev 1 components)"
+    version_date: "2024"
+    structural_type: "role-first"
+    jurisdiction: "US"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    expected:
+      # Measured 2026-04-23 from the NIST CPRT v2 export:
+      # 41 work_role + 2,111 unique TKS (942 task + 631 knowledge + 538
+      # skill) + 5 category + 11 competency_area + 5,336 role-TKS
+      # associations. The "2,111" figure tracks unique statements, not
+      # the 5,336 per-role rows.
+      work_roles: [41, 41]
+      tasks: [940, 945]
+      knowledge: [629, 633]
+      skills: [536, 540]
+      unique_tks: [2109, 2113]
+      role_tks_associations: [5334, 5338]
+      categories: [5, 5]
+      competency_areas: [11, 11]
+    notes: |
+      v2 CPRT export used. Earlier docs referenced "52 work roles, 2,280
+      statements". That was NICE v1. v2 consolidated to 41 work roles
+      with 2,111 unique TKS elements.
+
+  sfia:
+    version: "SFIA 9"
+    version_date: "2024-10"
+    structural_type: "skill-first"
+    jurisdiction: "global"
+    sector: "general-IT"
+    specificity: "general-IT"
+    source_extract: "jankudev/sfia-tools v0.0.1 (2025-02-05)"
+    expected:
+      # jankudev extract as of 2025-02-05 yielded these counts.
+      skills: [145, 149]
+      skill_levels: [670, 675]
+      skills_profiles: [44, 46]
+      levels: [7, 7]  # SFIA defines exactly 7 responsibility levels
+    notes: "SFIA 9 defines ~150 skills at seven responsibility levels."
+
+  dcwf:
+    version: "DCWF v5.1"
+    version_date: "2025-07-25"
+    structural_type: "role-first"
+    jurisdiction: "US"
+    sector: "defense"
+    specificity: "cybersecurity-specific"
+    expected:
+      # DoD CIO v5.1 XLSX. Framework historically referenced as 71 roles;
+      # v5.1 added data/AI roles bringing total to 74.
+      work_roles: [73, 75]
+      master_task_ksa: [2900, 3000]
+    notes: "v5.1 added DA-series data/AI roles beyond the prior 71."
+
+  csec2017:
+    version: "CSEC2017 Curricular Guidelines v1.0"
+    version_date: "2017-12-31"
+    structural_type: "curriculum-guidelines"
+    jurisdiction: "global"  # joint ACM/IEEE/AIS/IFIP
+    sector: "higher-education"
+    specificity: "cybersecurity-specific"
+    framework_type: "pedagogical"
+    expected:
+      knowledge_areas: [8, 8]
+      essentials_total: [35, 42]
+    notes: |
+      Best-effort extraction from markitdown PDF output. 8 KAs + 38
+      Essentials. Deeper KU/Topic/Learning-Outcome structure requires
+      manual curation. License: ACM/IEEE/AIS/IFIP copyright with
+      educational-development permission.
+
+  digcomp:
+    version: "DigComp 2.2"
+    version_date: "2022-03-17"
+    structural_type: "competence-framework"
+    jurisdiction: "EU"
+    sector: "citizen-education"
+    specificity: "general-digital-competence"  # cybersec is the Safety area subset
+    framework_type: "pedagogical"
+    expected:
+      competence_areas: [5, 5]
+      competences: [21, 21]
+      descriptions_found: [18, 21]  # allow 3-competence slip for body extraction
+    notes: |
+      Hand-curated 5 areas + 21 competences from TOC, body descriptions
+      extracted as first substantial paragraph per competence. Proficiency-
+      level descriptors (8 levels per competence) not automated. Cybersec
+      relevance concentrates in Safety area (4.1-4.4).
+
+  cyberorg-k12:
+    version: "Cyber.org K-12 Cybersecurity Learning Standards v1.0"
+    version_date: "2021-09-09"
+    original_release: "2021-08-04"
+    structural_type: "learning-standards"  # NOT a competency framework
+    jurisdiction: "US"
+    sector: "K-12 education"
+    specificity: "cybersecurity-specific"
+    framework_type: "pedagogical"
+    expected:
+      # 4 grade bands (K-2, 3-5, 6-8, 9-12) x 29 sub-concepts, each cell
+      # has 1-3 standards. Extraction yielded 123 standards on 2026-04-23.
+      # Bounds allow modest flex in case cleanup-regex refinements shift
+      # the boundary.
+      grade_bands: [4, 4]
+      themes: [3, 3]
+      sub_concepts: [29, 29]
+      standards_total: [118, 128]
+    notes: |
+      Cross-type framework: learning standards rather than competency
+      framework, K-12 learner population rather than adult workforce.
+      Useful for exercising the cybed: schema's portability beyond
+      role-first competency frameworks.
+      License: CC BY-NC 4.0. Commercial toolkit release cannot redistribute
+      standard text.
+
+  csta:
+    version: "CSTA K-12 Computer Science Standards (Revised 2017)"
+    version_date: "2017"
+    structural_type: "learning-standards"
+    jurisdiction: "US"
+    sector: "K-12 education"
+    specificity: "general-computing"  # cybersec coverage is a subset, not the whole
+    framework_type: "pedagogical"
+    expected:
+      # Measured 2026-04-23 from the CSTA Foundation XLSX:
+      # 120 standards across 5 levels (1A, 1B, 2, 3A, 3B) and 5 concepts.
+      standards_count: [118, 122]
+      levels_count: [5, 5]
+      clusters_count: [23, 27]
+      concepts: [5, 5]
+    notes: |
+      Not cybersecurity-specific. Cybersec content lives in "Impacts of
+      Computing" (22 standards) and "Networks & the Internet" (13 standards).
+      Included for pedagogical breadth comparison against Cyber.org K-12.
+      License: CC BY-NC-SA 4.0.
+
+  ecsf:
+    version: "ECSF v1"
+    version_date: "2022-09-19"
+    revision_date: "2024-08-02"
+    structural_type: "role-first"
+    jurisdiction: "EU"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    expected:
+      # ENISA ECSF defines exactly 12 role profiles. Element counts vary
+      # by profile. Totals measured empirically from ENISA JSON.
+      role_profiles: [12, 12]
+      profile_elements: [360, 390]
+      ecf_cross_references: [50, 60]
+    notes: "12 role profiles with embedded e-CF 4.0 cross-references."

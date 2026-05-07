@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "cybedtools: An R Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks"
+version: 0.1.0
+authors:
+  - family-names: Straight
+    given-names: Ryan
+    email: ryanstraight@arizona.edu
+    orcid: "https://orcid.org/0000-0002-6251-5662"
+    affiliation: "College of Information Science, University of Arizona"
+license: MIT
+repository-code: "https://github.com/ryanstraight/cybedtools"
+url: "https://github.com/ryanstraight/cybedtools"
+date-released: 2026-05-07
+keywords:
+  - cybersecurity
+  - workforce frameworks
+  - learning standards
+  - JSON-LD
+  - SPARQL
+  - semantic web
+  - NICE Framework
+  - competency frameworks
+  - framework analysis
+  - comparative analysis
+  - cybersecurity education
+  - competency mapping
+abstract: >-
+  cybedtools provides a reproducible R pipeline for ingesting, semantically
+  representing (via a two-tier JSON-LD schema), and querying (via SPARQL)
+  eight major cybersecurity-related competency and learning-standards
+  frameworks: NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
+  ACM/IEEE CSEC2017, and DigComp 2.2. Includes a six-layer data-integrity
+  verification rig and per-framework provenance manifests.

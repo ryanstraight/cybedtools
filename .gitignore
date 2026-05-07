@@ -1,0 +1,50 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+*.Rcheck/
+*.tar.gz
+
+# Build artifacts
+/.quarto/
+
+# pkgdown site (built locally; generated on CI and deployed to gh-pages)
+_pkgdown_site/
+
+# Coverage and CI scratch
+coverage.xml
+codecov.yml
+lcov.info
+
+# Framework data (users stage their own; do not commit)
+data/raw/
+data/processed/
+data/audit/
+
+# Pipeline outputs
+output/
+
+# Hex-sticker build outputs (regenerable from tools/build-hex.R or rasterize-hex.py)
+tools/cybedtools-hex@2x.png
+tools/*-render.html
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Secrets (defensive)
+.Renviron
+.env
+*.pem
+*.key
+.positai

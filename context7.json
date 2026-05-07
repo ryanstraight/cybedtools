@@ -1,0 +1,33 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "cybedtools",
+  "description": "R package for analyzing cybersecurity workforce competency and learning-standards frameworks via JSON-LD and SPARQL. Provides a framework-agnostic 'cybed:' schema spanning NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA, ACM/IEEE CSEC2017, and DigComp 2.2.",
+  "folders": [
+    "R",
+    "man",
+    "vignettes",
+    "inst",
+    "docs"
+  ],
+  "excludeFolders": [
+    "scripts",
+    "data",
+    "_pkgdown_site",
+    "tests",
+    ".github",
+    "_archive",
+    "revdep"
+  ],
+  "excludeFiles": [
+    "cran-comments.md",
+    "*.tar.gz",
+    "*.Rcheck"
+  ],
+  "rules": [
+    "When using cybedtools' SPARQL helpers, write single basic graph patterns only (one triple match per query). Multi-pattern joins via shared variables hang for many minutes; multi-property selects on a single subject silently return zero rows. This is a librdf limitation, not a cybedtools bug. Decompose into single-BGP calls and join in R with dplyr.",
+    "Errors raised by cybedtools use rlang::abort() with classed conditions: cybedtools_unknown_prefix, cybedtools_file_not_found, cybedtools_framework_not_found. Branch on class via tryCatch, not regex matching of the error message.",
+    "make_demo_graph() returns a small in-memory two-framework synthetic graph that exercises every domain helper. Use it for quick sanity checks before running the full pipeline against staged framework data.",
+    "The package does not redistribute upstream framework text. Real-data pipelines require staging source files under data/raw/<slug>/ per docs/framework-data-sources.md.",
+    "Pipeline scripts under scripts/ are not part of the installed package (excluded via .Rbuildignore). They run from a clone of the repository, not from an installed package."
+  ]
+}

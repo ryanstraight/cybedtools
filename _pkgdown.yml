@@ -1,0 +1,138 @@
+url: https://ryanstraight.github.io/cybedtools
+
+# WCAG basics: declare site language so screen readers and search indexers
+# get an accurate hint and so the rendered <html lang="..."> attribute is
+# present.
+lang: en
+
+# Override the default `docs/` destination because that path is already
+# used for the package's design and protocol documentation. The pkgdown
+# site builds into _pkgdown_site/, and the GitHub Actions deploy workflow
+# reads from there.
+destination: _pkgdown_site
+
+template:
+  bootstrap: 5
+  light-switch: true
+  includes:
+    in_header: |
+      <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        // Normalize every mermaid block (whether pkgdown emitted
+        // <pre class="mermaid"><code>...</code></pre> or pandoc emitted
+        // <pre><code class="language-mermaid">...</code></pre>) to a clean
+        // <div class="mermaid"> holding the raw diagram text. Mermaid v10
+        // parses the div's textContent reliably; the <code>-wrapped form
+        // can trip its parser depending on browser whitespace handling.
+        document.querySelectorAll('pre.mermaid, pre > code.language-mermaid').forEach((el) => {
+          const code = el.tagName === 'CODE' ? el : (el.querySelector('code') || el);
+          const div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = code.textContent;
+          const target = el.tagName === 'PRE' ? el : el.parentElement;
+          target.replaceWith(div);
+        });
+        mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+        mermaid.run();
+      </script>
+
+home:
+  title: cybedtools
+  description: >-
+    Eight cybersecurity workforce and learning frameworks in a shared
+    semantic schema. One R query operates across all of them. A
+    comparison layer over existing frameworks, not a replacement.
+
+development:
+  mode: auto
+
+authors:
+  Ryan Straight:
+    href: https://orcid.org/0000-0002-6251-5662
+
+repo:
+  url:
+    home: https://github.com/ryanstraight/cybedtools/
+    source: https://github.com/ryanstraight/cybedtools/blob/main/
+    issue: https://github.com/ryanstraight/cybedtools/issues/
+    user: https://github.com/
+
+navbar:
+  structure:
+    left:  [reference, articles, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/ryanstraight/cybedtools
+      aria-label: GitHub
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
+
+reference:
+  - title: JSON-LD construction
+    desc: Build JSON-LD documents that express a framework in the two-tier cybed schema.
+    contents:
+      - build_jsonld_context
+      - build_multi_framework_context
+      - build_framework_node
+      - build_role_node
+      - build_role_element_node
+      - assemble_framework_document
+
+  - title: File I/O
+    contents:
+      - read_jsonld_document
+      - write_jsonld_document
+
+  - title: RDF graph loading
+    desc: Load assembled JSON-LD or N-Triples into rdflib for SPARQL querying.
+    contents:
+      - load_single_framework_graph
+      - load_unified_rdf_graph
+      - load_combined_rdf_graph
+      - load_combined_ntriples_graph
+      - make_demo_graph
+
+  - title: SPARQL helpers
+    desc: >-
+      Single-BGP query primitives and domain-level helpers. The package's
+      query discipline is one triple-pattern match per SPARQL call, with
+      joins and aggregation done in R via dplyr; see vignette
+      cross-framework-analysis for worked examples.
+    contents:
+      - sparql_pairs
+      - sparql_subjects
+      - framework_metadata
+      - role_framework_bindings
+      - element_framework_bindings
+      - role_element_bindings
+
+  - title: Validation
+    contents:
+      - validate_jsonld_node
+
+  - title: Datasets
+    desc: Pre-computed summary tibbles shipped with the package.
+    contents:
+      - framework_summary
+
+articles:
+  - title: Getting started
+    navbar: ~
+    contents:
+      - getting-started
+  - title: Worked examples
+    navbar: ~
+    contents:
+      - cross-framework-analysis
+      - adding-a-framework
+  - title: Design notes
+    navbar: ~
+    contents:
+      - articles/namespace-architecture
+      - articles/sparql-strategy
+      - articles/data-integrity

@@ -1,0 +1,54 @@
+Package: cybedtools
+Type: Package
+Title: Computational Tools for Analyzing Cybersecurity Workforce and
+    Learning Frameworks
+Version: 0.1.0
+Authors@R: person(
+    "Ryan", "Straight",
+    email = "ryanstraight@arizona.edu",
+    role = c("aut", "cre", "cph"),
+    comment = c(ORCID = "0000-0002-6251-5662")
+  )
+Description: A reproducible pipeline for ingesting, representing, and
+    analyzing cybersecurity workforce competency frameworks ('NICE',
+    'DCWF', 'SFIA', 'ENISA ECSF') and cybersecurity-related pedagogical
+    frameworks ('Cyber.org K-12', 'CSTA K-12 CS', 'ACM/IEEE CSEC2017',
+    'DigComp 2.2'). Provides a framework-agnostic 'JSON-LD' schema
+    ('cybed:') and 'SPARQL' query patterns for cross-framework analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.1.0)
+Imports:
+    dplyr,
+    purrr,
+    tibble,
+    jsonlite,
+    glue,
+    here,
+    rdflib,
+    rlang,
+    lifecycle
+Suggests:
+    readxl,
+    readr,
+    yaml,
+    stringr,
+    digest,
+    janitor,
+    DBI,
+    RSQLite,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    withr,
+    ggplot2,
+    plotly
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://github.com/ryanstraight/cybedtools, https://ryanstraight.github.io/cybedtools/
+BugReports: https://github.com/ryanstraight/cybedtools/issues
+Config/roxygen2/version: 8.0.0

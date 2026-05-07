@@ -1,0 +1,24 @@
+/* Sortable table affordances for tables tagged class="sortable".
+   Header cells get pointer + a subtle indicator on the active sort column. */
+table.sortable th.sortable-th {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+table.sortable th.sortable-th::after {
+  content: ' \2195';
+  font-size: 0.75em;
+  opacity: 0.3;
+  margin-left: 0.25em;
+}
+
+table.sortable th.sort-asc::after {
+  content: ' \25B2';
+  opacity: 0.85;
+}
+
+table.sortable th.sort-desc::after {
+  content: ' \25BC';
+  opacity: 0.85;
+}

@@ -1,0 +1,55 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Builds the pkgdown site on every push to main, on PRs (build only, no
+# deploy), on tagged releases, and on manual dispatch. Deploys to gh-pages
+# branch from the _pkgdown_site/ build directory.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+name: pkgdown
+
+permissions: read-all
+
+jobs:
+  pkgdown:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - uses: r-lib/actions/setup-pandoc@a51a8012b0aab7c32ef9d19bf54da93f3254335e  # v2
+
+      - uses: r-lib/actions/setup-r@a51a8012b0aab7c32ef9d19bf54da93f3254335e  # v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e  # v2
+        with:
+          extra-packages: any::pkgdown, local::.
+          needs: website
+
+      - name: Build site
+        run: |
+          # Use build_site() rather than build_site_github_pages() because
+          # the latter has a docs/-cleanup step in pkgdown 2.2.0 that does
+          # not honor the `destination:` override in _pkgdown.yml. We
+          # write the .nojekyll marker ourselves so GitHub Pages skips
+          # Jekyll processing.
+          pkgdown::build_site(new_process = FALSE, install = FALSE)
+          file.create("_pkgdown_site/.nojekyll")
+        shell: Rscript {0}
+
+      - name: Deploy to GitHub pages
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f  # v4.8.0
+        with:
+          clean: false
+          branch: gh-pages
+          folder: _pkgdown_site

@@ -1,0 +1,20 @@
+citHeader("To cite cybedtools in publications, use:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "{cybedtools}: An R Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks",
+  author   = c(
+    person("Ryan", "Straight",
+           email = "ryanstraight@arizona.edu",
+           role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-6251-5662"))
+  ),
+  year     = "2026",
+  note     = "R package version 0.1.0",
+  url      = "https://github.com/ryanstraight/cybedtools",
+  textVersion = paste(
+    "Straight, R. (2026). cybedtools: An R Package for Reproducible Analysis",
+    "of Cybersecurity Workforce and Learning Frameworks. R package version",
+    "0.1.0. https://github.com/ryanstraight/cybedtools"
+  )
+)
