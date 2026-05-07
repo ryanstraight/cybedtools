@@ -3,6 +3,7 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "cybedtools: An R Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks"
 version: 0.1.0
+doi: 10.5281/zenodo.20076116
 authors:
   - family-names: Straight
     given-names: Ryan

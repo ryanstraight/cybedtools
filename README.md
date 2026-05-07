@@ -16,6 +16,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/license/MIT)
 [![R \>=
 4.1](https://img.shields.io/badge/R-%3E%3D%204.1-276DC3.svg?logo=r)](https://www.r-project.org/)
+[![DOI](https://zenodo.org/badge/1232333517.svg)](https://doi.org/10.5281/zenodo.20076116)
 <!-- badges: end -->
 
 Eight cybersecurity workforce and learning frameworks. Eight different
