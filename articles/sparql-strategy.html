@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,10 +123,12 @@ SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2.</p>
 <p>Three findings the package’s analytical layer produces directly from
 the eight-framework graph:</p>
 <ul>
-<li>Element density per framework varies by 50x (NICE 51.5 elements per
-role, Cyber.org K-12 1.1).</li>
-<li>Jurisdictional element coverage is dominated by US frameworks 13 to
-1 (5,299 elements US vs. 395 EU).</li>
+<li>Element density per framework varies by ~12x (NICE 51.6 elements per
+work role, DigComp 2.2 4.2 elements per competence area). Per-unit
+density is a comparison aid across heterogeneous denominators, not a
+quality claim.</li>
+<li>Jurisdictional element coverage is dominated by US frameworks ~14 to
+1 (~5,700 elements US vs. ~410 EU).</li>
 <li>The five highest-element-load NICE work roles concentrate
 disproportionate competency specification (Security Control Assessment
 307, Secure Systems Development 232, Cybersecurity Architecture 219,
@@ -199,8 +201,9 @@ Aggregated in R from <code><a href="../reference/role_framework_bindings.html">r
 <strong>A3. Element density.</strong> Elements per role per
 framework, joining <code><a href="../reference/role_element_bindings.html">role_element_bindings()</a></code> with
 <code><a href="../reference/role_framework_bindings.html">role_framework_bindings()</a></code>. Surfaces the structural-density
-spread (DCWF averages around 40 elements per role, DigComp around 4 per
-area, Cyber.org K-12 near 1:1).</li>
+spread (DCWF averages around 40 elements per role, NICE around 52,
+DigComp around 4 per area, Cyber.org K-12 around 4 per cluster
+post-v0.1.1).</li>
 <li>
 <strong>A4. Missing required properties.</strong> Quality control.
 Surface RoleElement subjects without <code>cybed:elementText</code> (use

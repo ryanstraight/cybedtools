@@ -35,6 +35,28 @@ schema.
 
   Assemble a framework-level `@graph` document
 
+## Sub-point parsing
+
+Lift prose-encoded enumerations (“such as” lists, “Clarification
+statement:” segments) out of parent element text and promote each
+sub-point to a first-class graph element typed cybed:Subpoint, with
+cybed:elaborates linking back to the parent. See vignette
+cross-framework-analysis for the encoding-strategy finding this enables.
+
+- [`parse_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.md)
+  **\[stable\]** : Parse subpoints out of a parent element's text
+
+- [`build_subpoint_node()`](https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.md)
+  **\[stable\]** :
+
+  Construct a `cybed:Subpoint` node
+
+- [`expand_with_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/expand_with_subpoints.md)
+  **\[stable\]** : Expand parent element nodes with subpoint child nodes
+
+- [`extend_role_element_ids()`](https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.md)
+  **\[stable\]** : Append subpoint IDs to a role's child-element id list
+
 ## File I/O
 
 - [`read_jsonld_document()`](https://ryanstraight.github.io/cybedtools/reference/read_jsonld_document.md)

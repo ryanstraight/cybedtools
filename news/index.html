@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,10 +59,51 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.1" id="cybedtools-011">cybedtools 0.1.1<a class="anchor" aria-label="anchor" href="#cybedtools-011"></a></h2>
+<ul><li>
+<p><strong>Hidden granularity fix.</strong> A 2026-05-08 audit of all eight frameworks found that several encode pedagogical or specification detail in prose (“Clarification statement:” segments, “such as” example lists, semicolon- delimited enumerations) inside <code>cybed:elementText</code> literals rather than as discrete numbered standards. The naive element count under-represented the actual content density of those frameworks.</p>
+<p>v0.1.1 adds a uniform sub-point parser (<code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code>) that runs against every framework’s elementText literals at JSON-LD assembly time and promotes each parsed sub-point to a first-class child element node. Frameworks where the parser finds no sub-points (NICE, DCWF, DigComp 2.2) are unchanged. Affected frameworks gain sub-point children:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>Framework               <span class="sc">|</span> v0.<span class="fl">1.0</span> <span class="sc">|</span> v0.<span class="fl">1.1</span> <span class="sc">|</span> Inflation</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>NICE v2                 <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">111</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">115</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>DCWF v5<span class="fl">.1</span>               <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>ECSF v1                 <span class="sc">|</span>    <span class="dv">374</span> <span class="sc">|</span>    <span class="dv">390</span> <span class="sc">|</span>  <span class="fl">1.04</span>x</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>SFIA <span class="dv">9</span>                  <span class="sc">|</span>    <span class="dv">672</span> <span class="sc">|</span>    <span class="dv">830</span> <span class="sc">|</span>  <span class="fl">1.24</span>x</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>Cyber.org K<span class="dv">-12</span> v1<span class="fl">.0</span>     <span class="sc">|</span>    <span class="dv">123</span> <span class="sc">|</span>    <span class="dv">500</span> <span class="sc">|</span>  <span class="fl">4.07</span>x</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>CSTA K<span class="dv">-12</span> <span class="fu">CS</span> (Rev <span class="dv">2017</span>) <span class="sc">|</span>    <span class="dv">120</span> <span class="sc">|</span>    <span class="dv">140</span> <span class="sc">|</span>  <span class="fl">1.17</span>x</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>ACM<span class="sc">/</span>IEEE CSEC2017       <span class="sc">|</span>     <span class="dv">38</span> <span class="sc">|</span>     <span class="dv">40</span> <span class="sc">|</span>  <span class="fl">1.05</span>x</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>DigComp <span class="fl">2.2</span>             <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span></code></pre></div>
+<p>Cross-framework per-organizing-unit density recomputes from ~50x in v0.1.0 to ~12x in v0.1.1. The framing also shifts: the eight frameworks specify at incommensurable units of analysis (work role, skill level, competence, standard, Knowledge Area, competence area) and reflect different design philosophies. The cybedtools comparison layer makes them queryable in one graph but does not erase those structural distinctions. Density figures are comparison aids, not quality claims.</p>
+</li>
+<li><p><strong>Parser robustness.</strong> The first iteration of <code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code> over- extracted on multi-sentence elementText (notably SFIA’s responsibility prose) by greedily consuming past sentence boundaries. Two refinements landed: a sentence-boundary stop (period + whitespace + uppercase) and a pure-connective filter (drops “and”/“or”/“the” artifacts from source- truncated lists). Re-spot-check brought SFIA from ~30% false-positive rate to 0/10 sampled, and CSEC2017 from ~33% to 0/2. All eight frameworks run with the parser enabled at release.</p></li>
+<li><p><strong>New JSON-LD vocabulary.</strong> Two terms added to the <code>cybed:</code> ontology: <code>cybed:Subpoint</code> (a <code>cybed:RoleElement</code> subtype tagging parsed sub-points) and <code>cybed:elaborates</code> (a predicate linking a sub-point to its parent standard). Sub-points retain framework-native subtypes for polymorphic queries: a Cyber.org K-12 sub-point is typed as <code>cyberorg:Standard</code>, <code>cybed:Subpoint</code>, and <code>cybed:RoleElement</code> simultaneously.</p></li>
+<li>
+<p><strong>New exported helpers in <code>R/jsonld-helpers.R</code>:</strong></p>
+<ul><li>
+<code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code> heuristic regex parser</li>
+<li>
+<code><a href="../reference/build_subpoint_node.html">build_subpoint_node()</a></code> JSON-LD constructor for sub-points</li>
+<li>
+<code><a href="../reference/expand_with_subpoints.html">expand_with_subpoints()</a></code> orchestrator that walks parent elements and emits sub-point children with deterministic IRIs (<code>parent.sub.N</code>)</li>
+<li>
+<code><a href="../reference/extend_role_element_ids.html">extend_role_element_ids()</a></code> helper for role-builder integration</li>
+</ul></li>
+<li><p><strong>Per-framework opt-out.</strong> The environment variable <code>CYBED_DISABLE_SUBPOINT_PARSER</code> (comma-separated framework slugs) disables sub-point parsing for the listed frameworks. Useful if a framework steward prefers numbered-only counts.</p></li>
+<li><p><strong>Pipeline scripts now load the package directly.</strong> The 020-assemble-jsonld script previously sourced helpers from a hand-mirrored file path. v0.1.1 uses <code><a href="https://pkgload.r-lib.org/reference/load_all.html" class="external-link">pkgload::load_all()</a></code> (when running from a working tree) or <code><a href="https://github.com/ryanstraight/cybedtools" class="external-link">library(cybedtools)</a></code> (when running from an installed package).</p></li>
+<li><p><strong>Tests.</strong> 52 new unit and semantic tests across parser determinism, sub-point IRI stability, type polymorphism, <code>cybed:elaborates</code> traversal, cluster-to-leaf reachability, and JSON-LD round-trip. 111 tests pass on release, no skips.</p></li>
+<li>
+<p><strong>Known limitations carrying into v0.1.2.</strong></p>
+<ul><li>
+<strong>The <code>cybed:Role</code> abstraction is structurally coerced</strong> for frameworks that do not enumerate roles (SFIA enumerates skills; CSTA, Cyber.org K-12, CSEC2017, and DigComp 2.2 enumerate organizing units that are not roles). The “roles” column in <code>framework_summary</code> is “the framework’s top-level organizing unit, whatever the framework calls it” rather than a count of roles in the workforce sense. v0.1.2 is slated to redesign or split this abstraction. See <code>docs/framework-data-sources.md</code> for the per-framework structural mapping.</li>
+<li>
+<strong>The <code>cybed:Subpoint</code> type is overstated</strong> for Cyber.org K-12 and CSTA “Clarification statement:” examples. These are formally teacher- facing scaffolding describing the level-of-rigor expectation for the standard, not enumerable sub-standards. The current schema types them as if they were sub-standards, which is queryable but slightly overstates what the framework expects. v0.1.2 will introduce a distinct <code>cybed:Example</code> type and exclude these promoted nodes from default <code>cybed:hasElement</code> collections.</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="cybedtools-010">cybedtools 0.1.0<a class="anchor" aria-label="anchor" href="#cybedtools-010"></a></h2>
 <ul><li>Initial public release. Eight cybersecurity workforce and learning frameworks (NICE, DCWF, ECSF, SFIA, Cyber.org K-12, CSTA, ACM/IEEE CSEC2017, DigComp 2.2) ingested into a shared two-tier JSON-LD schema and queryable via single-BGP SPARQL with R-side joins.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

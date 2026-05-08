@@ -104,8 +104,19 @@ form.
   unit).
 - `cybed:RoleElement`, a task, competence, skill, knowledge statement,
   learning standard, or similar atomic element attached to a role.
+- `cybed:Subpoint`, subClassOf `cybed:RoleElement`. Tags graph nodes
+  that were lifted from prose enumeration in a parent element’s text
+  (e.g., a “such as” example list, a “Clarification statement:” segment)
+  and promoted to first-class child elements at JSON-LD assembly time.
 - `cybed:hasElement`, object property from Role to RoleElement.
+  Cluster-level queries return all leaf elements (parents plus
+  sub-points) directly via this predicate.
 - `cybed:partOf`, links Role to Framework and Element to Framework.
+- `cybed:elaborates`, object property from a `cybed:Subpoint` to its
+  parent `cybed:RoleElement`. Use this predicate to recover the
+  parent-standard-vs-sub-point distinction when both appear in the same
+  `cybed:hasElement` collection. Top-level standards are queryable as
+  elements where `cybed:elaborates` is unbound.
 - `cybed:elementText`, literal text of the element.
 - `cybed:sourceSection`, where this element appears in the source
   document.

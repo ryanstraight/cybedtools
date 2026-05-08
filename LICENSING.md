@@ -43,12 +43,15 @@ This license does NOT extend to:
 - **Framework source text** that users stage under `data/raw/`. Each
   framework carries its own licensing, recorded in
   `data/raw/<framework>/provenance.yml` by the ingestion scripts.
-  Notably: SFIA content is under SFIA Foundation’s non-commercial
-  free-use provision; Cyber.org K-12 standards are CC BY-NC 4.0
+  Notably: SFIA content is under the SFIA Foundation Use Policy (free
+  use varies by user category; redistribution of full skill text
+  restricted regardless); Cyber.org K-12 standards are CC BY-NC 4.0
   (non-commercial); CSTA standards are CC BY-NC-SA 4.0; ENISA ECSF is
-  typically CC BY 4.0; CSEC2017 is ACM/IEEE/AIS/IFIP copyright with
-  educational-use permission; DigComp is JRC EU open re-use; NICE and
-  DCWF are US Government works in the public domain.
+  published under ENISA’s re-use notice (typically equivalent to CC BY
+  4.0; verify against the specific artifact); CSEC2017 is
+  ACM/IEEE/AIS/IFIP copyright with educational-use permission; DigComp
+  is JRC EU open re-use; NICE and DCWF are US Government works in the
+  public domain.
 - **Framework analyses** produced by running this pipeline on framework
   source text. Derivative analytical outputs (code frequencies,
   cross-framework mappings) are generally safe to publish with

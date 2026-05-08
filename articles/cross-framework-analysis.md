@@ -2,29 +2,87 @@
 
 ## What you’ll find here
 
-Three findings the package surfaces directly from the eight-framework
-graph, then the SPARQL primitives and dplyr patterns that produce them.
+The eight frameworks in cybedtools were authored independently by
+different bodies with different audiences (NIST and DoD writing for the
+US workforce, ENISA and JRC writing for the EU citizen and policy
+audiences, Cyber.org and CSTA writing for K-12 educators, ACM/IEEE for
+higher-ed curricula, SFIA Foundation for the global IT-skills market).
+They specify at incommensurable units of analysis: work role, skill
+level, competence, learning standard, Knowledge Area, competence area.
+They reflect different design philosophies: granular specification
+versus profile-level interoperability frames versus citizen
+self-assessment instruments. They do not agree on what to count, how to
+count it, or how to organize what they count.
 
-**Element density per framework varies by 50x.** NICE expresses 51.5
-elements per role. Cyber.org K-12 expresses 1.1. Some of this is
-framework purpose (workforce specification vs. K-12 learning outcomes).
-Some is uneven specification within the same framework type. Either way,
-“covers the NICE Framework” and “covers the CSEC2017 guidelines” are not
-comparable curricular claims.
+That heterogeneity is the reason a cross-framework comparison layer
+needs to exist. cybedtools does not erase the differences. It makes them
+queryable.
 
-**Jurisdictional element coverage is dominated by US frameworks 13 to
-1.** US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) contribute 5,299
-elements. EU frameworks (ECSF, DigComp) contribute 395. Comparative work
-in cybersecurity education has been operating against an asymmetric
-corpus.
+The findings below are what shows up when you put eight
+differently-organized frameworks in the same graph and run the same
+queries against each. Read them as demonstrations of what the comparison
+layer surfaces, not as claims about which framework is “more thorough”
+or “more granular” in absolute terms.
 
-**The five highest-element-load NICE work roles concentrate
-disproportionate competency specification.** Security Control Assessment
-(307 elements), Secure Systems Development (232), Cybersecurity
-Architecture (219), Defensive Cybersecurity (206), Systems Security
-Management (204). Curricula that “cover NICE” by surveying these five
-roles look thorough. Curricula that cover the long tail of 41 roles look
-thin by element count alone.
+### Element volume varies by ~140x across the corpus
+
+DCWF declares 2,945 elements; DigComp 2.2 declares 21.
+Per-organizing-unit density correspondingly spreads from NICE’s 51.6
+elements per work role to DigComp’s 4.2 elements per competence area, a
+12x ratio. The spread reflects each framework’s design philosophy, not
+differences in care or completeness: NICE/DCWF are granular by design as
+the basis for hiring and training pipelines; ECSF and DigComp are
+intentionally high-level as interoperability frames and citizen
+self-assessment instruments. cybedtools does not normalize across this
+asymmetry; downstream analyses that aggregate “framework coverage”
+should account for it explicitly. The sub-point parser surfaces hidden
+granularity in prose-encoded frameworks (most visibly Cyber.org K-12,
+where the parser lifts ~393 sub-points out of 123 numbered standards’
+Clarification statements).
+
+### The corpus skews US-heavy by element volume
+
+US frameworks contribute roughly 5,716 elements (NICE, DCWF, Cyber.org
+K-12, CSTA); EU frameworks contribute roughly 411 (ECSF, DigComp). The
+14:1 ratio reflects design philosophy more than relative investment:
+ENISA designed ECSF as profile-level for national elaboration, and JRC
+designed DigComp 2.2 as a citizen self-assessment instrument. ECSF
+profiles also embed e-CF 4.0 cross-references that cybedtools does not
+currently materialize as triples; full ECSF coverage requires consulting
+those pointers separately. Researchers using element counts as a
+coverage metric should attribute the asymmetry to design intent, not
+corpus completeness.
+
+### Encoding strategy varies across the corpus
+
+Some frameworks encode pedagogical or specification detail in numbered
+standards (NICE, DCWF, the body of DigComp); others encode it in prose
+(“such as” lists, “including” patterns, semicolon-delimited examples)
+inside element-text literals. Cyber.org K-12 most strongly: 100% of its
+standards have a “Clarification statement:” segment with enumerated
+examples scaffolding teacher level-of-rigor expectations. SFIA 9 and
+CSTA modestly: example clauses are illustrative more than enumerative.
+The cybedtools sub-point parser lifts these prose enumerations to
+first-class graph elements (the `cybed:Subpoint` type), with
+`cybed:elaborates` linking each sub-point back to its parent.
+
+A caveat for interpretation: Cyber.org and CSTA’s Clarification
+statements are formally teacher-facing scaffolding, not enumerable
+sub-standards. A teacher who teaches one example has met the standard.
+The current schema types promoted sub-points as if they were
+sub-standards (a roughly 4x inflation for Cyber.org K-12), which
+materially overstates what the framework expects when the goal is to
+count required learning. Treat the inflated counts as a fine-grained
+search index, not a measure of required coverage.
+
+### The five highest-element-load NICE work roles concentrate disproportionate specification
+
+Security Control Assessment (307 elements), Secure Systems Development
+(232), Cybersecurity Architecture (219), Defensive Cybersecurity (206),
+and Systems Security Management (204). Curricula that “cover NICE” by
+surveying these five look thorough; curricula that cover the long tail
+of 41 roles look thin by element count alone. This is a property of
+NICE’s internal weighting, not a finding about the corpus.
 
 The rest of this vignette is the technical apparatus that produces these
 and other comparative findings, organized by query family:
@@ -108,11 +166,16 @@ element_framework_bindings(rdf) |>
   count(framework_name, sort = TRUE, name = "element_count")
 ```
 
-Density varies dramatically. DCWF has roughly 2,945 elements across 74
-roles (about 40 elements per role). Cyber.org K-12 has 123 elements
-across 116 grade-band clusters (near 1:1). DigComp has 21 elements
-across 5 areas. A schema that generalizes across both extremes is doing
-real work.
+Density varies dramatically across heterogeneous denominators. DCWF has
+2,945 elements across 74 work roles (about 40 per work role). NICE has
+2,115 elements across 41 work roles (about 52 per work role). At the
+other end, DigComp 2.2 has 21 elements across 5 competence areas (about
+4 per area). A schema that generalizes across both extremes is doing
+real work. v0.1.1’s sub-point parser surfaces additional granularity
+hidden in prose for Cyber.org K-12 (500 leaf elements, ~4.3 per
+grade-band cluster), SFIA 9 (830 leaf elements, ~5.6 per skill), CSTA,
+ECSF, NICE, and CSEC2017. DCWF and DigComp 2.2 produce no sub-points
+because their source-text formats encode each statement atomically.
 
 The same numbers, plotted from
 [`cybedtools::framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
@@ -125,7 +188,7 @@ library(ggplot2)
 library(plotly)
 
 # Hover text built from per-framework metadata so readers can verify the
-# 50x density spread directly from the chart, without scanning a tibble.
+# cross-framework density spread directly from the chart, without scanning a tibble.
 fs <- cybedtools::framework_summary
 
 p <- ggplot(
@@ -184,7 +247,7 @@ reb |>
 ``` r
 
 # Pivot total elements onto each framework's jurisdiction (US/EU/global).
-# Surfaces the 13:1 US-vs-EU asymmetry in the corpus.
+# Surfaces the ~14:1 US-vs-EU asymmetry in the corpus.
 element_framework_bindings(rdf) |>
   left_join(
     framework_metadata(rdf) |> transmute(framework, jurisdiction),

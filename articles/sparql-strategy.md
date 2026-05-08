@@ -23,10 +23,12 @@ CSEC2017, and DigComp 2.2.
 Three findings the package’s analytical layer produces directly from the
 eight-framework graph:
 
-- Element density per framework varies by 50x (NICE 51.5 elements per
-  role, Cyber.org K-12 1.1).
-- Jurisdictional element coverage is dominated by US frameworks 13 to 1
-  (5,299 elements US vs. 395 EU).
+- Element density per framework varies by ~12x (NICE 51.6 elements per
+  work role, DigComp 2.2 4.2 elements per competence area). Per-unit
+  density is a comparison aid across heterogeneous denominators, not a
+  quality claim.
+- Jurisdictional element coverage is dominated by US frameworks ~14 to 1
+  (~5,700 elements US vs. ~410 EU).
 - The five highest-element-load NICE work roles concentrate
   disproportionate competency specification (Security Control Assessment
   307, Secure Systems Development 232, Cybersecurity Architecture 219,
@@ -89,8 +91,8 @@ results via dplyr left-joins or semi-joins.
   with
   [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md).
   Surfaces the structural-density spread (DCWF averages around 40
-  elements per role, DigComp around 4 per area, Cyber.org K-12 near
-  1:1).
+  elements per role, NICE around 52, DigComp around 4 per area,
+  Cyber.org K-12 around 4 per cluster post-v0.1.1).
 - **A4. Missing required properties.** Quality control. Surface
   RoleElement subjects without `cybed:elementText` (use
   [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)

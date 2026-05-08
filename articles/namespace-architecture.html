@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -203,11 +203,26 @@ organizing unit).</li>
 statement, learning standard, or similar atomic element attached to a
 role.</li>
 <li>
+<code>cybed:Subpoint</code>, subClassOf
+<code>cybed:RoleElement</code>. Tags graph nodes that were lifted from
+prose enumeration in a parent element’s text (e.g., a “such as” example
+list, a “Clarification statement:” segment) and promoted to first-class
+child elements at JSON-LD assembly time.</li>
+<li>
 <code>cybed:hasElement</code>, object property from Role to
-RoleElement.</li>
+RoleElement. Cluster-level queries return all leaf elements (parents
+plus sub-points) directly via this predicate.</li>
 <li>
 <code>cybed:partOf</code>, links Role to Framework and Element to
 Framework.</li>
+<li>
+<code>cybed:elaborates</code>, object property from a
+<code>cybed:Subpoint</code> to its parent
+<code>cybed:RoleElement</code>. Use this predicate to recover the
+parent-standard-vs-sub-point distinction when both appear in the same
+<code>cybed:hasElement</code> collection. Top-level standards are
+queryable as elements where <code>cybed:elaborates</code> is
+unbound.</li>
 <li>
 <code>cybed:elementText</code>, literal text of the element.</li>
 <li>

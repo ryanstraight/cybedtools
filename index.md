@@ -32,39 +32,63 @@ Who it’s for:
 
 | Framework | Type | Jurisdiction | Roles | Elements | License |
 |----|----|----|----|----|----|
-| NICE v2 | workforce | US | 41 | 2,111 | public domain |
+| NICE v2 | workforce | US | 41 | 2,115 | public domain |
 | DCWF v5.1 | workforce | US | 74 | 2,945 | public domain |
-| ECSF v1 | workforce | EU | 12 | 374 | CC BY 4.0 |
-| SFIA 9 | workforce | global | 147 | 672 | SFIA non-commercial |
-| Cyber.org K-12 v1.0 | pedagogy | US | 116 | 123 | CC BY-NC 4.0 |
-| CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 120 | CC BY-NC-SA 4.0 |
-| ACM/IEEE CSEC2017 | pedagogy | global | 8 | 38 | ACM/IEEE educational-use |
+| ECSF v1 | workforce | EU | 12 | 390 | CC BY 4.0 |
+| SFIA 9 | workforce | global | 147 | 830 | SFIA Use Policy |
+| Cyber.org K-12 v1.0 | pedagogy | US | 116 | 500 | CC BY-NC 4.0 |
+| CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 140 | CC BY-NC-SA 4.0 |
+| ACM/IEEE CSEC2017 | pedagogy | global | 8 | 40 | ACM/IEEE educational-use |
 | DigComp 2.2 | pedagogy | EU | 5 | 21 | EU open re-use |
+
+The “Roles” column reports each framework’s top-level organizing unit,
+whatever the framework calls it: work roles for NICE / DCWF / ECSF,
+skills for SFIA, level-concept buckets for CSTA, grade-band cells for
+Cyber.org K-12, Knowledge Areas for CSEC2017, competence areas for
+DigComp 2.2. The schema collapses these distinct structural commitments
+under a single `cybed:Role` abstraction. See
+`docs/framework-data-sources.md` for the per-framework structural
+mapping.
 
 ## What you can find with this
 
-Three findings, one R query each.
+The eight frameworks were authored independently, for different
+audiences, at different units of analysis (work role, skill level,
+competence, learning standard, Knowledge Area, competence area). They
+specify in different formats, under different licenses, with different
+design philosophies. They do not agree on what to count. cybedtools
+makes them queryable in one graph anyway. Three findings illustrate what
+that surfaces.
 
-**Element density per framework varies by 50x.** NICE v2 expresses 51.5
-elements per role. Cyber.org K-12 v1.0 expresses 1.1. Some of this is
-framework purpose (workforce specification vs. K-12 learning outcomes).
-Some is uneven specification within the same framework type. Either way,
-“covers the NICE Framework” and “covers the CSEC2017 guidelines” are not
-comparable curricular claims.
+### Per-organizing-unit density varies by 12x across the corpus
 
-**Jurisdictional element coverage is dominated by US frameworks 13 to
-1.** US frameworks (NICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12
-CS (Rev 2017)) contribute 5,299 elements. EU frameworks (ECSF v1 +
-DigComp 2.2) contribute 395. Comparative work in cybersecurity education
-has been operating against an asymmetric corpus.
+NICE v2 expresses 51.6 elements per its top-level unit; DigComp 2.2
+expresses 4.2. The spread reflects framework design philosophy more than
+relative completeness: NICE / DCWF are granular by intent as the basis
+for hiring and training pipelines; ENISA’s ECSF and JRC’s DigComp are
+intentionally high-level as interoperability frames and citizen
+self-assessment instruments. Treat per-unit density as a comparison aid,
+not a quality claim.
 
-**The five highest-element-load NICE work roles concentrate
-disproportionate competency specification.** Security Control Assessment
-(307 elements), Secure Systems Development (232), Cybersecurity
-Architecture (219), Defensive Cybersecurity (206), Systems Security
-Management (204). Curricula that “cover NICE” by surveying these five
-roles look thorough. Curricula that cover the long tail of 41 roles look
-thin by element count alone.
+### Jurisdictional element volume skews US-heavy 14 to 1
+
+US frameworks (NICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS
+(Rev 2017)) contribute 5,700 elements; EU frameworks (ECSF v1 + DigComp
+2.2) contribute 411. The ratio reflects design intent: ECSF profiles
+embed e-CF 4.0 cross-references that cybedtools does not currently
+materialize, and DigComp 2.2’s annexes carry examples-per-competence
+that the package does not yet extract. Researchers using element counts
+as a coverage metric should attribute the asymmetry to design philosophy
+(and incomplete extraction on the EU side), not to relative effort.
+
+### The five highest-element-load NICE work roles concentrate disproportionate specification
+
+Security Control Assessment (307 elements), Secure Systems Development
+(232), Cybersecurity Architecture (219), Defensive Cybersecurity (206),
+Systems Security Management (204). Curricula that “cover NICE” by
+surveying these five look thorough. Curricula that cover the long tail
+of 41 roles look thin by element count alone. This is a property of
+NICE’s internal weighting, not a finding about the broader corpus.
 
 Each finding is one query and a few lines of dplyr. See below.
 
@@ -119,14 +143,14 @@ role_framework_bindings(rdf) |>
 #> # A tibble: 8 × 4
 #>   framework_name                      role_count element_count elements_per_role
 #>   <chr>                                    <int>         <int>             <dbl>
-#> 1 NICE v2 (NIST SP 800-181 Rev 1 com…         41          2111              51.5
+#> 1 NICE v2 (NIST SP 800-181 Rev 1 com…         41          2115              51.6
 #> 2 DCWF v5.1                                   74          2945              39.8
-#> 3 ECSF v1                                     12           374              31.2
-#> 4 CSEC2017 Curricular Guidelines v1.0          8            38               4.8
-#> 5 CSTA K-12 Computer Science Standar…         25           120               4.8
-#> 6 SFIA 9                                     147           672               4.6
-#> 7 DigComp 2.2                                  5            21               4.2
-#> 8 Cyber.org K-12 Learning Standards …        116           123               1.1
+#> 3 ECSF v1                                     12           390              32.5
+#> 4 CSTA K-12 Computer Science Standar…         25           140               5.6
+#> 5 SFIA 9                                     147           830               5.6
+#> 6 CSEC2017 Curricular Guidelines v1.0          8            40               5  
+#> 7 Cyber.org K-12 Learning Standards …        116           500               4.3
+#> 8 DigComp 2.2                                  5            21               4.2
 ```
 
 Jurisdiction pivots, top-load NICE roles, pairwise framework
