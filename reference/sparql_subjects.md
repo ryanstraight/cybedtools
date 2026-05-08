@@ -34,7 +34,9 @@ A tibble with column `s` (character).
 
 Other SPARQL helpers:
 [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md),
+[`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md),
 [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md),
+[`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md),
 [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md),
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md)

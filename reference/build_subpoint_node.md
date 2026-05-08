@@ -63,6 +63,7 @@ Named list (JSON-LD node) for the subpoint.
 ## See also
 
 Other Sub-point parsing:
+[`build_example_node()`](https://ryanstraight.github.io/cybedtools/reference/build_example_node.md),
 [`expand_with_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/expand_with_subpoints.md),
 [`extend_role_element_ids()`](https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.md),
 [`parse_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.md)

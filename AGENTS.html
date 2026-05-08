@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,7 +190,7 @@
 <li>Add an entry to <code>docs/framework-invariants.yml</code> with expected role and element count bounds.</li>
 <li>Add verification field mappings in <code>scripts/015-verify-ingestion.R</code>.</li>
 <li>Add a JSON-LD assembly adapter in <code>scripts/020-assemble-jsonld.R</code>.</li>
-<li>Run <code>scripts/000-build.R</code>. Existing SPARQL queries automatically include the new framework because they target framework-agnostic types (<code>cybed:Framework</code>, <code>cybed:Role</code>, <code>cybed:RoleElement</code>).</li>
+<li>Run <code>scripts/000-build.R</code>. Existing SPARQL queries automatically include the new framework because they target framework-agnostic types (<code>cybed:Framework</code>, <code>cybed:OrganizingUnit</code>, <code>cybed:RoleElement</code>). Queries that target the workforce-restricted <code>cybed:Role</code> subtype pick up the new framework only when <code><a href="reference/build_role_node.html">build_role_node()</a></code> was used (workforce-shaped frameworks).</li>
 </ol></div>
 <div class="section level3">
 <h3 id="construct-a-json-ld-document-by-hand">Construct a JSON-LD document by hand<a class="anchor" aria-label="anchor" href="#construct-a-json-ld-document-by-hand"></a></h3>

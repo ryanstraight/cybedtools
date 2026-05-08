@@ -26,54 +26,71 @@ or “more granular” in absolute terms.
 
 ### Element volume varies by ~140x across the corpus
 
-DCWF declares 2,945 elements; DigComp 2.2 declares 21.
-Per-organizing-unit density correspondingly spreads from NICE’s 51.6
-elements per work role to DigComp’s 4.2 elements per competence area, a
-12x ratio. The spread reflects each framework’s design philosophy, not
-differences in care or completeness: NICE/DCWF are granular by design as
-the basis for hiring and training pipelines; ECSF and DigComp are
-intentionally high-level as interoperability frames and citizen
-self-assessment instruments. cybedtools does not normalize across this
-asymmetry; downstream analyses that aggregate “framework coverage”
-should account for it explicitly. The sub-point parser surfaces hidden
-granularity in prose-encoded frameworks (most visibly Cyber.org K-12,
-where the parser lifts ~393 sub-points out of 123 numbered standards’
-Clarification statements).
+DCWF declares 2,945 elements; DigComp 2.2 declares 21. Per-unit density
+correspondingly spreads from NICE’s 51.6 elements per work role to
+DigComp’s 4.2 elements per competence area, a roughly 12x ratio when
+Cyber.org K-12 and CSTA’s Clarification-statement Examples are included.
+The spread reflects each framework’s design philosophy more than care or
+completeness: NICE/DCWF are granular by design as the basis for hiring
+and training pipelines; ECSF and DigComp are intentionally high-level as
+interoperability frames and citizen self-assessment instruments.
+cybedtools does not normalize across this asymmetry; downstream analyses
+that aggregate “framework coverage” should account for it explicitly.
+
+For analyses that need to compare frameworks without including
+pedagogical scaffolding, `framework_summary` carries
+`elements_per_organizing_unit_strict`, which excludes `cybed:Example`
+instances. Under the strict count Cyber.org K-12 drops to ~1.1 elements
+per cell (numbered standards only) and the cross-framework spread widens
+to ~49x; that view is structurally honest about each framework’s
+normative content but invites the misreading “Cyber.org K-12 specifies
+less content than NICE” when the more accurate framing is that the two
+frameworks organize at different denominator granularities (work role vs
+grade-band x sub-concept cell).
 
 ### The corpus skews US-heavy by element volume
 
-US frameworks contribute roughly 5,716 elements (NICE, DCWF, Cyber.org
-K-12, CSTA); EU frameworks contribute roughly 411 (ECSF, DigComp). The
-14:1 ratio reflects design philosophy more than relative investment:
-ENISA designed ECSF as profile-level for national elaboration, and JRC
-designed DigComp 2.2 as a citizen self-assessment instrument. ECSF
-profiles also embed e-CF 4.0 cross-references that cybedtools does not
-currently materialize as triples; full ECSF coverage requires consulting
-those pointers separately. Researchers using element counts as a
-coverage metric should attribute the asymmetry to design intent, not
-corpus completeness.
+US frameworks contribute the majority of strict elements (NICE, DCWF,
+Cyber.org K-12, CSTA). EU frameworks (ECSF, DigComp) contribute under
+one-fifteenth of that volume. The asymmetry reflects design philosophy
+more than relative investment: ENISA designed ECSF as profile-level for
+national elaboration, and JRC designed DigComp 2.2 as a citizen
+self-assessment instrument. ECSF profiles also embed e-CF 4.0
+cross-references that cybedtools does not currently materialize as
+triples; full ECSF coverage requires consulting those pointers
+separately. Researchers using element counts as a coverage metric should
+attribute the asymmetry to design intent, not corpus completeness.
 
 ### Encoding strategy varies across the corpus
 
 Some frameworks encode pedagogical or specification detail in numbered
 standards (NICE, DCWF, the body of DigComp); others encode it in prose
 (“such as” lists, “including” patterns, semicolon-delimited examples)
-inside element-text literals. Cyber.org K-12 most strongly: 100% of its
-standards have a “Clarification statement:” segment with enumerated
-examples scaffolding teacher level-of-rigor expectations. SFIA 9 and
-CSTA modestly: example clauses are illustrative more than enumerative.
-The cybedtools sub-point parser lifts these prose enumerations to
-first-class graph elements (the `cybed:Subpoint` type), with
-`cybed:elaborates` linking each sub-point back to its parent.
+inside element-text literals. Cyber.org K-12 most strongly: every
+numbered standard carries a “Clarification statement:” segment with
+enumerated examples scaffolding teacher level-of-rigor expectations.
+CSTA does the same modestly, on a subset of standards.
 
-A caveat for interpretation: Cyber.org and CSTA’s Clarification
-statements are formally teacher-facing scaffolding, not enumerable
-sub-standards. A teacher who teaches one example has met the standard.
-The current schema types promoted sub-points as if they were
-sub-standards (a roughly 4x inflation for Cyber.org K-12), which
-materially overstates what the framework expects when the goal is to
-count required learning. Treat the inflated counts as a fine-grained
-search index, not a measure of required coverage.
+cybedtools’ sub-point parser lifts both pattern families to first-class
+graph elements but routes them to two distinct types based on the source
+framing. Framework-as-specified enumerations (“such as”, “including”,
+semicolon lists in NICE / SFIA / ECSF / CSEC2017) become
+`cybed:Subpoint` instances, retain their parent’s framework-native
+subtype, and appear in default `cybed:hasElement` traversals.
+“Clarification statement:” pedagogical scaffolding (Cyber.org K-12,
+CSTA) becomes `cybed:Example` instances, carries no framework-native
+subtype because the source framework treats the content as illustrative
+rather than enumerable, and is reachable only via the parent’s
+`cybed:hasExample` predicate. The two-type split keeps role-level “all
+elements” traversals restricted to framework-as-specified content while
+preserving the granular content as a queryable search index for analyses
+that need it.
+
+`framework_summary` surfaces both views: `element_count_strict` counts
+parents and Subpoints only; `element_count_with_examples` adds the
+Examples. The headline density figures use the strict count for
+cross-framework parity. The vignette below shows both columns side by
+side.
 
 ### The five highest-element-load NICE work roles concentrate disproportionate specification
 
@@ -147,11 +164,20 @@ Expected output (8 frameworks):
     7 https://w3id.org/cybed/.../dcwf-v51     DCWF v5.1                          US           defense             cybersecurity-specific
     8 https://w3id.org/cybed/.../nice-v2      NICE v2 (NIST SP 800-181 Rev 1...) US           civilian            cybersecurity-specific
 
-### Role counts per framework
+### Organizing-unit counts per framework
 
 ``` r
 
-# How many roles each framework declares, sorted high to low.
+# Cross-framework parent count: every framework's top-level enumerated
+# unit (work role, skill, grade-band concept, level-concept bucket,
+# Knowledge Area, competence area). The cybed:OrganizingUnit abstract
+# reaches all eight frameworks in one query; cybed:Role is reserved for
+# workforce frameworks (NICE / DCWF / ECSF) where the unit is genuinely a
+# work role or work profile.
+organizing_unit_framework_bindings(rdf) |>
+  count(framework_name, sort = TRUE, name = "organizing_unit_count")
+
+# Workforce-only cut: NICE / DCWF / ECSF only.
 role_framework_bindings(rdf) |>
   count(framework_name, sort = TRUE, name = "role_count")
 ```
@@ -160,27 +186,35 @@ role_framework_bindings(rdf) |>
 
 ``` r
 
-# How many atomic elements (tasks, knowledge statements, standards, etc.)
-# each framework declares, sorted high to low.
+# Strict count: parents and Subpoints only. The headline figure used to
+# compare frameworks at the level of what they specify as their normative
+# content.
 element_framework_bindings(rdf) |>
-  count(framework_name, sort = TRUE, name = "element_count")
+  dplyr::anti_join(example_framework_bindings(rdf),
+                   by = c("element" = "example")) |>
+  count(framework_name, sort = TRUE, name = "element_count_strict")
+
+# With-examples count: parents, Subpoints, AND Cyber.org K-12 / CSTA
+# pedagogical-scaffolding Examples. Useful for granular search-index
+# style work; not appropriate as a coverage metric.
+element_framework_bindings(rdf) |>
+  count(framework_name, sort = TRUE, name = "element_count_with_examples")
 ```
 
 Density varies dramatically across heterogeneous denominators. DCWF has
 2,945 elements across 74 work roles (about 40 per work role). NICE has
-2,115 elements across 41 work roles (about 52 per work role). At the
-other end, DigComp 2.2 has 21 elements across 5 competence areas (about
-4 per area). A schema that generalizes across both extremes is doing
-real work. v0.1.1’s sub-point parser surfaces additional granularity
-hidden in prose for Cyber.org K-12 (500 leaf elements, ~4.3 per
-grade-band cluster), SFIA 9 (830 leaf elements, ~5.6 per skill), CSTA,
-ECSF, NICE, and CSEC2017. DCWF and DigComp 2.2 produce no sub-points
-because their source-text formats encode each statement atomically.
+2,115 elements across 41 work roles (about 52 per work role). SFIA 9 has
+830 leaf elements (parent skills + parsed Subpoints) across 147 skills
+(~5.6 per skill). At the other end, Cyber.org K-12 has 123 strict
+elements across 116 grade-band concepts (~1.1 strict per cluster), or
+500 with-Examples elements (~4.3 with-Examples per cluster). DigComp 2.2
+has 21 elements across 5 competence areas (~4.2 per area). A schema that
+generalizes across both extremes is doing real work.
 
 The same numbers, plotted from
 [`cybedtools::framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
 (no staged graph required, since the data object ships with the
-package). Hover for role and element counts:
+package). Hover for organizing-unit and element counts:
 
 ``` r
 
@@ -194,14 +228,19 @@ fs <- cybedtools::framework_summary
 p <- ggplot(
   fs,
   aes(
-    x    = elements_per_role,
-    y    = reorder(framework_name, elements_per_role),
+    x    = elements_per_organizing_unit_with_examples,
+    y    = reorder(framework_name, elements_per_organizing_unit_with_examples),
     fill = framework_type,
     text = paste0(
       "<b>", framework_name, "</b><br>",
-      role_count, " roles, ",
-      format(element_count, big.mark = ","), " elements<br>",
-      elements_per_role, " elements per role<br>",
+      organizing_unit_count, " top-level units, ",
+      format(element_count_with_examples, big.mark = ","), " elements",
+      ifelse(example_count > 0,
+             paste0(" (incl. ", format(example_count, big.mark = ","),
+                    " Clarification-statement examples)"),
+             ""),
+      "<br>",
+      elements_per_organizing_unit_with_examples, " elements per unit<br>",
       jurisdiction, " · ", license
     )
   )
@@ -211,7 +250,7 @@ p <- ggplot(
     values = c(workforce = "#0F172A", pedagogy = "#38BDF8"),
     name   = NULL
   ) +
-  labs(x = "Elements per role", y = NULL) +
+  labs(x = "Elements per top-level unit", y = NULL) +
   theme_minimal(base_size = 12) +
   theme(
     panel.grid.major.y = element_blank(),
@@ -223,19 +262,24 @@ ggplotly(p, tooltip = "text") |>
   config(displayModeBar = FALSE)
 ```
 
-### Largest roles by element count
+### Largest organizing units by element count
 
 ``` r
 
-# Cache the two binding tibbles to avoid re-running queries when iterating.
+# Cache the binding tibbles to avoid re-running queries when iterating.
 reb <- role_element_bindings(rdf)
-rfb <- role_framework_bindings(rdf)
+ofb <- organizing_unit_framework_bindings(rdf)
 
-# Count elements per role, attach role name and parent framework, take the
-# heaviest 10 across the entire eight-framework graph.
+# Count elements per organizing unit, attach unit name and parent framework,
+# take the heaviest 10 across the entire eight-framework graph. This is
+# the cross-framework cut: it includes NICE / DCWF / ECSF work roles
+# alongside SFIA skills, CSTA buckets, CSEC2017 Knowledge Areas, etc. To
+# restrict to workforce frameworks only, swap organizing_unit_framework_bindings
+# for role_framework_bindings.
 reb |>
   count(role, name = "element_count") |>
-  left_join(rfb |> select(role, role_name, framework_name), by = "role") |>
+  left_join(ofb |> select(unit, unit_name, framework_name),
+            by = c("role" = "unit")) |>
   arrange(desc(element_count)) |>
   slice_head(n = 10)
 ```
@@ -290,23 +334,27 @@ element_framework_bindings(rdf) |>
 
 ``` r
 
-# Compare role density: NICE (role-first specification) vs SFIA (skill-first).
-rfb <- role_framework_bindings(rdf)
+# Compare per-unit density: NICE (role-first specification) vs SFIA
+# (skill-first). NICE asserts cybed:Role on its work roles; SFIA asserts
+# cybed:OrganizingUnit on its skills (skills are not roles in the
+# workforce-framework sense). The cross-framework cut therefore queries
+# cybed:OrganizingUnit, which reaches both.
+ofb <- organizing_unit_framework_bindings(rdf)
 reb <- role_element_bindings(rdf)
 
 # Filter to the two frameworks of interest, attach element counts to each
-# role, then aggregate role-count and element-density statistics per
-# framework. Useful when arguing about how differently the two structure
-# their workforce specifications.
-rfb |>
+# unit, then aggregate per-framework statistics. Useful when arguing
+# about how differently the two structure their specifications.
+ofb |>
   filter(framework_name %in% c("NICE v2 (NIST SP 800-181 Rev 1 components)", "SFIA 9")) |>
-  left_join(reb |> count(role, name = "element_count"), by = "role") |>
+  left_join(reb |> count(role, name = "element_count"),
+            by = c("unit" = "role")) |>
   group_by(framework_name) |>
   summarize(
-    role_count      = n(),
-    mean_elements   = round(mean(element_count, na.rm = TRUE), 1),
-    median_elements = median(element_count, na.rm = TRUE),
-    max_elements    = max(element_count, na.rm = TRUE)
+    organizing_unit_count = n(),
+    mean_elements         = round(mean(element_count, na.rm = TRUE), 1),
+    median_elements       = median(element_count, na.rm = TRUE),
+    max_elements          = max(element_count, na.rm = TRUE)
   )
 ```
 
@@ -317,10 +365,15 @@ primitives:
 
 - `sparql_subjects(rdf, predicate, object)` returns subjects of triples
   whose predicate and object are both fixed (e.g.,
-  `sparql_subjects(rdf, "a", "cybed:Role")`).
+  `sparql_subjects(rdf, "a", "cybed:OrganizingUnit")` for
+  cross-framework parents, `sparql_subjects(rdf, "a", "cybed:Role")` for
+  the workforce-only cut, `sparql_subjects(rdf, "a", "cybed:Example")`
+  for pedagogical-scaffolding nodes).
 - `sparql_pairs(rdf, predicate)` returns subject-object pairs for all
   triples with a given predicate (e.g.,
-  `sparql_pairs(rdf, "schema:name")`).
+  `sparql_pairs(rdf, "schema:name")`,
+  `sparql_pairs(rdf, "cybed:hasExample")` for the
+  parent-element-to-Example links).
 
 Both run a single triple match, which librdf handles correctly. Compose
 multiple calls and join the results in dplyr. Do not write SPARQL

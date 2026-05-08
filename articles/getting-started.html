@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,16 +112,24 @@ sources.</p>
 <strong><code>cybed:Framework</code></strong>: a competency or
 learning framework.</li>
 <li>
-<strong><code>cybed:Role</code></strong>: the framework’s top-level
-organizing unit (work role, role profile, skill, grade-band concept
-cluster, knowledge area).</li>
+<strong><code>cybed:OrganizingUnit</code></strong>: the framework’s
+top-level enumerated unit (work role, work profile, skill, grade-band
+concept, level-concept bucket, Knowledge Area, competence area). The
+cross-framework abstract; queries against it reach all eight frameworks.
+Workforce frameworks where the unit is genuinely a work role or profile
+(NICE / DCWF / ENISA ECSF) additionally subclass
+<code>cybed:Role</code>.</li>
 <li>
 <strong><code>cybed:RoleElement</code></strong>: the codable atomic
-statement attached to a Role (task, knowledge statement, skill
-statement, standard, learning outcome).</li>
+statement attached to an organizing unit (task, knowledge statement,
+skill statement, learning standard). Two specialized subtypes for parsed
+sub-content: <code>cybed:Subpoint</code> for framework-as-specified
+enumerations, and <code>cybed:Example</code> for pedagogical-scaffolding
+fragments lifted from “Clarification statement:” prose.</li>
 </ul>
 <p>A single SPARQL query targeting <code>cybed:RoleElement</code>
-returns elements across every framework in one pass.</p>
+returns atomic elements across every framework in one pass; targeting
+<code>cybed:OrganizingUnit</code> returns parents.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -237,23 +245,35 @@ the full design rationale and the helper functions exposed.</p>
 <code>data/processed/query-results/</code>:</p>
 <ul>
 <li>
-<code>q10-roles-per-framework.csv</code>, role count per
-framework.</li>
+<code>q10-organizing-units-per-framework.csv</code>, cross-framework
+parent count (all eight frameworks via
+<code>cybed:OrganizingUnit</code>).</li>
 <li>
-<code>q11-elements-per-framework.csv</code>, element count per
-framework.</li>
+<code>q10b-roles-per-framework.csv</code>, workforce-restricted
+parent count (NICE / DCWF / ECSF via <code>cybed:Role</code>).</li>
+<li>
+<code>q11-elements-per-framework-strict.csv</code>, strict element
+count per framework (parents + Subpoints, Examples excluded).</li>
+<li>
+<code>q11b-elements-per-framework-with-examples.csv</code>,
+inclusive element count per framework (parents + Subpoints +
+Examples).</li>
 <li>
 <code>q12-framework-metadata.csv</code>, jurisdiction, sector,
 specificity per framework.</li>
 <li>
-<code>q13-elements-by-jurisdiction.csv</code>, element count per
-jurisdiction.</li>
+<code>q13-elements-by-jurisdiction-strict.csv</code>, strict element
+count per jurisdiction.</li>
 <li>
-<code>q14-elements-by-sector.csv</code>, element count per
-sector.</li>
+<code>q14-elements-by-sector-strict.csv</code>, strict element count
+per sector.</li>
 <li>
-<code>q15-largest-roles.csv</code>, top 20 roles by element
-count.</li>
+<code>q15-largest-organizing-units.csv</code>, top 20 organizing
+units by element count (cross-framework).</li>
+<li>
+<code>q16-examples-per-framework.csv</code>, per-framework count of
+<code>cybed:Example</code> nodes (Cyber.org K-12 + CSTA
+scaffolding).</li>
 </ul>
 <p>A <code>_run-summary.csv</code> records row counts and timings.</p>
 <p>Direct SPARQL access remains available via
@@ -283,14 +303,17 @@ helper:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Count how many roles each framework declares.</span></span>
-<span><span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, name <span class="op">=</span> <span class="st">"role_count"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Count how many top-level organizing units each framework declares.</span></span>
+<span><span class="co"># organizing_unit_framework_bindings reaches all eight frameworks via the</span></span>
+<span><span class="co"># cross-framework cybed:OrganizingUnit type. role_framework_bindings</span></span>
+<span><span class="co"># would restrict to workforce frameworks (NICE / DCWF / ECSF) only.</span></span>
+<span><span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, name <span class="op">=</span> <span class="st">"organizing_unit_count"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
-<span><span class="co">#&gt;   framework_name   role_count</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Demo Framework A          2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Demo Framework B          1</span></span></code></pre></div>
+<span><span class="co">#&gt;   framework_name   organizing_unit_count</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Demo Framework A                     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Demo Framework B                     1</span></span></code></pre></div>
 <p>This is enough to verify your <code>librdf</code> system library is
 functional and the SPARQL helpers compose correctly on your machine. It
 is not a substitute for real framework data. For cross-framework

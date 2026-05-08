@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,10 +90,17 @@
 
         <dt>
 
+          <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Construct a <code>cybed:OrganizingUnit</code> node</dd>
+
+        <dt>
+
           <code><a href="build_role_node.html">build_role_node()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
-        <dd>Construct a <code>cybed:Role</code> node</dd>
+        <dd>Construct a <code>cybed:Role</code> node (workforce frameworks)</dd>
 
         <dt>
 
@@ -109,9 +116,9 @@
         </dt>
         <dd>Assemble a framework-level <code>@graph</code> document</dd>
       </dl></div><div class="section level2">
-      <h2 id="sub-point-parsing">Sub-point parsing<a class="anchor" aria-label="anchor" href="#sub-point-parsing"></a></h2>
+      <h2 id="sub-point-and-example-parsing">Sub-point and example parsing<a class="anchor" aria-label="anchor" href="#sub-point-and-example-parsing"></a></h2>
 
-      <div class="section-desc"><p>Lift prose-encoded enumerations (“such as” lists, “Clarification statement:” segments) out of parent element text and promote each sub-point to a first-class graph element typed cybed:Subpoint, with cybed:elaborates linking back to the parent. See vignette cross-framework-analysis for the encoding-strategy finding this enables.</p></div>
+      <div class="section-desc"><p>Lift prose-encoded enumerations and pedagogical-scaffolding content out of parent element text and promote each fragment to a first-class graph element. Framework-as-specified enumerations (“such as” lists, “including” patterns) become cybed:Subpoint instances with cybed:elaborates back-pointers. “Clarification statement:” pedagogical scaffolding becomes cybed:Example instances reachable only via the parent’s cybed:hasExample predicate. See vignette cross-framework-analysis for the encoding-strategy finding this enables.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -134,17 +141,24 @@
 
         <dt>
 
+          <code><a href="build_example_node.html">build_example_node()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Construct a <code>cybed:Example</code> node</dd>
+
+        <dt>
+
           <code><a href="expand_with_subpoints.html">expand_with_subpoints()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
-        <dd>Expand parent element nodes with subpoint child nodes</dd>
+        <dd>Expand parent element nodes with sub-point and example child nodes</dd>
 
         <dt>
 
           <code><a href="extend_role_element_ids.html">extend_role_element_ids()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
-        <dd>Append subpoint IDs to a role's child-element id list</dd>
+        <dd>Append Subpoint IDs to a role's child-element id list</dd>
       </dl></div><div class="section level2">
       <h2 id="file-i-o">File I/O<a class="anchor" aria-label="anchor" href="#file-i-o"></a></h2>
 
@@ -245,6 +259,13 @@
 
         <dt>
 
+          <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Domain helper: organizing-unit-to-framework bindings with framework name attached</dd>
+
+        <dt>
+
           <code><a href="role_framework_bindings.html">role_framework_bindings()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
@@ -256,6 +277,13 @@
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
         <dd>Domain helper: element-to-framework bindings with framework name attached</dd>
+
+        <dt>
+
+          <code><a href="example_framework_bindings.html">example_framework_bindings()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Domain helper: example-to-framework bindings with framework name attached</dd>
 
         <dt>
 

@@ -1,15 +1,32 @@
-# Expand parent element nodes with subpoint child nodes
+# Expand parent element nodes with sub-point and example child nodes
 
 **\[stable\]**
 
-Convenience wrapper that walks a list of parent element nodes, parses
-each one's `cybed:elementText` for sub-points, and returns a list with
-the parents plus newly-minted sub-point nodes. Sub-point IDs are
-deterministic (parent_iri + ".sub." + ordinal).
+Walks a list of parent element nodes, parses each one's
+`cybed:elementText` for enumerated child fragments, and returns a list
+with the parents plus newly-minted child nodes. Each child is routed per
+its parsed `node_type`:
 
-Parents whose text yields no sub-points pass through unchanged. The
-returned list preserves parent order and appends sub-points after their
-parents.
+- `node_type == "Subpoint"` (framework-as-specified enumeration from
+  "such as", "including", semicolon-list patterns) becomes a
+  [cybed:Subpoint](https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.md)
+  node, carries its parent's framework subtype, and appears in default
+  `cybed:hasElement` traversals.
+
+- `node_type == "Example"` (pedagogical scaffolding from "Clarification
+  statement:" sources) becomes a
+  [cybed:Example](https://ryanstraight.github.io/cybedtools/reference/build_example_node.md)
+  node, carries no framework-native subtype, and is reachable only via
+  the parent's `cybed:hasExample` predicate (Examples are excluded from
+  default `cybed:hasElement` collections).
+
+Parents that emit any Example children are mutated in place to add
+`cybed:hasExample` triples linking to those Examples. Parents whose text
+yields no fragments pass through unchanged. The returned list preserves
+parent order and appends children after their parents.
+
+Child IRIs are deterministic: `<parent_iri>.sub.<ordinal>` for Subpoints
+and `<parent_iri>.example.<ordinal>` for Examples.
 
 ## Usage
 
@@ -51,13 +68,16 @@ expand_with_subpoints(
 ## Value
 
 List with two named entries: `nodes` (the expanded list of parent +
-sub-point nodes) and `subpoint_index` (a tibble with one row per
-sub-point: `parent_id`, `subpoint_id`, `ordinal`). The index is useful
-for back-filling the parent role's `cybed:hasElement` list.
+child nodes) and `subnode_index` (a tibble with one row per child:
+`parent_id`, `subnode_id`, `ordinal`, `node_type`). The index drives
+[`extend_role_element_ids()`](https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.md),
+which back-fills the parent role's `cybed:hasElement` list with Subpoint
+IDs (Examples excluded).
 
 ## See also
 
 Other Sub-point parsing:
+[`build_example_node()`](https://ryanstraight.github.io/cybedtools/reference/build_example_node.md),
 [`build_subpoint_node()`](https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.md),
 [`extend_role_element_ids()`](https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.md),
 [`parse_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.md)

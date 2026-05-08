@@ -130,7 +130,26 @@ frameworkx = list(
 ## Step 5: JSON-LD assembly adapter
 
 In `scripts/020-assemble-jsonld.R`, add an assembler function and
-register it:
+register it. The assembler chooses one of two parent-unit constructors
+depending on whether the framework is workforce-shaped:
+
+- Use
+  [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+  (which delegates to `build_organizing_unit_node(is_role = TRUE)`) when
+  the framework’s parent units are work roles or work profiles. NICE,
+  DCWF, and ENISA ECSF do this.
+- Use `build_organizing_unit_node(is_role = FALSE)` when the parent
+  units are something else (skills, learning standards clusters,
+  knowledge areas, competence areas). SFIA, Cyber.org K-12, CSTA,
+  CSEC2017, and DigComp 2.2 do this.
+
+Both paths assert `cybed:OrganizingUnit` so cross-framework queries
+reach all eight frameworks via the abstract type. Only
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+additionally asserts `cybed:Role`, restricting workforce-only queries
+appropriately.
+
+The example below assumes Framework X is workforce-shaped:
 
 ``` r
 
@@ -156,8 +175,8 @@ assemble_frameworkx <- function() {
     date_published   = prov$framework_date
   )
 
-  # One JSON-LD node per role. Each subclasses cybed:Role and is bound to
-  # the framework via cybed:partOf in build_role_node().
+  # One JSON-LD node per work role. build_role_node asserts fx:WorkRole +
+  # cybed:Role + cybed:OrganizingUnit on each.
   role_nodes <- roles |>
     purrr::pmap(function(role_id, role_name, ...) {
       build_role_node(
@@ -195,6 +214,30 @@ framework_assemblers[["frameworkx"]] <- assemble_frameworkx
 framework_to_prefix[["frameworkx"]]  <- "fx"
 ```
 
+If Framework X is non-workforce (it enumerates skills, learning
+standards clusters, or competence areas rather than roles), replace the
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+call with:
+
+``` r
+
+build_organizing_unit_node(
+  unit_id           = unit_id,
+  unit_name         = unit_name,
+  framework_prefix  = "fx",
+  framework_subtype = "Skill",   # or "StandardGroup", "KnowledgeArea", etc.
+  is_role           = FALSE,
+  framework_id      = "frameworkx-v1"
+)
+```
+
+Pick a `framework_subtype` that names what the unit IS in the
+framework’s own terminology rather than coercing it under “WorkRole.”
+See the
+[namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.md)
+article for the existing per-framework subtype table; new frameworks
+should follow the same pattern.
+
 And in `assembly_config$frameworks`, add `"frameworkx"` so the loop
 picks it up.
 
@@ -215,8 +258,11 @@ Rscript scripts/040-run-sparql.R
 ```
 
 Existing SPARQL queries automatically include the new framework because
-they match on `cybed:Framework`, `cybed:Role`, and `cybed:RoleElement`,
-the framework-agnostic types. No query rewrites required.
+they match on `cybed:Framework`, `cybed:OrganizingUnit`, and
+`cybed:RoleElement`, the framework-agnostic types. Queries that
+explicitly target `cybed:Role` (workforce-only) include the new
+framework only if its parents assert `cybed:Role` (i.e.,
+`build_role_node` was used). No query rewrites required.
 
 ## What if the source is a PDF?
 

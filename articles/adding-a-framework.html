@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -225,7 +225,24 @@ for count extraction and one for text-integrity checks:</p>
 <h2 id="step-5-json-ld-assembly-adapter">Step 5: JSON-LD assembly adapter<a class="anchor" aria-label="anchor" href="#step-5-json-ld-assembly-adapter"></a>
 </h2>
 <p>In <code>scripts/020-assemble-jsonld.R</code>, add an assembler
-function and register it:</p>
+function and register it. The assembler chooses one of two parent-unit
+constructors depending on whether the framework is workforce-shaped:</p>
+<ul>
+<li>Use <code><a href="../reference/build_role_node.html">build_role_node()</a></code> (which delegates to
+<code>build_organizing_unit_node(is_role = TRUE)</code>) when the
+framework’s parent units are work roles or work profiles. NICE, DCWF,
+and ENISA ECSF do this.</li>
+<li>Use <code>build_organizing_unit_node(is_role = FALSE)</code> when
+the parent units are something else (skills, learning standards
+clusters, knowledge areas, competence areas). SFIA, Cyber.org K-12,
+CSTA, CSEC2017, and DigComp 2.2 do this.</li>
+</ul>
+<p>Both paths assert <code>cybed:OrganizingUnit</code> so
+cross-framework queries reach all eight frameworks via the abstract
+type. Only <code><a href="../reference/build_role_node.html">build_role_node()</a></code> additionally asserts
+<code>cybed:Role</code>, restricting workforce-only queries
+appropriately.</p>
+<p>The example below assumes Framework X is workforce-shaped:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assemble_frameworkx</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Read the manifest and tidy CSVs your ingestion script wrote.</span></span>
@@ -249,8 +266,8 @@ function and register it:</p>
 <span>    date_published   <span class="op">=</span> <span class="va">prov</span><span class="op">$</span><span class="va">framework_date</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span>  <span class="co"># One JSON-LD node per role. Each subclasses cybed:Role and is bound to</span></span>
-<span>  <span class="co"># the framework via cybed:partOf in build_role_node().</span></span>
+<span>  <span class="co"># One JSON-LD node per work role. build_role_node asserts fx:WorkRole +</span></span>
+<span>  <span class="co"># cybed:Role + cybed:OrganizingUnit on each.</span></span>
 <span>  <span class="va">role_nodes</span> <span class="op">&lt;-</span> <span class="va">roles</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">role_id</span>, <span class="va">role_name</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="fu"><a href="../reference/build_role_node.html">build_role_node</a></span><span class="op">(</span></span>
@@ -286,27 +303,47 @@ function and register it:</p>
 <span><span class="co"># Register the assembler so the orchestrator can find it.</span></span>
 <span><span class="va">framework_assemblers</span><span class="op">[[</span><span class="st">"frameworkx"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">assemble_frameworkx</span></span>
 <span><span class="va">framework_to_prefix</span><span class="op">[[</span><span class="st">"frameworkx"</span><span class="op">]</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="st">"fx"</span></span></code></pre></div>
+<p>If Framework X is non-workforce (it enumerates skills, learning
+standards clusters, or competence areas rather than roles), replace the
+<code><a href="../reference/build_role_node.html">build_role_node()</a></code> call with:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node</a></span><span class="op">(</span></span>
+<span>  unit_id           <span class="op">=</span> <span class="va">unit_id</span>,</span>
+<span>  unit_name         <span class="op">=</span> <span class="va">unit_name</span>,</span>
+<span>  framework_prefix  <span class="op">=</span> <span class="st">"fx"</span>,</span>
+<span>  framework_subtype <span class="op">=</span> <span class="st">"Skill"</span>,   <span class="co"># or "StandardGroup", "KnowledgeArea", etc.</span></span>
+<span>  is_role           <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  framework_id      <span class="op">=</span> <span class="st">"frameworkx-v1"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Pick a <code>framework_subtype</code> that names what the unit IS in
+the framework’s own terminology rather than coercing it under
+“WorkRole.” See the <a href="../articles/namespace-architecture.html">namespace-architecture</a>
+article for the existing per-framework subtype table; new frameworks
+should follow the same pattern.</p>
 <p>And in <code>assembly_config$frameworks</code>, add
 <code>"frameworkx"</code> so the loop picks it up.</p>
 </div>
 <div class="section level2">
 <h2 id="step-6-run-the-pipeline">Step 6: run the pipeline<a class="anchor" aria-label="anchor" href="#step-6-run-the-pipeline"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Ingest</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-frameworkx.R</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Verify</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Assemble</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># Query (existing queries will now return rows for Framework X)</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Ingest</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-frameworkx.R</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># Assemble</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Query (existing queries will now return rows for Framework X)</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R</span></code></pre></div>
 <p>Existing SPARQL queries automatically include the new framework
 because they match on <code>cybed:Framework</code>,
-<code>cybed:Role</code>, and <code>cybed:RoleElement</code>, the
-framework-agnostic types. No query rewrites required.</p>
+<code>cybed:OrganizingUnit</code>, and <code>cybed:RoleElement</code>,
+the framework-agnostic types. Queries that explicitly target
+<code>cybed:Role</code> (workforce-only) include the new framework only
+if its parents assert <code>cybed:Role</code> (i.e.,
+<code>build_role_node</code> was used). No query rewrites required.</p>
 </div>
 <div class="section level2">
 <h2 id="what-if-the-source-is-a-pdf">What if the source is a PDF?<a class="anchor" aria-label="anchor" href="#what-if-the-source-is-a-pdf"></a>

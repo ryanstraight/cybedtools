@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,21 +114,29 @@ statements in NICE involve cloud or container technologies?”).</li>
 and element counts vary by jurisdiction or sector?”).</li>
 </ul>
 <p>The cybed: base vocabulary is the selection path for both. A single
-helper call targeting <code>cybed:RoleElement</code> or
-<code>cybed:Role</code> returns comparable bindings across NICE, DCWF,
-SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2.</p>
+helper call targeting <code>cybed:OrganizingUnit</code> returns
+comparable parent-level bindings across NICE, DCWF, SFIA, ECSF,
+Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2; targeting
+<code>cybed:Role</code> restricts to the workforce-framework subset
+(NICE / DCWF / ECSF); targeting <code>cybed:RoleElement</code> returns
+atomic content nodes (parents, Subpoints, and Examples).</p>
 <div class="section level3">
 <h3 id="what-these-queries-surface">What these queries surface<a class="anchor" aria-label="anchor" href="#what-these-queries-surface"></a>
 </h3>
 <p>Three findings the package’s analytical layer produces directly from
 the eight-framework graph:</p>
 <ul>
-<li>Element density per framework varies by ~12x (NICE 51.6 elements per
-work role, DigComp 2.2 4.2 elements per competence area). Per-unit
-density is a comparison aid across heterogeneous denominators, not a
-quality claim.</li>
-<li>Jurisdictional element coverage is dominated by US frameworks ~14 to
-1 (~5,700 elements US vs. ~410 EU).</li>
+<li>Element density per framework varies by ~12x with Cyber.org K-12 /
+CSTA pedagogical Examples included (NICE 51.6 elements per work role,
+DigComp 4.2 per competence area). Without Examples the spread widens to
+~49x because Cyber.org K-12’s 116 cells contain only 123 numbered
+standards. Per-unit density is a comparison aid across heterogeneous
+denominators, not a quality claim.</li>
+<li>Jurisdictional element coverage is dominated by US frameworks (NICE,
+DCWF, Cyber.org K-12, CSTA) by an order of magnitude over EU frameworks
+(ECSF, DigComp), reflecting design-philosophy differences (ECSF
+profile-level by intent, DigComp citizen-self-assessment by intent)
+rather than corpus completeness.</li>
 <li>The five highest-element-load NICE work roles concentrate
 disproportionate competency specification (Security Control Assessment
 307, Secure Systems Development 232, Cybersecurity Architecture 219,
@@ -169,14 +177,25 @@ subjects of triples whose predicate and object are fixed.</li>
 <code>framework_metadata(rdf)</code> returns a tibble of (framework,
 name, jurisdiction, sector, specificity).</li>
 <li>
+<code>organizing_unit_framework_bindings(rdf)</code> returns (unit,
+unit_name, framework, framework_name) for every framework’s top-level
+enumerated unit. The cross-framework cut.</li>
+<li>
 <code>role_framework_bindings(rdf)</code> returns (role, role_name,
-framework, framework_name).</li>
+framework, framework_name) restricted to workforce frameworks where
+<code>cybed:Role</code> is asserted (NICE / DCWF / ECSF).</li>
 <li>
 <code>element_framework_bindings(rdf)</code> returns (element,
-framework, framework_name).</li>
+framework, framework_name) for every <code>cybed:RoleElement</code>,
+including Subpoints and Examples.</li>
 <li>
-<code>role_element_bindings(rdf)</code> returns (role,
-element).</li>
+<code>example_framework_bindings(rdf)</code> returns (example,
+framework, framework_name) for the <code>cybed:Example</code> subset
+(Cyber.org K-12 and CSTA Clarification scaffolding).</li>
+<li>
+<code>role_element_bindings(rdf)</code> returns (role, element) for
+every <code>cybed:hasElement</code> triple. Excludes Examples (which are
+reachable only via <code>cybed:hasExample</code>).</li>
 </ul>
 <p>Each domain helper makes one to four single-BGP queries and joins the
 results via dplyr left-joins or semi-joins.</p>
@@ -194,16 +213,21 @@ results via dplyr left-joins or semi-joins.</p>
 framework with jurisdiction, sector, specificity. Uses
 <code><a href="../reference/framework_metadata.html">framework_metadata()</a></code>.</li>
 <li>
-<strong>A2. Roles per framework and elements per framework.</strong>
-Aggregated in R from <code><a href="../reference/role_framework_bindings.html">role_framework_bindings()</a></code> and
-<code><a href="../reference/element_framework_bindings.html">element_framework_bindings()</a></code>.</li>
+<strong>A2. Organizing units per framework and elements per
+framework.</strong> Aggregated in R from
+<code><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code> and
+<code><a href="../reference/element_framework_bindings.html">element_framework_bindings()</a></code>. For workforce-restricted
+aggregations, swap in <code><a href="../reference/role_framework_bindings.html">role_framework_bindings()</a></code>.</li>
 <li>
-<strong>A3. Element density.</strong> Elements per role per
-framework, joining <code><a href="../reference/role_element_bindings.html">role_element_bindings()</a></code> with
-<code><a href="../reference/role_framework_bindings.html">role_framework_bindings()</a></code>. Surfaces the structural-density
-spread (DCWF averages around 40 elements per role, NICE around 52,
-DigComp around 4 per area, Cyber.org K-12 around 4 per cluster
-post-v0.1.1).</li>
+<strong>A3. Element density.</strong> Elements per top-level unit
+per framework, joining <code><a href="../reference/role_element_bindings.html">role_element_bindings()</a></code> with
+<code><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>. Surfaces the
+cross-framework structural-density spread (with-examples count): NICE
+around 51.6 per work role, DCWF around 39.8 per work role, ECSF around
+32.5 per role profile, CSTA around 10.2 per level-x-concept cell, SFIA
+around 5.6 per skill, CSEC2017 around 5.0 per Knowledge Area, Cyber.org
+K-12 around 4.3 per grade-band-x-sub-concept cell, DigComp around 4.2
+per competence area.</li>
 <li>
 <strong>A4. Missing required properties.</strong> Quality control.
 Surface RoleElement subjects without <code>cybed:elementText</code> (use

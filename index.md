@@ -30,25 +30,31 @@ Who it’s for:
 - doctoral students writing dissertations that need cross-framework
   empirical claims
 
-| Framework | Type | Jurisdiction | Roles | Elements | License |
+| Framework | Type | Jurisdiction | Top-level units | Elements | License |
 |----|----|----|----|----|----|
 | NICE v2 | workforce | US | 41 | 2,115 | public domain |
 | DCWF v5.1 | workforce | US | 74 | 2,945 | public domain |
-| ECSF v1 | workforce | EU | 12 | 390 | CC BY 4.0 |
+| ECSF v1 | workforce | EU | 12 | 390 | ENISA re-use notice |
 | SFIA 9 | workforce | global | 147 | 830 | SFIA Use Policy |
 | Cyber.org K-12 v1.0 | pedagogy | US | 116 | 500 | CC BY-NC 4.0 |
-| CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 140 | CC BY-NC-SA 4.0 |
+| CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 254 | CC BY-NC-SA 4.0 |
 | ACM/IEEE CSEC2017 | pedagogy | global | 8 | 40 | ACM/IEEE educational-use |
 | DigComp 2.2 | pedagogy | EU | 5 | 21 | EU open re-use |
 
-The “Roles” column reports each framework’s top-level organizing unit,
-whatever the framework calls it: work roles for NICE / DCWF / ECSF,
-skills for SFIA, level-concept buckets for CSTA, grade-band cells for
-Cyber.org K-12, Knowledge Areas for CSEC2017, competence areas for
-DigComp 2.2. The schema collapses these distinct structural commitments
-under a single `cybed:Role` abstraction. See
-`docs/framework-data-sources.md` for the per-framework structural
-mapping.
+The “Top-level units” column reports each framework’s top-level
+enumerated unit. NICE / DCWF / ECSF declare work roles or work profiles;
+SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2
+declares competence areas. Cyber.org K-12 and CSTA do not name the cell
+that groups their numbered standards within their internal axes (grade
+band x sub-concept for Cyber.org; level x concept for CSTA), so
+cybedtools labels both `StandardGroup`. All eight types subclass
+`cybed:OrganizingUnit` so cross-framework queries reach them uniformly;
+NICE / DCWF / ECSF additionally subclass `cybed:Role`. The “Elements”
+column counts parents, parsed Subpoints, and (for Cyber.org K-12 and
+CSTA) Clarification-statement Examples; `framework_summary` carries
+`element_count_strict` for analyses that need the count without
+Examples. See `docs/framework-data-sources.md` for the per-framework
+structural mapping.
 
 ## What you can find with this
 
@@ -60,20 +66,24 @@ design philosophies. They do not agree on what to count. cybedtools
 makes them queryable in one graph anyway. Three findings illustrate what
 that surfaces.
 
-### Per-organizing-unit density varies by 12x across the corpus
+### Per-unit density varies by 12x across the corpus
 
 NICE v2 expresses 51.6 elements per its top-level unit; DigComp 2.2
 expresses 4.2. The spread reflects framework design philosophy more than
 relative completeness: NICE / DCWF are granular by intent as the basis
 for hiring and training pipelines; ENISA’s ECSF and JRC’s DigComp are
 intentionally high-level as interoperability frames and citizen
-self-assessment instruments. Treat per-unit density as a comparison aid,
-not a quality claim.
+self-assessment instruments. Treat per-unit density as a comparison aid
+across heterogeneous denominators, not a quality claim.
+(`framework_summary` carries both
+`elements_per_organizing_unit_with_examples` used here and a
+Subpoint-only `_strict` variant for analyses that prefer to exclude
+pedagogical scaffolding.)
 
 ### Jurisdictional element volume skews US-heavy 14 to 1
 
 US frameworks (NICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS
-(Rev 2017)) contribute 5,700 elements; EU frameworks (ECSF v1 + DigComp
+(Rev 2017)) contribute 5,814 elements; EU frameworks (ECSF v1 + DigComp
 2.2) contribute 411. The ratio reflects design intent: ECSF profiles
 embed e-CF 4.0 cross-references that cybedtools does not currently
 materialize, and DigComp 2.2’s annexes carry examples-per-competence
@@ -87,7 +97,7 @@ Security Control Assessment (307 elements), Secure Systems Development
 (232), Cybersecurity Architecture (219), Defensive Cybersecurity (206),
 Systems Security Management (204). Curricula that “cover NICE” by
 surveying these five look thorough. Curricula that cover the long tail
-of 41 roles look thin by element count alone. This is a property of
+of 41 work roles look thin by element count alone. This is a property of
 NICE’s internal weighting, not a finding about the broader corpus.
 
 Each finding is one query and a few lines of dplyr. See below.
@@ -124,32 +134,32 @@ for
 ## A query against the eight-framework corpus
 
 Once the combined graph is staged (see [Getting
-started](#getting-started)), one expression returns density per
+started](#getting-started)), one expression returns per-unit density per
 framework, sorted descending:
 
 ``` r
 
 rdf <- load_combined_ntriples_graph()
 
-role_framework_bindings(rdf) |>
-  count(framework_name, name = "role_count") |>
+organizing_unit_framework_bindings(rdf) |>
+  count(framework_name, name = "top_level_unit_count") |>
   left_join(
     element_framework_bindings(rdf) |>
       count(framework_name, name = "element_count"),
     by = "framework_name"
   ) |>
-  mutate(elements_per_role = round(element_count / role_count, 1)) |>
-  arrange(desc(elements_per_role))
+  mutate(elements_per_unit = round(element_count / top_level_unit_count, 1)) |>
+  arrange(desc(elements_per_unit))
 #> # A tibble: 8 × 4
-#>   framework_name                      role_count element_count elements_per_role
+#>   framework_name            top_level_unit_count element_count elements_per_unit
 #>   <chr>                                    <int>         <int>             <dbl>
-#> 1 NICE v2 (NIST SP 800-181 Rev 1 com…         41          2115              51.6
+#> 1 NICE v2 (NIST SP 800-181…                   41          2115              51.6
 #> 2 DCWF v5.1                                   74          2945              39.8
 #> 3 ECSF v1                                     12           390              32.5
-#> 4 CSTA K-12 Computer Science Standar…         25           140               5.6
+#> 4 CSTA K-12 Computer Scien…                   25           254              10.2
 #> 5 SFIA 9                                     147           830               5.6
-#> 6 CSEC2017 Curricular Guidelines v1.0          8            40               5  
-#> 7 Cyber.org K-12 Learning Standards …        116           500               4.3
+#> 6 CSEC2017 Curricular Guid…                    8            40               5  
+#> 7 Cyber.org K-12 Learning …                  116           500               4.3
 #> 8 DigComp 2.2                                  5            21               4.2
 ```
 

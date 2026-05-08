@@ -3,14 +3,26 @@
 **\[stable\]**
 
 Returns an `rdf` object containing a synthetic two-framework graph with
-the structural shape the package's helpers expect: 2 frameworks
-(US/civilian/cybersecurity-specific and EU/general/general-IT), 3 roles
-bound to those frameworks, and 5 elements distributed across them. The
-graph is small enough to execute every helper in milliseconds and is
-provided so first-time users can run
-[`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md),
-[`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
-etc. without staging upstream framework source data.
+the structural shape the package's helpers expect under the v0.2.0
+vocabulary:
+
+- **Framework A** (US, civilian, cybersecurity-specific) is
+  workforce-shaped: its 2 organizing units are typed `cybed:Role` and
+  `cybed:OrganizingUnit`, mirroring NICE / DCWF / ENISA ECSF.
+
+- **Framework B** (EU, general, general-IT) is non-workforce-shaped: its
+  1 organizing unit is typed `cybed:OrganizingUnit` only, mirroring SFIA
+  / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+
+The graph also includes 5 atomic elements (typed `cybed:RoleElement`),
+one `cybed:Subpoint` (an enumerated child of an element, reachable via
+the role's `cybed:hasElement`), and one `cybed:Example` (a pedagogical-
+scaffolding child, reachable only via the parent element's
+`cybed:hasExample` and excluded from default `cybed:hasElement`
+traversals). This is enough to exercise the cross-framework pivots
+(`cybed:OrganizingUnit`), the workforce-only pivots (`cybed:Role`), the
+Subpoint vs Example separation, and the per-framework pivots in a single
+small graph.
 
 Use this to:
 
@@ -34,7 +46,7 @@ make_demo_graph()
 
 ## Value
 
-An `rdf` object containing roughly 30 triples.
+An `rdf` object containing roughly 50 triples.
 
 ## See also
 
@@ -54,17 +66,22 @@ framework_metadata(rdf)
 #>   <chr>                                    <chr> <chr>        <chr>  <chr>      
 #> 1 https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT 
 #> 2 https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…
-role_framework_bindings(rdf)
+organizing_unit_framework_bindings(rdf)   # all three units, both frameworks
 #> # A tibble: 3 × 4
-#>   role                                        framework role_name framework_name
+#>   unit                                        framework unit_name framework_name
 #>   <chr>                                       <chr>     <chr>     <chr>         
 #> 1 https://w3id.org/cybed/ontology#role/demo-… https://… IT Gener… Demo Framewor…
 #> 2 https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…
 #> 3 https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…
-sparql_pairs(rdf, "cybed:jurisdiction")
-#> # A tibble: 2 × 2
-#>   s                                                   o    
-#>   <chr>                                               <chr>
-#> 1 https://w3id.org/cybed/ontology#framework/demo-fw-b EU   
-#> 2 https://w3id.org/cybed/ontology#framework/demo-fw-a US   
+role_framework_bindings(rdf)              # only the two workforce-shaped units
+#> # A tibble: 2 × 4
+#>   role                                        framework role_name framework_name
+#>   <chr>                                       <chr>     <chr>     <chr>         
+#> 1 https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…
+#> 2 https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…
+sparql_pairs(rdf, "cybed:hasExample")     # the parent -> example link
+#> # A tibble: 1 × 2
+#>   s                                                  o                          
+#>   <chr>                                              <chr>                      
+#> 1 https://w3id.org/cybed/ontology#element/demo-el-b1 https://w3id.org/cybed/ont…
 ```

@@ -76,6 +76,7 @@ Other JSON-LD construction:
 [`assemble_framework_document()`](https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.md),
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md),
 [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
 

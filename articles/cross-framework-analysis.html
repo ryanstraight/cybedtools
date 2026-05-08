@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,33 +121,41 @@ or “more granular” in absolute terms.</p>
 <div class="section level3">
 <h3 id="element-volume-varies-by-140x-across-the-corpus">Element volume varies by ~140x across the corpus<a class="anchor" aria-label="anchor" href="#element-volume-varies-by-140x-across-the-corpus"></a>
 </h3>
-<p>DCWF declares 2,945 elements; DigComp 2.2 declares 21.
-Per-organizing-unit density correspondingly spreads from NICE’s 51.6
-elements per work role to DigComp’s 4.2 elements per competence area, a
-12x ratio. The spread reflects each framework’s design philosophy, not
-differences in care or completeness: NICE/DCWF are granular by design as
-the basis for hiring and training pipelines; ECSF and DigComp are
-intentionally high-level as interoperability frames and citizen
-self-assessment instruments. cybedtools does not normalize across this
-asymmetry; downstream analyses that aggregate “framework coverage”
-should account for it explicitly. The sub-point parser surfaces hidden
-granularity in prose-encoded frameworks (most visibly Cyber.org K-12,
-where the parser lifts ~393 sub-points out of 123 numbered standards’
-Clarification statements).</p>
+<p>DCWF declares 2,945 elements; DigComp 2.2 declares 21. Per-unit
+density correspondingly spreads from NICE’s 51.6 elements per work role
+to DigComp’s 4.2 elements per competence area, a roughly 12x ratio when
+Cyber.org K-12 and CSTA’s Clarification-statement Examples are included.
+The spread reflects each framework’s design philosophy more than care or
+completeness: NICE/DCWF are granular by design as the basis for hiring
+and training pipelines; ECSF and DigComp are intentionally high-level as
+interoperability frames and citizen self-assessment instruments.
+cybedtools does not normalize across this asymmetry; downstream analyses
+that aggregate “framework coverage” should account for it
+explicitly.</p>
+<p>For analyses that need to compare frameworks without including
+pedagogical scaffolding, <code>framework_summary</code> carries
+<code>elements_per_organizing_unit_strict</code>, which excludes
+<code>cybed:Example</code> instances. Under the strict count Cyber.org
+K-12 drops to ~1.1 elements per cell (numbered standards only) and the
+cross-framework spread widens to ~49x; that view is structurally honest
+about each framework’s normative content but invites the misreading
+“Cyber.org K-12 specifies less content than NICE” when the more accurate
+framing is that the two frameworks organize at different denominator
+granularities (work role vs grade-band x sub-concept cell).</p>
 </div>
 <div class="section level3">
 <h3 id="the-corpus-skews-us-heavy-by-element-volume">The corpus skews US-heavy by element volume<a class="anchor" aria-label="anchor" href="#the-corpus-skews-us-heavy-by-element-volume"></a>
 </h3>
-<p>US frameworks contribute roughly 5,716 elements (NICE, DCWF,
-Cyber.org K-12, CSTA); EU frameworks contribute roughly 411 (ECSF,
-DigComp). The 14:1 ratio reflects design philosophy more than relative
-investment: ENISA designed ECSF as profile-level for national
-elaboration, and JRC designed DigComp 2.2 as a citizen self-assessment
-instrument. ECSF profiles also embed e-CF 4.0 cross-references that
-cybedtools does not currently materialize as triples; full ECSF coverage
-requires consulting those pointers separately. Researchers using element
-counts as a coverage metric should attribute the asymmetry to design
-intent, not corpus completeness.</p>
+<p>US frameworks contribute the majority of strict elements (NICE, DCWF,
+Cyber.org K-12, CSTA). EU frameworks (ECSF, DigComp) contribute under
+one-fifteenth of that volume. The asymmetry reflects design philosophy
+more than relative investment: ENISA designed ECSF as profile-level for
+national elaboration, and JRC designed DigComp 2.2 as a citizen
+self-assessment instrument. ECSF profiles also embed e-CF 4.0
+cross-references that cybedtools does not currently materialize as
+triples; full ECSF coverage requires consulting those pointers
+separately. Researchers using element counts as a coverage metric should
+attribute the asymmetry to design intent, not corpus completeness.</p>
 </div>
 <div class="section level3">
 <h3 id="encoding-strategy-varies-across-the-corpus">Encoding strategy varies across the corpus<a class="anchor" aria-label="anchor" href="#encoding-strategy-varies-across-the-corpus"></a>
@@ -156,21 +164,29 @@ intent, not corpus completeness.</p>
 numbered standards (NICE, DCWF, the body of DigComp); others encode it
 in prose (“such as” lists, “including” patterns, semicolon-delimited
 examples) inside element-text literals. Cyber.org K-12 most strongly:
-100% of its standards have a “Clarification statement:” segment with
-enumerated examples scaffolding teacher level-of-rigor expectations.
-SFIA 9 and CSTA modestly: example clauses are illustrative more than
-enumerative. The cybedtools sub-point parser lifts these prose
-enumerations to first-class graph elements (the
-<code>cybed:Subpoint</code> type), with <code>cybed:elaborates</code>
-linking each sub-point back to its parent.</p>
-<p>A caveat for interpretation: Cyber.org and CSTA’s Clarification
-statements are formally teacher-facing scaffolding, not enumerable
-sub-standards. A teacher who teaches one example has met the standard.
-The current schema types promoted sub-points as if they were
-sub-standards (a roughly 4x inflation for Cyber.org K-12), which
-materially overstates what the framework expects when the goal is to
-count required learning. Treat the inflated counts as a fine-grained
-search index, not a measure of required coverage.</p>
+every numbered standard carries a “Clarification statement:” segment
+with enumerated examples scaffolding teacher level-of-rigor
+expectations. CSTA does the same modestly, on a subset of standards.</p>
+<p>cybedtools’ sub-point parser lifts both pattern families to
+first-class graph elements but routes them to two distinct types based
+on the source framing. Framework-as-specified enumerations (“such as”,
+“including”, semicolon lists in NICE / SFIA / ECSF / CSEC2017) become
+<code>cybed:Subpoint</code> instances, retain their parent’s
+framework-native subtype, and appear in default
+<code>cybed:hasElement</code> traversals. “Clarification statement:”
+pedagogical scaffolding (Cyber.org K-12, CSTA) becomes
+<code>cybed:Example</code> instances, carries no framework-native
+subtype because the source framework treats the content as illustrative
+rather than enumerable, and is reachable only via the parent’s
+<code>cybed:hasExample</code> predicate. The two-type split keeps
+role-level “all elements” traversals restricted to
+framework-as-specified content while preserving the granular content as
+a queryable search index for analyses that need it.</p>
+<p><code>framework_summary</code> surfaces both views:
+<code>element_count_strict</code> counts parents and Subpoints only;
+<code>element_count_with_examples</code> adds the Examples. The headline
+density figures use the strict count for cross-framework parity. The
+vignette below shows both columns side by side.</p>
 </div>
 <div class="section level3">
 <h3 id="the-five-highest-element-load-nice-work-roles-concentrate-disproportionate-specification">The five highest-element-load NICE work roles concentrate
@@ -247,10 +263,19 @@ dplyr.</p>
 8 https://w3id.org/cybed/.../nice-v2      NICE v2 (NIST SP 800-181 Rev 1...) US           civilian            cybersecurity-specific</code></pre>
 </div>
 <div class="section level3">
-<h3 id="role-counts-per-framework">Role counts per framework<a class="anchor" aria-label="anchor" href="#role-counts-per-framework"></a>
+<h3 id="organizing-unit-counts-per-framework">Organizing-unit counts per framework<a class="anchor" aria-label="anchor" href="#organizing-unit-counts-per-framework"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># How many roles each framework declares, sorted high to low.</span></span>
+<code class="sourceCode R"><span><span class="co"># Cross-framework parent count: every framework's top-level enumerated</span></span>
+<span><span class="co"># unit (work role, skill, grade-band concept, level-concept bucket,</span></span>
+<span><span class="co"># Knowledge Area, competence area). The cybed:OrganizingUnit abstract</span></span>
+<span><span class="co"># reaches all eight frameworks in one query; cybed:Role is reserved for</span></span>
+<span><span class="co"># workforce frameworks (NICE / DCWF / ECSF) where the unit is genuinely a</span></span>
+<span><span class="co"># work role or work profile.</span></span>
+<span><span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"organizing_unit_count"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Workforce-only cut: NICE / DCWF / ECSF only.</span></span>
 <span><span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"role_count"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -258,24 +283,32 @@ dplyr.</p>
 <h3 id="element-volume-per-framework">Element volume per framework<a class="anchor" aria-label="anchor" href="#element-volume-per-framework"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># How many atomic elements (tasks, knowledge statements, standards, etc.)</span></span>
-<span><span class="co"># each framework declares, sorted high to low.</span></span>
+<code class="sourceCode R"><span><span class="co"># Strict count: parents and Subpoints only. The headline figure used to</span></span>
+<span><span class="co"># compare frameworks at the level of what they specify as their normative</span></span>
+<span><span class="co"># content.</span></span>
 <span><span class="fu"><a href="../reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"element_count"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu"><a href="../reference/example_framework_bindings.html">example_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>,</span>
+<span>                   by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"element"</span> <span class="op">=</span> <span class="st">"example"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"element_count_strict"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># With-examples count: parents, Subpoints, AND Cyber.org K-12 / CSTA</span></span>
+<span><span class="co"># pedagogical-scaffolding Examples. Useful for granular search-index</span></span>
+<span><span class="co"># style work; not appropriate as a coverage metric.</span></span>
+<span><span class="fu"><a href="../reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"element_count_with_examples"</span><span class="op">)</span></span></code></pre></div>
 <p>Density varies dramatically across heterogeneous denominators. DCWF
 has 2,945 elements across 74 work roles (about 40 per work role). NICE
-has 2,115 elements across 41 work roles (about 52 per work role). At the
-other end, DigComp 2.2 has 21 elements across 5 competence areas (about
-4 per area). A schema that generalizes across both extremes is doing
-real work. v0.1.1’s sub-point parser surfaces additional granularity
-hidden in prose for Cyber.org K-12 (500 leaf elements, ~4.3 per
-grade-band cluster), SFIA 9 (830 leaf elements, ~5.6 per skill), CSTA,
-ECSF, NICE, and CSEC2017. DCWF and DigComp 2.2 produce no sub-points
-because their source-text formats encode each statement atomically.</p>
+has 2,115 elements across 41 work roles (about 52 per work role). SFIA 9
+has 830 leaf elements (parent skills + parsed Subpoints) across 147
+skills (~5.6 per skill). At the other end, Cyber.org K-12 has 123 strict
+elements across 116 grade-band concepts (~1.1 strict per cluster), or
+500 with-Examples elements (~4.3 with-Examples per cluster). DigComp 2.2
+has 21 elements across 5 competence areas (~4.2 per area). A schema that
+generalizes across both extremes is doing real work.</p>
 <p>The same numbers, plotted from
 <code><a href="../reference/framework_summary.html">cybedtools::framework_summary</a></code> (no staged graph required,
-since the data object ships with the package). Hover for role and
-element counts:</p>
+since the data object ships with the package). Hover for organizing-unit
+and element counts:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span>
@@ -287,14 +320,19 @@ element counts:</p>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">fs</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    x    <span class="op">=</span> <span class="va">elements_per_role</span>,</span>
-<span>    y    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">framework_name</span>, <span class="va">elements_per_role</span><span class="op">)</span>,</span>
+<span>    x    <span class="op">=</span> <span class="va">elements_per_organizing_unit_with_examples</span>,</span>
+<span>    y    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">framework_name</span>, <span class="va">elements_per_organizing_unit_with_examples</span><span class="op">)</span>,</span>
 <span>    fill <span class="op">=</span> <span class="va">framework_type</span>,</span>
 <span>    text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
 <span>      <span class="st">"&lt;b&gt;"</span>, <span class="va">framework_name</span>, <span class="st">"&lt;/b&gt;&lt;br&gt;"</span>,</span>
-<span>      <span class="va">role_count</span>, <span class="st">" roles, "</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">element_count</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>, <span class="st">" elements&lt;br&gt;"</span>,</span>
-<span>      <span class="va">elements_per_role</span>, <span class="st">" elements per role&lt;br&gt;"</span>,</span>
+<span>      <span class="va">organizing_unit_count</span>, <span class="st">" top-level units, "</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">element_count_with_examples</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>, <span class="st">" elements"</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">example_count</span> <span class="op">&gt;</span> <span class="fl">0</span>,</span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">" (incl. "</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">example_count</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
+<span>                    <span class="st">" Clarification-statement examples)"</span><span class="op">)</span>,</span>
+<span>             <span class="st">""</span><span class="op">)</span>,</span>
+<span>      <span class="st">"&lt;br&gt;"</span>,</span>
+<span>      <span class="va">elements_per_organizing_unit_with_examples</span>, <span class="st">" elements per unit&lt;br&gt;"</span>,</span>
 <span>      <span class="va">jurisdiction</span>, <span class="st">" · "</span>, <span class="va">license</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -304,7 +342,7 @@ element counts:</p>
 <span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>workforce <span class="op">=</span> <span class="st">"#0F172A"</span>, pedagogy <span class="op">=</span> <span class="st">"#38BDF8"</span><span class="op">)</span>,</span>
 <span>    name   <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Elements per role"</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Elements per top-level unit"</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
 <span>    panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -315,21 +353,26 @@ element counts:</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html" class="external-link">ggplotly</a></span><span class="op">(</span><span class="va">p</span>, tooltip <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">config</span><span class="op">(</span>displayModeBar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="plotly html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[{"orientation":"v","width":[4.2999999999999998,5.5999999999999996,5,4.2000000000000002],"base":[1.6499999999999999,3.6499999999999999,2.6499999999999999,0.65000000000000002],"x":[2.1499999999999999,2.7999999999999998,2.5,2.1000000000000001],"y":[0.70000000000000018,0.69999999999999973,0.70000000000000018,0.70000000000000007],"text":["<b>Cyber.org K-12 v1.0<\/b><br>116 roles,   500 elements<br>4.3 elements per role<br>US · CC BY-NC 4.0","<b>CSTA K-12 CS (Rev 2017)<\/b><br>25 roles,   140 elements<br>5.6 elements per role<br>US · CC BY-NC-SA 4.0","<b>ACM/IEEE CSEC2017<\/b><br>8 roles,    40 elements<br>5 elements per role<br>global · ACM/IEEE educational-use","<b>DigComp 2.2<\/b><br>5 roles,    21 elements<br>4.2 elements per role<br>EU · EU open re-use"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(56,189,248,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"pedagogy","legendgroup":"pedagogy","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[51.600000000000001,39.799999999999997,32.5,5.5999999999999996],"base":[7.6500000000000004,6.6500000000000004,5.6500000000000004,4.6500000000000004],"x":[25.800000000000001,19.899999999999999,16.25,2.7999999999999998],"y":[0.69999999999999929,0.69999999999999929,0.69999999999999929,0.69999999999999929],"text":["<b>NICE v2<\/b><br>41 roles, 2,115 elements<br>51.6 elements per role<br>US · public domain","<b>DCWF v5.1<\/b><br>74 roles, 2,945 elements<br>39.8 elements per role<br>US · public domain","<b>ECSF v1<\/b><br>12 roles,   390 elements<br>32.5 elements per role<br>EU · CC BY 4.0","<b>SFIA 9<\/b><br>147 roles,   830 elements<br>5.6 elements per role<br>global · SFIA Use Policy"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(15,23,42,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"workforce","legendgroup":"workforce","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":23.970112079701121,"r":7.9701120797011216,"b":40.647571606475722,"l":158.60523038605237},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.5800000000000001,54.18],"tickmode":"array","ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,30,40,50],"categoryorder":"array","categoryarray":["0","10","20","30","40","50"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Elements per role","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,8.5999999999999996],"tickmode":"array","ticktext":["DigComp 2.2","Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","CSTA K-12 CS (Rev 2017)","SFIA 9","ECSF v1","DCWF v5.1","NICE v2"],"tickvals":[1,2,3,4,5,6,7,8],"categoryorder":"array","categoryarray":["DigComp 2.2","Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","CSTA K-12 CS (Rev 2017)","SFIA 9","ECSF v1","DCWF v5.1","NICE v2"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"217494c514c":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"217494c514c","visdat":{"217494c514c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[{"orientation":"v","width":[4.2999999999999998,10.199999999999999,5,4.2000000000000002],"base":[1.6499999999999999,4.6500000000000004,2.6499999999999999,0.65000000000000002],"x":[2.1499999999999999,5.0999999999999996,2.5,2.1000000000000001],"y":[0.70000000000000018,0.69999999999999929,0.70000000000000018,0.70000000000000007],"text":["<b>Cyber.org K-12 v1.0<\/b><br>116 top-level units,   500 elements (incl. 377 Clarification-statement examples)<br>4.3 elements per unit<br>US · CC BY-NC 4.0","<b>CSTA K-12 CS (Rev 2017)<\/b><br>25 top-level units,   254 elements (incl. 114 Clarification-statement examples)<br>10.2 elements per unit<br>US · CC BY-NC-SA 4.0","<b>ACM/IEEE CSEC2017<\/b><br>8 top-level units,    40 elements<br>5 elements per unit<br>global · ACM/IEEE educational-use","<b>DigComp 2.2<\/b><br>5 top-level units,    21 elements<br>4.2 elements per unit<br>EU · EU open re-use"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(56,189,248,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"pedagogy","legendgroup":"pedagogy","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[51.600000000000001,39.799999999999997,32.5,5.5999999999999996],"base":[7.6500000000000004,6.6500000000000004,5.6500000000000004,3.6499999999999999],"x":[25.800000000000001,19.899999999999999,16.25,2.7999999999999998],"y":[0.69999999999999929,0.69999999999999929,0.69999999999999929,0.69999999999999973],"text":["<b>NICE v2<\/b><br>41 top-level units, 2,115 elements<br>51.6 elements per unit<br>US · public domain","<b>DCWF v5.1<\/b><br>74 top-level units, 2,945 elements<br>39.8 elements per unit<br>US · public domain","<b>ECSF v1<\/b><br>12 top-level units,   390 elements<br>32.5 elements per unit<br>EU · ENISA re-use notice","<b>SFIA 9<\/b><br>147 top-level units,   830 elements<br>5.6 elements per unit<br>global · SFIA Use Policy"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(15,23,42,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"workforce","legendgroup":"workforce","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":23.970112079701121,"r":7.9701120797011216,"b":40.647571606475722,"l":158.60523038605237},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.5800000000000001,54.18],"tickmode":"array","ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,30,40,50],"categoryorder":"array","categoryarray":["0","10","20","30","40","50"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Elements per top-level unit","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,8.5999999999999996],"tickmode":"array","ticktext":["DigComp 2.2","Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","ECSF v1","DCWF v5.1","NICE v2"],"tickvals":[1,2,3,4,5,6,7,8],"categoryorder":"array","categoryarray":["DigComp 2.2","Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","ECSF v1","DCWF v5.1","NICE v2"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"222d5d85845b":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"222d5d85845b","visdat":{"222d5d85845b":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="largest-roles-by-element-count">Largest roles by element count<a class="anchor" aria-label="anchor" href="#largest-roles-by-element-count"></a>
+<h3 id="largest-organizing-units-by-element-count">Largest organizing units by element count<a class="anchor" aria-label="anchor" href="#largest-organizing-units-by-element-count"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Cache the two binding tibbles to avoid re-running queries when iterating.</span></span>
+<code class="sourceCode R"><span><span class="co"># Cache the binding tibbles to avoid re-running queries when iterating.</span></span>
 <span><span class="va">reb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/role_element_bindings.html">role_element_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
-<span><span class="va">rfb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
+<span><span class="va">ofb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Count elements per role, attach role name and parent framework, take the</span></span>
-<span><span class="co"># heaviest 10 across the entire eight-framework graph.</span></span>
+<span><span class="co"># Count elements per organizing unit, attach unit name and parent framework,</span></span>
+<span><span class="co"># take the heaviest 10 across the entire eight-framework graph. This is</span></span>
+<span><span class="co"># the cross-framework cut: it includes NICE / DCWF / ECSF work roles</span></span>
+<span><span class="co"># alongside SFIA skills, CSTA buckets, CSEC2017 Knowledge Areas, etc. To</span></span>
+<span><span class="co"># restrict to workforce frameworks only, swap organizing_unit_framework_bindings</span></span>
+<span><span class="co"># for role_framework_bindings.</span></span>
 <span><span class="va">reb</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">role</span>, name <span class="op">=</span> <span class="st">"element_count"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">rfb</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">role</span>, <span class="va">role_name</span>, <span class="va">framework_name</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"role"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">ofb</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">unit</span>, <span class="va">unit_name</span>, <span class="va">framework_name</span><span class="op">)</span>,</span>
+<span>            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"role"</span> <span class="op">=</span> <span class="st">"unit"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">element_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -383,23 +426,27 @@ element counts:</p>
 <h2 id="recipe-pairwise-comparison-between-two-frameworks">Recipe: pairwise comparison between two frameworks<a class="anchor" aria-label="anchor" href="#recipe-pairwise-comparison-between-two-frameworks"></a>
 </h2>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compare role density: NICE (role-first specification) vs SFIA (skill-first).</span></span>
-<span><span class="va">rfb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Compare per-unit density: NICE (role-first specification) vs SFIA</span></span>
+<span><span class="co"># (skill-first). NICE asserts cybed:Role on its work roles; SFIA asserts</span></span>
+<span><span class="co"># cybed:OrganizingUnit on its skills (skills are not roles in the</span></span>
+<span><span class="co"># workforce-framework sense). The cross-framework cut therefore queries</span></span>
+<span><span class="co"># cybed:OrganizingUnit, which reaches both.</span></span>
+<span><span class="va">ofb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
 <span><span class="va">reb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/role_element_bindings.html">role_element_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Filter to the two frameworks of interest, attach element counts to each</span></span>
-<span><span class="co"># role, then aggregate role-count and element-density statistics per</span></span>
-<span><span class="co"># framework. Useful when arguing about how differently the two structure</span></span>
-<span><span class="co"># their workforce specifications.</span></span>
-<span><span class="va">rfb</span> <span class="op">|&gt;</span></span>
+<span><span class="co"># unit, then aggregate per-framework statistics. Useful when arguing</span></span>
+<span><span class="co"># about how differently the two structure their specifications.</span></span>
+<span><span class="va">ofb</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">framework_name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NICE v2 (NIST SP 800-181 Rev 1 components)"</span>, <span class="st">"SFIA 9"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">reb</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">role</span>, name <span class="op">=</span> <span class="st">"element_count"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"role"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">reb</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">role</span>, name <span class="op">=</span> <span class="st">"element_count"</span><span class="op">)</span>,</span>
+<span>            by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unit"</span> <span class="op">=</span> <span class="st">"role"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">framework_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    role_count      <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    mean_elements   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>    median_elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>    max_elements    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    organizing_unit_count <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    mean_elements         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    median_elements       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    max_elements          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">element_count</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -411,11 +458,18 @@ primitives:</p>
 <li>
 <code>sparql_subjects(rdf, predicate, object)</code> returns
 subjects of triples whose predicate and object are both fixed (e.g.,
-<code>sparql_subjects(rdf, "a", "cybed:Role")</code>).</li>
+<code>sparql_subjects(rdf, "a", "cybed:OrganizingUnit")</code> for
+cross-framework parents,
+<code>sparql_subjects(rdf, "a", "cybed:Role")</code> for the
+workforce-only cut,
+<code>sparql_subjects(rdf, "a", "cybed:Example")</code> for
+pedagogical-scaffolding nodes).</li>
 <li>
 <code>sparql_pairs(rdf, predicate)</code> returns subject-object
 pairs for all triples with a given predicate (e.g.,
-<code>sparql_pairs(rdf, "schema:name")</code>).</li>
+<code>sparql_pairs(rdf, "schema:name")</code>,
+<code>sparql_pairs(rdf, "cybed:hasExample")</code> for the
+parent-element-to-Example links).</li>
 </ul>
 <p>Both run a single triple match, which librdf handles correctly.
 Compose multiple calls and join the results in dplyr. Do not write

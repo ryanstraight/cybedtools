@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,16 +108,21 @@ queries operate uniformly across them.</p>
 vocabulary that is cross-framework, and framework-specific vocabularies
 that subclass the base. Each tier has a distinct prefix.</p>
 <p>The base vocabulary subsumes the conceptual common ground of all
-in-scope frameworks: framework, role, role element (task, knowledge
-statement, skill statement, competence, learning standard), element
-text, source reference, and structural metadata (jurisdiction, sector,
-specificity). Per-framework vocabularies specialize these via
-subclassing, so a single SPARQL query targeting
-<code>cybed:RoleElement</code> returns elements across NICE, DCWF, e-CF,
-SFIA, and the pedagogical frameworks in one pass.</p>
+in-scope frameworks: framework, organizing unit (the framework’s
+top-level enumerated unit, whether a work role, skill, learning standard
+cluster, knowledge area, or competence area), role element (task,
+knowledge statement, skill statement, competence, learning standard),
+sub-point, example, element text, source reference, and structural
+metadata (jurisdiction, sector, specificity). Per-framework vocabularies
+specialize these via subclassing, so a single SPARQL query targeting
+<code>cybed:OrganizingUnit</code> returns parent units across all eight
+frameworks in one pass.</p>
 <p>Schema.org (<code>schema:</code>) and SKOS (<code>skos:</code>)
 provide the outermost vocabulary layer for generic properties such as
-name, description, prefLabel, and altLabel.</p>
+name, description, prefLabel, and altLabel.
+<code>cybed:OrganizingUnit</code> itself is
+<code>subClassOf skos:Concept</code> for downstream interoperability
+with the wider linked-data ecosystem.</p>
 <p>The project namespace URI is
 <code>https://w3id.org/cybed/ontology#</code> (prefix
 <code>cybed</code>). w3id.org provides stable, redirectable URIs for
@@ -149,11 +154,11 @@ queryable through the same schema. That requires a base vocabulary that
 subsumes both, which existing competency ontologies do not.</p>
 <p><strong>Comparison-layer purpose.</strong> The <code>cybed:</code>
 schema is designed specifically for cross-framework comparison: a single
-SPARQL query targeting <code>cybed:RoleElement</code> returns elements
-across every framework in one pass, regardless of whether that element
-is a NICE TaskStatement, an SFIA SkillLevel, or a CSEC2017 Essential.
-Existing ontologies are not built to subsume this heterogeneity at the
-comparison layer.</p>
+SPARQL query targeting <code>cybed:OrganizingUnit</code> returns parent
+units across every framework in one pass, regardless of whether that
+unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band
+concept, or a DigComp competence area. Existing ontologies are not built
+to subsume this heterogeneity at the comparison layer.</p>
 <p>Where existing vocabulary fits cleanly, the schema reuses it:
 Schema.org (<code>schema:</code>) for generic properties (name,
 description, version, publisher, datePublished, license) and SKOS
@@ -165,64 +170,126 @@ types where framework vocabulary requires it.</p>
 <div class="section level2">
 <h2 id="the-two-tier-shape">The two-tier shape<a class="anchor" aria-label="anchor" href="#the-two-tier-shape"></a>
 </h2>
-<p>A single Tier-1 type, <code>cybed:RoleElement</code>, is specialized
-by every framework. One SPARQL query against it returns comparable
-bindings across all eight frameworks at once.</p>
+<p>The cross-framework abstract is <code>cybed:OrganizingUnit</code>,
+which every framework’s parent type subclasses. Workforce frameworks
+where the unit is genuinely a work role or work profile additionally
+subclass <code>cybed:Role</code> (itself
+<code>subClassOf cybed:OrganizingUnit</code>); non-workforce frameworks
+subclass <code>cybed:OrganizingUnit</code> directly.</p>
 <pre class="mermaid"><code>flowchart TD
-  RE["cybed:RoleElement&lt;br&gt;Tier 1 base vocabulary"]
+  OU["cybed:OrganizingUnit&lt;br&gt;(subClassOf skos:Concept)"]
+  ROLE["cybed:Role&lt;br&gt;(workforce-only)"]
+  OU --&gt; ROLE
+  ROLE --&gt; NICE_R["nice:WorkRole"]
+  ROLE --&gt; DCWF_R["dcwf:WorkRole"]
+  ROLE --&gt; ECSF_R["ecsf:RoleProfile"]
+  OU --&gt; SFIA_S["sfia:Skill"]
+  OU --&gt; CYB_SG["cyberorg:StandardGroup"]
+  OU --&gt; CSTA_SG["csta:StandardGroup"]
+  OU --&gt; CSEC_KA["csec:KnowledgeArea"]
+  OU --&gt; DIG_CA["digcomp:CompetenceArea"]
+
+  classDef abs fill:#0F172A,stroke:#38BDF8,color:#E0F2FE,stroke-width:2px
+  classDef wfr fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  class OU abs
+  class ROLE wfr
+  class NICE_R,DCWF_R,ECSF_R,SFIA_S,CYB_SG,CSTA_SG,CSEC_KA,DIG_CA sub</code></pre>
+<p>Atomic content elements have their own parallel hierarchy under
+<code>cybed:RoleElement</code>, with two specialized child types for
+parsed sub-content (<code>cybed:Subpoint</code> for
+framework-as-specified enumerations and <code>cybed:Example</code> for
+pedagogical-scaffolding fragments).</p>
+<pre class="mermaid"><code>flowchart TD
+  RE["cybed:RoleElement"]
   RE --&gt; NICE_T["nice:TaskStatement&lt;br&gt;nice:KnowledgeStatement&lt;br&gt;nice:SkillStatement"]
-  RE --&gt; DCWF["dcwf:KSA"]
-  RE --&gt; SFIA["sfia:SkillLevel"]
-  RE --&gt; ECSF["ecsf:Skill"]
-  RE --&gt; CYBORG["cyberorg:Standard"]
-  RE --&gt; CSTA["csta:Standard"]
-  RE --&gt; CSEC["csec:Essential"]
-  RE --&gt; DIGCOMP["digcomp:Competence"]
+  RE --&gt; DCWF_E["dcwf:TaskOrKSA"]
+  RE --&gt; SFIA_SL["sfia:SkillLevel"]
+  RE --&gt; ECSF_E["ecsf:Task&lt;br&gt;ecsf:Skill&lt;br&gt;ecsf:Knowledge"]
+  RE --&gt; CYB_S["cyberorg:Standard"]
+  RE --&gt; CSTA_S["csta:Standard"]
+  RE --&gt; CSEC_E["csec:Essential"]
+  RE --&gt; DIG_C["digcomp:Competence"]
+  RE --&gt; SP["cybed:Subpoint&lt;br&gt;(parsed enumeration)"]
+  RE --&gt; EX["cybed:Example&lt;br&gt;(parsed scaffolding)"]
 
   classDef base fill:#0F172A,stroke:#38BDF8,color:#E0F2FE,stroke-width:2px
   classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  classDef parsed fill:#1E293B,stroke:#FCD34D,color:#FEF3C7
   class RE base
-  class NICE_T,DCWF,SFIA,ECSF,CYBORG,CSTA,CSEC,DIGCOMP sub</code></pre>
-<p><code>cybed:Role</code> and <code>cybed:Framework</code> follow the
-same pattern.</p>
+  class NICE_T,DCWF_E,SFIA_SL,ECSF_E,CYB_S,CSTA_S,CSEC_E,DIG_C sub
+  class SP,EX parsed</code></pre>
+<p>A single SPARQL query against <code>cybed:OrganizingUnit</code>
+returns comparable parent-level bindings across all eight frameworks at
+once. A query against <code>cybed:RoleElement</code> returns every
+atomic content node (parents, Subpoints, and Examples). A query against
+<code>cybed:Role</code> is workforce-restricted to NICE / DCWF / ENISA
+ECSF.</p>
 <div class="section level3">
 <h3 id="tier-1-base-vocabulary-cybed">Tier 1: Base vocabulary (<code>cybed:</code>)<a class="anchor" aria-label="anchor" href="#tier-1-base-vocabulary-cybed"></a>
 </h3>
-<p>Framework-agnostic terms that every framework supported here has in
-some form.</p>
+<p>Framework-agnostic terms. <code>cybed:OrganizingUnit</code> is the
+cross-framework abstract; every framework’s parent type subclasses it,
+and queries against it reach all eight frameworks.
+<code>cybed:Role</code> is reserved for workforce frameworks where the
+unit is genuinely a work role or work profile.</p>
 <ul>
 <li>
 <code>cybed:Framework</code>, top-level container for a specific
 framework.</li>
 <li>
-<code>cybed:Role</code>, named work role, role profile, skill,
-knowledge area, or grade-band concept cluster (the framework’s top-level
-organizing unit).</li>
+<code>cybed:OrganizingUnit</code>,
+<code>subClassOf skos:Concept</code>. The cross-framework abstract for
+any framework’s top-level enumerated unit (work role, role profile,
+skill, grade-band concept, level-concept bucket, Knowledge Area,
+competence area).</li>
 <li>
-<code>cybed:RoleElement</code>, a task, competence, skill, knowledge
-statement, learning standard, or similar atomic element attached to a
-role.</li>
+<code>cybed:Role</code>,
+<code>subClassOf cybed:OrganizingUnit</code>. The workforce-specific
+intermediate type. Asserted on NICE work roles, DCWF work roles, and
+ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12
+grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge
+Areas, or DigComp competence areas.</li>
 <li>
-<code>cybed:Subpoint</code>, subClassOf
-<code>cybed:RoleElement</code>. Tags graph nodes that were lifted from
-prose enumeration in a parent element’s text (e.g., a “such as” example
-list, a “Clarification statement:” segment) and promoted to first-class
-child elements at JSON-LD assembly time.</li>
+<code>cybed:RoleElement</code>, an atomic element attached to a
+parent unit (task, competence, skill statement, knowledge statement,
+learning standard, etc.).</li>
 <li>
-<code>cybed:hasElement</code>, object property from Role to
-RoleElement. Cluster-level queries return all leaf elements (parents
-plus sub-points) directly via this predicate.</li>
+<code>cybed:Subpoint</code>,
+<code>subClassOf cybed:RoleElement</code>. Tags graph nodes parsed from
+framework-as-specified enumerations within a parent’s text (“such as”
+lists, “including” patterns, semicolon-delimited examples). Subpoints
+retain their parent’s framework-native subtype and link back via
+<code>cybed:elaborates</code>. Subpoints appear in default
+<code>cybed:hasElement</code> traversals.</li>
 <li>
-<code>cybed:partOf</code>, links Role to Framework and Element to
-Framework.</li>
+<code>cybed:Example</code>,
+<code>subClassOf cybed:RoleElement</code>. Tags graph nodes parsed from
+pedagogical-scaffolding “Clarification statement:” prose (Cyber.org K-12
+and CSTA convention). Examples carry no framework-native subtype because
+the source frameworks treat them as illustrative rather than enumerable.
+Examples are reachable only via the parent element’s
+<code>cybed:hasExample</code> predicate and are excluded from default
+<code>cybed:hasElement</code> traversals.</li>
+<li>
+<code>cybed:hasElement</code>, object property from a parent unit to
+a <code>cybed:RoleElement</code>. Cluster-level queries return atomic
+elements (parents and Subpoints) but not Examples.</li>
+<li>
+<code>cybed:hasExample</code>, object property from a parent
+<code>cybed:RoleElement</code> to a <code>cybed:Example</code>. The only
+path by which Examples are reachable from above. Distinct from
+<code>cybed:hasElement</code> so role-level “all elements” queries
+remain restricted to framework-as-specified content.</li>
+<li>
+<code>cybed:partOf</code>, links a parent unit, atomic element,
+Subpoint, or Example to its <code>cybed:Framework</code>.</li>
 <li>
 <code>cybed:elaborates</code>, object property from a
 <code>cybed:Subpoint</code> to its parent
 <code>cybed:RoleElement</code>. Use this predicate to recover the
-parent-standard-vs-sub-point distinction when both appear in the same
-<code>cybed:hasElement</code> collection. Top-level standards are
-queryable as elements where <code>cybed:elaborates</code> is
-unbound.</li>
+parent-vs-Subpoint distinction when both appear in the same
+<code>cybed:hasElement</code> collection.</li>
 <li>
 <code>cybed:elementText</code>, literal text of the element.</li>
 <li>
@@ -243,62 +310,151 @@ source document.</li>
 <div class="section level3">
 <h3 id="tier-2-framework-specific-vocabularies">Tier 2: Framework-specific vocabularies<a class="anchor" aria-label="anchor" href="#tier-2-framework-specific-vocabularies"></a>
 </h3>
-<p>Each framework gets its own prefix and defines subclasses of Tier 1
-terms.</p>
-<ul>
-<li>
-<code>nice:</code>, WorkRole subclasses cybed:Role. TaskStatement,
-KnowledgeStatement, SkillStatement subclass cybed:RoleElement.</li>
-<li>
-<code>dcwf:</code>, inherits from nice: where aligned. Adds
-SpecialtyArea for DoD-specific groupings.</li>
-<li>
-<code>ecf:</code>, Competence subclasses cybed:RoleElement.
-EuropeanQualificationLevel attached.</li>
-<li>
-<code>sfia:</code>, Skill, SkillLevel, ResponsibilityLevel.</li>
-<li>
-<code>ecsf:</code>, RoleProfile, CybersecurityTaskCategory.</li>
-<li>
-<code>cyberorg:</code>, GradeBandConcept, Standard.</li>
-<li>
-<code>csta:</code>, Standard, Cluster, Concept.</li>
-<li>
-<code>csec:</code>, KnowledgeArea, Essential.</li>
-<li>
-<code>digcomp:</code>, CompetenceArea, Competence.</li>
-</ul>
+<p>Each framework has its own prefix. The per-framework parent type
+subclasses <code>cybed:OrganizingUnit</code> directly (non-workforce
+frameworks) or via <code>cybed:Role</code> (workforce frameworks).
+Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
+<table class="table">
+<colgroup>
+<col width="15%">
+<col width="25%">
+<col width="19%">
+<col width="40%">
+</colgroup>
+<thead><tr class="header">
+<th>Framework</th>
+<th>Parent type</th>
+<th>Subclass-of</th>
+<th>Atomic types</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>NICE Framework v2</td>
+<td><code>nice:WorkRole</code></td>
+<td><code>cybed:Role</code></td>
+<td>
+<code>nice:TaskStatement</code>,
+<code>nice:KnowledgeStatement</code>,
+<code>nice:SkillStatement</code>
+</td>
+</tr>
+<tr class="even">
+<td>DCWF v5.1</td>
+<td><code>dcwf:WorkRole</code></td>
+<td><code>cybed:Role</code></td>
+<td><code>dcwf:TaskOrKSA</code></td>
+</tr>
+<tr class="odd">
+<td>ENISA ECSF v1</td>
+<td><code>ecsf:RoleProfile</code></td>
+<td><code>cybed:Role</code></td>
+<td>
+<code>ecsf:Task</code>, <code>ecsf:Skill</code>,
+<code>ecsf:Knowledge</code>, <code>ecsf:Deliverable</code>
+</td>
+</tr>
+<tr class="even">
+<td>SFIA 9</td>
+<td><code>sfia:Skill</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>sfia:SkillLevel</code></td>
+</tr>
+<tr class="odd">
+<td>Cyber.org K-12</td>
+<td><code>cyberorg:StandardGroup</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>cyberorg:Standard</code></td>
+</tr>
+<tr class="even">
+<td>CSTA K-12 CS</td>
+<td><code>csta:StandardGroup</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>csta:Standard</code></td>
+</tr>
+<tr class="odd">
+<td>ACM/IEEE CSEC2017</td>
+<td><code>csec:KnowledgeArea</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>csec:Essential</code></td>
+</tr>
+<tr class="even">
+<td>DigComp 2.2</td>
+<td><code>digcomp:CompetenceArea</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>digcomp:Competence</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2">
-<h2 id="example-json-ld-document-sketch">Example JSON-LD document (sketch)<a class="anchor" aria-label="anchor" href="#example-json-ld-document-sketch"></a>
+<h2 id="example-json-ld-documents">Example JSON-LD documents<a class="anchor" aria-label="anchor" href="#example-json-ld-documents"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    <span class="dt">"schema"</span><span class="fu">:</span> <span class="st">"http://schema.org/"</span><span class="fu">,</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="dt">"skos"</span><span class="fu">:</span> <span class="st">"http://www.w3.org/2004/02/skos/core#"</span><span class="fu">,</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="dt">"cybed"</span><span class="fu">:</span> <span class="st">"https://w3id.org/cybed/ontology#"</span><span class="fu">,</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="dt">"nice"</span><span class="fu">:</span> <span class="st">"https://nice.nist.gov/framework/terms#"</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">},</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="dt">"@graph"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015"</span><span class="fu">,</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"nice:WorkRole"</span><span class="ot">,</span> <span class="st">"cybed:Role"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>      <span class="dt">"schema:name"</span><span class="fu">:</span> <span class="st">"Technology Portfolio Management"</span><span class="fu">,</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>      <span class="dt">"cybed:jurisdiction"</span><span class="fu">:</span> <span class="st">"US"</span><span class="fu">,</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>      <span class="dt">"cybed:sector"</span><span class="fu">:</span> <span class="st">"civilian"</span><span class="fu">,</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>      <span class="dt">"cybed:specificity"</span><span class="fu">:</span> <span class="st">"cybersecurity-specific"</span><span class="fu">,</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>      <span class="dt">"cybed:hasElement"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015-T01"</span> <span class="fu">}</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>      <span class="ot">]</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015-T01"</span><span class="fu">,</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"nice:TaskStatement"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"Evaluate the strategic alignment of emerging technologies..."</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>A workforce framework parent (NICE work role) carries
+<code>cybed:Role</code> and <code>cybed:OrganizingUnit</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="dt">"schema"</span><span class="fu">:</span> <span class="st">"http://schema.org/"</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="dt">"skos"</span><span class="fu">:</span> <span class="st">"http://www.w3.org/2004/02/skos/core#"</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="dt">"cybed"</span><span class="fu">:</span> <span class="st">"https://w3id.org/cybed/ontology#"</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="dt">"nice"</span><span class="fu">:</span> <span class="st">"https://nice.nist.gov/framework/terms#"</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="dt">"@graph"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015"</span><span class="fu">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"nice:WorkRole"</span><span class="ot">,</span> <span class="st">"cybed:Role"</span><span class="ot">,</span> <span class="st">"cybed:OrganizingUnit"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>      <span class="dt">"schema:name"</span><span class="fu">:</span> <span class="st">"Technology Portfolio Management"</span><span class="fu">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>      <span class="dt">"cybed:partOf"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cybed:framework/nice-v2"</span> <span class="fu">},</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>      <span class="dt">"cybed:hasElement"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015-T01"</span> <span class="fu">}</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"nice:OG-WRL-015-T01"</span><span class="fu">,</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"nice:TaskStatement"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"Evaluate the strategic alignment of emerging technologies..."</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>A non-workforce framework parent (Cyber.org K-12 grade-band concept)
+carries <code>cybed:OrganizingUnit</code> only, and its standard’s
+Clarification examples are typed <code>cybed:Example</code> linked via
+<code>cybed:hasExample</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="dt">"schema"</span><span class="fu">:</span> <span class="st">"http://schema.org/"</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="dt">"cybed"</span><span class="fu">:</span> <span class="st">"https://w3id.org/cybed/ontology#"</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="dt">"cyberorg"</span><span class="fu">:</span> <span class="st">"https://cyber.org/standards/terms#"</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="dt">"@graph"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH"</span><span class="fu">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cyberorg:StandardGroup"</span><span class="ot">,</span> <span class="st">"cybed:OrganizingUnit"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>      <span class="dt">"schema:name"</span><span class="fu">:</span> <span class="st">"K-2 / Secure Computing / Authentication"</span><span class="fu">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>      <span class="dt">"cybed:hasElement"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span> <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span><span class="fu">,</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cyberorg:Standard"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"Describe a good password. Clarification statement: ..."</span><span class="fu">,</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>      <span class="dt">"cybed:hasExample"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.2"</span> <span class="fu">}</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span><span class="fu">,</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cybed:Example"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"not using common words as passwords"</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The Example node deliberately carries no
+<code>cyberorg:Standard</code> typing and is not in any organizing
+unit’s <code>cybed:hasElement</code>. It is reachable only via the
+parent standard’s <code>cybed:hasExample</code>, matching the
+framework’s own treatment of Clarification examples as teacher-facing
+scaffolding rather than enumerable sub-standards.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

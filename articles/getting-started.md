@@ -14,15 +14,22 @@ repository and run the full pipeline against staged framework sources.
 Three semantic abstractions carry the work:
 
 - **`cybed:Framework`**: a competency or learning framework.
-- **`cybed:Role`**: the framework’s top-level organizing unit (work
-  role, role profile, skill, grade-band concept cluster, knowledge
-  area).
-- **`cybed:RoleElement`**: the codable atomic statement attached to a
-  Role (task, knowledge statement, skill statement, standard, learning
-  outcome).
+- **`cybed:OrganizingUnit`**: the framework’s top-level enumerated unit
+  (work role, work profile, skill, grade-band concept, level-concept
+  bucket, Knowledge Area, competence area). The cross-framework
+  abstract; queries against it reach all eight frameworks. Workforce
+  frameworks where the unit is genuinely a work role or profile (NICE /
+  DCWF / ENISA ECSF) additionally subclass `cybed:Role`.
+- **`cybed:RoleElement`**: the codable atomic statement attached to an
+  organizing unit (task, knowledge statement, skill statement, learning
+  standard). Two specialized subtypes for parsed sub-content:
+  `cybed:Subpoint` for framework-as-specified enumerations, and
+  `cybed:Example` for pedagogical-scaffolding fragments lifted from
+  “Clarification statement:” prose.
 
-A single SPARQL query targeting `cybed:RoleElement` returns elements
-across every framework in one pass.
+A single SPARQL query targeting `cybed:RoleElement` returns atomic
+elements across every framework in one pass; targeting
+`cybed:OrganizingUnit` returns parents.
 
 ## Installation
 
@@ -148,13 +155,23 @@ Rscript scripts/040-run-sparql.R
 
 Each analysis writes one CSV to `data/processed/query-results/`:
 
-- `q10-roles-per-framework.csv`, role count per framework.
-- `q11-elements-per-framework.csv`, element count per framework.
+- `q10-organizing-units-per-framework.csv`, cross-framework parent count
+  (all eight frameworks via `cybed:OrganizingUnit`).
+- `q10b-roles-per-framework.csv`, workforce-restricted parent count
+  (NICE / DCWF / ECSF via `cybed:Role`).
+- `q11-elements-per-framework-strict.csv`, strict element count per
+  framework (parents + Subpoints, Examples excluded).
+- `q11b-elements-per-framework-with-examples.csv`, inclusive element
+  count per framework (parents + Subpoints + Examples).
 - `q12-framework-metadata.csv`, jurisdiction, sector, specificity per
   framework.
-- `q13-elements-by-jurisdiction.csv`, element count per jurisdiction.
-- `q14-elements-by-sector.csv`, element count per sector.
-- `q15-largest-roles.csv`, top 20 roles by element count.
+- `q13-elements-by-jurisdiction-strict.csv`, strict element count per
+  jurisdiction.
+- `q14-elements-by-sector-strict.csv`, strict element count per sector.
+- `q15-largest-organizing-units.csv`, top 20 organizing units by element
+  count (cross-framework).
+- `q16-examples-per-framework.csv`, per-framework count of
+  `cybed:Example` nodes (Cyber.org K-12 + CSTA scaffolding).
 
 A `_run-summary.csv` records row counts and timings.
 
@@ -191,14 +208,17 @@ framework_metadata(rdf) |>
 
 ``` r
 
-# Count how many roles each framework declares.
-role_framework_bindings(rdf) |>
-  count(framework_name, name = "role_count")
+# Count how many top-level organizing units each framework declares.
+# organizing_unit_framework_bindings reaches all eight frameworks via the
+# cross-framework cybed:OrganizingUnit type. role_framework_bindings
+# would restrict to workforce frameworks (NICE / DCWF / ECSF) only.
+organizing_unit_framework_bindings(rdf) |>
+  count(framework_name, name = "organizing_unit_count")
 #> # A tibble: 2 × 2
-#>   framework_name   role_count
-#>   <chr>                 <int>
-#> 1 Demo Framework A          2
-#> 2 Demo Framework B          1
+#>   framework_name   organizing_unit_count
+#>   <chr>                            <int>
+#> 1 Demo Framework A                     2
+#> 2 Demo Framework B                     1
 ```
 
 This is enough to verify your `librdf` system library is functional and

@@ -1,12 +1,15 @@
-# Construct a `cybed:Role` node
+# Construct a `cybed:Role` node (workforce frameworks)
 
 **\[stable\]**
 
-A "role" in the cybed sense is the top-level organizing unit the
-framework uses. For role-first frameworks (NICE, DCWF, ECSF) it is a
-work role or role profile. For competence-first frameworks (e-CF) it is
-a competence-at- proficiency-level. For skill-first frameworks (SFIA) it
-is a skill-at- responsibility-level.
+Convenience wrapper around
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md)
+for workforce frameworks (NICE, DCWF, ENISA ECSF). Asserts `cybed:Role`
+in addition to `cybed:OrganizingUnit` and the per-framework subtype. For
+non-workforce frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp
+2.2), call
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md)
+directly with `is_role = FALSE`.
 
 ## Usage
 
@@ -40,7 +43,7 @@ build_role_node(
 - framework_role_type:
 
   Character, specific subclass name within the framework vocabulary
-  (e.g., `"WorkRole"`, `"RoleProfile"`, `"Competence"`).
+  (e.g., `"WorkRole"`, `"RoleProfile"`).
 
 - description:
 
@@ -71,6 +74,7 @@ Other JSON-LD construction:
 [`build_framework_node()`](https://ryanstraight.github.io/cybedtools/reference/build_framework_node.md),
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md)
 
 ## Examples
@@ -85,10 +89,7 @@ role <- build_role_node(
   element_ids          = c("T0001", "K0001"),
   framework_id         = "nice-v2"
 )
-role[["@id"]]
-#> nice:OG-WRL-015
-role[["cybed:partOf"]]
-#> $`@id`
-#> cybed:framework/nice-v2
-#> 
+role[["@type"]]
+#> [1] "nice:WorkRole"        "cybed:Role"           "cybed:OrganizingUnit"
+# c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")
 ```

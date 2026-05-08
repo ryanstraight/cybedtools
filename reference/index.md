@@ -20,10 +20,15 @@ schema.
 
   Construct a `cybed:Framework` top-level node
 
+- [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md)
+  **\[stable\]** :
+
+  Construct a `cybed:OrganizingUnit` node
+
 - [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
   **\[stable\]** :
 
-  Construct a `cybed:Role` node
+  Construct a `cybed:Role` node (workforce frameworks)
 
 - [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md)
   **\[stable\]** :
@@ -35,12 +40,15 @@ schema.
 
   Assemble a framework-level `@graph` document
 
-## Sub-point parsing
+## Sub-point and example parsing
 
-Lift prose-encoded enumerations (“such as” lists, “Clarification
-statement:” segments) out of parent element text and promote each
-sub-point to a first-class graph element typed cybed:Subpoint, with
-cybed:elaborates linking back to the parent. See vignette
+Lift prose-encoded enumerations and pedagogical-scaffolding content out
+of parent element text and promote each fragment to a first-class graph
+element. Framework-as-specified enumerations (“such as” lists,
+“including” patterns) become cybed:Subpoint instances with
+cybed:elaborates back-pointers. “Clarification statement:” pedagogical
+scaffolding becomes cybed:Example instances reachable only via the
+parent’s cybed:hasExample predicate. See vignette
 cross-framework-analysis for the encoding-strategy finding this enables.
 
 - [`parse_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.md)
@@ -51,11 +59,17 @@ cross-framework-analysis for the encoding-strategy finding this enables.
 
   Construct a `cybed:Subpoint` node
 
+- [`build_example_node()`](https://ryanstraight.github.io/cybedtools/reference/build_example_node.md)
+  **\[stable\]** :
+
+  Construct a `cybed:Example` node
+
 - [`expand_with_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/expand_with_subpoints.md)
-  **\[stable\]** : Expand parent element nodes with subpoint child nodes
+  **\[stable\]** : Expand parent element nodes with sub-point and
+  example child nodes
 
 - [`extend_role_element_ids()`](https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.md)
-  **\[stable\]** : Append subpoint IDs to a role's child-element id list
+  **\[stable\]** : Append Subpoint IDs to a role's child-element id list
 
 ## File I/O
 
@@ -98,11 +112,17 @@ cross-framework-analysis for worked examples.
   and object
 - [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md)
   **\[stable\]** : Domain helper: tibble of framework metadata
+- [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
+  **\[stable\]** : Domain helper: organizing-unit-to-framework bindings
+  with framework name attached
 - [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
   **\[stable\]** : Domain helper: role-to-framework bindings with
   framework name attached
 - [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md)
   **\[stable\]** : Domain helper: element-to-framework bindings with
+  framework name attached
+- [`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md)
+  **\[stable\]** : Domain helper: example-to-framework bindings with
   framework name attached
 - [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
   **\[stable\]** : Domain helper: role-to-element bindings

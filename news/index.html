@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,19 +59,121 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="cybedtools-020">cybedtools 0.2.0<a class="anchor" aria-label="anchor" href="#cybedtools-020"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<p>This release introduces a structural redesign of the <code>cybed:</code> vocabulary to address two defects v0.1.1 documented but did not fix: <code>cybed:Role</code> was misapplied to non-workforce frameworks (SFIA enumerates skills, not roles; CSTA, Cyber.org K-12, CSEC2017, and DigComp 2.2 enumerate other organizing units), and <code>cybed:Subpoint</code> overstated what the source frameworks specify when it promoted Cyber.org K-12 and CSTA “Clarification statement:” pedagogical scaffolding to first-class sub-standards. Both fixes require breaking changes to the data model.</p>
+<div class="section level4">
+<h4 id="new-abstract-type-cybedorganizingunit-0-2-0">New abstract type: <code>cybed:OrganizingUnit</code>
+<a class="anchor" aria-label="anchor" href="#new-abstract-type-cybedorganizingunit-0-2-0"></a></h4>
+<p><code>cybed:OrganizingUnit</code> (<code>subClassOf skos:Concept</code>) is the cross-framework abstract that every framework’s top-level enumerated unit asserts. Cross-framework SPARQL queries should target this type rather than <code>cybed:Role</code>. Adding a new framework in a future release introduces a new per-framework subtype but does not change existing cross-framework queries.</p>
+</div>
+<div class="section level4">
+<h4 id="cybedrole-is-now-workforce-restricted-0-2-0">
+<code>cybed:Role</code> is now workforce-restricted<a class="anchor" aria-label="anchor" href="#cybedrole-is-now-workforce-restricted-0-2-0"></a></h4>
+<p><code>cybed:Role</code> is retained as <code>subClassOf cybed:OrganizingUnit</code> but is asserted only on the three workforce frameworks where the unit is genuinely a work role or work profile: NICE work roles, DCWF work roles, and ENISA ECSF profiles. SFIA skills, Cyber.org K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, and DigComp competence areas no longer assert <code>cybed:Role</code>. Queries that filter on <code>?x a cybed:Role</code> will return only workforce-framework parents under v0.2.0; for the cross-framework cut, switch to <code>cybed:OrganizingUnit</code>.</p>
+<p>Migration snippet:</p>
+<pre class="sparql"><code># v0.1.x cross-framework parent query (returned all 8 frameworks
+# because all parents asserted cybed:Role):
+SELECT ?p WHERE { ?p a cybed:Role }
+
+# v0.2.0 equivalent (the same eight-framework cut, via the abstract):
+SELECT ?p WHERE { ?p a cybed:OrganizingUnit }</code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># v0.1.x R helper (returned all 8 frameworks):</span></span>
+<span><span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># v0.2.0 equivalent (cross-framework cut):</span></span>
+<span><span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># v0.2.0 workforce-only cut (returns NICE / DCWF / ECSF only):</span></span>
+<span><span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="new-atomic-type-cybedexample-with-cybedhasexample-predicate-0-2-0">New atomic type: <code>cybed:Example</code> (with <code>cybed:hasExample</code> predicate)<a class="anchor" aria-label="anchor" href="#new-atomic-type-cybedexample-with-cybedhasexample-predicate-0-2-0"></a></h4>
+<p><code>cybed:Example</code> (<code>subClassOf cybed:RoleElement</code>) is a new sibling of <code>cybed:Subpoint</code> for content lifted from “Clarification statement:” pedagogical scaffolding (Cyber.org K-12 and CSTA convention). Examples differ from Subpoints in three ways:</p>
+<ol style="list-style-type: decimal"><li>Examples carry no framework-native subtype. A Cyber.org K-12 Example is typed <code>cybed:Example</code> and <code>cybed:RoleElement</code> only; it is not also typed <code>cyberorg:Standard</code>. Queries that filter on the per-framework subtype no longer pick up Examples by accident.</li>
+<li>Examples are reachable only via the parent element’s <code>cybed:hasExample</code> predicate. They are excluded from default <code>cybed:hasElement</code> traversals, so role-level “all elements” queries remain restricted to framework-as-specified content.</li>
+<li>Examples do not carry <code>cybed:elaborates</code> back-pointers. The parent owns the Example via <code>cybed:hasExample</code>; the Example does not carry the converse link.</li>
+</ol><p>Two source-data shapes route to <code>cybed:Example</code>. (1) Cyber.org K-12 stores Clarification statements inline in the standard text under a “Clarification statement:” header; the v0.1.1 parser extracted these as <code>cybed:Subpoint</code>, and v0.2.0 reroutes them to <code>cybed:Example</code>. (2) CSTA K-12 CS stores its clarifications in a separate <code>clarification</code> column rather than inline; v0.1.x did not extract this column at all, and v0.2.0 reads it directly to emit one <code>cybed:Example</code> per non-empty clarification (114 new graph nodes).</p>
+<p>SFIA, NICE, ECSF, and CSEC2017 enumerations (from “such as”, “including”, and semicolon-list patterns rather than Clarification scaffolding) remain typed <code>cybed:Subpoint</code>.</p>
+<p>Migration snippet:</p>
+<pre class="sparql"><code># v0.1.x: a Cyber.org K-12 sub-point was typed as a sub-standard:
+SELECT ?s WHERE { ?s a cyberorg:Standard }   # picked up Clarification fragments
+SELECT ?s WHERE { ?s a cybed:Subpoint }      # picked up Clarification fragments
+
+# v0.2.0: the same fragments are typed cybed:Example instead.
+SELECT ?s WHERE { ?s a cybed:Example }       # all Cyber.org + CSTA Clarifications</code></pre>
+</div>
+<div class="section level4">
+<h4 id="per-framework-subtype-renames-0-2-0">Per-framework subtype renames<a class="anchor" aria-label="anchor" href="#per-framework-subtype-renames-0-2-0"></a></h4>
+<p>Two cluster-type names were renamed because v0.1.x’s <code>StandardCluster</code> suffix did not match the framework’s own structural axes. Cyber.org K-12 and CSTA both organize their numbered standards by cells in multi-dimensional axes (grade band x sub-concept for Cyber.org K-12; level x concept for CSTA), but neither framework names the cell itself in published documentation. cybedtools therefore uses the descriptive <code>StandardGroup</code> label rather than coining a pedagogy term the source frameworks did not originate:</p>
+<table class="table"><colgroup><col width="23%"><col width="37%"><col width="38%"></colgroup><thead><tr><th>Framework</th>
+<th>v0.1.x type</th>
+<th>v0.2.0 type</th>
+</tr></thead><tbody><tr><td>Cyber.org K-12</td>
+<td><code>cyberorg:StandardCluster</code></td>
+<td><code>cyberorg:StandardGroup</code></td>
+</tr><tr><td>CSTA K-12 CS</td>
+<td><code>csta:StandardCluster</code></td>
+<td><code>csta:StandardGroup</code></td>
+</tr></tbody></table><p>SFIA’s <code>sfia:Skill</code>, CSEC2017’s <code>csec:KnowledgeArea</code>, and DigComp’s <code>digcomp:CompetenceArea</code> retain their existing names but no longer subclass <code>cybed:Role</code>; they now subclass <code>cybed:OrganizingUnit</code> directly. NICE / DCWF / ECSF parent subtypes are unchanged.</p>
+</div>
+<div class="section level4">
+<h4 id="framework_summary-column-changes-0-2-0">
+<code>framework_summary</code> column changes<a class="anchor" aria-label="anchor" href="#framework_summary-column-changes-0-2-0"></a></h4>
+<p>The shipped <code>framework_summary</code> tibble has new column names that match v0.2.0 semantics. Two element-count columns are surfaced so analyses can choose the strict count (parents + Subpoints) or the inclusive count (parents + Subpoints + Examples).</p>
+<table class="table"><colgroup><col width="36%"><col width="63%"></colgroup><thead><tr><th>v0.1.x column</th>
+<th>v0.2.0 column</th>
+</tr></thead><tbody><tr><td><code>role_count</code></td>
+<td><code>organizing_unit_count</code></td>
+</tr><tr><td><code>element_count</code></td>
+<td>
+<code>element_count_strict</code>, <code>element_count_with_examples</code>, <code>example_count</code>
+</td>
+</tr><tr><td><code>elements_per_role</code></td>
+<td>
+<code>elements_per_organizing_unit_strict</code>, <code>elements_per_organizing_unit_with_examples</code>
+</td>
+</tr></tbody></table><p>The README headline density figure now uses <code>elements_per_organizing_unit_strict</code>. The cross-framework-analysis vignette shows both the strict and with-examples columns and discusses the encoding heterogeneity that drives the difference.</p>
+</div>
+<div class="section level4">
+<h4 id="new-exported-helpers-0-2-0">New exported helpers<a class="anchor" aria-label="anchor" href="#new-exported-helpers-0-2-0"></a></h4>
+<ul><li>
+<code><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node()</a></code> — generic constructor for any framework’s parent unit. Pass <code>is_role = TRUE</code> for workforce frameworks. <code><a href="../reference/build_role_node.html">build_role_node()</a></code> is retained as a thin wrapper.</li>
+<li>
+<code><a href="../reference/build_example_node.html">build_example_node()</a></code> — constructor for pedagogical-scaffolding nodes parallel to <code><a href="../reference/build_subpoint_node.html">build_subpoint_node()</a></code>.</li>
+<li>
+<code><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code> — cross-framework parent-to- framework bindings. Returns all eight frameworks’ parents.</li>
+<li>
+<code><a href="../reference/example_framework_bindings.html">example_framework_bindings()</a></code> — <code>cybed:Example</code> subset of <code><a href="../reference/element_framework_bindings.html">element_framework_bindings()</a></code>. Returns only the Cyber.org K-12 and CSTA Clarification scaffolding.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="parser-output-schema-0-2-0">Parser output schema<a class="anchor" aria-label="anchor" href="#parser-output-schema-0-2-0"></a></h4>
+<p><code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code> returns a third column, <code>node_type</code>, with values <code>"Subpoint"</code> (framework-as-specified enumeration) or <code>"Example"</code> (Clarification-statement scaffolding). The same parser handles both patterns; the routing happens via the <code>node_type</code> tag.</p>
+<p><code><a href="../reference/expand_with_subpoints.html">expand_with_subpoints()</a></code> returns the result list with the index field renamed <code>subpoint_index</code> → <code>subnode_index</code>, and the index columns renamed <code>subpoint_id</code> → <code>subnode_id</code> plus the new <code>node_type</code> column.</p>
+<p><code><a href="../reference/extend_role_element_ids.html">extend_role_element_ids()</a></code> now filters to <code>node_type == "Subpoint"</code> when back-filling a role’s <code>cybed:hasElement</code> collection. Examples are deliberately excluded from this collection so role-level “all elements” queries remain restricted to framework-as-specified content.</p>
+</div>
+<div class="section level4">
+<h4 id="resolved-from-v011s-known-limitations-0-2-0">Resolved from v0.1.1’s “known limitations”<a class="anchor" aria-label="anchor" href="#resolved-from-v011s-known-limitations-0-2-0"></a></h4>
+<p>Both items the v0.1.1 NEWS flagged as known limitations carrying into v0.1.2 are addressed in this release: the <code>cybed:Role</code> abstraction is no longer applied to non-workforce frameworks, and the Cyber.org K-12 / CSTA Clarification fragments no longer carry <code>cybed:Subpoint</code> typing or framework-native subtypes. The version label moved from v0.1.2 to v0.2.0 because the changes are breaking and semver requires minor bumps for breaking changes in the 0.x range.</p>
+</div>
+</div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="cybedtools-011">cybedtools 0.1.1<a class="anchor" aria-label="anchor" href="#cybedtools-011"></a></h2>
 <ul><li>
 <p><strong>Hidden granularity fix.</strong> A 2026-05-08 audit of all eight frameworks found that several encode pedagogical or specification detail in prose (“Clarification statement:” segments, “such as” example lists, semicolon- delimited enumerations) inside <code>cybed:elementText</code> literals rather than as discrete numbered standards. The naive element count under-represented the actual content density of those frameworks.</p>
 <p>v0.1.1 adds a uniform sub-point parser (<code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code>) that runs against every framework’s elementText literals at JSON-LD assembly time and promotes each parsed sub-point to a first-class child element node. Frameworks where the parser finds no sub-points (NICE, DCWF, DigComp 2.2) are unchanged. Affected frameworks gain sub-point children:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>Framework               <span class="sc">|</span> v0.<span class="fl">1.0</span> <span class="sc">|</span> v0.<span class="fl">1.1</span> <span class="sc">|</span> Inflation</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>NICE v2                 <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">111</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">115</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>DCWF v5<span class="fl">.1</span>               <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>ECSF v1                 <span class="sc">|</span>    <span class="dv">374</span> <span class="sc">|</span>    <span class="dv">390</span> <span class="sc">|</span>  <span class="fl">1.04</span>x</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>SFIA <span class="dv">9</span>                  <span class="sc">|</span>    <span class="dv">672</span> <span class="sc">|</span>    <span class="dv">830</span> <span class="sc">|</span>  <span class="fl">1.24</span>x</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>Cyber.org K<span class="dv">-12</span> v1<span class="fl">.0</span>     <span class="sc">|</span>    <span class="dv">123</span> <span class="sc">|</span>    <span class="dv">500</span> <span class="sc">|</span>  <span class="fl">4.07</span>x</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>CSTA K<span class="dv">-12</span> <span class="fu">CS</span> (Rev <span class="dv">2017</span>) <span class="sc">|</span>    <span class="dv">120</span> <span class="sc">|</span>    <span class="dv">140</span> <span class="sc">|</span>  <span class="fl">1.17</span>x</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>ACM<span class="sc">/</span>IEEE CSEC2017       <span class="sc">|</span>     <span class="dv">38</span> <span class="sc">|</span>     <span class="dv">40</span> <span class="sc">|</span>  <span class="fl">1.05</span>x</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>DigComp <span class="fl">2.2</span>             <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>Framework               <span class="sc">|</span> v0.<span class="fl">1.0</span> <span class="sc">|</span> v0.<span class="fl">1.1</span> <span class="sc">|</span> Inflation</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>NICE v2                 <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">111</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">115</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>DCWF v5<span class="fl">.1</span>               <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="dv">2</span>,<span class="dv">945</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>ECSF v1                 <span class="sc">|</span>    <span class="dv">374</span> <span class="sc">|</span>    <span class="dv">390</span> <span class="sc">|</span>  <span class="fl">1.04</span>x</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>SFIA <span class="dv">9</span>                  <span class="sc">|</span>    <span class="dv">672</span> <span class="sc">|</span>    <span class="dv">830</span> <span class="sc">|</span>  <span class="fl">1.24</span>x</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>Cyber.org K<span class="dv">-12</span> v1<span class="fl">.0</span>     <span class="sc">|</span>    <span class="dv">123</span> <span class="sc">|</span>    <span class="dv">500</span> <span class="sc">|</span>  <span class="fl">4.07</span>x</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>CSTA K<span class="dv">-12</span> <span class="fu">CS</span> (Rev <span class="dv">2017</span>) <span class="sc">|</span>    <span class="dv">120</span> <span class="sc">|</span>    <span class="dv">140</span> <span class="sc">|</span>  <span class="fl">1.17</span>x</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>ACM<span class="sc">/</span>IEEE CSEC2017       <span class="sc">|</span>     <span class="dv">38</span> <span class="sc">|</span>     <span class="dv">40</span> <span class="sc">|</span>  <span class="fl">1.05</span>x</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>DigComp <span class="fl">2.2</span>             <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>     <span class="dv">21</span> <span class="sc">|</span>  <span class="fl">1.00</span>x</span></code></pre></div>
 <p>Cross-framework per-organizing-unit density recomputes from ~50x in v0.1.0 to ~12x in v0.1.1. The framing also shifts: the eight frameworks specify at incommensurable units of analysis (work role, skill level, competence, standard, Knowledge Area, competence area) and reflect different design philosophies. The cybedtools comparison layer makes them queryable in one graph but does not erase those structural distinctions. Density figures are comparison aids, not quality claims.</p>
 </li>
 <li><p><strong>Parser robustness.</strong> The first iteration of <code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code> over- extracted on multi-sentence elementText (notably SFIA’s responsibility prose) by greedily consuming past sentence boundaries. Two refinements landed: a sentence-boundary stop (period + whitespace + uppercase) and a pure-connective filter (drops “and”/“or”/“the” artifacts from source- truncated lists). Re-spot-check brought SFIA from ~30% false-positive rate to 0/10 sampled, and CSEC2017 from ~33% to 0/2. All eight frameworks run with the parser enabled at release.</p></li>

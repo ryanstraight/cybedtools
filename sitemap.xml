@@ -17,14 +17,17 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/news/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/build_example_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_framework_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_role_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/cybedtools-package.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/expand_with_subpoints.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_metadata.html</loc></url>
@@ -35,6 +38,7 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_single_framework_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_unified_rdf_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/read_jsonld_document.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.html</loc></url>
