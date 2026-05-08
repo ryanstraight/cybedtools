@@ -28,7 +28,7 @@ cross-framework queries.
 asserted only on the three workforce frameworks where the unit is
 genuinely a work role or work profile: NICE work roles, DCWF work roles,
 and ENISA ECSF profiles. SFIA skills, Cyber.org K-12 grade-band
-concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, and
+concepts, CSTA level x concept cells, CSEC2017 Knowledge Areas, and
 DigComp competence areas no longer assert `cybed:Role`. Queries that
 filter on `?x a cybed:Role` will return only workforce-framework parents
 under v0.2.0; for the cross-framework cut, switch to

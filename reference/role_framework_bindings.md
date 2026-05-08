@@ -6,9 +6,9 @@ One row per (role, framework) pair where the role is typed `cybed:Role`
 and its `partOf` target is typed `cybed:Framework`. As of v0.2.0,
 `cybed:Role` is reserved for workforce frameworks (NICE work roles, DCWF
 work roles, ENISA ECSF profiles); SFIA skills, Cyber.org K-12 grade-band
-concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, and
-DigComp competence areas are not roles and are not returned by this
-helper. Use
+x sub-concept cells, CSTA level x concept cells, CSEC2017 Knowledge
+Areas, and DigComp competence areas are not roles and are not returned
+by this helper. Use
 [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
 for the cross-framework "top-level enumerated unit" cut that includes
 all eight frameworks.

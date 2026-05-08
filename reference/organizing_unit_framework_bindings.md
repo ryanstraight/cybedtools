@@ -5,9 +5,9 @@
 One row per (organizing unit, framework) pair across all eight
 frameworks. Queries on the cross-framework abstract type
 `cybed:OrganizingUnit`, which every framework's top-level enumerated
-unit asserts (work roles, work profiles, skills, grade-band concepts,
-level-concept buckets, Knowledge Areas, competence areas). Use this
-helper for cross-framework parent-level analysis. Use
+unit asserts (work roles, work profiles, skills, grade-band x
+sub-concept cells, level x concept cells, Knowledge Areas, competence
+areas). Use this helper for cross-framework parent-level analysis. Use
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
 when the question is workforce-specific (NICE work roles, DCWF work
 roles, ENISA ECSF profiles only).

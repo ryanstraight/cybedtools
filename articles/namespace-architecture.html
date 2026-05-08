@@ -156,9 +156,9 @@ subsumes both, which existing competency ontologies do not.</p>
 schema is designed specifically for cross-framework comparison: a single
 SPARQL query targeting <code>cybed:OrganizingUnit</code> returns parent
 units across every framework in one pass, regardless of whether that
-unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band
-concept, or a DigComp competence area. Existing ontologies are not built
-to subsume this heterogeneity at the comparison layer.</p>
+unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band x
+sub-concept cell, or a DigComp competence area. Existing ontologies are
+not built to subsume this heterogeneity at the comparison layer.</p>
 <p>Where existing vocabulary fits cleanly, the schema reuses it:
 Schema.org (<code>schema:</code>) for generic properties (name,
 description, version, publisher, datePublished, license) and SKOS
@@ -241,15 +241,15 @@ framework.</li>
 <code>cybed:OrganizingUnit</code>,
 <code>subClassOf skos:Concept</code>. The cross-framework abstract for
 any framework’s top-level enumerated unit (work role, role profile,
-skill, grade-band concept, level-concept bucket, Knowledge Area,
-competence area).</li>
+skill, grade-band x sub-concept cell, level x concept cell, Knowledge
+Area, competence area).</li>
 <li>
 <code>cybed:Role</code>,
 <code>subClassOf cybed:OrganizingUnit</code>. The workforce-specific
 intermediate type. Asserted on NICE work roles, DCWF work roles, and
 ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12
-grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge
-Areas, or DigComp competence areas.</li>
+grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
+Knowledge Areas, or DigComp competence areas.</li>
 <li>
 <code>cybed:RoleElement</code>, an atomic element attached to a
 parent unit (task, competence, skill statement, knowledge statement,
@@ -416,10 +416,10 @@ Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>  <span class="ot">]</span></span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<p>A non-workforce framework parent (Cyber.org K-12 grade-band concept)
-carries <code>cybed:OrganizingUnit</code> only, and its standard’s
-Clarification examples are typed <code>cybed:Example</code> linked via
-<code>cybed:hasExample</code>:</p>
+<p>A non-workforce framework parent (Cyber.org K-12 grade-band x
+sub-concept cell) carries <code>cybed:OrganizingUnit</code> only, and
+its standard’s Clarification examples are typed
+<code>cybed:Example</code> linked via <code>cybed:hasExample</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="dt">"schema"</span><span class="fu">:</span> <span class="st">"http://schema.org/"</span><span class="fu">,</span></span>

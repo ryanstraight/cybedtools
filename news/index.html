@@ -71,7 +71,7 @@
 <div class="section level4">
 <h4 id="cybedrole-is-now-workforce-restricted-0-2-0">
 <code>cybed:Role</code> is now workforce-restricted<a class="anchor" aria-label="anchor" href="#cybedrole-is-now-workforce-restricted-0-2-0"></a></h4>
-<p><code>cybed:Role</code> is retained as <code>subClassOf cybed:OrganizingUnit</code> but is asserted only on the three workforce frameworks where the unit is genuinely a work role or work profile: NICE work roles, DCWF work roles, and ENISA ECSF profiles. SFIA skills, Cyber.org K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, and DigComp competence areas no longer assert <code>cybed:Role</code>. Queries that filter on <code>?x a cybed:Role</code> will return only workforce-framework parents under v0.2.0; for the cross-framework cut, switch to <code>cybed:OrganizingUnit</code>.</p>
+<p><code>cybed:Role</code> is retained as <code>subClassOf cybed:OrganizingUnit</code> but is asserted only on the three workforce frameworks where the unit is genuinely a work role or work profile: NICE work roles, DCWF work roles, and ENISA ECSF profiles. SFIA skills, Cyber.org K-12 grade-band concepts, CSTA level x concept cells, CSEC2017 Knowledge Areas, and DigComp competence areas no longer assert <code>cybed:Role</code>. Queries that filter on <code>?x a cybed:Role</code> will return only workforce-framework parents under v0.2.0; for the cross-framework cut, switch to <code>cybed:OrganizingUnit</code>.</p>
 <p>Migration snippet:</p>
 <pre class="sparql"><code># v0.1.x cross-framework parent query (returned all 8 frameworks
 # because all parents asserted cybed:Role):

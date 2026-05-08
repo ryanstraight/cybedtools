@@ -169,7 +169,7 @@ Expected output (8 frameworks):
 ``` r
 
 # Cross-framework parent count: every framework's top-level enumerated
-# unit (work role, skill, grade-band concept, level-concept bucket,
+# unit (work role, skill, grade-band x sub-concept cell, level x concept cell,
 # Knowledge Area, competence area). The cybed:OrganizingUnit abstract
 # reaches all eight frameworks in one query; cybed:Role is reserved for
 # workforce frameworks (NICE / DCWF / ECSF) where the unit is genuinely a
@@ -206,10 +206,10 @@ Density varies dramatically across heterogeneous denominators. DCWF has
 2,115 elements across 41 work roles (about 52 per work role). SFIA 9 has
 830 leaf elements (parent skills + parsed Subpoints) across 147 skills
 (~5.6 per skill). At the other end, Cyber.org K-12 has 123 strict
-elements across 116 grade-band concepts (~1.1 strict per cluster), or
-500 with-Examples elements (~4.3 with-Examples per cluster). DigComp 2.2
-has 21 elements across 5 competence areas (~4.2 per area). A schema that
-generalizes across both extremes is doing real work.
+elements across 116 grade-band x sub-concept cells (~1.1 strict per
+cell), or 500 with-Examples elements (~4.3 with-Examples per cell).
+DigComp 2.2 has 21 elements across 5 competence areas (~4.2 per area). A
+schema that generalizes across both extremes is doing real work.
 
 The same numbers, plotted from
 [`cybedtools::framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)

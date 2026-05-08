@@ -62,7 +62,7 @@ build_organizing_unit_node(
 
   Logical, whether to additionally assert `cybed:Role`. `TRUE` for NICE
   work roles, DCWF work roles, and ENISA ECSF profiles; `FALSE` for SFIA
-  skills, Cyber.org K-12 grade-band cells, CSTA level-concept buckets,
+  skills, Cyber.org K-12 grade-band cells, CSTA level x concept cells,
   CSEC2017 Knowledge Areas, and DigComp competence areas. Defaults to
   `FALSE`.
 

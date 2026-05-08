@@ -36,7 +36,7 @@ write_jsonld_document(
   list(`@context` = build_jsonld_context("nice"), `@graph` = list()),
   tmp
 )
-#> JSON-LD written: /tmp/RtmpQxs4xV/file1b7766226297.jsonld
+#> JSON-LD written: /tmp/RtmpgI2DC0/file1b6c40a7495.jsonld
 read_jsonld_document(tmp)
 #> $`@context`
 #> $`@context`$schema

@@ -15,8 +15,8 @@ Three semantic abstractions carry the work:
 
 - **`cybed:Framework`**: a competency or learning framework.
 - **`cybed:OrganizingUnit`**: the framework’s top-level enumerated unit
-  (work role, work profile, skill, grade-band concept, level-concept
-  bucket, Knowledge Area, competence area). The cross-framework
+  (work role, work profile, skill, grade-band x sub-concept cell, level
+  x concept cell, Knowledge Area, competence area). The cross-framework
   abstract; queries against it reach all eight frameworks. Workforce
   frameworks where the unit is genuinely a work role or profile (NICE /
   DCWF / ENISA ECSF) additionally subclass `cybed:Role`.

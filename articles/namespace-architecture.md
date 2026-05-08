@@ -61,9 +61,9 @@ existing competency ontologies do not.
 specifically for cross-framework comparison: a single SPARQL query
 targeting `cybed:OrganizingUnit` returns parent units across every
 framework in one pass, regardless of whether that unit is a NICE work
-role, an SFIA skill, a Cyber.org K-12 grade-band concept, or a DigComp
-competence area. Existing ontologies are not built to subsume this
-heterogeneity at the comparison layer.
+role, an SFIA skill, a Cyber.org K-12 grade-band x sub-concept cell, or
+a DigComp competence area. Existing ontologies are not built to subsume
+this heterogeneity at the comparison layer.
 
 Where existing vocabulary fits cleanly, the schema reuses it: Schema.org
 (`schema:`) for generic properties (name, description, version,
@@ -146,13 +146,13 @@ profile.
 - `cybed:Framework`, top-level container for a specific framework.
 - `cybed:OrganizingUnit`, `subClassOf skos:Concept`. The cross-framework
   abstract for any framework’s top-level enumerated unit (work role,
-  role profile, skill, grade-band concept, level-concept bucket,
-  Knowledge Area, competence area).
+  role profile, skill, grade-band x sub-concept cell, level x concept
+  cell, Knowledge Area, competence area).
 - `cybed:Role`, `subClassOf cybed:OrganizingUnit`. The
   workforce-specific intermediate type. Asserted on NICE work roles,
   DCWF work roles, and ENISA ECSF profiles. Not asserted on SFIA skills,
-  Cyber.org K-12 grade-band concepts, CSTA level-concept buckets,
-  CSEC2017 Knowledge Areas, or DigComp competence areas.
+  Cyber.org K-12 grade-band x sub-concept cells, CSTA level x concept
+  cells, CSEC2017 Knowledge Areas, or DigComp competence areas.
 - `cybed:RoleElement`, an atomic element attached to a parent unit
   (task, competence, skill statement, knowledge statement, learning
   standard, etc.).
@@ -241,9 +241,10 @@ A workforce framework parent (NICE work role) carries `cybed:Role` and
 }
 ```
 
-A non-workforce framework parent (Cyber.org K-12 grade-band concept)
-carries `cybed:OrganizingUnit` only, and its standard’s Clarification
-examples are typed `cybed:Example` linked via `cybed:hasExample`:
+A non-workforce framework parent (Cyber.org K-12 grade-band x
+sub-concept cell) carries `cybed:OrganizingUnit` only, and its
+standard’s Clarification examples are typed `cybed:Example` linked via
+`cybed:hasExample`:
 
 ``` json
 {
