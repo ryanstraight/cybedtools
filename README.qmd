@@ -35,16 +35,25 @@ suppressPackageStartupMessages({
 # Per-framework counts and metadata: ships with the package, no graph needed.
 fs <- cybedtools::framework_summary
 
-# Density spread (max vs. min elements per role).
-density_max_value <- max(fs$elements_per_role)
-density_min_value <- min(fs$elements_per_role)
-density_max_name  <- fs$framework_name[which.max(fs$elements_per_role)]
-density_min_name  <- fs$framework_name[which.min(fs$elements_per_role)]
+# Density spread (max vs min elements per top-level unit, Examples
+# included). Counts what each framework puts in front of a teacher,
+# trainee, or curriculum designer, which is the most steward-friendly
+# cross-framework comparison: Cyber.org K-12 and CSTA's
+# Clarification-statement examples are pedagogical content even though
+# the source frameworks treat them as illustrative rather than
+# enumerable. The strict count (parents + Subpoints, Examples excluded)
+# is available in framework_summary for analyses that need it.
+density_max_value <- max(fs$elements_per_organizing_unit_with_examples)
+density_min_value <- min(fs$elements_per_organizing_unit_with_examples)
+density_max_name  <- fs$framework_name[which.max(fs$elements_per_organizing_unit_with_examples)]
+density_min_name  <- fs$framework_name[which.min(fs$elements_per_organizing_unit_with_examples)]
 density_ratio_x   <- round(density_max_value / density_min_value, 0)
 
-# Element totals by jurisdiction (US vs. EU is what the prose calls out).
+# Element totals by jurisdiction (US vs EU is what the prose calls out).
+# Uses the with-examples count so the comparison spans the same content
+# the headline density figure does.
 juris_totals <- fs |>
-  count(jurisdiction, wt = element_count, name = "n_elements")
+  count(jurisdiction, wt = element_count_with_examples, name = "n_elements")
 us_elements   <- juris_totals$n_elements[juris_totals$jurisdiction == "US"]
 eu_elements   <- juris_totals$n_elements[juris_totals$jurisdiction == "EU"]
 us_eu_ratio_x <- round(us_elements / eu_elements)
@@ -125,15 +134,15 @@ rows <- vapply(seq_len(nrow(fs_tbl)), function(i) {
     fs_tbl$framework_name[i],
     fs_tbl$framework_type[i],
     fs_tbl$jurisdiction[i],
-    format(fs_tbl$role_count[i],    big.mark = ","),
-    format(fs_tbl$element_count[i], big.mark = ","),
+    format(fs_tbl$organizing_unit_count[i],       big.mark = ","),
+    format(fs_tbl$element_count_with_examples[i], big.mark = ","),
     fs_tbl$license[i]
   )
 }, character(1))
 cat('<table class="table sortable">\n')
 cat("<thead>\n",
     "<tr><th>Framework</th><th>Type</th><th>Jurisdiction</th>",
-    "<th>Roles</th><th>Elements</th><th>License</th></tr>\n",
+    "<th>Top-level units</th><th>Elements</th><th>License</th></tr>\n",
     "</thead>\n",
     "<tbody>\n",
     sep = "")
@@ -141,15 +150,15 @@ cat(paste(rows, collapse = "\n"), "\n", sep = "")
 cat("</tbody>\n</table>\n")
 ```
 
-The "Roles" column reports each framework's top-level organizing unit, whatever the framework calls it: work roles for NICE / DCWF / ECSF, skills for SFIA, level-concept buckets for CSTA, grade-band cells for Cyber.org K-12, Knowledge Areas for CSEC2017, competence areas for DigComp 2.2. The schema collapses these distinct structural commitments under a single `cybed:Role` abstraction. See `docs/framework-data-sources.md` for the per-framework structural mapping.
+The "Top-level units" column reports each framework's top-level enumerated unit. NICE / DCWF / ECSF declare work roles or work profiles; SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2 declares competence areas. Cyber.org K-12 and CSTA do not name the cell that groups their numbered standards within their internal axes (grade band x sub-concept for Cyber.org; level x concept for CSTA), so cybedtools labels both `StandardGroup`. All eight types subclass `cybed:OrganizingUnit` so cross-framework queries reach them uniformly; NICE / DCWF / ECSF additionally subclass `cybed:Role`. The "Elements" column counts parents, parsed Subpoints, and (for Cyber.org K-12 and CSTA) Clarification-statement Examples; `framework_summary` carries `element_count_strict` for analyses that need the count without Examples. See `docs/framework-data-sources.md` for the per-framework structural mapping.
 
 ## What you can find with this
 
 The eight frameworks were authored independently, for different audiences, at different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats, under different licenses, with different design philosophies. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings illustrate what that surfaces.
 
-### Per-organizing-unit density varies by `r density_ratio_x`x across the corpus
+### Per-unit density varies by `r density_ratio_x`x across the corpus
 
-`r density_max_name` expresses `r format(density_max_value, nsmall = 1)` elements per its top-level unit; `r density_min_name` expresses `r format(density_min_value, nsmall = 1)`. The spread reflects framework design philosophy more than relative completeness: NICE / DCWF are granular by intent as the basis for hiring and training pipelines; ENISA's ECSF and JRC's DigComp are intentionally high-level as interoperability frames and citizen self-assessment instruments. Treat per-unit density as a comparison aid, not a quality claim.
+`r density_max_name` expresses `r format(density_max_value, nsmall = 1)` elements per its top-level unit; `r density_min_name` expresses `r format(density_min_value, nsmall = 1)`. The spread reflects framework design philosophy more than relative completeness: NICE / DCWF are granular by intent as the basis for hiring and training pipelines; ENISA's ECSF and JRC's DigComp are intentionally high-level as interoperability frames and citizen self-assessment instruments. Treat per-unit density as a comparison aid across heterogeneous denominators, not a quality claim. (`framework_summary` carries both `elements_per_organizing_unit_with_examples` used here and a Subpoint-only `_strict` variant for analyses that prefer to exclude pedagogical scaffolding.)
 
 ### Jurisdictional element volume skews US-heavy `r us_eu_ratio_x` to 1
 
@@ -157,7 +166,7 @@ US frameworks (`r us_fws`) contribute `r us_fmt` elements; EU frameworks (`r eu_
 
 ### The five highest-element-load NICE work roles concentrate disproportionate specification
 
-`r nice_top5_text`. Curricula that "cover NICE" by surveying these five look thorough. Curricula that cover the long tail of `r fs$role_count[fs$framework_slug == "nice-v2"]` roles look thin by element count alone. This is a property of NICE's internal weighting, not a finding about the broader corpus.
+`r nice_top5_text`. Curricula that "cover NICE" by surveying these five look thorough. Curricula that cover the long tail of `r fs$organizing_unit_count[fs$framework_slug == "nice-v2"]` work roles look thin by element count alone. This is a property of NICE's internal weighting, not a finding about the broader corpus.
 
 Each finding is one query and a few lines of dplyr. See below.
 
@@ -181,21 +190,21 @@ The same helpers run against a staged eight-framework graph by swapping `make_de
 
 ## A query against the eight-framework corpus
 
-Once the combined graph is staged (see [Getting started](#getting-started)), one expression returns density per framework, sorted descending:
+Once the combined graph is staged (see [Getting started](#getting-started)), one expression returns per-unit density per framework, sorted descending:
 
 ```{r real-density}
 #| eval: !expr DEMO_LIVE
 rdf <- load_combined_ntriples_graph()
 
-role_framework_bindings(rdf) |>
-  count(framework_name, name = "role_count") |>
+organizing_unit_framework_bindings(rdf) |>
+  count(framework_name, name = "top_level_unit_count") |>
   left_join(
     element_framework_bindings(rdf) |>
       count(framework_name, name = "element_count"),
     by = "framework_name"
   ) |>
-  mutate(elements_per_role = round(element_count / role_count, 1)) |>
-  arrange(desc(elements_per_role))
+  mutate(elements_per_unit = round(element_count / top_level_unit_count, 1)) |>
+  arrange(desc(elements_per_unit))
 ```
 
 Jurisdiction pivots, top-load NICE roles, pairwise framework comparisons, and the librdf single-BGP discipline are covered in the [`cross-framework-analysis`](https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.html) vignette. Extending the schema to a new framework is covered in [`adding-a-framework`](https://ryanstraight.github.io/cybedtools/articles/adding-a-framework.html).

@@ -38,8 +38,60 @@ test_that("build_role_node wires cybed:partOf when framework_id given", {
     framework_id         = "test-v1"
   )
   expect_equal(node[["@id"]], "nice:WRL-001")
-  expect_true(all(c("nice:WorkRole", "cybed:Role") %in% node[["@type"]]))
+  # v0.2.0: workforce roles assert framework subtype + cybed:Role +
+  # cybed:OrganizingUnit. All three are required for queries against the
+  # workforce subset (cybed:Role) and the cross-framework abstract
+  # (cybed:OrganizingUnit) to succeed against this node.
+  expect_true(all(c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")
+                  %in% node[["@type"]]))
   expect_equal(node[["cybed:partOf"]][["@id"]], "cybed:framework/test-v1")
+})
+
+test_that("build_organizing_unit_node with is_role = FALSE omits cybed:Role", {
+  node <- build_organizing_unit_node(
+    unit_id           = "PROG",
+    unit_name         = "Programming",
+    framework_prefix  = "sfia",
+    framework_subtype = "Skill",
+    is_role           = FALSE,
+    framework_id      = "sfia-9"
+  )
+  expect_equal(node[["@id"]], "sfia:PROG")
+  expect_true("sfia:Skill"          %in% node[["@type"]])
+  expect_true("cybed:OrganizingUnit" %in% node[["@type"]])
+  expect_false("cybed:Role"          %in% node[["@type"]])
+})
+
+test_that("build_organizing_unit_node with is_role = TRUE asserts cybed:Role", {
+  node <- build_organizing_unit_node(
+    unit_id           = "OG-WRL-015",
+    unit_name         = "Cybersecurity Architecture",
+    framework_prefix  = "nice",
+    framework_subtype = "WorkRole",
+    is_role           = TRUE,
+    framework_id      = "nice-v2"
+  )
+  expect_true(all(c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")
+                  %in% node[["@type"]]))
+})
+
+test_that("build_role_node delegates correctly: identical output to is_role = TRUE", {
+  via_wrapper <- build_role_node(
+    role_id              = "WRL-001",
+    role_name            = "Test Role",
+    framework_prefix     = "nice",
+    framework_role_type  = "WorkRole",
+    framework_id         = "test-v1"
+  )
+  via_canonical <- build_organizing_unit_node(
+    unit_id           = "WRL-001",
+    unit_name         = "Test Role",
+    framework_prefix  = "nice",
+    framework_subtype = "WorkRole",
+    is_role           = TRUE,
+    framework_id      = "test-v1"
+  )
+  expect_identical(via_wrapper, via_canonical)
 })
 
 test_that("build_role_element_node omits cybed:partOf when framework_id is NA", {
@@ -78,7 +130,7 @@ test_that("read_jsonld_document signals classed condition when path is missing",
 # parse_subpoints
 # ---------------------------------------------------------------------------
 
-test_that("parse_subpoints extracts semicolon-separated sub-points after Clarification statement", {
+test_that("parse_subpoints tags Clarification-statement fragments as Example", {
   text <- paste(
     "Describe the concept of a good password.",
     "Clarification statement: Focus on examples such as not using common words;",
@@ -91,9 +143,11 @@ test_that("parse_subpoints extracts semicolon-separated sub-points after Clarifi
   expect_match(result$text[[1]], "common words")
   expect_match(result$text[[2]], "pass phrases")
   expect_match(result$text[[3]], "combining letters")
+  # "Clarification statement:" presence routes to cybed:Example downstream.
+  expect_true(all(result$node_type == "Example"))
 })
 
-test_that("parse_subpoints extracts comma-separated sub-points from 'such as' lists", {
+test_that("parse_subpoints tags 'such as' enumerations as Subpoint", {
   text <- "Authentication methods, such as certificate, token-based, two-factor, multifactor, and biometric"
   result <- parse_subpoints(text)
   expect_equal(nrow(result), 5L)
@@ -101,12 +155,14 @@ test_that("parse_subpoints extracts comma-separated sub-points from 'such as' li
     result$text,
     c("certificate", "token-based", "two-factor", "multifactor", "biometric")
   )
+  # Framework-as-specified enumeration: routes to cybed:Subpoint downstream.
+  expect_true(all(result$node_type == "Subpoint"))
 })
 
-test_that("parse_subpoints returns empty tibble for narrative text without enumeration", {
+test_that("parse_subpoints returns empty tibble (with v0.2.0 schema) for narrative text", {
   result <- parse_subpoints("Designs enterprise security architectures.")
   expect_equal(nrow(result), 0L)
-  expect_named(result, c("ordinal", "text"))
+  expect_named(result, c("ordinal", "text", "node_type"))
 })
 
 test_that("parse_subpoints is NA-safe and empty-string-safe", {
@@ -129,6 +185,22 @@ test_that("parse_subpoints is deterministic across repeated calls (idempotency)"
   r1 <- parse_subpoints(text)
   r2 <- parse_subpoints(text)
   expect_identical(r1, r2)
+})
+
+test_that("parse_subpoints distinguishes Clarification-statement vs enumeration patterns within mixed input", {
+  # Same list payload, two different framing prefixes. Should produce
+  # different node_type values. Items must be at least 3 characters
+  # because parse_subpoints filters single-character noise.
+  text_clarification <- "Describe rule. Clarification statement: examples such as alpha, beta, and gamma"
+  text_enumeration   <- "Authentication methods such as alpha, beta, and gamma"
+
+  r_clar <- parse_subpoints(text_clarification)
+  r_enum <- parse_subpoints(text_enumeration)
+
+  expect_equal(nrow(r_clar), 3L)
+  expect_true(all(r_clar$node_type == "Example"))
+  expect_equal(nrow(r_enum), 3L)
+  expect_true(all(r_enum$node_type == "Subpoint"))
 })
 
 # ---------------------------------------------------------------------------
@@ -193,7 +265,7 @@ test_that("build_subpoint_node attaches cybed:partOf to the framework node", {
 # expand_with_subpoints
 # ---------------------------------------------------------------------------
 
-test_that("expand_with_subpoints returns parents unchanged when no clarifications present", {
+test_that("expand_with_subpoints returns parents unchanged when no enumerations present", {
   parent <- build_role_element_node(
     element_id             = "T0001",
     framework_prefix       = "nice",
@@ -208,10 +280,12 @@ test_that("expand_with_subpoints returns parents unchanged when no clarification
     framework_slug   = "nice"
   )
   expect_length(result$nodes, 1L)
-  expect_equal(nrow(result$subpoint_index), 0L)
+  expect_equal(nrow(result$subnode_index), 0L)
+  expect_named(result$subnode_index,
+               c("parent_id", "subnode_id", "ordinal", "node_type"))
 })
 
-test_that("expand_with_subpoints emits parent + N sub-points for an enumerated clarification", {
+test_that("expand_with_subpoints routes Clarification fragments to cybed:Example", {
   parent <- build_role_element_node(
     element_id             = "K-2.SEC.AUTH",
     framework_prefix       = "cyberorg",
@@ -228,39 +302,59 @@ test_that("expand_with_subpoints emits parent + N sub-points for an enumerated c
     framework_id     = "cyberorg-k12-v1.0",
     framework_slug   = "cyberorg-k12"
   )
-  expect_equal(length(result$nodes), 4L)  # 1 parent + 3 sub-points
-  expect_equal(nrow(result$subpoint_index), 3L)
+  # Parent + 3 children
+  expect_equal(length(result$nodes), 4L)
+  expect_equal(nrow(result$subnode_index), 3L)
+  expect_true(all(result$subnode_index$node_type == "Example"))
   expect_setequal(
-    result$subpoint_index$subpoint_id,
-    c("K-2.SEC.AUTH.sub.1", "K-2.SEC.AUTH.sub.2", "K-2.SEC.AUTH.sub.3")
+    result$subnode_index$subnode_id,
+    c("K-2.SEC.AUTH.example.1", "K-2.SEC.AUTH.example.2", "K-2.SEC.AUTH.example.3")
   )
-  expect_true(all(result$subpoint_index$parent_id == "K-2.SEC.AUTH"))
+  expect_true(all(result$subnode_index$parent_id == "K-2.SEC.AUTH"))
+
+  # Parent (first node) carries cybed:hasExample for each Example child.
+  expanded_parent <- result$nodes[[1]]
+  expect_false(is.null(expanded_parent[["cybed:hasExample"]]))
+  expect_length(expanded_parent[["cybed:hasExample"]], 3L)
+
+  # Examples carry cybed:Example + cybed:RoleElement only (no
+  # framework-native subtype).
+  ex_types <- result$nodes[[2]][["@type"]]
+  expect_setequal(ex_types, c("cybed:Example", "cybed:RoleElement"))
+  expect_false("cyberorg:Standard" %in% ex_types)
 })
 
-test_that("expand_with_subpoints derives parent subtype from parent's @type", {
+test_that("expand_with_subpoints routes 'such as' fragments to cybed:Subpoint and inherits parent subtype", {
   parent <- build_role_element_node(
-    element_id             = "K-2.SEC.AUTH",
-    framework_prefix       = "cyberorg",
-    framework_element_type = "Standard",
-    element_text           = paste(
-      "X. Clarification statement:",
-      "examples such as alpha cases; beta cases; gamma cases."
-    ),
-    framework_id           = "cyberorg-k12-v1.0"
+    element_id             = "T1",
+    framework_prefix       = "nice",
+    framework_element_type = "TaskStatement",
+    element_text           = "Apply controls. Such as access control, encryption, and monitoring.",
+    framework_id           = "nice-v2"
   )
   result <- expand_with_subpoints(
     list(parent),
-    framework_prefix = "cyberorg",
-    framework_id     = "cyberorg-k12-v1.0",
-    framework_slug   = "cyberorg-k12"
+    framework_prefix = "nice",
+    framework_id     = "nice-v2",
+    framework_slug   = "nice"
   )
-  # Sub-point should inherit "Standard" framework subtype from the parent
+  expect_equal(nrow(result$subnode_index), 3L)
+  expect_true(all(result$subnode_index$node_type == "Subpoint"))
+  expect_setequal(
+    result$subnode_index$subnode_id,
+    c("T1.sub.1", "T1.sub.2", "T1.sub.3")
+  )
+  # Subpoint inherits parent's framework subtype + cybed:Subpoint + cybed:RoleElement
   sp_types <- result$nodes[[2]][["@type"]]
-  expect_true("cyberorg:Standard" %in% sp_types)
-  expect_true("cybed:Subpoint" %in% sp_types)
+  expect_true("nice:TaskStatement" %in% sp_types)
+  expect_true("cybed:Subpoint"     %in% sp_types)
+  expect_true("cybed:RoleElement"  %in% sp_types)
+
+  # Parent does NOT carry cybed:hasExample (no Example children emitted).
+  expect_null(result$nodes[[1]][["cybed:hasExample"]])
 })
 
-test_that("expand_with_subpoints idempotent: same input yields same IRIs", {
+test_that("expand_with_subpoints idempotent: same input yields same IRIs and node_types", {
   parent <- build_role_element_node(
     element_id             = "T1",
     framework_prefix       = "nice",
@@ -272,33 +366,50 @@ test_that("expand_with_subpoints idempotent: same input yields same IRIs", {
                               framework_slug = "nice")
   r2 <- expand_with_subpoints(list(parent), "nice", "nice-v2",
                               framework_slug = "nice")
-  expect_identical(r1$subpoint_index$subpoint_id, r2$subpoint_index$subpoint_id)
+  expect_identical(r1$subnode_index, r2$subnode_index)
 })
 
 # ---------------------------------------------------------------------------
 # extend_role_element_ids
 # ---------------------------------------------------------------------------
 
-test_that("extend_role_element_ids appends sub-points whose parent is in the input", {
+test_that("extend_role_element_ids appends Subpoint IDs whose parent is in the input", {
   index <- tibble::tibble(
-    parent_id   = c("E1", "E1", "E2", "E3"),
-    subpoint_id = c("E1.sub.1", "E1.sub.2", "E2.sub.1", "E3.sub.1"),
-    ordinal     = c(1L, 2L, 1L, 1L)
+    parent_id  = c("E1", "E1", "E2", "E3"),
+    subnode_id = c("E1.sub.1", "E1.sub.2", "E2.sub.1", "E3.sub.1"),
+    ordinal    = c(1L, 2L, 1L, 1L),
+    node_type  = c("Subpoint", "Subpoint", "Subpoint", "Subpoint")
   )
   result <- extend_role_element_ids(c("E1", "E2"), index)
   expect_setequal(
     result,
     c("E1", "E2", "E1.sub.1", "E1.sub.2", "E2.sub.1")
   )
-  # Order: parents first, sub-points after
+  # Order: parents first, Subpoints after
   expect_equal(result[1:2], c("E1", "E2"))
+})
+
+test_that("extend_role_element_ids excludes Example IDs from cybed:hasElement", {
+  # Mixed index: one Subpoint and one Example. extend_role_element_ids
+  # is the back-fill path for cybed:hasElement; Examples must be excluded
+  # so they remain reachable only via the parent's cybed:hasExample.
+  index <- tibble::tibble(
+    parent_id  = c("E1", "E1"),
+    subnode_id = c("E1.sub.1", "E1.example.1"),
+    ordinal    = c(1L, 1L),
+    node_type  = c("Subpoint", "Example")
+  )
+  result <- extend_role_element_ids(c("E1"), index)
+  expect_setequal(result, c("E1", "E1.sub.1"))
+  expect_false("E1.example.1" %in% result)
 })
 
 test_that("extend_role_element_ids returns parents unchanged when index is empty", {
   empty <- tibble::tibble(
-    parent_id = character(0),
-    subpoint_id = character(0),
-    ordinal = integer(0)
+    parent_id  = character(0),
+    subnode_id = character(0),
+    ordinal    = integer(0),
+    node_type  = character(0)
   )
   result <- extend_role_element_ids(c("E1", "E2"), empty)
   expect_equal(result, c("E1", "E2"))
@@ -306,10 +417,57 @@ test_that("extend_role_element_ids returns parents unchanged when index is empty
 
 test_that("extend_role_element_ids deduplicates input parent IDs", {
   empty <- tibble::tibble(
-    parent_id = character(0),
-    subpoint_id = character(0),
-    ordinal = integer(0)
+    parent_id  = character(0),
+    subnode_id = character(0),
+    ordinal    = integer(0),
+    node_type  = character(0)
   )
   result <- extend_role_element_ids(c("E1", "E1", "E2"), empty)
   expect_equal(result, c("E1", "E2"))
+})
+
+# ---------------------------------------------------------------------------
+# build_example_node
+# ---------------------------------------------------------------------------
+
+test_that("build_example_node produces deterministic IRI parent_iri.example.N", {
+  ex <- build_example_node(
+    parent_element_id = "K-2.SEC.AUTH",
+    ordinal           = 1L,
+    text              = "not using common words as passwords",
+    framework_prefix  = "cyberorg",
+    framework_id      = "cyberorg-k12-v1.0"
+  )
+  expect_equal(as.character(ex[["@id"]]), "cyberorg:K-2.SEC.AUTH.example.1")
+})
+
+test_that("build_example_node carries cybed:Example + cybed:RoleElement only (no framework subtype)", {
+  ex <- build_example_node(
+    parent_element_id = "3A-IC-24",
+    ordinal           = 2L,
+    text              = "considering user preferences",
+    framework_prefix  = "csta",
+    framework_id      = "csta-2017"
+  )
+  # No framework-native subtype on Examples.
+  expect_setequal(ex[["@type"]], c("cybed:Example", "cybed:RoleElement"))
+  expect_false("csta:Standard"            %in% ex[["@type"]])
+  expect_false("csta:StandardGroup"      %in% ex[["@type"]])
+})
+
+test_that("build_example_node attaches cybed:partOf to the framework but no cybed:elaborates", {
+  ex <- build_example_node(
+    parent_element_id = "X1",
+    ordinal           = 1L,
+    text              = "fragment",
+    framework_prefix  = "cyberorg",
+    framework_id      = "cyberorg-k12-v1.0"
+  )
+  expect_equal(
+    as.character(ex[["cybed:partOf"]][["@id"]]),
+    "cybed:framework/cyberorg-k12-v1.0"
+  )
+  # Examples deliberately do not carry cybed:elaborates; the parent owns
+  # the example via cybed:hasExample, not the converse.
+  expect_null(ex[["cybed:elaborates"]])
 })

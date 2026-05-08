@@ -15,9 +15,15 @@ A tibble with columns \code{element}, \code{framework}, \code{framework_name}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-One row per (element, framework) pair where the partOf target is itself
-typed as \code{cybed:Framework}. Elements without a \code{cybed:partOf} triple, or
+One row per (element, framework) pair where the element is typed
+\code{cybed:RoleElement} (which includes parent elements, \code{cybed:Subpoint}
+children, and \code{cybed:Example} children) and its \code{partOf} target is
+typed \code{cybed:Framework}. Elements without a \code{cybed:partOf} triple, or
 whose partOf target is not a Framework, are excluded.
+
+This helper is the broad cut. Use \code{\link[=example_framework_bindings]{example_framework_bindings()}} when
+you need only the \code{cybed:Example} subset (e.g., for the "with-examples"
+counting column in \code{framework_summary}).
 }
 \examples{
 \dontrun{
@@ -27,7 +33,9 @@ element_framework_bindings(rdf)
 }
 \seealso{
 Other SPARQL helpers:
+\code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
+\code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},

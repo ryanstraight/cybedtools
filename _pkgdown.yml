@@ -79,21 +79,26 @@ reference:
       - build_jsonld_context
       - build_multi_framework_context
       - build_framework_node
+      - build_organizing_unit_node
       - build_role_node
       - build_role_element_node
       - assemble_framework_document
 
-  - title: Sub-point parsing
+  - title: Sub-point and example parsing
     desc: >-
-      Lift prose-encoded enumerations ("such as" lists, "Clarification
-      statement:" segments) out of parent element text and promote each
-      sub-point to a first-class graph element typed cybed:Subpoint, with
-      cybed:elaborates linking back to the parent. See vignette
-      cross-framework-analysis for the encoding-strategy finding this
-      enables.
+      Lift prose-encoded enumerations and pedagogical-scaffolding content
+      out of parent element text and promote each fragment to a
+      first-class graph element. Framework-as-specified enumerations
+      ("such as" lists, "including" patterns) become cybed:Subpoint
+      instances with cybed:elaborates back-pointers. "Clarification
+      statement:" pedagogical scaffolding becomes cybed:Example instances
+      reachable only via the parent's cybed:hasExample predicate. See
+      vignette cross-framework-analysis for the encoding-strategy
+      finding this enables.
     contents:
       - parse_subpoints
       - build_subpoint_node
+      - build_example_node
       - expand_with_subpoints
       - extend_role_element_ids
 
@@ -121,8 +126,10 @@ reference:
       - sparql_pairs
       - sparql_subjects
       - framework_metadata
+      - organizing_unit_framework_bindings
       - role_framework_bindings
       - element_framework_bindings
+      - example_framework_bindings
       - role_element_bindings
 
   - title: Validation

@@ -136,9 +136,18 @@ framework_metadata <- function(rdf) {
 #' @description
 #' `r lifecycle::badge("stable")`
 #'
-#' One row per (role, framework) pair where the partOf target is itself
-#' typed as `cybed:Framework`. Roles without a `cybed:partOf` triple, or
-#' whose partOf target is not a Framework, are excluded.
+#' One row per (role, framework) pair where the role is typed
+#' `cybed:Role` and its `partOf` target is typed `cybed:Framework`. As of
+#' v0.2.0, `cybed:Role` is reserved for workforce frameworks (NICE work
+#' roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+#' K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017
+#' Knowledge Areas, and DigComp competence areas are not roles and are
+#' not returned by this helper. Use [organizing_unit_framework_bindings()]
+#' for the cross-framework "top-level enumerated unit" cut that includes
+#' all eight frameworks.
+#'
+#' Roles without a `cybed:partOf` triple, or whose partOf target is not
+#' typed `cybed:Framework`, are excluded.
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `role`, `role_name`, `framework`,
@@ -165,14 +174,62 @@ role_framework_bindings <- function(rdf) {
     dplyr::left_join(dplyr::rename(fw_names,   framework_name = o), by = c("framework" = "s"))
 }
 
+#' Domain helper: organizing-unit-to-framework bindings with framework name attached
+#'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
+#' One row per (organizing unit, framework) pair across all eight
+#' frameworks. Queries on the cross-framework abstract type
+#' `cybed:OrganizingUnit`, which every framework's top-level enumerated
+#' unit asserts (work roles, work profiles, skills, grade-band concepts,
+#' level-concept buckets, Knowledge Areas, competence areas). Use this
+#' helper for cross-framework parent-level analysis. Use
+#' [role_framework_bindings()] when the question is workforce-specific
+#' (NICE work roles, DCWF work roles, ENISA ECSF profiles only).
+#'
+#' Units without a `cybed:partOf` triple, or whose partOf target is not
+#' typed `cybed:Framework`, are excluded.
+#'
+#' @param rdf An rdf object.
+#' @return A tibble with columns `unit`, `unit_name`, `framework`,
+#'   `framework_name`.
+#' @family SPARQL helpers
+#' @export
+#' @examples
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' organizing_unit_framework_bindings(rdf)
+#' }
+organizing_unit_framework_bindings <- function(rdf) {
+  units      <- sparql_subjects(rdf, "a", "cybed:OrganizingUnit")
+  fws        <- sparql_subjects(rdf, "a", "cybed:Framework")
+  unit_names <- sparql_pairs(rdf, "schema:name")
+  partof     <- sparql_pairs(rdf, "cybed:partOf")
+  fw_names   <- sparql_pairs(rdf, "schema:name")
+
+  units |>
+    dplyr::transmute(unit = s) |>
+    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("unit" = "s")) |>
+    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
+    dplyr::left_join(dplyr::rename(unit_names, unit_name = o),       by = c("unit" = "s")) |>
+    dplyr::left_join(dplyr::rename(fw_names,   framework_name = o),  by = c("framework" = "s"))
+}
+
 #' Domain helper: element-to-framework bindings with framework name attached
 #'
 #' @description
 #' `r lifecycle::badge("stable")`
 #'
-#' One row per (element, framework) pair where the partOf target is itself
-#' typed as `cybed:Framework`. Elements without a `cybed:partOf` triple, or
+#' One row per (element, framework) pair where the element is typed
+#' `cybed:RoleElement` (which includes parent elements, `cybed:Subpoint`
+#' children, and `cybed:Example` children) and its `partOf` target is
+#' typed `cybed:Framework`. Elements without a `cybed:partOf` triple, or
 #' whose partOf target is not a Framework, are excluded.
+#'
+#' This helper is the broad cut. Use [example_framework_bindings()] when
+#' you need only the `cybed:Example` subset (e.g., for the "with-examples"
+#' counting column in `framework_summary`).
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `element`, `framework`, `framework_name`.
@@ -192,6 +249,45 @@ element_framework_bindings <- function(rdf) {
   elements |>
     dplyr::transmute(element = s) |>
     dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("element" = "s")) |>
+    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
+    dplyr::left_join(dplyr::rename(fw_names, framework_name = o), by = c("framework" = "s"))
+}
+
+#' Domain helper: example-to-framework bindings with framework name attached
+#'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
+#' One row per (example, framework) pair where the example is typed
+#' `cybed:Example` (the pedagogical-scaffolding subtype reserved for
+#' Cyber.org K-12 and CSTA "Clarification statement:" content) and its
+#' `partOf` target is typed `cybed:Framework`. Examples without a valid
+#' framework partOf are excluded.
+#'
+#' Examples are a strict subset of the elements returned by
+#' [element_framework_bindings()]. Use this helper when reporting on the
+#' Subpoint-vs-Example split for a framework, or when constructing a
+#' "strict" element count (parent + Subpoint, no Example) by subtracting
+#' Example counts from total element counts.
+#'
+#' @param rdf An rdf object.
+#' @return A tibble with columns `example`, `framework`, `framework_name`.
+#' @family SPARQL helpers
+#' @export
+#' @examples
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' example_framework_bindings(rdf)
+#' }
+example_framework_bindings <- function(rdf) {
+  examples <- sparql_subjects(rdf, "a", "cybed:Example")
+  fws      <- sparql_subjects(rdf, "a", "cybed:Framework")
+  partof   <- sparql_pairs(rdf, "cybed:partOf")
+  fw_names <- sparql_pairs(rdf, "schema:name")
+
+  examples |>
+    dplyr::transmute(example = s) |>
+    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("example" = "s")) |>
     dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
     dplyr::left_join(dplyr::rename(fw_names, framework_name = o), by = c("framework" = "s"))
 }

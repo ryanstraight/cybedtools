@@ -6,34 +6,42 @@ This repository **does not bundle upstream framework source text**. Each ingesti
 
 ## Sub-point parsing
 
-The JSON-LD assembly step runs `parse_subpoints()` over each parent element's `cybed:elementText` to lift prose-encoded enumerations ("such as" lists, semicolon-delimited examples, "Clarification statement:" segments) into first-class child elements typed `cybed:Subpoint`. Sub-points carry their parent's framework subtype, so polymorphic queries against `cybed:RoleElement` return both parents and their sub-points. The `cybed:elaborates` predicate links each sub-point back to its parent.
+The JSON-LD assembly step runs `parse_subpoints()` over each parent element's `cybed:elementText` to lift prose-encoded enumerations into first-class child elements. The parser distinguishes two source patterns and routes each to a distinct vocabulary type:
 
-**Pedagogical-fidelity caveat.** Cyber.org K-12 and CSTA's "Clarification statement:" / "such as" segments are formally *teacher-facing scaffolding* describing the level-of-rigor expectation for the standard, not enumerable sub-standards. A teacher who teaches one example has met the standard; the framework does not require coverage of all examples. The current schema types promoted sub-points as if they were sub-standards (carrying `cyberorg:Standard` or `csta:Standard` framework-native subtypes), which is structurally available for queries but materially overstates what the framework expects: Cyber.org K-12's 123 numbered standards become 500 graph elements when the parser lifts their Clarification examples, even though the framework treats those examples as illustrative rather than enumerable. Treat the inflated graph as a fine-grained search index, not as a coverage requirement. SFIA's "such as" lists carry the same caveat at lesser scale: SFIA examples are illustrative for level placement, not enumerable competencies.
+- **Framework-as-specified enumerations** ("such as", "including", "examples of", "for example", "e.g.", and standalone semicolon lists) become `cybed:Subpoint` instances. Subpoints retain their parent's framework-native subtype (e.g., `nice:TaskStatement`, `sfia:SkillLevel`) and carry `cybed:elaborates` back-pointers to their parent. They appear in default `cybed:hasElement` traversals because they are part of the parent element's normative content.
+- **Pedagogical-scaffolding clarification content** becomes `cybed:Example` instances. Two source-data shapes route here. (1) Cyber.org K-12 stores Clarification statements inline in the standard text under a "Clarification statement:" header; the parser strips the header and extracts enumerations, tagging each with `node_type == "Example"`. (2) CSTA K-12 CS stores its clarifications in a separate `clarification` column rather than inline; the CSTA assembler reads that column directly and emits one `cybed:Example` per non-empty clarification (no further enumeration parsing because CSTA clarifications are typically narrative paragraphs rather than enumerated lists). Both paths produce nodes with no framework-native subtype, reachable from the parent only via `cybed:hasExample`. Examples are excluded from default `cybed:hasElement` traversals so role-level "all elements" queries remain restricted to framework-as-specified content.
 
-Per-framework parser status in v0.1.1:
+This split addresses the v0.1.x concern that promoting Clarification examples to `cybed:Subpoint` overstated what the framework specifies. A teacher who teaches one Cyber.org K-12 Example has met the standard; the framework does not require coverage of all Examples. Under v0.2.0, the strict element count (`framework_summary$element_count_strict`) excludes Examples and reports what each framework specifies as its normative content. The inclusive count (`element_count_with_examples`) is available for analyses that need a fine-grained search index across pedagogical scaffolding too.
 
-| Framework        | Parser  | Sub-points | Notes                                                                                                                                                                                       |
-|------------------|---------|-----------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| NICE             | enabled |          4 | Spot-check 0/10 false-positive. Two parents have small "including X and Y" lists.                                                                                                         |
-| DCWF             | enabled |          0 | Terse elementText literals; no enumerations to lift.                                                                                                                                       |
-| ECSF             | enabled |         16 | Spot-check 1/10 borderline ("a building" artifact in a researcher task). Acceptable.                                                                                                      |
-| SFIA             | enabled |        158 | Initial spot-check flagged ~30% false-positive rate from sentence-boundary bleed. Parser refined (sentence-boundary stop). Re-spot-check 0/10. Largest workforce-side gain.               |
-| Cyber.org K-12   | enabled |        377 | Largest single-framework gain. Every parent has an explicit "Clarification statement:" segment with enumerated examples.                                                                  |
-| CSTA K-12 CS     | enabled |         20 | Borderline parses on a few clauses ending the standard ("considering user preferences"). Acceptable.                                                                                      |
-| ACM/IEEE CSEC2017 | enabled |          2 | Initial spot-check flagged 1/3 from source-truncated standard ("...and"). Connective filter introduced. Re-spot-check 0/2. The remaining sub-points (least privilege, open design) are real. |
-| DigComp 2.2      | enabled |          0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
+SFIA's "such as" lists are framework-as-specified enumerations rather than pedagogical scaffolding, so they remain typed `cybed:Subpoint`. The reader should still treat SFIA examples as illustrative for level placement rather than enumerable competencies; the typing decision says only that SFIA's enumeration shape is structurally distinct from the Clarification-statement convention.
 
-The parser uses a heuristic regex against `cybed:elementText` literals. Behavior:
+Per-framework parser output in v0.2.0:
 
-1. Strip a leading "Clarification statement:" header if present (Cyber.org K-12 convention).
-2. Locate the LAST list-introducer phrase (`such as`, `examples of`, `including`, `for example`, `e.g.`).
-3. Truncate at the first internal sentence boundary (period + whitespace + uppercase letter, or newline).
-4. Split on semicolons (preferred) or commas + terminal connective.
-5. Filter pure connective items (`and`, `or`, `the`, `but`, `however`, `etc.`).
+| Framework        | Parser  | Subpoints | Examples | Notes                                                                                                                                                                                       |
+|------------------|---------|----------:|---------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| NICE             | enabled |         4 |        0 | Spot-check 0/10 false-positive. Two parents have small "including X and Y" lists.                                                                                                         |
+| DCWF             | enabled |         0 |        0 | Terse elementText literals; no enumerations to lift.                                                                                                                                       |
+| ECSF             | enabled |        16 |        0 | Spot-check 1/10 borderline ("a building" artifact in a researcher task). Acceptable.                                                                                                      |
+| SFIA             | enabled |       158 |        0 | Sentence-boundary stop and connective filter handle multi-sentence elementText cleanly. Re-spot-check 0/10. Largest workforce-side gain.                                                  |
+| Cyber.org K-12   | enabled |         0 |      377 | Largest single-framework gain, routed to `cybed:Example`. Every parent has an explicit "Clarification statement:" segment with enumerated examples.                                       |
+| CSTA K-12 CS     | enabled |        20 |      114 | Two extraction paths: 20 Subpoints come from "such as" enumerations in the `standard` column (framework-as-specified); 114 Examples come from the separate `clarification` column (one Example per non-empty clarification, treated as pedagogical scaffolding). |
+| ACM/IEEE CSEC2017 | enabled |         2 |        0 | Connective filter handles source-truncated standards. Re-spot-check 0/2. The two Subpoints (least privilege, open design) are real.                                                       |
+| DigComp 2.2      | enabled |         0 |        0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
+
+The parser algorithm:
+
+1. Inspect the source text for a "Clarification statement:" header. If present, the parsed items will be tagged `node_type == "Example"` and routed to `cybed:Example`. If absent, items are tagged `node_type == "Subpoint"` and routed to `cybed:Subpoint`.
+2. Strip the leading "Clarification statement:" header if present (Cyber.org K-12 / CSTA convention).
+3. Locate the LAST list-introducer phrase (`such as`, `examples of`, `examples include`, `including`, `for example`, `e.g.`).
+4. Truncate at the first internal sentence boundary (period + whitespace + uppercase letter, or newline).
+5. Split on semicolons (preferred) or commas + terminal connective.
+6. Filter pure connective items (`and`, `or`, `the`, `but`, `however`, `etc.`).
+
+**Known parser limitation.** The introducer-phrase set is exact: prose using less common framings such as "may include", "can include", "typically include", "for instance", or bullet-list enumerations under headings (e.g., SFIA's "Activities may include but are not limited to:" guidance-note pattern) is not extracted. A future revision of any framework that adopts one of these untracked patterns will silently produce zero Subpoints for that framework's affected elements. Verify with `parse_subpoints()` against representative source text before assuming exhaustive extraction.
 
 Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARSER` to a comma-separated list of slugs (e.g., `nice,cyberorg-k12`) before invoking `scripts/020-assemble-jsonld.R`. The default ingestion runs the parser against all eight.
 
-## Supported framework versions (cybedtools 0.1.1)
+## Supported framework versions (cybedtools 0.2.0)
 
 | Framework        | Version supported            | Released   | Format              |
 |------------------|------------------------------|------------|---------------------|
@@ -58,21 +66,26 @@ Each ingestion script targets a specific upstream schema. When a publisher relea
 
 If you need a newer upstream version that the current cybedtools release does not yet support, open an issue at <https://github.com/ryanstraight/cybedtools/issues> with a sample of the new schema. Schema-revision PRs are welcome.
 
-Active publisher revisions to watch (as of cybedtools 0.1.1): NICE Framework v2.2.0 components have shipped via NIST CPRT, CSTA has signaled a major revision in development (no published target date as of this writing; verify against CSTA's roadmap), SFIA 10 is in consultation, and DigComp 3.0 has been released.
+Active publisher revisions to watch (as of cybedtools 0.2.0): NICE Framework v2.2.0 components have shipped via NIST CPRT, CSTA has signaled a major revision in development (no published target date as of this writing; verify against CSTA's roadmap), SFIA 10 is in consultation, and DigComp 3.0 has been released.
 
-## Known framing limitation: the cybed:Role abstraction
+## Structural typing: cybed:OrganizingUnit and cybed:Role
 
-The cybed: schema's Tier 1 type `cybed:Role` is the abstract organizing unit each framework declares. For workforce frameworks (NICE work roles, DCWF work roles, ECSF role profiles) the mapping is direct: a NICE work role is a role. For other frameworks, the mapping is structurally coerced:
+The schema separates the cross-framework abstract type (`cybed:OrganizingUnit`, `subClassOf skos:Concept`) from the workforce-specific subtype (`cybed:Role`, `subClassOf cybed:OrganizingUnit`). Every framework's top-level enumerated unit asserts `cybed:OrganizingUnit`. Workforce frameworks where the unit is genuinely a work role or work profile additionally assert `cybed:Role`. Non-workforce frameworks assert `cybed:OrganizingUnit` only.
 
-- **SFIA** declares 147 *skills* at up to 7 *responsibility levels*. SFIA does not enumerate roles. The cybed: schema currently maps SFIA skills to `cybed:Role` to enable cross-framework comparison via a single abstract type.
-- **CSTA K-12 CS** declares 120 *standards* organized into 5 levels x 5 concepts = 25 *level-concept buckets*. CSTA does not specify roles.
-- **Cyber.org K-12** declares 123 numbered *standards* across 4 grade bands x 29 sub-concepts = 116 *grade-band sub-concept cells*. Cyber.org does not specify roles.
-- **CSEC2017** declares 38 *Essentials* across 8 thought-model *Knowledge Areas*. CSEC2017 is a curricular framework that does not specify roles.
-- **DigComp 2.2** declares 21 *competences* across 5 *competence areas*. DigComp is a citizen self-assessment instrument that does not specify roles.
+Per-framework structural typing:
 
-Readers should treat the "roles" column in `framework_summary` as "the framework's top-level organizing unit, whatever the framework calls it" rather than as a count of roles in the workforce sense. The "elements per role" denominator is correspondingly heterogeneous: per work role (NICE, DCWF, ECSF), per skill (SFIA), per cluster (CSTA, Cyber.org K-12), per Knowledge Area (CSEC2017), per competence area (DigComp). Cross-framework "elements per role" comparisons collapse these distinct denominators into a single number.
+| Framework         | Per-framework subtype          | Asserts cybed:Role | What the unit IS                                  |
+|-------------------|--------------------------------|:------------------:|---------------------------------------------------|
+| NICE              | `nice:WorkRole`                | yes                | 41 work roles                                     |
+| DCWF              | `dcwf:WorkRole`                | yes                | 74 work roles                                     |
+| ECSF              | `ecsf:RoleProfile`             | yes                | 12 role profiles                                  |
+| SFIA              | `sfia:Skill`                   | no                 | 147 skills at up to 7 responsibility levels       |
+| Cyber.org K-12    | `cyberorg:StandardGroup`    | no                 | 116 grade-band x sub-concept cells (4 grade bands x 29 sub-concepts; Cyber.org's documentation does not name the cell, so cybedtools labels it `cyberorg:StandardGroup` descriptively) |
+| CSTA K-12 CS      | `csta:StandardGroup`      | no                 | 25 level x concept cells (5 levels x 5 concepts; CSTA's published terminology uses level / concept / subconcept / practice but does not name the cell, so cybedtools labels it `csta:StandardGroup` descriptively)  |
+| CSEC2017          | `csec:KnowledgeArea`           | no                 | 8 Knowledge Areas (curricular thought-model groupings) |
+| DigComp 2.2       | `digcomp:CompetenceArea`       | no                 | 5 competence areas                                |
 
-Read the per-framework sections below for what each framework's "roles" actually are.
+Cross-framework SPARQL queries target `cybed:OrganizingUnit` to reach all eight frameworks uniformly. Workforce-restricted queries target `cybed:Role` to reach only NICE / DCWF / ECSF. Framework-specific queries target the per-framework subtype. The `framework_summary` tibble's `organizing_unit_count` column reports the cross-framework count (every framework's parents); `role_count` is no longer present because that label was misleading for the five non-workforce frameworks.
 
 ## NICE (US, NIST)
 
@@ -86,7 +99,7 @@ Read the per-framework sections below for what each framework's "roles" actually
 
 **Notes.** Targets the v2 (NIST SP 800-181 Rev 1) CPRT JSON schema. v2 consolidated to 41 work roles with 2,111 unique TKS elements (down from v1's 52 work roles). The current ingestion uses the CPRT v2.0.0 components retrieved 2026-04-23 (SHA256 recorded in `data/raw/nice/provenance.yml`). NIST has released v2.2.0 components since this ingestion. Pin the CPRT release date in any reproducibility statement.
 
-**DCWF / NICE relationship caveat.** DCWF v5.1 is historically aligned to NICE v2: the two frameworks share substantial element identifiers and scope. The "elements per role" denominators in this package treat each as independent, but downstream analyses that aggregate "US framework element coverage" across both will double-count overlapping content. cybedtools does not currently materialize the cross-framework alignment as RDF triples; that's a v0.2.0+ extension.
+**DCWF / NICE relationship caveat.** DCWF v5.1 is historically aligned to NICE v2: the two frameworks share substantial element identifiers and scope. The per-unit denominators in this package treat each as independent, but downstream analyses that aggregate "US framework element coverage" across both will double-count overlapping content. cybedtools does not currently materialize the cross-framework alignment as RDF triples; that remains a future extension.
 
 ## DCWF (US, DoD)
 
@@ -146,7 +159,7 @@ Read the per-framework sections below for what each framework's "roles" actually
 
 **Ingest.** `Rscript scripts/010-ingest-csta.R`
 
-**Notes.** Single sheet, nine columns. 120 standards across five levels (1A, 1B, 2, 3A, 3B) and five concepts. Cybersecurity-relevant content concentrates in "Impacts of Computing" and "Networks & the Internet." CSTA has signaled a major revision in development; verify against CSTA's published roadmap before assuming a target release window.
+**Notes.** Single sheet, nine columns. 120 standards across five levels (1A, 1B, 2, 3A, 3B) and five concepts. Cybersecurity-relevant content concentrates in "Impacts of Computing" and "Networks & the Internet." 114 of the 120 standards carry pedagogical clarification text in a separate `clarification` column; the cybedtools assembler extracts each non-empty clarification as a `cybed:Example` node linked to the parent standard via `cybed:hasExample`. CSTA has signaled a major revision in development; verify against CSTA's published roadmap before assuming a target release window.
 
 ## ACM/IEEE CSEC2017 (global, higher-education cybersecurity curriculum)
 
@@ -160,7 +173,7 @@ Read the per-framework sections below for what each framework's "roles" actually
 
 **Notes.** Best-effort PDF extraction via a markitdown intermediate. The 8 Knowledge Areas and 38 Essentials extract cleanly. Deeper Knowledge-Unit, Topic, and Learning-Outcome detail requires manual curation or table-aware PDF extraction.
 
-**Structural framing caveat.** CSEC2017 is a curricular framework, not a workforce framework. The 8 Knowledge Areas are thought-model groupings for cybersecurity curricular design; CSEC2017 explicitly does not specify "roles." cybedtools' schema maps each KA to `cybed:Role` to enable cross-framework comparison via a single abstract type, but readers should not interpret the resulting "8 roles, 38 elements" presentation as CSEC2017 declaring 8 roles.
+**Structural framing caveat.** CSEC2017 is a curricular framework, not a workforce framework. The 8 Knowledge Areas are thought-model groupings for cybersecurity curricular design; CSEC2017 explicitly does not specify "roles." Under v0.2.0, cybedtools' schema types each Knowledge Area as `csec:KnowledgeArea` and `cybed:OrganizingUnit` (it does not assert `cybed:Role`, which is reserved for frameworks that genuinely enumerate work roles or work profiles). Cross-framework comparison reaches CSEC2017 via the `cybed:OrganizingUnit` abstract.
 
 ## DigComp (EU, citizen digital competence)
 

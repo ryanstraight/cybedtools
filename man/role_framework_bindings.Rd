@@ -16,9 +16,18 @@ A tibble with columns \code{role}, \code{role_name}, \code{framework},
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-One row per (role, framework) pair where the partOf target is itself
-typed as \code{cybed:Framework}. Roles without a \code{cybed:partOf} triple, or
-whose partOf target is not a Framework, are excluded.
+One row per (role, framework) pair where the role is typed
+\code{cybed:Role} and its \code{partOf} target is typed \code{cybed:Framework}. As of
+v0.2.0, \code{cybed:Role} is reserved for workforce frameworks (NICE work
+roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017
+Knowledge Areas, and DigComp competence areas are not roles and are
+not returned by this helper. Use \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}}
+for the cross-framework "top-level enumerated unit" cut that includes
+all eight frameworks.
+
+Roles without a \code{cybed:partOf} triple, or whose partOf target is not
+typed \code{cybed:Framework}, are excluded.
 }
 \examples{
 \dontrun{
@@ -29,7 +38,9 @@ role_framework_bindings(rdf)
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
+\code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}}

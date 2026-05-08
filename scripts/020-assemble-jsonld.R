@@ -1,15 +1,22 @@
 # 020-assemble-jsonld.R
 #
 # Assemble framework-level JSON-LD documents from the tidy CSV staging
-# produced by scripts/010-ingest-*.R scripts. Uses the cybed: three-tier
-# namespace architecture defined in scripts/utils/jsonld-helpers.R.
+# produced by scripts/010-ingest-*.R scripts. Uses the cybed: two-tier
+# namespace architecture defined in R/jsonld-helpers.R.
 #
 # Per-framework adapters translate each framework's native structure into
-# the cybed:Role / cybed:RoleElement abstraction. For role-first frameworks
-# (NICE, DCWF, ECSF) the mapping is direct. For skill-first (SFIA) the
-# Role is the Skill and the RoleElement is each SkillLevel. For pedagogical
-# frameworks (Cyber.org K-12) the Role is a grade-band x sub-concept cell
-# and the RoleElement is each standard statement.
+# the cybed:OrganizingUnit / cybed:RoleElement abstractions. Workforce
+# frameworks where the unit is genuinely a work role or work profile
+# (NICE work roles, DCWF work roles, ENISA ECSF profiles) additionally
+# assert cybed:Role via build_role_node(). Non-workforce frameworks
+# (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2
+# enumerate other organizing units) call build_organizing_unit_node()
+# directly with is_role = FALSE.
+#
+# Per-framework subtype mapping:
+#   nice:WorkRole, dcwf:WorkRole, ecsf:RoleProfile     -> subClassOf cybed:Role
+#   sfia:Skill, csec:KnowledgeArea, digcomp:CompetenceArea,
+#   cyberorg:StandardGroup, csta:StandardGroup         -> subClassOf cybed:OrganizingUnit
 #
 # Output: data/processed/jsonld/<framework>.jsonld per framework + a
 # combined multi-framework graph at data/processed/jsonld/_combined.jsonld.
@@ -126,7 +133,7 @@ assemble_nice <- function() {
         filter(work_role_id == element_id) |>
         pull(statement_id)
 
-      child_ids <- extend_role_element_ids(child_ids, expanded$subpoint_index)
+      child_ids <- extend_role_element_ids(child_ids, expanded$subnode_index)
 
       build_role_node(
         role_id              = element_id,
@@ -189,16 +196,21 @@ assemble_sfia <- function() {
         mutate(level_id = paste0(code, "-L", level)) |>
         pull(level_id)
 
-      level_ids <- extend_role_element_ids(level_ids, expanded$subpoint_index)
+      level_ids <- extend_role_element_ids(level_ids, expanded$subnode_index)
 
-      build_role_node(
-        role_id              = code,
-        role_name            = name,
-        framework_prefix     = "sfia",
-        framework_role_type  = "Skill",
-        description          = description,
-        element_ids          = level_ids,
-        framework_id         = "sfia-9"
+      # SFIA enumerates skills, not roles. Assert cybed:OrganizingUnit (via
+      # is_role = FALSE) so cross-framework queries reach SFIA skills, while
+      # leaving cybed:Role unasserted (SFIA skills are not roles in the
+      # workforce-framework sense).
+      build_organizing_unit_node(
+        unit_id           = code,
+        unit_name         = name,
+        framework_prefix  = "sfia",
+        framework_subtype = "Skill",
+        is_role           = FALSE,
+        description       = description,
+        element_ids       = level_ids,
+        framework_id      = "sfia-9"
       )
     })
 
@@ -295,7 +307,7 @@ assemble_ecsf <- function() {
     jurisdiction     = "EU",
     sector           = "civilian",
     specificity      = "cybersecurity-specific",
-    license          = "CC BY 4.0 (verify)",
+    license          = prov$licensing$source_license,
     date_published   = prov$framework_date
   )
 
@@ -333,7 +345,7 @@ assemble_ecsf <- function() {
         mutate(element_id = paste0(profile_id, "-", element_type, "-", element_index)) |>
         pull(element_id)
 
-      child_ids <- extend_role_element_ids(child_ids, expanded$subpoint_index)
+      child_ids <- extend_role_element_ids(child_ids, expanded$subnode_index)
 
       build_role_node(
         role_id              = profile_id,
@@ -402,20 +414,29 @@ assemble_cyberorg <- function() {
                sub_concept == !!sub_concept) |>
         pull(standard_id)
 
-      child_standards <- extend_role_element_ids(child_standards, expanded$subpoint_index)
+      child_standards <- extend_role_element_ids(child_standards, expanded$subnode_index)
 
       sc_name <- subcons |>
         filter(theme == !!theme, sub_concept == !!sub_concept) |>
         pull(sub_concept_name) |> first()
 
-      build_role_node(
-        role_id              = cell_id,
-        role_name            = paste(grade_band, theme, sc_name %||% sub_concept, sep = " / "),
-        framework_prefix     = "cyberorg",
-        framework_role_type  = "StandardCluster",
-        description          = paste("Cluster for", grade_band, "students on", sc_name %||% sub_concept),
-        element_ids          = child_standards,
-        framework_id         = "cyberorg-k12-v1.0"
+      # Cyber.org K-12's organizing unit is the (grade band, theme,
+      # sub-concept) cell that groups numbered standards within the
+      # framework's structural axes. Cyber.org's published documentation
+      # does not name the cell, so cybedtools labels it cyberorg:StandardGroup
+      # (descriptive, framework-neutral) rather than coining a pedagogy
+      # term the framework did not originate. Assert cybed:OrganizingUnit
+      # only; cybed:Role is reserved for frameworks that genuinely
+      # enumerate work roles or work profiles.
+      build_organizing_unit_node(
+        unit_id           = cell_id,
+        unit_name         = paste(grade_band, theme, sc_name %||% sub_concept, sep = " / "),
+        framework_prefix  = "cyberorg",
+        framework_subtype = "StandardGroup",
+        is_role           = FALSE,
+        description       = paste("Grade-band x sub-concept group of standards for", grade_band, "students on", sc_name %||% sub_concept),
+        element_ids       = child_standards,
+        framework_id      = "cyberorg-k12-v1.0"
       )
     })
 
@@ -468,26 +489,85 @@ assemble_csta <- function() {
     framework_slug   = "csta"
   )
 
+  # CSTA-specific Example extraction. CSTA stores its clarification
+  # content in a separate `clarification` column rather than appending it
+  # to the standard text under a "Clarification statement:" header (the
+  # Cyber.org K-12 convention). The clarification content is
+  # pedagogical scaffolding describing teacher level-of-rigor
+  # expectations: structurally equivalent to Cyber.org K-12's
+  # Clarifications and so emitted as cybed:Example nodes (one per
+  # non-empty clarification) with cybed:hasExample links from the parent
+  # standard. The Examples carry no framework-native subtype and are
+  # excluded from default cybed:hasElement traversals, matching the
+  # Cyber.org K-12 treatment.
+  example_nodes <- list()
+  parent_examples <- list()  # named list: parent_id -> character vector of example IRIs
+  for (i in seq_len(nrow(standards))) {
+    std <- standards[i, ]
+    clar <- std$clarification
+    if (is.null(clar) || is.na(clar) || nchar(trimws(clar)) == 0) next
+
+    ex <- build_example_node(
+      parent_element_id = std$identifier,
+      ordinal           = 1L,
+      text              = trimws(clar),
+      framework_prefix  = "csta",
+      framework_id      = "csta-2017"
+    )
+    example_nodes[[length(example_nodes) + 1L]] <- ex
+
+    parent_iri <- paste0("csta:", std$identifier)
+    parent_examples[[parent_iri]] <- as.character(ex[["@id"]])
+  }
+
+  # Mutate each parent in expanded$nodes to carry cybed:hasExample for
+  # its clarification-derived Example. expand_with_subpoints already
+  # handles cybed:hasExample for Example-style routing in the
+  # inline-Clarification-statement path (Cyber.org K-12 convention), but
+  # CSTA's Examples come from the column-extraction path above and are
+  # not visible to that orchestrator.
+  if (length(parent_examples) > 0) {
+    expanded$nodes <- lapply(expanded$nodes, function(node) {
+      iri <- as.character(node[["@id"]])
+      if (!is.null(parent_examples[[iri]])) {
+        existing <- node[["cybed:hasExample"]]
+        new_link <- list(`@id` = parent_examples[[iri]])
+        node[["cybed:hasExample"]] <- c(existing %||% list(), list(new_link))
+      }
+      node
+    })
+  }
+
+  all_element_nodes <- c(expanded$nodes, example_nodes)
+
   role_nodes <- clusters |>
     purrr::pmap(function(level, concept, cluster_id, ...) {
       child_standards <- standards |>
         filter(level == !!level, concept == !!concept) |>
         pull(identifier)
 
-      child_standards <- extend_role_element_ids(child_standards, expanded$subpoint_index)
+      child_standards <- extend_role_element_ids(child_standards, expanded$subnode_index)
 
-      build_role_node(
-        role_id              = cluster_id,
-        role_name            = paste(level, concept, sep = " / "),
-        framework_prefix     = "csta",
-        framework_role_type  = "StandardCluster",
-        description          = paste("Level", level, "-", concept),
-        element_ids          = child_standards,
-        framework_id         = "csta-2017"
+      # CSTA's organizing unit is the (level, concept) cell that groups
+      # standards (e.g., "Level 3A / Impacts of Computing"). CSTA's
+      # published terminology uses level / concept / subconcept / practice
+      # but does not name the cell itself, so cybedtools labels it
+      # csta:StandardGroup (descriptive, framework-neutral). Assert
+      # cybed:OrganizingUnit only; cybed:Role is reserved for workforce
+      # frameworks.
+      build_organizing_unit_node(
+        unit_id           = cluster_id,
+        unit_name         = paste(level, concept, sep = " / "),
+        framework_prefix  = "csta",
+        framework_subtype = "StandardGroup",
+        is_role           = FALSE,
+        description       = paste("Level", level, "-", concept),
+        element_ids       = child_standards,
+        framework_id      = "csta-2017"
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
+  list(framework = framework_node, roles = role_nodes, elements = all_element_nodes,
        prefix = "csta")
 }
 
@@ -534,16 +614,20 @@ assemble_csec2017 <- function() {
         filter(ka_id == !!ka_id) |>
         pull(element_id)
 
-      child_essentials <- extend_role_element_ids(child_essentials, expanded$subpoint_index)
+      child_essentials <- extend_role_element_ids(child_essentials, expanded$subnode_index)
 
-      build_role_node(
-        role_id              = ka_id,
-        role_name            = name,
-        framework_prefix     = "csec",
-        framework_role_type  = "KnowledgeArea",
-        description          = paste("CSEC2017", section, name),
-        element_ids          = child_essentials,
-        framework_id         = "csec2017-v1"
+      # CSEC2017's 8 Knowledge Areas are thought-model groupings for
+      # cybersecurity curricular design, not roles. CSEC2017 itself does
+      # not specify roles. Assert cybed:OrganizingUnit only.
+      build_organizing_unit_node(
+        unit_id           = ka_id,
+        unit_name         = name,
+        framework_prefix  = "csec",
+        framework_subtype = "KnowledgeArea",
+        is_role           = FALSE,
+        description       = paste("CSEC2017", section, name),
+        element_ids       = child_essentials,
+        framework_id      = "csec2017-v1"
       )
     })
 
@@ -598,16 +682,22 @@ assemble_digcomp <- function() {
         mutate(element_id = paste0("COMP-", competence_id)) |>
         pull(element_id)
 
-      child_competence_ids <- extend_role_element_ids(child_competence_ids, expanded$subpoint_index)
+      child_competence_ids <- extend_role_element_ids(child_competence_ids, expanded$subnode_index)
 
-      build_role_node(
-        role_id              = area_id,
-        role_name            = area_name,
-        framework_prefix     = "digcomp",
-        framework_role_type  = "CompetenceArea",
-        description          = paste("DigComp 2.2 Area", area_number, "-", area_name),
-        element_ids          = child_competence_ids,
-        framework_id         = "digcomp-2.2"
+      # DigComp 2.2 organizes content by competence area (5 areas: Information
+      # and data literacy, Communication and collaboration, Digital content
+      # creation, Safety, Problem solving). DigComp does not specify roles;
+      # it is a citizen self-assessment instrument. Assert
+      # cybed:OrganizingUnit only.
+      build_organizing_unit_node(
+        unit_id           = area_id,
+        unit_name         = area_name,
+        framework_prefix  = "digcomp",
+        framework_subtype = "CompetenceArea",
+        is_role           = FALSE,
+        description       = paste("DigComp 2.2 Area", area_number, "-", area_name),
+        element_ids       = child_competence_ids,
+        framework_id      = "digcomp-2.2"
       )
     })
 

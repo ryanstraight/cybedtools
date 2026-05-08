@@ -1,6 +1,6 @@
 # 040-run-sparql.R
 #
-# Runs the package's named analytical queries (q10 through q15) against
+# Runs the package's named analytical queries (q10 through q16) against
 # the assembled multi-framework RDF graph and writes one CSV per query to
 # data/processed/query-results/.
 #
@@ -23,7 +23,13 @@ suppressPackageStartupMessages({
   library(purrr)
 })
 
-source(here("R", "sparql-helpers.R"))
+# Load helpers from the in-tree package source when running from a working
+# tree, otherwise fall back to the installed cybedtools.
+if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION"))) {
+  pkgload::load_all(here(), quiet = TRUE)
+} else {
+  library(cybedtools)
+}
 
 runner_config <- list(
   results_dir = here("data", "processed", "query-results"),
@@ -32,29 +38,56 @@ runner_config <- list(
 
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
-# Each entry is a named analytical query. The fn produces a tibble that is
-# written to data/processed/query-results/<query_id>.csv. Adding a new
-# named analysis is a matter of writing a helper in R/sparql-helpers.R and
-# adding an entry below.
+# Each entry is a named analytical query. The fn produces a tibble that
+# is written to data/processed/query-results/<query_id>.csv. Adding a new
+# named analysis is a matter of writing a helper in R/sparql-helpers.R
+# and adding an entry below.
+#
+# Under v0.2.0 the cross-framework cuts (q10, q11, q15) target
+# cybed:OrganizingUnit so all eight frameworks contribute. The
+# workforce-restricted variants (q10b) target cybed:Role and return only
+# NICE / DCWF / ECSF. The strict element count (q11) excludes
+# cybed:Example instances; the inclusive variant (q11b) includes them.
 analyses <- list(
   list(
-    query_id = "q10-roles-per-framework",
-    description = "Per-framework count of cybed:Role nodes whose partOf target is a Framework.",
+    query_id    = "q10-organizing-units-per-framework",
+    description = "Per-framework count of cybed:OrganizingUnit nodes (cross-framework parent count).",
+    fn = function(rdf) {
+      organizing_unit_framework_bindings(rdf) |>
+        count(framework_name, sort = TRUE, name = "organizing_unit_count")
+    }
+  ),
+  list(
+    query_id    = "q10b-roles-per-framework",
+    description = "Per-framework count of cybed:Role nodes (workforce-restricted: NICE / DCWF / ECSF).",
     fn = function(rdf) {
       role_framework_bindings(rdf) |>
         count(framework_name, sort = TRUE, name = "role_count")
     }
   ),
   list(
-    query_id = "q11-elements-per-framework",
-    description = "Per-framework count of cybed:RoleElement nodes whose partOf target is a Framework.",
+    query_id    = "q11-elements-per-framework-strict",
+    description = "Per-framework strict element count (parents + cybed:Subpoint, excludes cybed:Example).",
     fn = function(rdf) {
       element_framework_bindings(rdf) |>
-        count(framework_name, sort = TRUE, name = "element_count")
+        anti_join(
+          example_framework_bindings(rdf) |>
+            transmute(element = example),
+          by = "element"
+        ) |>
+        count(framework_name, sort = TRUE, name = "element_count_strict")
     }
   ),
   list(
-    query_id = "q12-framework-metadata",
+    query_id    = "q11b-elements-per-framework-with-examples",
+    description = "Per-framework inclusive element count (parents + Subpoints + Examples).",
+    fn = function(rdf) {
+      element_framework_bindings(rdf) |>
+        count(framework_name, sort = TRUE, name = "element_count_with_examples")
+    }
+  ),
+  list(
+    query_id    = "q12-framework-metadata",
     description = "Framework name, jurisdiction, sector, and specificity per framework.",
     fn = function(rdf) {
       framework_metadata(rdf) |>
@@ -63,46 +96,64 @@ analyses <- list(
     }
   ),
   list(
-    query_id = "q13-elements-by-jurisdiction",
-    description = "Element count per jurisdiction (joined via per-framework metadata).",
+    query_id    = "q13-elements-by-jurisdiction-strict",
+    description = "Strict element count per jurisdiction (joined via per-framework metadata; Examples excluded).",
     fn = function(rdf) {
       element_framework_bindings(rdf) |>
+        anti_join(
+          example_framework_bindings(rdf) |>
+            transmute(element = example),
+          by = "element"
+        ) |>
         left_join(
           framework_metadata(rdf) |> transmute(framework, jurisdiction),
           by = "framework"
         ) |>
-        count(jurisdiction, name = "element_count") |>
-        arrange(desc(element_count))
+        count(jurisdiction, name = "element_count_strict") |>
+        arrange(desc(element_count_strict))
     }
   ),
   list(
-    query_id = "q14-elements-by-sector",
-    description = "Element count per sector (joined via per-framework metadata).",
+    query_id    = "q14-elements-by-sector-strict",
+    description = "Strict element count per sector (joined via per-framework metadata; Examples excluded).",
     fn = function(rdf) {
       element_framework_bindings(rdf) |>
+        anti_join(
+          example_framework_bindings(rdf) |>
+            transmute(element = example),
+          by = "element"
+        ) |>
         left_join(
           framework_metadata(rdf) |> transmute(framework, sector),
           by = "framework"
         ) |>
-        count(sector, name = "element_count") |>
-        arrange(desc(element_count))
+        count(sector, name = "element_count_strict") |>
+        arrange(desc(element_count_strict))
     }
   ),
   list(
-    query_id = "q15-largest-roles",
-    description = "Top 20 roles by element count, with framework attribution.",
+    query_id    = "q15-largest-organizing-units",
+    description = "Top 20 organizing units by element count across all eight frameworks (cross-framework).",
     fn = function(rdf) {
       reb <- role_element_bindings(rdf)
-      rfb <- role_framework_bindings(rdf)
+      ofb <- organizing_unit_framework_bindings(rdf)
       reb |>
         count(role, name = "element_count") |>
         left_join(
-          rfb |> select(role, role_name, framework_name),
-          by = "role"
+          ofb |> select(unit, unit_name, framework_name),
+          by = c("role" = "unit")
         ) |>
         arrange(desc(element_count)) |>
         slice_head(n = 20) |>
-        select(framework_name, role_name, element_count, role)
+        select(framework_name, unit_name, element_count, unit = role)
+    }
+  ),
+  list(
+    query_id    = "q16-examples-per-framework",
+    description = "Per-framework count of cybed:Example nodes (Cyber.org K-12 + CSTA pedagogical scaffolding).",
+    fn = function(rdf) {
+      example_framework_bindings(rdf) |>
+        count(framework_name, sort = TRUE, name = "example_count")
     }
   )
 )
@@ -137,7 +188,7 @@ main <- function() {
   if (!file.exists(runner_config$combined_nt)) {
     message("  Combined N-Triples missing. Running scripts/025-export-ntriples.R...")
     rc <- system2("Rscript",
-                  args = c(here("src", "025-export-ntriples.R")),
+                  args = c(here("scripts", "025-export-ntriples.R")),
                   stdout = "", stderr = "")
     if (rc != 0 || !file.exists(runner_config$combined_nt)) {
       stop("Failed to produce combined N-Triples at ", runner_config$combined_nt)

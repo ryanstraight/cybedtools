@@ -2,18 +2,29 @@
 #
 # Builds a tiny synthetic two-framework graph in memory using rdflib::rdf()
 # and rdf_add(), encoding the structural invariants the SPARQL helpers
-# must satisfy. Lives in helper-*.R so testthat sources it once before
-# running tests in this directory.
+# must satisfy under the v0.2.0 vocabulary. Lives in helper-*.R so testthat
+# sources it once before running tests in this directory.
 #
 # Structure:
 #   - 2 frameworks (fw_a: US/civilian/cybersecurity-specific,
 #                   fw_b: EU/general/general-IT)
-#   - 5 roles: 3 bound to a framework, 1 orphan (no partOf),
-#              1 with partOf pointing at a non-Framework subject
+#   - 5 organizing units: 3 bound to a framework, 1 orphan (no partOf),
+#       1 with partOf pointing at a non-Framework subject. All 5 are
+#       typed cybed:Role AND cybed:OrganizingUnit (workforce-shaped
+#       fixture).
 #   - 6 elements: 5 bound to a framework, 1 orphan
 #   - 5 cybed:hasElement triples (role -> element)
+#   - 5 cybed:Subpoint nodes (2 children of el_a1, 3 children of el_b1),
+#       each carrying cybed:Subpoint + cybed:RoleElement, cybed:elaborates
+#       back to parent, cybed:partOf to framework, and reachable from
+#       their cluster via cybed:hasElement
+#   - 1 cybed:Example node (el_a2_ex1, child of el_a2), carrying
+#       cybed:Example + cybed:RoleElement only (no framework-native
+#       subtype) and reachable only via el_a2's cybed:hasExample.
+#       Deliberately NOT added to any role's cybed:hasElement, so
+#       Example exclusion from default cluster traversals is testable.
 #   - 1 duplicate cybed:partOf triple (verifies rdf set semantics
-#     prevent double-counting in domain helpers)
+#       prevent double-counting in domain helpers)
 
 cybed_uri  <- "https://w3id.org/cybed/ontology#"
 schema_uri <- "http://schema.org/"
@@ -28,9 +39,11 @@ make_fixture_graph <- function() {
   fw_a <- cybed_term("framework/fixture-fw-a")
   fw_b <- cybed_term("framework/fixture-fw-b")
 
-  framework_class  <- cybed_term("Framework")
-  role_class       <- cybed_term("Role")
-  element_class    <- cybed_term("RoleElement")
+  framework_class       <- cybed_term("Framework")
+  role_class            <- cybed_term("Role")
+  organizing_unit_class <- cybed_term("OrganizingUnit")
+  element_class         <- cybed_term("RoleElement")
+  example_class         <- cybed_term("Example")
 
   # Framework A
   rdflib::rdf_add(rdf, fw_a, rdf_type,                       framework_class)
@@ -52,8 +65,13 @@ make_fixture_graph <- function() {
   role_orphan <- cybed_term("role/fixture-orphan")
   role_bad    <- cybed_term("role/fixture-bad-partof")
 
+  # Workforce-shaped fixture: each role asserts cybed:Role AND
+  # cybed:OrganizingUnit. librdf does not perform subClassOf inference,
+  # so both types are emitted explicitly to match the v0.2.0 emission
+  # rule used by build_organizing_unit_node(is_role = TRUE).
   for (r in c(role_a1, role_a2, role_b1, role_orphan, role_bad)) {
     rdflib::rdf_add(rdf, r, rdf_type, role_class)
+    rdflib::rdf_add(rdf, r, rdf_type, organizing_unit_class)
   }
   rdflib::rdf_add(rdf, role_a1,     schema_term("name"), "Role A1")
   rdflib::rdf_add(rdf, role_a2,     schema_term("name"), "Role A2")
@@ -134,6 +152,19 @@ make_fixture_graph <- function() {
   # Duplicate partOf triple. RDF set semantics should dedupe; the domain
   # helpers must not double-count regardless.
   rdflib::rdf_add(rdf, role_a1, cybed_term("partOf"), fw_a)
+
+  # cybed:Example child of el_a2. Mirrors the Cyber.org K-12 / CSTA
+  # Clarification-statement promotion path. Example carries
+  # cybed:Example + cybed:RoleElement only (no framework-native subtype),
+  # has cybed:partOf to its parent's framework, and is reachable from
+  # above only via el_a2's cybed:hasExample. NOT added to role_a2's
+  # cybed:hasElement so the exclusion-from-default-traversal invariant
+  # is testable.
+  el_a2_ex1 <- cybed_term("element/fixture-el-a2.example.1")
+  rdflib::rdf_add(rdf, el_a2_ex1, rdf_type,                element_class)
+  rdflib::rdf_add(rdf, el_a2_ex1, rdf_type,                example_class)
+  rdflib::rdf_add(rdf, el_a2_ex1, cybed_term("partOf"),    fw_a)
+  rdflib::rdf_add(rdf, el_a2,     cybed_term("hasExample"), el_a2_ex1)
 
   rdf
 }

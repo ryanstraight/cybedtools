@@ -190,7 +190,10 @@ Summary:
 5. Add a JSON-LD assembly adapter in `scripts/020-assemble-jsonld.R`.
 6. Run `scripts/000-build.R`. Existing SPARQL queries automatically
    include the new framework because they target framework-agnostic
-   types (`cybed:Framework`, `cybed:Role`, `cybed:RoleElement`).
+   types (`cybed:Framework`, `cybed:OrganizingUnit`, `cybed:RoleElement`).
+   Queries that target the workforce-restricted `cybed:Role` subtype
+   pick up the new framework only when `build_role_node()` was used
+   (workforce-shaped frameworks).
 
 ### Construct a JSON-LD document by hand
 

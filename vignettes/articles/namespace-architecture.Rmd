@@ -16,9 +16,9 @@ The core tension is that each framework uses its own vocabulary (work roles, tas
 
 The architecture uses a two-tier namespace structure: a base vocabulary that is cross-framework, and framework-specific vocabularies that subclass the base. Each tier has a distinct prefix.
 
-The base vocabulary subsumes the conceptual common ground of all in-scope frameworks: framework, role, role element (task, knowledge statement, skill statement, competence, learning standard), element text, source reference, and structural metadata (jurisdiction, sector, specificity). Per-framework vocabularies specialize these via subclassing, so a single SPARQL query targeting `cybed:RoleElement` returns elements across NICE, DCWF, e-CF, SFIA, and the pedagogical frameworks in one pass.
+The base vocabulary subsumes the conceptual common ground of all in-scope frameworks: framework, organizing unit (the framework's top-level enumerated unit, whether a work role, skill, learning standard cluster, knowledge area, or competence area), role element (task, knowledge statement, skill statement, competence, learning standard), sub-point, example, element text, source reference, and structural metadata (jurisdiction, sector, specificity). Per-framework vocabularies specialize these via subclassing, so a single SPARQL query targeting `cybed:OrganizingUnit` returns parent units across all eight frameworks in one pass.
 
-Schema.org (`schema:`) and SKOS (`skos:`) provide the outermost vocabulary layer for generic properties such as name, description, prefLabel, and altLabel.
+Schema.org (`schema:`) and SKOS (`skos:`) provide the outermost vocabulary layer for generic properties such as name, description, prefLabel, and altLabel. `cybed:OrganizingUnit` itself is `subClassOf skos:Concept` for downstream interoperability with the wider linked-data ecosystem.
 
 The project namespace URI is `https://w3id.org/cybed/ontology#` (prefix `cybed`). w3id.org provides stable, redirectable URIs for vocabularies via a community-maintained GitHub repository, which means the URI persists across changes to the maintainer's personal infrastructure. Resolving the URI follows the redirect maintained at the `cybed` entry in the w3id.org configuration repo.
 
@@ -30,45 +30,76 @@ The natural semantic-web question is: why mint `cybed:` rather than reuse an exi
 
 **Pedagogical-frameworks gap.** ESCO and the workforce-competency ontologies do not represent K-12 or higher-education curricular frameworks (Cyber.org K-12 standards, CSTA standards, CSEC2017 guidelines, DigComp). The package's design commitment is to make workforce frameworks and pedagogical frameworks queryable through the same schema. That requires a base vocabulary that subsumes both, which existing competency ontologies do not.
 
-**Comparison-layer purpose.** The `cybed:` schema is designed specifically for cross-framework comparison: a single SPARQL query targeting `cybed:RoleElement` returns elements across every framework in one pass, regardless of whether that element is a NICE TaskStatement, an SFIA SkillLevel, or a CSEC2017 Essential. Existing ontologies are not built to subsume this heterogeneity at the comparison layer.
+**Comparison-layer purpose.** The `cybed:` schema is designed specifically for cross-framework comparison: a single SPARQL query targeting `cybed:OrganizingUnit` returns parent units across every framework in one pass, regardless of whether that unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band concept, or a DigComp competence area. Existing ontologies are not built to subsume this heterogeneity at the comparison layer.
 
 Where existing vocabulary fits cleanly, the schema reuses it: Schema.org (`schema:`) for generic properties (name, description, version, publisher, datePublished, license) and SKOS (`skos:`) for prefLabel and altLabel. Tier 1 `cybed:` types specialize these where framework structure requires it. Tier 2 framework prefixes specialize `cybed:` types where framework vocabulary requires it.
 
 ## The two-tier shape
 
-A single Tier-1 type, `cybed:RoleElement`, is specialized by every framework. One SPARQL query against it returns comparable bindings across all eight frameworks at once.
+The cross-framework abstract is `cybed:OrganizingUnit`, which every framework's parent type subclasses. Workforce frameworks where the unit is genuinely a work role or work profile additionally subclass `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); non-workforce frameworks subclass `cybed:OrganizingUnit` directly.
 
 ```mermaid
 flowchart TD
-  RE["cybed:RoleElement<br>Tier 1 base vocabulary"]
+  OU["cybed:OrganizingUnit<br>(subClassOf skos:Concept)"]
+  ROLE["cybed:Role<br>(workforce-only)"]
+  OU --> ROLE
+  ROLE --> NICE_R["nice:WorkRole"]
+  ROLE --> DCWF_R["dcwf:WorkRole"]
+  ROLE --> ECSF_R["ecsf:RoleProfile"]
+  OU --> SFIA_S["sfia:Skill"]
+  OU --> CYB_SG["cyberorg:StandardGroup"]
+  OU --> CSTA_SG["csta:StandardGroup"]
+  OU --> CSEC_KA["csec:KnowledgeArea"]
+  OU --> DIG_CA["digcomp:CompetenceArea"]
+
+  classDef abs fill:#0F172A,stroke:#38BDF8,color:#E0F2FE,stroke-width:2px
+  classDef wfr fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  class OU abs
+  class ROLE wfr
+  class NICE_R,DCWF_R,ECSF_R,SFIA_S,CYB_SG,CSTA_SG,CSEC_KA,DIG_CA sub
+```
+
+Atomic content elements have their own parallel hierarchy under `cybed:RoleElement`, with two specialized child types for parsed sub-content (`cybed:Subpoint` for framework-as-specified enumerations and `cybed:Example` for pedagogical-scaffolding fragments).
+
+```mermaid
+flowchart TD
+  RE["cybed:RoleElement"]
   RE --> NICE_T["nice:TaskStatement<br>nice:KnowledgeStatement<br>nice:SkillStatement"]
-  RE --> DCWF["dcwf:KSA"]
-  RE --> SFIA["sfia:SkillLevel"]
-  RE --> ECSF["ecsf:Skill"]
-  RE --> CYBORG["cyberorg:Standard"]
-  RE --> CSTA["csta:Standard"]
-  RE --> CSEC["csec:Essential"]
-  RE --> DIGCOMP["digcomp:Competence"]
+  RE --> DCWF_E["dcwf:TaskOrKSA"]
+  RE --> SFIA_SL["sfia:SkillLevel"]
+  RE --> ECSF_E["ecsf:Task<br>ecsf:Skill<br>ecsf:Knowledge"]
+  RE --> CYB_S["cyberorg:Standard"]
+  RE --> CSTA_S["csta:Standard"]
+  RE --> CSEC_E["csec:Essential"]
+  RE --> DIG_C["digcomp:Competence"]
+  RE --> SP["cybed:Subpoint<br>(parsed enumeration)"]
+  RE --> EX["cybed:Example<br>(parsed scaffolding)"]
 
   classDef base fill:#0F172A,stroke:#38BDF8,color:#E0F2FE,stroke-width:2px
   classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
+  classDef parsed fill:#1E293B,stroke:#FCD34D,color:#FEF3C7
   class RE base
-  class NICE_T,DCWF,SFIA,ECSF,CYBORG,CSTA,CSEC,DIGCOMP sub
+  class NICE_T,DCWF_E,SFIA_SL,ECSF_E,CYB_S,CSTA_S,CSEC_E,DIG_C sub
+  class SP,EX parsed
 ```
 
-`cybed:Role` and `cybed:Framework` follow the same pattern.
+A single SPARQL query against `cybed:OrganizingUnit` returns comparable parent-level bindings across all eight frameworks at once. A query against `cybed:RoleElement` returns every atomic content node (parents, Subpoints, and Examples). A query against `cybed:Role` is workforce-restricted to NICE / DCWF / ENISA ECSF.
 
 ### Tier 1: Base vocabulary (`cybed:`)
 
-Framework-agnostic terms that every framework supported here has in some form.
+Framework-agnostic terms. `cybed:OrganizingUnit` is the cross-framework abstract; every framework's parent type subclasses it, and queries against it reach all eight frameworks. `cybed:Role` is reserved for workforce frameworks where the unit is genuinely a work role or work profile.
 
 - `cybed:Framework`, top-level container for a specific framework.
-- `cybed:Role`, named work role, role profile, skill, knowledge area, or grade-band concept cluster (the framework's top-level organizing unit).
-- `cybed:RoleElement`, a task, competence, skill, knowledge statement, learning standard, or similar atomic element attached to a role.
-- `cybed:Subpoint`, subClassOf `cybed:RoleElement`. Tags graph nodes that were lifted from prose enumeration in a parent element's text (e.g., a "such as" example list, a "Clarification statement:" segment) and promoted to first-class child elements at JSON-LD assembly time.
-- `cybed:hasElement`, object property from Role to RoleElement. Cluster-level queries return all leaf elements (parents plus sub-points) directly via this predicate.
-- `cybed:partOf`, links Role to Framework and Element to Framework.
-- `cybed:elaborates`, object property from a `cybed:Subpoint` to its parent `cybed:RoleElement`. Use this predicate to recover the parent-standard-vs-sub-point distinction when both appear in the same `cybed:hasElement` collection. Top-level standards are queryable as elements where `cybed:elaborates` is unbound.
+- `cybed:OrganizingUnit`, `subClassOf skos:Concept`. The cross-framework abstract for any framework's top-level enumerated unit (work role, role profile, skill, grade-band concept, level-concept bucket, Knowledge Area, competence area).
+- `cybed:Role`, `subClassOf cybed:OrganizingUnit`. The workforce-specific intermediate type. Asserted on NICE work roles, DCWF work roles, and ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, or DigComp competence areas.
+- `cybed:RoleElement`, an atomic element attached to a parent unit (task, competence, skill statement, knowledge statement, learning standard, etc.).
+- `cybed:Subpoint`, `subClassOf cybed:RoleElement`. Tags graph nodes parsed from framework-as-specified enumerations within a parent's text ("such as" lists, "including" patterns, semicolon-delimited examples). Subpoints retain their parent's framework-native subtype and link back via `cybed:elaborates`. Subpoints appear in default `cybed:hasElement` traversals.
+- `cybed:Example`, `subClassOf cybed:RoleElement`. Tags graph nodes parsed from pedagogical-scaffolding "Clarification statement:" prose (Cyber.org K-12 and CSTA convention). Examples carry no framework-native subtype because the source frameworks treat them as illustrative rather than enumerable. Examples are reachable only via the parent element's `cybed:hasExample` predicate and are excluded from default `cybed:hasElement` traversals.
+- `cybed:hasElement`, object property from a parent unit to a `cybed:RoleElement`. Cluster-level queries return atomic elements (parents and Subpoints) but not Examples.
+- `cybed:hasExample`, object property from a parent `cybed:RoleElement` to a `cybed:Example`. The only path by which Examples are reachable from above. Distinct from `cybed:hasElement` so role-level "all elements" queries remain restricted to framework-as-specified content.
+- `cybed:partOf`, links a parent unit, atomic element, Subpoint, or Example to its `cybed:Framework`.
+- `cybed:elaborates`, object property from a `cybed:Subpoint` to its parent `cybed:RoleElement`. Use this predicate to recover the parent-vs-Subpoint distinction when both appear in the same `cybed:hasElement` collection.
 - `cybed:elementText`, literal text of the element.
 - `cybed:sourceSection`, where this element appears in the source document.
 - `cybed:jurisdiction`, e.g., "US", "EU", "UK", "global".
@@ -77,19 +108,22 @@ Framework-agnostic terms that every framework supported here has in some form.
 
 ### Tier 2: Framework-specific vocabularies
 
-Each framework gets its own prefix and defines subclasses of Tier 1 terms.
+Each framework has its own prefix. The per-framework parent type subclasses `cybed:OrganizingUnit` directly (non-workforce frameworks) or via `cybed:Role` (workforce frameworks). Per-framework atomic types subclass `cybed:RoleElement`.
 
-- `nice:`, WorkRole subclasses cybed:Role. TaskStatement, KnowledgeStatement, SkillStatement subclass cybed:RoleElement.
-- `dcwf:`, inherits from nice: where aligned. Adds SpecialtyArea for DoD-specific groupings.
-- `ecf:`, Competence subclasses cybed:RoleElement. EuropeanQualificationLevel attached.
-- `sfia:`, Skill, SkillLevel, ResponsibilityLevel.
-- `ecsf:`, RoleProfile, CybersecurityTaskCategory.
-- `cyberorg:`, GradeBandConcept, Standard.
-- `csta:`, Standard, Cluster, Concept.
-- `csec:`, KnowledgeArea, Essential.
-- `digcomp:`, CompetenceArea, Competence.
+| Framework         | Parent type                    | Subclass-of            | Atomic types                                     |
+|-------------------|--------------------------------|------------------------|--------------------------------------------------|
+| NICE Framework v2 | `nice:WorkRole`                | `cybed:Role`           | `nice:TaskStatement`, `nice:KnowledgeStatement`, `nice:SkillStatement` |
+| DCWF v5.1         | `dcwf:WorkRole`                | `cybed:Role`           | `dcwf:TaskOrKSA`                                 |
+| ENISA ECSF v1     | `ecsf:RoleProfile`             | `cybed:Role`           | `ecsf:Task`, `ecsf:Skill`, `ecsf:Knowledge`, `ecsf:Deliverable` |
+| SFIA 9            | `sfia:Skill`                   | `cybed:OrganizingUnit` | `sfia:SkillLevel`                                |
+| Cyber.org K-12    | `cyberorg:StandardGroup`    | `cybed:OrganizingUnit` | `cyberorg:Standard`                              |
+| CSTA K-12 CS      | `csta:StandardGroup`      | `cybed:OrganizingUnit` | `csta:Standard`                                  |
+| ACM/IEEE CSEC2017 | `csec:KnowledgeArea`           | `cybed:OrganizingUnit` | `csec:Essential`                                 |
+| DigComp 2.2       | `digcomp:CompetenceArea`       | `cybed:OrganizingUnit` | `digcomp:Competence`                             |
 
-## Example JSON-LD document (sketch)
+## Example JSON-LD documents
+
+A workforce framework parent (NICE work role) carries `cybed:Role` and `cybed:OrganizingUnit`:
 
 ```json
 {
@@ -102,11 +136,9 @@ Each framework gets its own prefix and defines subclasses of Tier 1 terms.
   "@graph": [
     {
       "@id": "nice:OG-WRL-015",
-      "@type": ["nice:WorkRole", "cybed:Role"],
+      "@type": ["nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit"],
       "schema:name": "Technology Portfolio Management",
-      "cybed:jurisdiction": "US",
-      "cybed:sector": "civilian",
-      "cybed:specificity": "cybersecurity-specific",
+      "cybed:partOf": { "@id": "cybed:framework/nice-v2" },
       "cybed:hasElement": [
         { "@id": "nice:OG-WRL-015-T01" }
       ]
@@ -119,3 +151,39 @@ Each framework gets its own prefix and defines subclasses of Tier 1 terms.
   ]
 }
 ```
+
+A non-workforce framework parent (Cyber.org K-12 grade-band concept) carries `cybed:OrganizingUnit` only, and its standard's Clarification examples are typed `cybed:Example` linked via `cybed:hasExample`:
+
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cybed": "https://w3id.org/cybed/ontology#",
+    "cyberorg": "https://cyber.org/standards/terms#"
+  },
+  "@graph": [
+    {
+      "@id": "cyberorg:K-2.SEC.AUTH",
+      "@type": ["cyberorg:StandardGroup", "cybed:OrganizingUnit"],
+      "schema:name": "K-2 / Secure Computing / Authentication",
+      "cybed:hasElement": [{ "@id": "cyberorg:K-2.SEC.AUTH.1" }]
+    },
+    {
+      "@id": "cyberorg:K-2.SEC.AUTH.1",
+      "@type": ["cyberorg:Standard", "cybed:RoleElement"],
+      "cybed:elementText": "Describe a good password. Clarification statement: ...",
+      "cybed:hasExample": [
+        { "@id": "cyberorg:K-2.SEC.AUTH.1.example.1" },
+        { "@id": "cyberorg:K-2.SEC.AUTH.1.example.2" }
+      ]
+    },
+    {
+      "@id": "cyberorg:K-2.SEC.AUTH.1.example.1",
+      "@type": ["cybed:Example", "cybed:RoleElement"],
+      "cybed:elementText": "not using common words as passwords"
+    }
+  ]
+}
+```
+
+The Example node deliberately carries no `cyberorg:Standard` typing and is not in any organizing unit's `cybed:hasElement`. It is reachable only via the parent standard's `cybed:hasExample`, matching the framework's own treatment of Clarification examples as teacher-facing scaffolding rather than enumerable sub-standards.

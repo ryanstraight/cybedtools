@@ -13,34 +13,49 @@ parse_subpoints(text, framework_slug = NULL)
 per-framework opt-out check. Defaults to \code{NULL} (no opt-out).}
 }
 \value{
-Tibble with columns \code{ordinal} (integer, 1-based) and \code{text}
-(character). Empty tibble when fewer than two sub-points are found.
+Tibble with columns \code{ordinal} (integer, 1-based), \code{text}
+(character), and \code{node_type} (character, \code{"Subpoint"} or \code{"Example"}).
+Empty tibble (with the same column shape) when fewer than two
+fragments are found.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-Heuristic regex parser. Extracts enumerated sub-points from a parent
-element's prose, returning a tibble of one row per sub-point. Returns
-an empty tibble for atomic statements that have no list to lift.
+Heuristic regex parser. Extracts enumerated child fragments from a
+parent element's prose, returning a tibble of one row per fragment.
+Returns an empty tibble for atomic statements that have no list to
+lift.
 
-Recognizes two payload shapes common across the supported frameworks:
-Cyber.org K-12's "Clarification statement: ..." segments, and the
-"such as / including / examples of ..." pattern that appears in
-NICE, SFIA, ECSF, CSTA, and CSEC2017. The full algorithm and known
-limitations are documented in \code{docs/framework-data-sources.md}.
+Two source patterns are recognized, and each row is tagged with the
+\code{node_type} it should be promoted to in the JSON-LD graph:
+\itemize{
+\item \strong{"Clarification statement:" segments} (Cyber.org K-12 and CSTA
+convention). These are teacher-facing pedagogical scaffolding rather
+than framework-as-specified enumerations. Rows derived from this
+pattern carry \code{node_type == "Example"} and are promoted to
+\link[=build_example_node]{cybed:Example} nodes by \code{\link[=expand_with_subpoints]{expand_with_subpoints()}}.
+\item \strong{"such as / including / examples of ..." patterns} (NICE, SFIA,
+ECSF, CSEC2017). These are within-text enumerations the framework
+specifies as part of the parent's normative content. Rows derived
+from this pattern carry \code{node_type == "Subpoint"} and are promoted
+to \link[=build_subpoint_node]{cybed:Subpoint} nodes.
+}
+
+The full algorithm and known limitations are documented in
+\code{docs/framework-data-sources.md}.
 
 Per-framework opt-out: set the \code{CYBED_DISABLE_SUBPOINT_PARSER} env var
 (comma-separated framework slugs) and pass the slug as \code{framework_slug}.
 }
 \examples{
-# Cyber.org K-12 "Clarification statement:" pattern.
+# Cyber.org K-12 "Clarification statement:" pattern -> Examples.
 parse_subpoints(
   "Describe a good password. Clarification statement: At this level,
   focus on examples such as not using common words; using pass phrases;
   combining letters, numbers, and symbols."
 )
 
-# "Such as ..." comma list. Common in SFIA, NICE, CSTA.
+# "Such as ..." comma list -> Subpoints. Common in SFIA, NICE, CSEC2017.
 parse_subpoints(
   "Authentication methods such as certificate, token-based, two-factor,
   multifactor, and biometric."
@@ -53,6 +68,7 @@ parse_subpoints(
 }
 \seealso{
 Other Sub-point parsing:
+\code{\link[=build_example_node]{build_example_node()}},
 \code{\link[=build_subpoint_node]{build_subpoint_node()}},
 \code{\link[=expand_with_subpoints]{expand_with_subpoints()}},
 \code{\link[=extend_role_element_ids]{extend_role_element_ids()}}

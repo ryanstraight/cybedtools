@@ -69,6 +69,7 @@ Other JSON-LD construction:
 \code{\link[=assemble_framework_document]{assemble_framework_document()}},
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
+\code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}},
 \code{\link[=build_role_node]{build_role_node()}}
 }

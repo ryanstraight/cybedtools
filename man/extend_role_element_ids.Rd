@@ -2,31 +2,38 @@
 % Please edit documentation in R/jsonld-helpers.R
 \name{extend_role_element_ids}
 \alias{extend_role_element_ids}
-\title{Append subpoint IDs to a role's child-element id list}
+\title{Append Subpoint IDs to a role's child-element id list}
 \usage{
-extend_role_element_ids(parent_element_ids, subpoint_index)
+extend_role_element_ids(parent_element_ids, subnode_index)
 }
 \arguments{
 \item{parent_element_ids}{Character vector of parent element IDs.}
 
-\item{subpoint_index}{A tibble with columns \code{parent_id}, \code{subpoint_id},
-\code{ordinal} (typically the \code{subpoint_index} field returned by
-\code{\link[=expand_with_subpoints]{expand_with_subpoints()}}).}
+\item{subnode_index}{A tibble with columns \code{parent_id}, \code{subnode_id},
+\code{ordinal}, \code{node_type} (typically the \code{subnode_index} field returned
+by \code{\link[=expand_with_subpoints]{expand_with_subpoints()}}).}
 }
 \value{
-Character vector of parent IDs plus matching subpoint IDs.
+Character vector of parent IDs plus matching Subpoint IDs.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
 Helper for the assembly pipeline. Given a vector of parent element IDs
-(the role's children before subpoint expansion) and a subpoint index
+(the role's children before sub-point expansion) and a sub-node index
 from \code{\link[=expand_with_subpoints]{expand_with_subpoints()}}, returns the original IDs plus all
-subpoint IDs whose parent is in the input vector. Preserves order:
-parents first, sub-points second. De-duplicates.
+Subpoint IDs whose parent is in the input vector. Preserves order:
+parents first, Subpoints second. De-duplicates.
+
+Example IDs are deliberately excluded. \code{cybed:Example} instances are
+reachable via the parent element's \code{cybed:hasExample} predicate rather
+than via the role's \code{cybed:hasElement} collection; including them here
+would route teacher-facing pedagogical scaffolding into role-level
+"all elements" traversals where it does not belong.
 }
 \seealso{
 Other Sub-point parsing:
+\code{\link[=build_example_node]{build_example_node()}},
 \code{\link[=build_subpoint_node]{build_subpoint_node()}},
 \code{\link[=expand_with_subpoints]{expand_with_subpoints()}},
 \code{\link[=parse_subpoints]{parse_subpoints()}}

@@ -125,9 +125,9 @@ test_that("element_framework_bindings returns one row per bound element", {
 
   result <- element_framework_bindings(rdf)
 
-  # Five parent elements + five sub-points all have partOf; el_orphan
-  # must be excluded.
-  expect_equal(nrow(result), 10)
+  # Five parent elements + five Subpoints + one Example all have partOf;
+  # el_orphan must be excluded.
+  expect_equal(nrow(result), 11)
   expect_named(result, c("element", "framework", "framework_name"))
   expect_false(any(grepl("fixture-el-orphan", result$element)))
 })
@@ -139,9 +139,10 @@ test_that("element_framework_bindings splits correctly across frameworks", {
   result <- element_framework_bindings(rdf)
   per_fw <- table(result$framework_name)
 
-  # FW A: 3 parents (a1,a2,a3) + 2 sub-points (a1.sub.1, a1.sub.2) = 5
-  # FW B: 2 parents (b1,b2) + 3 sub-points (b1.sub.1-3) = 5
-  expect_equal(unname(per_fw["Fixture Framework A"]), 5)
+  # FW A: 3 parents (a1, a2, a3) + 2 Subpoints (a1.sub.1, a1.sub.2)
+  #     + 1 Example (a2.example.1) = 6
+  # FW B: 2 parents (b1, b2) + 3 Subpoints (b1.sub.1-3) = 5
+  expect_equal(unname(per_fw["Fixture Framework A"]), 6)
   expect_equal(unname(per_fw["Fixture Framework B"]), 5)
 })
 
@@ -226,21 +227,24 @@ test_that("cybed:Subpoint subjects are also typed cybed:RoleElement (polymorphis
   expect_true(all(subpoints$s %in% all_role_elements$s))
 })
 
-test_that("top-level standards can be filtered by absence of cybed:elaborates", {
+test_that("top-level standards can be filtered by excluding Subpoint and Example types", {
   skip_if_no_rdflib()
   rdf <- make_fixture_graph()
 
   all_role_elements <- sparql_subjects(rdf, "a", "cybed:RoleElement")
-  elaborators       <- sparql_pairs(rdf, "cybed:elaborates")
+  subpoints         <- sparql_subjects(rdf, "a", "cybed:Subpoint")
+  examples          <- sparql_subjects(rdf, "a", "cybed:Example")
 
-  # Top-level standards = role elements that do NOT have outgoing elaborates
-  top_level <- setdiff(all_role_elements$s, elaborators$s)
+  # Top-level standards = role elements that are neither Subpoints nor
+  # Examples. The cybed:elaborates filter alone is insufficient under
+  # v0.2.0 because Examples do not carry cybed:elaborates back-pointers.
+  top_level <- setdiff(all_role_elements$s, c(subpoints$s, examples$s))
 
-  # Original parents: a1, a2, a3, b1, b2, orphan = 6 (orphan included
-  # since fixture types it as RoleElement; 5 sub-points excluded since
-  # they elaborate)
+  # Parents: a1, a2, a3, b1, b2, orphan = 6 (orphan included since the
+  # fixture types it as RoleElement). 5 Subpoints + 1 Example excluded.
   expect_length(top_level, 6)
-  expect_false(any(grepl("\\.sub\\.\\d+$", top_level)))
+  expect_false(any(grepl("\\.sub\\.\\d+$",     top_level)))
+  expect_false(any(grepl("\\.example\\.\\d+$", top_level)))
 })
 
 test_that("sub-points are reachable from clusters via cybed:hasElement (cluster sees all leaves)", {
@@ -280,6 +284,120 @@ test_that("sub-points appear in element_framework_bindings (framework attributio
   expect_equal(nrow(subpoint_rows), 5)
   expect_setequal(unique(subpoint_rows$framework_name),
                   c("Fixture Framework A", "Fixture Framework B"))
+})
+
+# ---------------------------------------------------------------------------
+# v0.2.0 vocabulary: cybed:OrganizingUnit + cybed:Example + cybed:hasExample
+# ---------------------------------------------------------------------------
+
+test_that("organizing_unit_framework_bindings returns the same rows as role_framework_bindings on a workforce-shaped fixture", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  rfb <- role_framework_bindings(rdf)
+  ofb <- organizing_unit_framework_bindings(rdf)
+
+  # The fixture is workforce-shaped: every fixture role asserts both
+  # cybed:Role and cybed:OrganizingUnit. The two helpers therefore return
+  # the same number of rows here. On the eight-framework graph,
+  # organizing_unit_framework_bindings returns more rows than
+  # role_framework_bindings because non-workforce frameworks (SFIA,
+  # Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2) contribute units that
+  # are not cybed:Role.
+  expect_equal(nrow(ofb), nrow(rfb))
+  expect_named(ofb, c("unit", "framework", "unit_name", "framework_name"))
+})
+
+test_that("organizing_unit_framework_bindings excludes orphan and bad-partof units", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  ofb <- organizing_unit_framework_bindings(rdf)
+
+  expect_false(any(grepl("fixture-orphan",     ofb$unit)))
+  expect_false(any(grepl("fixture-bad-partof", ofb$unit)))
+})
+
+test_that("every fixture role asserts both cybed:Role and cybed:OrganizingUnit", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  roles  <- sparql_subjects(rdf, "a", "cybed:Role")
+  units  <- sparql_subjects(rdf, "a", "cybed:OrganizingUnit")
+
+  expect_true(all(roles$s %in% units$s))
+})
+
+test_that("example_framework_bindings returns the single fixture Example", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  efb <- example_framework_bindings(rdf)
+
+  expect_equal(nrow(efb), 1)
+  expect_named(efb, c("example", "framework", "framework_name"))
+  expect_match(efb$example,        "fixture-el-a2\\.example\\.1$")
+  expect_equal(efb$framework_name, "Fixture Framework A")
+})
+
+test_that("cybed:hasExample triples are queryable and link parent -> example", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  has_examples <- sparql_pairs(rdf, "cybed:hasExample")
+
+  # Exactly one cybed:hasExample triple in the fixture, from el_a2 to its
+  # example.
+  expect_equal(nrow(has_examples), 1)
+  expect_match(has_examples$s[[1]], "fixture-el-a2$")
+  expect_match(has_examples$o[[1]], "fixture-el-a2\\.example\\.1$")
+})
+
+test_that("Examples are excluded from default cybed:hasElement traversals", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  bindings <- role_element_bindings(rdf)
+
+  # The fixture's single Example (fixture-el-a2.example.1) is reachable
+  # only via el_a2's cybed:hasExample. It must NOT appear as an element
+  # in role_element_bindings, because role-level "all elements" queries
+  # are restricted to framework-as-specified content.
+  expect_false(any(grepl("\\.example\\.\\d+$", bindings$element)))
+})
+
+test_that("cybed:Example typed subjects are exactly the Examples (no overlap with cybed:Subpoint)", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  examples  <- sparql_subjects(rdf, "a", "cybed:Example")
+  subpoints <- sparql_subjects(rdf, "a", "cybed:Subpoint")
+
+  expect_equal(nrow(examples), 1)
+  expect_match(examples$s, "\\.example\\.\\d+$")
+  # No node should be typed as both Example and Subpoint.
+  expect_length(intersect(examples$s, subpoints$s), 0)
+})
+
+test_that("Examples are typed cybed:RoleElement (polymorphism)", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  all_role_elements <- sparql_subjects(rdf, "a", "cybed:RoleElement")
+  examples          <- sparql_subjects(rdf, "a", "cybed:Example")
+
+  expect_true(all(examples$s %in% all_role_elements$s))
+})
+
+test_that("Examples appear in element_framework_bindings (framework attribution)", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  bindings <- element_framework_bindings(rdf)
+  example_rows <- bindings[grepl("\\.example\\.\\d+$", bindings$element), ]
+
+  expect_equal(nrow(example_rows), 1)
+  expect_equal(example_rows$framework_name, "Fixture Framework A")
 })
 
 test_that("sub-points round-trip through JSON-LD assemble + parse", {

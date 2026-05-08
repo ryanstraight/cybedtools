@@ -26,7 +26,9 @@ role_element_bindings(rdf)
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
+\code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}}

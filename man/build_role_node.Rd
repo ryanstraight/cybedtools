@@ -2,7 +2,7 @@
 % Please edit documentation in R/jsonld-helpers.R
 \name{build_role_node}
 \alias{build_role_node}
-\title{Construct a \code{cybed:Role} node}
+\title{Construct a \code{cybed:Role} node (workforce frameworks)}
 \usage{
 build_role_node(
   role_id,
@@ -23,8 +23,7 @@ build_role_node(
 \item{framework_prefix}{Character, Tier 2 prefix.}
 
 \item{framework_role_type}{Character, specific subclass name within the
-framework vocabulary (e.g., \code{"WorkRole"}, \code{"RoleProfile"},
-\code{"Competence"}).}
+framework vocabulary (e.g., \code{"WorkRole"}, \code{"RoleProfile"}).}
 
 \item{description}{Character, role description text.}
 
@@ -42,11 +41,11 @@ Named list (JSON-LD node).
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-A "role" in the cybed sense is the top-level organizing unit the framework
-uses. For role-first frameworks (NICE, DCWF, ECSF) it is a work role or
-role profile. For competence-first frameworks (e-CF) it is a competence-at-
-proficiency-level. For skill-first frameworks (SFIA) it is a skill-at-
-responsibility-level.
+Convenience wrapper around \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}} for workforce
+frameworks (NICE, DCWF, ENISA ECSF). Asserts \code{cybed:Role} in addition to
+\code{cybed:OrganizingUnit} and the per-framework subtype. For non-workforce
+frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
+\code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}} directly with \code{is_role = FALSE}.
 }
 \examples{
 role <- build_role_node(
@@ -58,8 +57,8 @@ role <- build_role_node(
   element_ids          = c("T0001", "K0001"),
   framework_id         = "nice-v2"
 )
-role[["@id"]]
-role[["cybed:partOf"]]
+role[["@type"]]
+# c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")
 }
 \seealso{
 Other JSON-LD construction:
@@ -67,6 +66,7 @@ Other JSON-LD construction:
 \code{\link[=build_framework_node]{build_framework_node()}},
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
+\code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}}
 }
 \concept{JSON-LD construction}

@@ -168,65 +168,107 @@ frameworks:
 # sub-point parser runs over each framework's elementText literals. These
 # differ from the per-framework source-data invariants above, which
 # describe inputs to the assembly pipeline. The numbers here describe
-# outputs.
+# outputs under the v0.2.0 vocabulary.
 #
-# Inflation factor is total_element_count / parent_element_count and
-# captures how much each framework's prose-encoded granularity surfaces
-# when run through parse_subpoints(). Frameworks with inflation factors
-# near 1.00x have no meaningful sub-points; their elementText literals
-# are atomic statements. Frameworks with higher inflation factors (SFIA,
-# Cyber.org K-12) encode pedagogical or specification detail in prose.
+# Three counts per framework:
+#   parent_elements        Atomic parent elements (before parser expansion).
+#   subpoint_elements      cybed:Subpoint instances (framework-as-specified
+#                          enumerations: "such as", "including", semicolon
+#                          lists). Carry parent's framework subtype.
+#   example_elements       cybed:Example instances (pedagogical scaffolding
+#                          from "Clarification statement:" sources). Carry
+#                          no framework-native subtype. Reachable only via
+#                          the parent element's cybed:hasExample.
+#   total_elements_strict  parent_elements + subpoint_elements
+#                          (framework-as-specified content; the headline
+#                          density-comparison count).
+#   total_elements_full    parent_elements + subpoint_elements + example_elements
+#                          (inclusive count for granular search-index work).
+#
+# Strict-inflation factor is total_elements_strict / parent_elements and
+# captures how much each framework's framework-as-specified prose
+# surfaces when run through parse_subpoints(). Frameworks near 1.00x have
+# no meaningful enumerations to lift. SFIA is the only framework with
+# meaningful Subpoint inflation; Cyber.org K-12 and CSTA route their
+# parsed content to Examples (not counted in strict).
 
 graph_invariants:
   combined:
-    role_count: [428, 432]
-    element_count: [6900, 6950]   # parents + sub-points across all 8
-    framework_count: [8, 8]
+    organizing_unit_count: [428, 432]   # all 8 frameworks' parents
+    role_count:            [127, 127]   # NICE 41 + DCWF 74 + ECSF 12 (workforce only)
+    total_elements_strict: [6500, 6550] # parents + Subpoints across all 8
+    total_elements_full:   [7000, 7080] # adds Examples (Cyber.org K-12 ~377 + CSTA ~114)
+    example_count:         [485, 500]   # ~377 Cyber.org K-12 + ~114 CSTA
+    framework_count:       [8, 8]
   per_framework:
-    # All eight frameworks run with the parser enabled in v0.1.1. The
-    # initial 2026-05-08 spot-check flagged SFIA and CSEC2017 above the
-    # 10% false-positive threshold; the underlying cause was that the
-    # parser greedily consumed past sentence boundaries. The fix landed
-    # in parse_subpoints() (sentence-boundary stop + connective filter).
-    # Re-spot-check brought both frameworks to 0% FP. Documented in
-    # docs/framework-data-sources.md.
+    # All eight frameworks run with the parser enabled. The 2026-05-08
+    # parser refinement (sentence-boundary stop + connective filter)
+    # brought SFIA and CSEC2017 from initial 30%+ false-positive rates to
+    # 0%. The v0.2.0 vocabulary additionally splits parsed content into
+    # cybed:Subpoint (framework-as-specified) and cybed:Example
+    # (pedagogical scaffolding). Cyber.org K-12 and CSTA Clarification
+    # statements route to Example; everywhere else routes to Subpoint.
     nice-v2:
-      parent_elements: [2109, 2113]
-      total_elements:  [2113, 2117]
-      inflation:       [0.99, 1.01]
-      parser_enabled:  true
+      parent_elements:        [2109, 2113]
+      subpoint_elements:      [3, 6]
+      example_elements:       [0, 0]
+      total_elements_strict:  [2113, 2117]
+      total_elements_full:    [2113, 2117]
+      strict_inflation:       [0.99, 1.01]
+      parser_enabled:         true
     dcwf-v5.1:
-      parent_elements: [2900, 3000]
-      total_elements:  [2900, 3000]
-      inflation:       [0.99, 1.01]
-      parser_enabled:  true
+      parent_elements:        [2900, 3000]
+      subpoint_elements:      [0, 0]
+      example_elements:       [0, 0]
+      total_elements_strict:  [2900, 3000]
+      total_elements_full:    [2900, 3000]
+      strict_inflation:       [0.99, 1.01]
+      parser_enabled:         true
     ecsf-v1:
-      parent_elements: [360, 390]
-      total_elements:  [385, 395]
-      inflation:       [1.00, 1.10]
-      parser_enabled:  true
+      parent_elements:        [360, 390]
+      subpoint_elements:      [14, 18]
+      example_elements:       [0, 0]
+      total_elements_strict:  [385, 395]
+      total_elements_full:    [385, 395]
+      strict_inflation:       [1.00, 1.10]
+      parser_enabled:         true
     sfia-9:
-      parent_elements: [670, 675]
-      total_elements:  [820, 840]
-      inflation:       [1.20, 1.30]
-      parser_enabled:  true
+      parent_elements:        [670, 675]
+      subpoint_elements:      [150, 165]
+      example_elements:       [0, 0]
+      total_elements_strict:  [820, 840]
+      total_elements_full:    [820, 840]
+      strict_inflation:       [1.20, 1.30]
+      parser_enabled:         true
     cyberorg-k12-v1.0:
-      parent_elements: [118, 128]
-      total_elements:  [495, 510]
-      inflation:       [3.95, 4.20]
-      parser_enabled:  true
+      parent_elements:        [118, 128]
+      subpoint_elements:      [0, 0]
+      example_elements:       [375, 380]
+      total_elements_strict:  [118, 128]
+      total_elements_full:    [495, 510]
+      strict_inflation:       [0.99, 1.01]
+      parser_enabled:         true
     csta-2017:
-      parent_elements: [118, 122]
-      total_elements:  [135, 145]
-      inflation:       [1.10, 1.25]
-      parser_enabled:  true
+      parent_elements:        [118, 122]
+      subpoint_elements:      [18, 22]   # from "such as" patterns in standard column
+      example_elements:       [110, 118] # from clarification column extraction
+      total_elements_strict:  [136, 144]
+      total_elements_full:    [246, 262]
+      strict_inflation:       [1.10, 1.25]
+      parser_enabled:         true
     csec2017-v1:
-      parent_elements: [35, 42]
-      total_elements:  [38, 45]
-      inflation:       [1.00, 1.15]
-      parser_enabled:  true
+      parent_elements:        [35, 42]
+      subpoint_elements:      [2, 4]
+      example_elements:       [0, 0]
+      total_elements_strict:  [38, 45]
+      total_elements_full:    [38, 45]
+      strict_inflation:       [1.00, 1.15]
+      parser_enabled:         true
     digcomp-2.2:
-      parent_elements: [18, 21]
-      total_elements:  [18, 21]
-      inflation:       [0.99, 1.01]
-      parser_enabled:  true
+      parent_elements:        [18, 21]
+      subpoint_elements:      [0, 0]
+      example_elements:       [0, 0]
+      total_elements_strict:  [18, 21]
+      total_elements_full:    [18, 21]
+      strict_inflation:       [0.99, 1.01]
+      parser_enabled:         true

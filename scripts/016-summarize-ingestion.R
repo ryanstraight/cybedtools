@@ -200,7 +200,7 @@ render_summary_doc <- function(manifests, summary_tbl) {
   lines <- c(lines,
     "## Cross-framework comparison",
     "",
-    "| Framework | Version | Date | Roles | Elements | License |",
+    "| Framework | Version | Date | Top-level units | Elements | License |",
     "|---|---|---|---|---|---|"
   )
   for (slug in names(manifests)) {

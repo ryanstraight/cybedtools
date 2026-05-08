@@ -7,19 +7,32 @@
 make_demo_graph()
 }
 \value{
-An \code{rdf} object containing roughly 30 triples.
+An \code{rdf} object containing roughly 50 triples.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
 Returns an \code{rdf} object containing a synthetic two-framework graph with
-the structural shape the package's helpers expect: 2 frameworks
-(US/civilian/cybersecurity-specific and EU/general/general-IT), 3 roles
-bound to those frameworks, and 5 elements distributed across them. The
-graph is small enough to execute every helper in milliseconds and is
-provided so first-time users can run \code{framework_metadata()},
-\code{role_framework_bindings()}, etc. without staging upstream framework
-source data.
+the structural shape the package's helpers expect under the v0.2.0
+vocabulary:
+\itemize{
+\item \strong{Framework A} (US, civilian, cybersecurity-specific) is
+workforce-shaped: its 2 organizing units are typed \code{cybed:Role}
+and \code{cybed:OrganizingUnit}, mirroring NICE / DCWF / ENISA ECSF.
+\item \strong{Framework B} (EU, general, general-IT) is non-workforce-shaped:
+its 1 organizing unit is typed \code{cybed:OrganizingUnit} only,
+mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+}
+
+The graph also includes 5 atomic elements (typed \code{cybed:RoleElement}),
+one \code{cybed:Subpoint} (an enumerated child of an element, reachable via
+the role's \code{cybed:hasElement}), and one \code{cybed:Example} (a pedagogical-
+scaffolding child, reachable only via the parent element's
+\code{cybed:hasExample} and excluded from default \code{cybed:hasElement}
+traversals). This is enough to exercise the cross-framework pivots
+(\code{cybed:OrganizingUnit}), the workforce-only pivots (\code{cybed:Role}),
+the Subpoint vs Example separation, and the per-framework pivots in
+a single small graph.
 
 Use this to:
 \itemize{
@@ -36,8 +49,9 @@ against a graph assembled from staged framework sources.
 \examples{
 rdf <- make_demo_graph()
 framework_metadata(rdf)
-role_framework_bindings(rdf)
-sparql_pairs(rdf, "cybed:jurisdiction")
+organizing_unit_framework_bindings(rdf)   # all three units, both frameworks
+role_framework_bindings(rdf)              # only the two workforce-shaped units
+sparql_pairs(rdf, "cybed:hasExample")     # the parent -> example link
 }
 \seealso{
 Other RDF graph loading:

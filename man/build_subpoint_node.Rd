@@ -59,6 +59,7 @@ sp[["cybed:elaborates"]]
 }
 \seealso{
 Other Sub-point parsing:
+\code{\link[=build_example_node]{build_example_node()}},
 \code{\link[=expand_with_subpoints]{expand_with_subpoints()}},
 \code{\link[=extend_role_element_ids]{extend_role_element_ids()}},
 \code{\link[=parse_subpoints]{parse_subpoints()}}

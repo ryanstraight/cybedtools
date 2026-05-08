@@ -2,7 +2,7 @@
 % Please edit documentation in R/jsonld-helpers.R
 \name{expand_with_subpoints}
 \alias{expand_with_subpoints}
-\title{Expand parent element nodes with subpoint child nodes}
+\title{Expand parent element nodes with sub-point and example child nodes}
 \usage{
 expand_with_subpoints(
   element_nodes,
@@ -29,24 +29,42 @@ unknown.}
 }
 \value{
 List with two named entries: \code{nodes} (the expanded list of
-parent + sub-point nodes) and \code{subpoint_index} (a tibble with one row
-per sub-point: \code{parent_id}, \code{subpoint_id}, \code{ordinal}). The index is
-useful for back-filling the parent role's \code{cybed:hasElement} list.
+parent + child nodes) and \code{subnode_index} (a tibble with one row
+per child: \code{parent_id}, \code{subnode_id}, \code{ordinal}, \code{node_type}). The
+index drives \code{\link[=extend_role_element_ids]{extend_role_element_ids()}}, which back-fills the parent
+role's \code{cybed:hasElement} list with Subpoint IDs (Examples excluded).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-Convenience wrapper that walks a list of parent element nodes, parses
-each one's \code{cybed:elementText} for sub-points, and returns a list with
-the parents plus newly-minted sub-point nodes. Sub-point IDs are
-deterministic (parent_iri + ".sub." + ordinal).
+Walks a list of parent element nodes, parses each one's
+\code{cybed:elementText} for enumerated child fragments, and returns a list
+with the parents plus newly-minted child nodes. Each child is routed
+per its parsed \code{node_type}:
+\itemize{
+\item \code{node_type == "Subpoint"} (framework-as-specified enumeration from
+"such as", "including", semicolon-list patterns) becomes a
+\link[=build_subpoint_node]{cybed:Subpoint} node, carries its parent's
+framework subtype, and appears in default \code{cybed:hasElement}
+traversals.
+\item \code{node_type == "Example"} (pedagogical scaffolding from "Clarification
+statement:" sources) becomes a \link[=build_example_node]{cybed:Example}
+node, carries no framework-native subtype, and is reachable only via
+the parent's \code{cybed:hasExample} predicate (Examples are excluded from
+default \code{cybed:hasElement} collections).
+}
 
-Parents whose text yields no sub-points pass through unchanged. The
-returned list preserves parent order and appends sub-points after their
-parents.
+Parents that emit any Example children are mutated in place to add
+\code{cybed:hasExample} triples linking to those Examples. Parents whose
+text yields no fragments pass through unchanged. The returned list
+preserves parent order and appends children after their parents.
+
+Child IRIs are deterministic: \verb{<parent_iri>.sub.<ordinal>} for
+Subpoints and \verb{<parent_iri>.example.<ordinal>} for Examples.
 }
 \seealso{
 Other Sub-point parsing:
+\code{\link[=build_example_node]{build_example_node()}},
 \code{\link[=build_subpoint_node]{build_subpoint_node()}},
 \code{\link[=extend_role_element_ids]{extend_role_element_ids()}},
 \code{\link[=parse_subpoints]{parse_subpoints()}}

@@ -21,21 +21,23 @@ If you place your own `.rq` files in this directory, follow the single-BGP disci
 - Body: one triple pattern (one `?subject <predicate> ?object` line inside a single `WHERE { ... }`).
 - Use the `sparql_pairs()` or `sparql_subjects()` primitives from `R/sparql-helpers.R` to invoke from R, then aggregate or join in dplyr.
 
-Example:
+Example targeting cross-framework parent units (work roles, skills, grade-band concepts, level-concept buckets, Knowledge Areas, competence areas) via the `cybed:OrganizingUnit` abstract:
 
 ```sparql
 PREFIX cybed: <https://w3id.org/cybed/ontology#>
 
-SELECT ?role ?framework
+SELECT ?unit
 WHERE {
-  ?role cybed:partOf ?framework .
+  ?unit a cybed:OrganizingUnit .
 }
 ```
+
+To restrict to workforce frameworks (NICE / DCWF / ECSF), substitute `cybed:Role` for `cybed:OrganizingUnit`. To enumerate Cyber.org K-12 / CSTA pedagogical Examples, substitute `cybed:Example`.
 
 ```r
 library(cybedtools)
 rdf <- load_combined_ntriples_graph()
-pairs <- sparql_pairs(rdf, "cybed:partOf")
+units <- sparql_subjects(rdf, "a", "cybed:OrganizingUnit")
 # Then join, filter, aggregate in dplyr.
 ```
 
