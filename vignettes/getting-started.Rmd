@@ -26,7 +26,7 @@ This vignette walks through the two ways to use it: install the package and run 
 Three semantic abstractions carry the work:
 
 - **`cybed:Framework`**: a competency or learning framework.
-- **`cybed:OrganizingUnit`**: the framework's top-level enumerated unit (work role, work profile, skill, grade-band concept, level-concept bucket, Knowledge Area, competence area). The cross-framework abstract; queries against it reach all eight frameworks. Workforce frameworks where the unit is genuinely a work role or profile (NICE / DCWF / ENISA ECSF) additionally subclass `cybed:Role`.
+- **`cybed:OrganizingUnit`**: the framework's top-level enumerated unit (work role, work profile, skill, grade-band x sub-concept cell, level x concept cell, Knowledge Area, competence area). The cross-framework abstract; queries against it reach all eight frameworks. Workforce frameworks where the unit is genuinely a work role or profile (NICE / DCWF / ENISA ECSF) additionally subclass `cybed:Role`.
 - **`cybed:RoleElement`**: the codable atomic statement attached to an organizing unit (task, knowledge statement, skill statement, learning standard). Two specialized subtypes for parsed sub-content: `cybed:Subpoint` for framework-as-specified enumerations, and `cybed:Example` for pedagogical-scaffolding fragments lifted from "Clarification statement:" prose.
 
 A single SPARQL query targeting `cybed:RoleElement` returns atomic elements across every framework in one pass; targeting `cybed:OrganizingUnit` returns parents.

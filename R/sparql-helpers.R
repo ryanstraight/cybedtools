@@ -140,7 +140,7 @@ framework_metadata <- function(rdf) {
 #' `cybed:Role` and its `partOf` target is typed `cybed:Framework`. As of
 #' v0.2.0, `cybed:Role` is reserved for workforce frameworks (NICE work
 #' roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
-#' K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017
+#' K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 #' Knowledge Areas, and DigComp competence areas are not roles and are
 #' not returned by this helper. Use [organizing_unit_framework_bindings()]
 #' for the cross-framework "top-level enumerated unit" cut that includes
@@ -182,8 +182,8 @@ role_framework_bindings <- function(rdf) {
 #' One row per (organizing unit, framework) pair across all eight
 #' frameworks. Queries on the cross-framework abstract type
 #' `cybed:OrganizingUnit`, which every framework's top-level enumerated
-#' unit asserts (work roles, work profiles, skills, grade-band concepts,
-#' level-concept buckets, Knowledge Areas, competence areas). Use this
+#' unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
+#' level x concept cells, Knowledge Areas, competence areas). Use this
 #' helper for cross-framework parent-level analysis. Use
 #' [role_framework_bindings()] when the question is workforce-specific
 #' (NICE work roles, DCWF work roles, ENISA ECSF profiles only).

@@ -19,8 +19,8 @@ A tibble with columns \code{unit}, \code{unit_name}, \code{framework},
 One row per (organizing unit, framework) pair across all eight
 frameworks. Queries on the cross-framework abstract type
 \code{cybed:OrganizingUnit}, which every framework's top-level enumerated
-unit asserts (work roles, work profiles, skills, grade-band concepts,
-level-concept buckets, Knowledge Areas, competence areas). Use this
+unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
+level x concept cells, Knowledge Areas, competence areas). Use this
 helper for cross-framework parent-level analysis. Use
 \code{\link[=role_framework_bindings]{role_framework_bindings()}} when the question is workforce-specific
 (NICE work roles, DCWF work roles, ENISA ECSF profiles only).

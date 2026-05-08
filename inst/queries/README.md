@@ -21,7 +21,7 @@ If you place your own `.rq` files in this directory, follow the single-BGP disci
 - Body: one triple pattern (one `?subject <predicate> ?object` line inside a single `WHERE { ... }`).
 - Use the `sparql_pairs()` or `sparql_subjects()` primitives from `R/sparql-helpers.R` to invoke from R, then aggregate or join in dplyr.
 
-Example targeting cross-framework parent units (work roles, skills, grade-band concepts, level-concept buckets, Knowledge Areas, competence areas) via the `cybed:OrganizingUnit` abstract:
+Example targeting cross-framework parent units (work roles, skills, grade-band x sub-concept cells, level x concept cells, Knowledge Areas, competence areas) via the `cybed:OrganizingUnit` abstract:
 
 ```sparql
 PREFIX cybed: <https://w3id.org/cybed/ontology#>

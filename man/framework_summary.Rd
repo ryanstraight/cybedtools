@@ -18,7 +18,7 @@ of \code{"workforce"} or \code{"pedagogy"}. Independent of the structural
 \item{organizing_unit_count}{Integer. Distinct top-level enumerated
 units bound to the framework via \code{cybed:partOf}. For NICE / DCWF /
 ECSF this is work roles or work profiles; for SFIA, skills; for
-Cyber.org K-12, grade-band concepts; for CSTA, level-concept
+Cyber.org K-12, grade-band x sub-concept cells; for CSTA, level-concept
 buckets; for CSEC2017, Knowledge Areas; for DigComp 2.2, competence
 areas. Cross-framework comparison via \code{cybed:OrganizingUnit}.}
 \item{element_count_strict}{Integer. Distinct framework-as-specified

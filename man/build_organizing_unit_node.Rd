@@ -31,7 +31,7 @@ build_organizing_unit_node(
 \item{is_role}{Logical, whether to additionally assert \code{cybed:Role}.
 \code{TRUE} for NICE work roles, DCWF work roles, and ENISA ECSF profiles;
 \code{FALSE} for SFIA skills, Cyber.org K-12 grade-band cells, CSTA
-level-concept buckets, CSEC2017 Knowledge Areas, and DigComp competence
+level x concept cells, CSEC2017 Knowledge Areas, and DigComp competence
 areas. Defaults to \code{FALSE}.}
 
 \item{description}{Character, unit description text.}

@@ -20,7 +20,7 @@ One row per (role, framework) pair where the role is typed
 \code{cybed:Role} and its \code{partOf} target is typed \code{cybed:Framework}. As of
 v0.2.0, \code{cybed:Role} is reserved for workforce frameworks (NICE work
 roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
-K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017
+K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}}
 for the cross-framework "top-level enumerated unit" cut that includes

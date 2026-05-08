@@ -206,7 +206,7 @@ build_framework_node <- function(framework_id,
 #' @param is_role Logical, whether to additionally assert `cybed:Role`.
 #'   `TRUE` for NICE work roles, DCWF work roles, and ENISA ECSF profiles;
 #'   `FALSE` for SFIA skills, Cyber.org K-12 grade-band cells, CSTA
-#'   level-concept buckets, CSEC2017 Knowledge Areas, and DigComp competence
+#'   level x concept cells, CSEC2017 Knowledge Areas, and DigComp competence
 #'   areas. Defaults to `FALSE`.
 #' @param description Character, unit description text.
 #' @param element_ids Character vector of role-element identifiers to link

@@ -30,7 +30,7 @@ The natural semantic-web question is: why mint `cybed:` rather than reuse an exi
 
 **Pedagogical-frameworks gap.** ESCO and the workforce-competency ontologies do not represent K-12 or higher-education curricular frameworks (Cyber.org K-12 standards, CSTA standards, CSEC2017 guidelines, DigComp). The package's design commitment is to make workforce frameworks and pedagogical frameworks queryable through the same schema. That requires a base vocabulary that subsumes both, which existing competency ontologies do not.
 
-**Comparison-layer purpose.** The `cybed:` schema is designed specifically for cross-framework comparison: a single SPARQL query targeting `cybed:OrganizingUnit` returns parent units across every framework in one pass, regardless of whether that unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band concept, or a DigComp competence area. Existing ontologies are not built to subsume this heterogeneity at the comparison layer.
+**Comparison-layer purpose.** The `cybed:` schema is designed specifically for cross-framework comparison: a single SPARQL query targeting `cybed:OrganizingUnit` returns parent units across every framework in one pass, regardless of whether that unit is a NICE work role, an SFIA skill, a Cyber.org K-12 grade-band x sub-concept cell, or a DigComp competence area. Existing ontologies are not built to subsume this heterogeneity at the comparison layer.
 
 Where existing vocabulary fits cleanly, the schema reuses it: Schema.org (`schema:`) for generic properties (name, description, version, publisher, datePublished, license) and SKOS (`skos:`) for prefLabel and altLabel. Tier 1 `cybed:` types specialize these where framework structure requires it. Tier 2 framework prefixes specialize `cybed:` types where framework vocabulary requires it.
 
@@ -91,8 +91,8 @@ A single SPARQL query against `cybed:OrganizingUnit` returns comparable parent-l
 Framework-agnostic terms. `cybed:OrganizingUnit` is the cross-framework abstract; every framework's parent type subclasses it, and queries against it reach all eight frameworks. `cybed:Role` is reserved for workforce frameworks where the unit is genuinely a work role or work profile.
 
 - `cybed:Framework`, top-level container for a specific framework.
-- `cybed:OrganizingUnit`, `subClassOf skos:Concept`. The cross-framework abstract for any framework's top-level enumerated unit (work role, role profile, skill, grade-band concept, level-concept bucket, Knowledge Area, competence area).
-- `cybed:Role`, `subClassOf cybed:OrganizingUnit`. The workforce-specific intermediate type. Asserted on NICE work roles, DCWF work roles, and ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12 grade-band concepts, CSTA level-concept buckets, CSEC2017 Knowledge Areas, or DigComp competence areas.
+- `cybed:OrganizingUnit`, `subClassOf skos:Concept`. The cross-framework abstract for any framework's top-level enumerated unit (work role, role profile, skill, grade-band x sub-concept cell, level x concept cell, Knowledge Area, competence area).
+- `cybed:Role`, `subClassOf cybed:OrganizingUnit`. The workforce-specific intermediate type. Asserted on NICE work roles, DCWF work roles, and ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017 Knowledge Areas, or DigComp competence areas.
 - `cybed:RoleElement`, an atomic element attached to a parent unit (task, competence, skill statement, knowledge statement, learning standard, etc.).
 - `cybed:Subpoint`, `subClassOf cybed:RoleElement`. Tags graph nodes parsed from framework-as-specified enumerations within a parent's text ("such as" lists, "including" patterns, semicolon-delimited examples). Subpoints retain their parent's framework-native subtype and link back via `cybed:elaborates`. Subpoints appear in default `cybed:hasElement` traversals.
 - `cybed:Example`, `subClassOf cybed:RoleElement`. Tags graph nodes parsed from pedagogical-scaffolding "Clarification statement:" prose (Cyber.org K-12 and CSTA convention). Examples carry no framework-native subtype because the source frameworks treat them as illustrative rather than enumerable. Examples are reachable only via the parent element's `cybed:hasExample` predicate and are excluded from default `cybed:hasElement` traversals.
@@ -152,7 +152,7 @@ A workforce framework parent (NICE work role) carries `cybed:Role` and `cybed:Or
 }
 ```
 
-A non-workforce framework parent (Cyber.org K-12 grade-band concept) carries `cybed:OrganizingUnit` only, and its standard's Clarification examples are typed `cybed:Example` linked via `cybed:hasExample`:
+A non-workforce framework parent (Cyber.org K-12 grade-band x sub-concept cell) carries `cybed:OrganizingUnit` only, and its standard's Clarification examples are typed `cybed:Example` linked via `cybed:hasExample`:
 
 ```json
 {
