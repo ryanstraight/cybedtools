@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
 title: "cybedtools: An R Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks"
-version: 0.1.0
+version: 0.1.1
 doi: 10.5281/zenodo.20076116
 authors:
   - family-names: Straight
@@ -13,7 +13,7 @@ authors:
 license: MIT
 repository-code: "https://github.com/ryanstraight/cybedtools"
 url: "https://github.com/ryanstraight/cybedtools"
-date-released: 2026-05-07
+date-released: 2026-05-08
 keywords:
   - cybersecurity
   - workforce frameworks

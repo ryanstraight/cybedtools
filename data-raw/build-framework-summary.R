@@ -44,7 +44,7 @@ display <- tibble::tribble(
   "https://w3id.org/cybed/ontology#framework/nice-v2",           1L,             "NICE v2",                 "workforce",     "public domain",
   "https://w3id.org/cybed/ontology#framework/dcwf-v5.1",         2L,             "DCWF v5.1",               "workforce",     "public domain",
   "https://w3id.org/cybed/ontology#framework/ecsf-v1",           3L,             "ECSF v1",                 "workforce",     "CC BY 4.0",
-  "https://w3id.org/cybed/ontology#framework/sfia-9",            4L,             "SFIA 9",                  "workforce",     "SFIA non-commercial",
+  "https://w3id.org/cybed/ontology#framework/sfia-9",            4L,             "SFIA 9",                  "workforce",     "SFIA Use Policy",
   "https://w3id.org/cybed/ontology#framework/cyberorg-k12-v1.0", 5L,             "Cyber.org K-12 v1.0",     "pedagogy",      "CC BY-NC 4.0",
   "https://w3id.org/cybed/ontology#framework/csta-2017",         6L,             "CSTA K-12 CS (Rev 2017)", "pedagogy",      "CC BY-NC-SA 4.0",
   "https://w3id.org/cybed/ontology#framework/csec2017-v1",       7L,             "ACM/IEEE CSEC2017",       "pedagogy",      "ACM/IEEE educational-use",

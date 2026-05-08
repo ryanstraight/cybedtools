@@ -91,6 +91,46 @@ make_fixture_graph <- function() {
   rdflib::rdf_add(rdf, role_b1, cybed_term("hasElement"), el_b1)
   rdflib::rdf_add(rdf, role_b1, cybed_term("hasElement"), el_b2)
 
+  # Sub-points (added v0.1.1). el_a1 has 2 sub-points, el_b1 has 3.
+  # Sub-points carry: cybed:Subpoint + cybed:RoleElement types,
+  # cybed:elaborates -> parent, cybed:partOf -> framework,
+  # and the cluster (role) cybed:hasElement extends to include them.
+  subpoint_class <- cybed_term("Subpoint")
+
+  el_a1_sub1 <- cybed_term("element/fixture-el-a1.sub.1")
+  el_a1_sub2 <- cybed_term("element/fixture-el-a1.sub.2")
+  el_b1_sub1 <- cybed_term("element/fixture-el-b1.sub.1")
+  el_b1_sub2 <- cybed_term("element/fixture-el-b1.sub.2")
+  el_b1_sub3 <- cybed_term("element/fixture-el-b1.sub.3")
+
+  for (sp in c(el_a1_sub1, el_a1_sub2, el_b1_sub1, el_b1_sub2, el_b1_sub3)) {
+    rdflib::rdf_add(rdf, sp, rdf_type, element_class)
+    rdflib::rdf_add(rdf, sp, rdf_type, subpoint_class)
+  }
+
+  # cybed:elaborates: sub-point -> parent
+  rdflib::rdf_add(rdf, el_a1_sub1, cybed_term("elaborates"), el_a1)
+  rdflib::rdf_add(rdf, el_a1_sub2, cybed_term("elaborates"), el_a1)
+  rdflib::rdf_add(rdf, el_b1_sub1, cybed_term("elaborates"), el_b1)
+  rdflib::rdf_add(rdf, el_b1_sub2, cybed_term("elaborates"), el_b1)
+  rdflib::rdf_add(rdf, el_b1_sub3, cybed_term("elaborates"), el_b1)
+
+  # cybed:partOf: sub-point -> framework (matches parent's framework)
+  rdflib::rdf_add(rdf, el_a1_sub1, cybed_term("partOf"), fw_a)
+  rdflib::rdf_add(rdf, el_a1_sub2, cybed_term("partOf"), fw_a)
+  rdflib::rdf_add(rdf, el_b1_sub1, cybed_term("partOf"), fw_b)
+  rdflib::rdf_add(rdf, el_b1_sub2, cybed_term("partOf"), fw_b)
+  rdflib::rdf_add(rdf, el_b1_sub3, cybed_term("partOf"), fw_b)
+
+  # Cluster (role) cybed:hasElement extends to include the sub-points.
+  # role_a1 originally had {el_a1, el_a2}; adding 2 sub-points of el_a1.
+  rdflib::rdf_add(rdf, role_a1, cybed_term("hasElement"), el_a1_sub1)
+  rdflib::rdf_add(rdf, role_a1, cybed_term("hasElement"), el_a1_sub2)
+  # role_b1 originally had {el_b1, el_b2}; adding 3 sub-points of el_b1.
+  rdflib::rdf_add(rdf, role_b1, cybed_term("hasElement"), el_b1_sub1)
+  rdflib::rdf_add(rdf, role_b1, cybed_term("hasElement"), el_b1_sub2)
+  rdflib::rdf_add(rdf, role_b1, cybed_term("hasElement"), el_b1_sub3)
+
   # Duplicate partOf triple. RDF set semantics should dedupe; the domain
   # helpers must not double-count regardless.
   rdflib::rdf_add(rdf, role_a1, cybed_term("partOf"), fw_a)

@@ -258,7 +258,7 @@ publisher's spelling.
 ## Licensing for data redistribution
 
 The package code is MIT. Framework source text is **not** redistributed
-in the repo because licenses differ per framework (SFIA non-commercial,
+in the repo because licenses differ per framework (SFIA Use Policy,
 Cyber.org K-12 CC BY-NC, CSTA CC BY-NC-SA, etc.). If you are an agent
 generating example outputs from staged framework data, derivative
 analytical outputs (counts, mappings, structural comparisons) are

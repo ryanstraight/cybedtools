@@ -28,7 +28,13 @@ suppressPackageStartupMessages({
   library(stringr)
 })
 
-source(here("src", "utils", "jsonld-helpers.R"))
+# Load helpers from the in-tree package source when running from a working
+# tree, otherwise fall back to the installed cybedtools.
+if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION"))) {
+  pkgload::load_all(here(), quiet = TRUE)
+} else {
+  library(cybedtools)
+}
 
 assembly_config <- list(
   raw_dir       = here("data", "raw"),
@@ -83,23 +89,6 @@ assemble_nice <- function() {
     date_published   = prov$framework_date
   )
 
-  role_nodes <- work_roles |>
-    purrr::pmap(function(element_id, title, text, ...) {
-      child_ids <- assocs |>
-        filter(work_role_id == element_id) |>
-        pull(statement_id)
-
-      build_role_node(
-        role_id              = element_id,
-        role_name            = title,
-        framework_prefix     = "nice",
-        framework_role_type  = "WorkRole",
-        description          = text,
-        element_ids          = child_ids,
-        framework_id         = "nice-v2"
-      )
-    })
-
   # Iterate the source TKS tables directly so orphan statements (TKS that
   # exist in NIST's catalog but are not yet bound to a work role in the
   # associations table) are still represented in the graph. Iterating the
@@ -107,7 +96,7 @@ assemble_nice <- function() {
   all_elements <- dplyr::bind_rows(tasks, knowledge, skills) |>
     dplyr::distinct(element_id, element_type, text)
 
-  element_nodes <- all_elements |>
+  parent_element_nodes <- all_elements |>
     purrr::pmap(function(element_id, element_type, text, ...) {
       subclass <- switch(element_type,
         task      = "TaskStatement",
@@ -124,7 +113,33 @@ assemble_nice <- function() {
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "nice",
+    framework_id     = "nice-v2",
+    framework_slug   = "nice"
+  )
+
+  role_nodes <- work_roles |>
+    purrr::pmap(function(element_id, title, text, ...) {
+      child_ids <- assocs |>
+        filter(work_role_id == element_id) |>
+        pull(statement_id)
+
+      child_ids <- extend_role_element_ids(child_ids, expanded$subpoint_index)
+
+      build_role_node(
+        role_id              = element_id,
+        role_name            = title,
+        framework_prefix     = "nice",
+        framework_role_type  = "WorkRole",
+        description          = text,
+        element_ids          = child_ids,
+        framework_id         = "nice-v2"
+      )
+    })
+
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "nice")
 }
 
@@ -147,25 +162,7 @@ assemble_sfia <- function() {
   )
 
   # Role = Skill. Element = SkillLevel (a skill at a specific level).
-  role_nodes <- skills |>
-    purrr::pmap(function(code, name, description, guidance_notes, ...) {
-      level_ids <- skill_levels |>
-        filter(code == !!code) |>
-        mutate(level_id = paste0(code, "-L", level)) |>
-        pull(level_id)
-
-      build_role_node(
-        role_id              = code,
-        role_name            = name,
-        framework_prefix     = "sfia",
-        framework_role_type  = "Skill",
-        description          = description,
-        element_ids          = level_ids,
-        framework_id         = "sfia-9"
-      )
-    })
-
-  element_nodes <- skill_levels |>
+  parent_element_nodes <- skill_levels |>
     purrr::pmap(function(code, level, description, ...) {
       level_id <- paste0(code, "-L", level)
       build_role_element_node(
@@ -178,7 +175,34 @@ assemble_sfia <- function() {
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "sfia",
+    framework_id     = "sfia-9",
+    framework_slug   = "sfia"
+  )
+
+  role_nodes <- skills |>
+    purrr::pmap(function(code, name, description, guidance_notes, ...) {
+      level_ids <- skill_levels |>
+        filter(code == !!code) |>
+        mutate(level_id = paste0(code, "-L", level)) |>
+        pull(level_id)
+
+      level_ids <- extend_role_element_ids(level_ids, expanded$subpoint_index)
+
+      build_role_node(
+        role_id              = code,
+        role_name            = name,
+        framework_prefix     = "sfia",
+        framework_role_type  = "Skill",
+        description          = description,
+        element_ids          = level_ids,
+        framework_id         = "sfia-9"
+      )
+    })
+
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "sfia")
 }
 
@@ -216,20 +240,7 @@ assemble_dcwf <- function() {
     date_published   = prov$framework_date
   )
 
-  role_nodes <- roles |>
-    purrr::pmap(function(dcwf_code, work_role, work_role_definition, ...) {
-      build_role_node(
-        role_id              = dcwf_code,
-        role_name            = work_role,
-        framework_prefix     = "dcwf",
-        framework_role_type  = "WorkRole",
-        description          = work_role_definition,
-        element_ids          = character(0),  # per-role associations live in per-role-content-long.csv; not wired yet
-        framework_id         = "dcwf-v5.1"
-      )
-    })
-
-  element_nodes <- elements |>
+  parent_element_nodes <- elements |>
     filter(!is.na(statement_id)) |>
     distinct(statement_id, .keep_all = TRUE) |>
     purrr::pmap(function(statement_id, ...) {
@@ -246,7 +257,27 @@ assemble_dcwf <- function() {
     }) |>
     compact()
 
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "dcwf",
+    framework_id     = "dcwf-v5.1",
+    framework_slug   = "dcwf"
+  )
+
+  role_nodes <- roles |>
+    purrr::pmap(function(dcwf_code, work_role, work_role_definition, ...) {
+      build_role_node(
+        role_id              = dcwf_code,
+        role_name            = work_role,
+        framework_prefix     = "dcwf",
+        framework_role_type  = "WorkRole",
+        description          = work_role_definition,
+        element_ids          = character(0),  # per-role associations live in per-role-content-long.csv; not wired yet
+        framework_id         = "dcwf-v5.1"
+      )
+    })
+
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "dcwf")
 }
 
@@ -268,25 +299,7 @@ assemble_ecsf <- function() {
     date_published   = prov$framework_date
   )
 
-  role_nodes <- profiles |>
-    purrr::pmap(function(profile_id, title, mission, ...) {
-      child_ids <- elements |>
-        filter(profile_id == !!profile_id) |>
-        mutate(element_id = paste0(profile_id, "-", element_type, "-", element_index)) |>
-        pull(element_id)
-
-      build_role_node(
-        role_id              = profile_id,
-        role_name            = title,
-        framework_prefix     = "ecsf",
-        framework_role_type  = "RoleProfile",
-        description          = mission,
-        element_ids          = child_ids,
-        framework_id         = "ecsf-v1"
-      )
-    })
-
-  element_nodes <- elements |>
+  parent_element_nodes <- elements |>
     purrr::pmap(function(profile_id, element_type, element_index, element_text, ...) {
       element_id <- paste0(profile_id, "-", element_type, "-", element_index)
       subclass <- switch(element_type,
@@ -306,7 +319,34 @@ assemble_ecsf <- function() {
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "ecsf",
+    framework_id     = "ecsf-v1",
+    framework_slug   = "ecsf"
+  )
+
+  role_nodes <- profiles |>
+    purrr::pmap(function(profile_id, title, mission, ...) {
+      child_ids <- elements |>
+        filter(profile_id == !!profile_id) |>
+        mutate(element_id = paste0(profile_id, "-", element_type, "-", element_index)) |>
+        pull(element_id)
+
+      child_ids <- extend_role_element_ids(child_ids, expanded$subpoint_index)
+
+      build_role_node(
+        role_id              = profile_id,
+        role_name            = title,
+        framework_prefix     = "ecsf",
+        framework_role_type  = "RoleProfile",
+        description          = mission,
+        element_ids          = child_ids,
+        framework_id         = "ecsf-v1"
+      )
+    })
+
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "ecsf")
 }
 
@@ -334,6 +374,26 @@ assemble_cyberorg <- function() {
     distinct(grade_band, theme, sub_concept) |>
     mutate(cell_id = paste(grade_band, theme, sub_concept, sep = "."))
 
+  parent_element_nodes <- standards |>
+    purrr::pmap(function(standard_id, grade_band, theme, sub_concept, sequence,
+                         statement_text, ...) {
+      build_role_element_node(
+        element_id             = standard_id,
+        framework_prefix       = "cyberorg",
+        framework_element_type = "Standard",
+        element_text           = statement_text,
+        source_section         = paste(grade_band, theme, sub_concept, sep = "."),
+        framework_id           = "cyberorg-k12-v1.0"
+      )
+    })
+
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "cyberorg",
+    framework_id     = "cyberorg-k12-v1.0",
+    framework_slug   = "cyberorg-k12"
+  )
+
   role_nodes <- cells |>
     purrr::pmap(function(grade_band, theme, sub_concept, cell_id, ...) {
       child_standards <- standards |>
@@ -341,6 +401,8 @@ assemble_cyberorg <- function() {
                theme      == !!theme,
                sub_concept == !!sub_concept) |>
         pull(standard_id)
+
+      child_standards <- extend_role_element_ids(child_standards, expanded$subpoint_index)
 
       sc_name <- subcons |>
         filter(theme == !!theme, sub_concept == !!sub_concept) |>
@@ -357,20 +419,7 @@ assemble_cyberorg <- function() {
       )
     })
 
-  element_nodes <- standards |>
-    purrr::pmap(function(standard_id, grade_band, theme, sub_concept, sequence,
-                         statement_text, ...) {
-      build_role_element_node(
-        element_id             = standard_id,
-        framework_prefix       = "cyberorg",
-        framework_element_type = "Standard",
-        element_text           = statement_text,
-        source_section         = paste(grade_band, theme, sub_concept, sep = "."),
-        framework_id           = "cyberorg-k12-v1.0"
-      )
-    })
-
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "cyberorg")
 }
 
@@ -400,11 +449,32 @@ assemble_csta <- function() {
     distinct(level, concept) |>
     mutate(cluster_id = paste(level, str_replace_all(concept, "[^A-Za-z]+", ""), sep = "-"))
 
+  parent_element_nodes <- standards |>
+    purrr::pmap(function(identifier, level, concept, standard, ...) {
+      build_role_element_node(
+        element_id             = identifier,
+        framework_prefix       = "csta",
+        framework_element_type = "Standard",
+        element_text           = standard,
+        source_section         = paste(level, concept, sep = "."),
+        framework_id           = "csta-2017"
+      )
+    })
+
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "csta",
+    framework_id     = "csta-2017",
+    framework_slug   = "csta"
+  )
+
   role_nodes <- clusters |>
     purrr::pmap(function(level, concept, cluster_id, ...) {
       child_standards <- standards |>
         filter(level == !!level, concept == !!concept) |>
         pull(identifier)
+
+      child_standards <- extend_role_element_ids(child_standards, expanded$subpoint_index)
 
       build_role_node(
         role_id              = cluster_id,
@@ -417,19 +487,7 @@ assemble_csta <- function() {
       )
     })
 
-  element_nodes <- standards |>
-    purrr::pmap(function(identifier, level, concept, standard, ...) {
-      build_role_element_node(
-        element_id             = identifier,
-        framework_prefix       = "csta",
-        framework_element_type = "Standard",
-        element_text           = standard,
-        source_section         = paste(level, concept, sep = "."),
-        framework_id           = "csta-2017"
-      )
-    })
-
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "csta")
 }
 
@@ -451,11 +509,32 @@ assemble_csec2017 <- function() {
     date_published   = prov$version_date
   )
 
+  parent_element_nodes <- essentials |>
+    purrr::pmap(function(element_id, ka_id, element_type, element_text, ...) {
+      build_role_element_node(
+        element_id             = element_id,
+        framework_prefix       = "csec",
+        framework_element_type = "Essential",
+        element_text           = element_text,
+        source_section         = ka_id,
+        framework_id           = "csec2017-v1"
+      )
+    })
+
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "csec",
+    framework_id     = "csec2017-v1",
+    framework_slug   = "csec2017"
+  )
+
   role_nodes <- kas |>
     purrr::pmap(function(ka_id, section, name, short_name, ...) {
       child_essentials <- essentials |>
         filter(ka_id == !!ka_id) |>
         pull(element_id)
+
+      child_essentials <- extend_role_element_ids(child_essentials, expanded$subpoint_index)
 
       build_role_node(
         role_id              = ka_id,
@@ -468,19 +547,7 @@ assemble_csec2017 <- function() {
       )
     })
 
-  element_nodes <- essentials |>
-    purrr::pmap(function(element_id, ka_id, element_type, element_text, ...) {
-      build_role_element_node(
-        element_id             = element_id,
-        framework_prefix       = "csec",
-        framework_element_type = "Essential",
-        element_text           = element_text,
-        source_section         = ka_id,
-        framework_id           = "csec2017-v1"
-      )
-    })
-
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "csec")
 }
 
@@ -504,25 +571,7 @@ assemble_digcomp <- function() {
   )
 
   # Role = Competence Area. Element = Competence.
-  role_nodes <- areas |>
-    purrr::pmap(function(area_id, area_number, area_name, ...) {
-      child_competence_ids <- competences |>
-        filter(area_id == !!area_id) |>
-        mutate(element_id = paste0("COMP-", competence_id)) |>
-        pull(element_id)
-
-      build_role_node(
-        role_id              = area_id,
-        role_name            = area_name,
-        framework_prefix     = "digcomp",
-        framework_role_type  = "CompetenceArea",
-        description          = paste("DigComp 2.2 Area", area_number, "-", area_name),
-        element_ids          = child_competence_ids,
-        framework_id         = "digcomp-2.2"
-      )
-    })
-
-  element_nodes <- descs |>
+  parent_element_nodes <- descs |>
     purrr::pmap(function(element_id, competence_id, competence_name, description, ...) {
       text_val <- if (!is.na(description) && description != "") description else competence_name
       build_role_element_node(
@@ -535,7 +584,34 @@ assemble_digcomp <- function() {
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
+  expanded <- expand_with_subpoints(
+    element_nodes    = parent_element_nodes,
+    framework_prefix = "digcomp",
+    framework_id     = "digcomp-2.2",
+    framework_slug   = "digcomp"
+  )
+
+  role_nodes <- areas |>
+    purrr::pmap(function(area_id, area_number, area_name, ...) {
+      child_competence_ids <- competences |>
+        filter(area_id == !!area_id) |>
+        mutate(element_id = paste0("COMP-", competence_id)) |>
+        pull(element_id)
+
+      child_competence_ids <- extend_role_element_ids(child_competence_ids, expanded$subpoint_index)
+
+      build_role_node(
+        role_id              = area_id,
+        role_name            = area_name,
+        framework_prefix     = "digcomp",
+        framework_role_type  = "CompetenceArea",
+        description          = paste("DigComp 2.2 Area", area_number, "-", area_name),
+        element_ids          = child_competence_ids,
+        framework_id         = "digcomp-2.2"
+      )
+    })
+
+  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
        prefix = "digcomp")
 }
 

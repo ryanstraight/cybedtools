@@ -2,7 +2,7 @@ Package: cybedtools
 Type: Package
 Title: Computational Tools for Analyzing Cybersecurity Workforce and
     Learning Frameworks
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person(
     "Ryan", "Straight",
     email = "ryanstraight@arizona.edu",
@@ -41,6 +41,7 @@ Suggests:
     janitor,
     DBI,
     RSQLite,
+    jsonld,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,

@@ -163,3 +163,70 @@ frameworks:
       profile_elements: [360, 390]
       ecf_cross_references: [50, 60]
     notes: "12 role profiles with embedded e-CF 4.0 cross-references."
+
+# Graph invariants describe the post-expansion counts after the v0.1.1
+# sub-point parser runs over each framework's elementText literals. These
+# differ from the per-framework source-data invariants above, which
+# describe inputs to the assembly pipeline. The numbers here describe
+# outputs.
+#
+# Inflation factor is total_element_count / parent_element_count and
+# captures how much each framework's prose-encoded granularity surfaces
+# when run through parse_subpoints(). Frameworks with inflation factors
+# near 1.00x have no meaningful sub-points; their elementText literals
+# are atomic statements. Frameworks with higher inflation factors (SFIA,
+# Cyber.org K-12) encode pedagogical or specification detail in prose.
+
+graph_invariants:
+  combined:
+    role_count: [428, 432]
+    element_count: [6900, 6950]   # parents + sub-points across all 8
+    framework_count: [8, 8]
+  per_framework:
+    # All eight frameworks run with the parser enabled in v0.1.1. The
+    # initial 2026-05-08 spot-check flagged SFIA and CSEC2017 above the
+    # 10% false-positive threshold; the underlying cause was that the
+    # parser greedily consumed past sentence boundaries. The fix landed
+    # in parse_subpoints() (sentence-boundary stop + connective filter).
+    # Re-spot-check brought both frameworks to 0% FP. Documented in
+    # docs/framework-data-sources.md.
+    nice-v2:
+      parent_elements: [2109, 2113]
+      total_elements:  [2113, 2117]
+      inflation:       [0.99, 1.01]
+      parser_enabled:  true
+    dcwf-v5.1:
+      parent_elements: [2900, 3000]
+      total_elements:  [2900, 3000]
+      inflation:       [0.99, 1.01]
+      parser_enabled:  true
+    ecsf-v1:
+      parent_elements: [360, 390]
+      total_elements:  [385, 395]
+      inflation:       [1.00, 1.10]
+      parser_enabled:  true
+    sfia-9:
+      parent_elements: [670, 675]
+      total_elements:  [820, 840]
+      inflation:       [1.20, 1.30]
+      parser_enabled:  true
+    cyberorg-k12-v1.0:
+      parent_elements: [118, 128]
+      total_elements:  [495, 510]
+      inflation:       [3.95, 4.20]
+      parser_enabled:  true
+    csta-2017:
+      parent_elements: [118, 122]
+      total_elements:  [135, 145]
+      inflation:       [1.10, 1.25]
+      parser_enabled:  true
+    csec2017-v1:
+      parent_elements: [35, 42]
+      total_elements:  [38, 45]
+      inflation:       [1.00, 1.15]
+      parser_enabled:  true
+    digcomp-2.2:
+      parent_elements: [18, 21]
+      total_elements:  [18, 21]
+      inflation:       [0.99, 1.01]
+      parser_enabled:  true

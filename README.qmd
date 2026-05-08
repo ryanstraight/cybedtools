@@ -40,7 +40,7 @@ density_max_value <- max(fs$elements_per_role)
 density_min_value <- min(fs$elements_per_role)
 density_max_name  <- fs$framework_name[which.max(fs$elements_per_role)]
 density_min_name  <- fs$framework_name[which.min(fs$elements_per_role)]
-density_ratio_x   <- round(density_max_value / density_min_value, -1)
+density_ratio_x   <- round(density_max_value / density_min_value, 0)
 
 # Element totals by jurisdiction (US vs. EU is what the prose calls out).
 juris_totals <- fs |>
@@ -141,15 +141,23 @@ cat(paste(rows, collapse = "\n"), "\n", sep = "")
 cat("</tbody>\n</table>\n")
 ```
 
+The "Roles" column reports each framework's top-level organizing unit, whatever the framework calls it: work roles for NICE / DCWF / ECSF, skills for SFIA, level-concept buckets for CSTA, grade-band cells for Cyber.org K-12, Knowledge Areas for CSEC2017, competence areas for DigComp 2.2. The schema collapses these distinct structural commitments under a single `cybed:Role` abstraction. See `docs/framework-data-sources.md` for the per-framework structural mapping.
+
 ## What you can find with this
 
-Three findings, one R query each.
+The eight frameworks were authored independently, for different audiences, at different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats, under different licenses, with different design philosophies. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings illustrate what that surfaces.
 
-**Element density per framework varies by `r density_ratio_x`x.** `r density_max_name` expresses `r format(density_max_value, nsmall = 1)` elements per role. `r density_min_name` expresses `r format(density_min_value, nsmall = 1)`. Some of this is framework purpose (workforce specification vs. K-12 learning outcomes). Some is uneven specification within the same framework type. Either way, "covers the NICE Framework" and "covers the CSEC2017 guidelines" are not comparable curricular claims.
+### Per-organizing-unit density varies by `r density_ratio_x`x across the corpus
 
-**Jurisdictional element coverage is dominated by US frameworks `r us_eu_ratio_x` to 1.** US frameworks (`r us_fws`) contribute `r us_fmt` elements. EU frameworks (`r eu_fws`) contribute `r eu_fmt`. Comparative work in cybersecurity education has been operating against an asymmetric corpus.
+`r density_max_name` expresses `r format(density_max_value, nsmall = 1)` elements per its top-level unit; `r density_min_name` expresses `r format(density_min_value, nsmall = 1)`. The spread reflects framework design philosophy more than relative completeness: NICE / DCWF are granular by intent as the basis for hiring and training pipelines; ENISA's ECSF and JRC's DigComp are intentionally high-level as interoperability frames and citizen self-assessment instruments. Treat per-unit density as a comparison aid, not a quality claim.
 
-**The five highest-element-load NICE work roles concentrate disproportionate competency specification.** `r nice_top5_text`. Curricula that "cover NICE" by surveying these five roles look thorough. Curricula that cover the long tail of `r fs$role_count[fs$framework_slug == "nice-v2"]` roles look thin by element count alone.
+### Jurisdictional element volume skews US-heavy `r us_eu_ratio_x` to 1
+
+US frameworks (`r us_fws`) contribute `r us_fmt` elements; EU frameworks (`r eu_fws`) contribute `r eu_fmt`. The ratio reflects design intent: ECSF profiles embed e-CF 4.0 cross-references that cybedtools does not currently materialize, and DigComp 2.2's annexes carry examples-per-competence that the package does not yet extract. Researchers using element counts as a coverage metric should attribute the asymmetry to design philosophy (and incomplete extraction on the EU side), not to relative effort.
+
+### The five highest-element-load NICE work roles concentrate disproportionate specification
+
+`r nice_top5_text`. Curricula that "cover NICE" by surveying these five look thorough. Curricula that cover the long tail of `r fs$role_count[fs$framework_slug == "nice-v2"]` roles look thin by element count alone. This is a property of NICE's internal weighting, not a finding about the broader corpus.
 
 Each finding is one query and a few lines of dplyr. See below.
 

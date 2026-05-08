@@ -83,6 +83,20 @@ reference:
       - build_role_element_node
       - assemble_framework_document
 
+  - title: Sub-point parsing
+    desc: >-
+      Lift prose-encoded enumerations ("such as" lists, "Clarification
+      statement:" segments) out of parent element text and promote each
+      sub-point to a first-class graph element typed cybed:Subpoint, with
+      cybed:elaborates linking back to the parent. See vignette
+      cross-framework-analysis for the encoding-strategy finding this
+      enables.
+    contents:
+      - parse_subpoints
+      - build_subpoint_node
+      - expand_with_subpoints
+      - extend_role_element_ids
+
   - title: File I/O
     contents:
       - read_jsonld_document

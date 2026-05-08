@@ -41,3 +41,5 @@
 ^\.positai$
 ^\.claude$
 ^CODE_OF_CONDUCT\.md$
+^\.ci-watch\.log$
+^\.Rhistory$
