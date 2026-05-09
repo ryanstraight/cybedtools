@@ -132,6 +132,20 @@ write_sfia_csvs <- function(tables, output_dir) {
 # Provenance manifest
 # ---------------------------------------------------------------------------
 
+#' Render a vector of absolute paths as repo-root-relative strings
+#'
+#' Used in provenance manifests so the recorded paths do not embed any
+#' contributor's local checkout location.
+#'
+#' @param paths Character vector of file paths.
+#' @return Character vector of paths relative to here::here(), forward-slashed.
+relativize_to_root <- function(paths) {
+  root  <- normalizePath(here::here(), winslash = "/", mustWork = FALSE)
+  norm  <- normalizePath(paths,        winslash = "/", mustWork = FALSE)
+  pref  <- paste0(root, "/")
+  ifelse(startsWith(norm, pref), substring(norm, nchar(pref) + 1L), norm)
+}
+
 #' Compute SHA256 hash of the DB file for provenance
 #'
 #' @param file_path Character.
@@ -166,7 +180,7 @@ write_provenance_manifest <- function(db_path, tables, csv_paths) {
     ),
     extraction = list(
       table_row_counts = tables |> purrr::map_int(nrow) |> as.list(),
-      output_files     = as.list(csv_paths)
+      output_files     = as.list(relativize_to_root(csv_paths))
     ),
     licensing = list(
       sfia_text_license = "SFIA Foundation non-commercial free-use provision",

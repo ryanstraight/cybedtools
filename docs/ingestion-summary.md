@@ -199,7 +199,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 
 ### Extracted scales
 - **table row counts:** Skill=147, SkillLevel=672, Level=7, Attribute=16, AttributeType=3, AttributeLevel=112, RelatedSkill=1,117, SkillsProfile=45, SkillsProfileFamily=19, SkillsProfileJobTitle=240, SkillsProfileSkill=563
-- **output files:** D:/cybedtools/data/raw/sfia/tables/skill.csv, D:/cybedtools/data/raw/sfia/tables/skill-level.csv, D:/cybedtools/data/raw/sfia/tables/level.csv, D:/cybedtools/data/raw/sfia/tables/attribute.csv, D:/cybedtools/data/raw/sfia/tables/attribute-type.csv, D:/cybedtools/data/raw/sfia/tables/attribute-level.csv, D:/cybedtools/data/raw/sfia/tables/related-skill.csv, D:/cybedtools/data/raw/sfia/tables/skills-profile.csv, D:/cybedtools/data/raw/sfia/tables/skills-profile-family.csv, D:/cybedtools/data/raw/sfia/tables/skills-profile-job-title.csv, D:/cybedtools/data/raw/sfia/tables/skills-profile-skill.csv
+- **output files:** data/raw/sfia/tables/skill.csv, data/raw/sfia/tables/skill-level.csv, data/raw/sfia/tables/level.csv, data/raw/sfia/tables/attribute.csv, data/raw/sfia/tables/attribute-type.csv, data/raw/sfia/tables/attribute-level.csv, data/raw/sfia/tables/related-skill.csv, data/raw/sfia/tables/skills-profile.csv, data/raw/sfia/tables/skills-profile-family.csv, data/raw/sfia/tables/skills-profile-job-title.csv, data/raw/sfia/tables/skills-profile-skill.csv
 
 ### Licensing
 - **sfia text license:** SFIA Foundation non-commercial free-use provision
