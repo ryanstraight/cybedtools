@@ -39,9 +39,13 @@ template:
 home:
   title: cybedtools
   description: >-
-    Eight cybersecurity workforce and learning frameworks in a shared
-    semantic schema. One R query operates across all of them. A
+    Cybersecurity workforce and learning frameworks in a shared
+    semantic schema. One R query operates across the corpus. A
     comparison layer over existing frameworks, not a replacement.
+
+  links:
+    - text: Browse the Concordance
+      href: https://ryanstraight.github.io/cybedtools/concordance/
 
 development:
   mode: auto
@@ -59,9 +63,12 @@ repo:
 
 navbar:
   structure:
-    left:  [reference, articles, news]
+    left:  [concordance, reference, articles, news]
     right: [search, github]
   components:
+    concordance:
+      text: Concordance
+      href: https://ryanstraight.github.io/cybedtools/concordance/
     github:
       icon: fa-github
       href: https://github.com/ryanstraight/cybedtools

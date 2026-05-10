@@ -20,11 +20,18 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/
 [![Context7](https://img.shields.io/badge/Context7-indexed-4f46e5)](https://context7.com/ryanstraight/cybedtools)
 <!-- badges: end -->
 
-Eight cybersecurity workforce and learning frameworks. Eight different
-schemas, eight different vocabularies. Comparing them (what’s specified
-where, where they overlap, how their structural commitments differ) has
-historically meant rebuilding the comparison from scratch every time, in
-a spreadsheet.
+> **Looking for the audience-facing surface?**
+> [Concordance](https://ryanstraight.github.io/cybedtools/concordance/)
+> renders the framework data, the cross-framework comparisons, and the
+> working scenarios in a form that does not require running R. Cite
+> Concordance for site content; cite cybedtools for the methodology and
+> any element-level analysis.
+
+A corpus of cybersecurity workforce and learning frameworks. Each
+carries a different schema and a different vocabulary. Comparing them
+(what’s specified where, where they overlap, how their structural
+commitments differ) has historically meant rebuilding the comparison
+from scratch every time, in a spreadsheet.
 
 cybedtools makes the comparison one query.
 
@@ -374,18 +381,18 @@ SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2
 declares competence areas. Cyber.org K-12 and CSTA do not name the cell
 that groups their numbered standards within their internal axes (grade
 band x sub-concept for Cyber.org; level x concept for CSTA), so
-cybedtools labels both `StandardGroup`. All eight types subclass
-`cybed:OrganizingUnit` so cross-framework queries reach them uniformly;
-NICE / DCWF / ECSF additionally subclass `cybed:Role`. The “Elements”
-column counts parents, parsed Subpoints, and (for Cyber.org K-12 and
-CSTA) Clarification-statement Examples; `framework_summary` carries
-`element_count_strict` for analyses that need the count without
+cybedtools labels both `StandardGroup`. Every framework’s top-level type
+subclasses `cybed:OrganizingUnit` so cross-framework queries reach them
+uniformly; NICE / DCWF / ECSF additionally subclass `cybed:Role`. The
+“Elements” column counts parents, parsed Subpoints, and (for Cyber.org
+K-12 and CSTA) Clarification-statement Examples; `framework_summary`
+carries `element_count_strict` for analyses that need the count without
 Examples. See `docs/framework-data-sources.md` for the per-framework
 structural mapping.
 
 ## What you can find with this
 
-The eight frameworks were authored independently, for different
+The frameworks in the corpus were authored independently, for different
 audiences, at different units of analysis (work role, skill level,
 competence, learning standard, Knowledge Area, competence area). They
 specify in different formats, under different licenses, with different
@@ -451,10 +458,10 @@ framework_metadata(rdf) |>
 #> 2 https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…
 ```
 
-The same helpers run against a staged eight-framework graph by swapping
+The same helpers run against the staged framework graph by swapping
 `make_demo_graph()` for `load_combined_ntriples_graph()`.
 
-## A query against the eight-framework corpus
+## A query against the framework corpus
 
 Once the combined graph is staged (see [Getting
 started](#getting-started)), one expression returns per-unit density per
