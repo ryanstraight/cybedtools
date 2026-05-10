@@ -897,6 +897,31 @@ body.not-found .quarto-title-block {
   border-bottom-color: #38BDF8;
 }
 
+// Homepage hero lockup: the stacked Concordance lockup carries the mark,
+// wordmark, and "MANY FRAMEWORKS · ONE GRAPH" tagline as a single visual
+// entry point. The H1 below is .visually-hidden because the lockup's
+// tagline does the headline work; the H1 stays in the document tree for
+// accessibility and SEO. Paper variant in light mode, dark variant when
+// the page theme flips.
+.hero-mark {
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.hero-logo,
+img.hero-logo {
+  display: block;
+  margin: 0 auto;
+  max-width: 560px;
+  width: 100%;
+  height: auto;
+}
+
+.quarto-dark .hero-logo,
+.quarto-dark img.hero-logo {
+  content: url('assets/branding/concordance-lockup-stacked.svg');
+}
+
 // LICENSE page hero: standalone wordmark above the H1 to brand the entrance
 // to the license information.
 .license-hero {

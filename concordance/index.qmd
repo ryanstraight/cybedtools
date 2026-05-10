@@ -6,7 +6,11 @@ page-layout: article
 
 ::: {.hero}
 
-# Many cybersecurity frameworks. One queryable graph.
+::: {.hero-mark}
+![](assets/branding/concordance-lockup-stacked-paper.svg){fig-alt="Concordance: many frameworks, one graph" width=560 .hero-logo}
+:::
+
+# Many cybersecurity frameworks. One queryable graph. {.visually-hidden}
 
 ::: {.lede}
 Compare structure, density, and coverage across NICE, DCWF, ECSF, SFIA,
