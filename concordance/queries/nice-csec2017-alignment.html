@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.3">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2026-05-09">
+<meta name="description" content="Pairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding.">
+<title>Where do NICE work roles align with CSEC2017 Knowledge Areas? – Concordance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/branding/favicon/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5d91a59e15987bf42699e33880ff57bc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d72ca3fa1c5d0ffeb75fd70566f69546.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<!-- Concordance brand head additions.
+
+     Quarto wires the SVG favicon link via website.favicon, and OG/Twitter
+     tags via website.image + website.description. This partial covers
+     what Quarto does not auto-emit: PNG favicon fallbacks, apple-touch-
+     icon, web-app-manifest, and theme-color.
+
+     Paths are absolute against site-url because Quarto include-in-header
+     content is included verbatim and does not get path-rewritten per
+     page depth. If site-url changes, update these URLs to match. --><link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="128x128" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-128.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/apple-touch-icon.png">
+<link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
+<meta name="theme-color" content="#0F172A">
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script><script src="../site_libs/react-18.2.0/react.min.js"></script><script src="../site_libs/react-18.2.0/react-dom.min.js"></script><script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script><link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="../site_libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+<script src="../site_libs/reactable-binding-0.4.5/reactable.js"></script>
+<meta property="og:title" content="Where do NICE work roles align with CSEC2017 Knowledge Areas? – Concordance">
+<meta property="og:description" content="Pairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding.">
+<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/nice-csec2017-alignment_files/figure-html/fig-ka-distribution-1.png">
+<meta property="og:site_name" content="Concordance">
+<meta property="og:image:height" content="768">
+<meta property="og:image:width" content="1344">
+<meta name="twitter:title" content="Where do NICE work roles align with CSEC2017 Knowledge Areas? – Concordance">
+<meta name="twitter:description" content="Pairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding.">
+<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/nice-csec2017-alignment_files/figure-html/fig-ka-distribution-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="768">
+<meta name="twitter:image-width" content="1344">
+</head>
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content"><img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content"></a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../why.html"> 
+<span class="menu-text">Why</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../start/install.html"> 
+<span class="menu-text">Start</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-use-cases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Use cases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">
+<li>
+    <a class="dropdown-item" href="../use-cases/index.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/k12-teacher.html">
+ <span class="dropdown-text">K-12 teacher</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/curriculum-coordinator.html">
+ <span class="dropdown-text">Curriculum coordinator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/policy-analyst.html">
+ <span class="dropdown-text">Workforce policy analyst</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../frameworks/index.html"> 
+<span class="menu-text">Frameworks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../concepts/vocabulary.html"> 
+<span class="menu-text">Concepts</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-under-the-hood" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Under the hood</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">
+<li>
+    <a class="dropdown-item" href="../queries/index.html">
+ <span class="dropdown-text">How the analysis works</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../queries/density-spread.html">
+ <span class="dropdown-text">Cross-framework density</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../reference/">
+ <span class="dropdown-text">Package reference</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ryanstraight/cybedtools"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://doi.org/10.5281/zenodo.20076116"> <i class="bi bi-bookmark-fill" role="img" aria-label="Cite this work">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#the-question" id="toc-the-question" class="nav-link active" data-scroll-target="#the-question">The question</a></li>
+  <li><a href="#why-it-matters" id="toc-why-it-matters" class="nav-link" data-scroll-target="#why-it-matters">Why it matters</a></li>
+  <li><a href="#the-result" id="toc-the-result" class="nav-link" data-scroll-target="#the-result">The result</a></li>
+  <li>
+<a href="#what-this-tells-us" id="toc-what-this-tells-us" class="nav-link" data-scroll-target="#what-this-tells-us">What this tells us</a>
+  <ul class="collapse">
+<li><a href="#the-two-frameworks-are-not-text-aligned" id="toc-the-two-frameworks-are-not-text-aligned" class="nav-link" data-scroll-target="#the-two-frameworks-are-not-text-aligned">The two frameworks are not text-aligned</a></li>
+  <li><a href="#component-security-dominance-is-a-vocabulary-scale-artifact" id="toc-component-security-dominance-is-a-vocabulary-scale-artifact" class="nav-link" data-scroll-target="#component-security-dominance-is-a-vocabulary-scale-artifact">Component Security dominance is a vocabulary-scale artifact</a></li>
+  <li><a href="#evidence-of-absence-is-useful" id="toc-evidence-of-absence-is-useful" class="nav-link" data-scroll-target="#evidence-of-absence-is-useful">Evidence of absence is useful</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#what-this-doesnt-tell-us" id="toc-what-this-doesnt-tell-us" class="nav-link" data-scroll-target="#what-this-doesnt-tell-us">What this doesn’t tell us</a>
+  <ul class="collapse">
+<li><a href="#vocabulary-similarity-is-not-the-only-similarity-that-matters" id="toc-vocabulary-similarity-is-not-the-only-similarity-that-matters" class="nav-link" data-scroll-target="#vocabulary-similarity-is-not-the-only-similarity-that-matters">Vocabulary similarity is not the only similarity that matters</a></li>
+  <li><a href="#this-is-not-a-quality-claim-against-either-framework" id="toc-this-is-not-a-quality-claim-against-either-framework" class="nav-link" data-scroll-target="#this-is-not-a-quality-claim-against-either-framework">This is not a quality claim against either framework</a></li>
+  <li><a href="#different-metrics-produce-different-results" id="toc-different-metrics-produce-different-results" class="nav-link" data-scroll-target="#different-metrics-produce-different-results">Different metrics produce different results</a></li>
+  </ul>
+</li>
+  <li><a href="#look-up-by-nice-work-role" id="toc-look-up-by-nice-work-role" class="nav-link" data-scroll-target="#look-up-by-nice-work-role">Look up by NICE work role</a></li>
+  <li><a href="#reproduce-this" id="toc-reproduce-this" class="nav-link" data-scroll-target="#reproduce-this">Reproduce this</a></li>
+  <li><a href="#related-queries" id="toc-related-queries" class="nav-link" data-scroll-target="#related-queries">Related queries</a></li>
+  <li><a href="#use-case-using-this-data" id="toc-use-case-using-this-data" class="nav-link" data-scroll-target="#use-case-using-this-data">Use case using this data</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Workforce</title>
+<rect x="3" y="8" width="18" height="12" rx="1.5"></rect><path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path><line x1="3" y1="13.5" x2="21" y2="13.5"></line><rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect></symbol><symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Pedagogy</title>
+<path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path><path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path><path d="M22 9 V14"></path><circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle></symbol><symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>US</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="14" x2="21" y2="14"></line><rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect></symbol><symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><title>EU</title>
+<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle><circle cx="12" cy="19" r="1" fill="currentColor"></circle><circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle><circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle></symbol><symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Global</title>
+<circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse><line x1="12" y1="3" x2="12" y2="21"></line></symbol><symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Source</title>
+<rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path><line x1="10" y1="13" x2="14" y2="13"></line></symbol><symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Ingestion</title>
+<circle cx="12" cy="12" r="3.5"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="22" y1="12" x2="19" y2="12"></line><line x1="5" y1="12" x2="2" y2="12"></line><line x1="19.07" y1="4.93" x2="17" y2="7"></line><line x1="7" y1="17" x2="4.93" y2="19.07"></line><line x1="19.07" y1="19.07" x2="17" y2="17"></line><line x1="7" y1="7" x2="4.93" y2="4.93"></line></symbol><symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>License</title>
+<path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path><rect x="9" y="11" width="6" height="5" rx="0.6"></rect><path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path></symbol></svg><script>
+(function () {
+  function init() {
+    var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
+    els.forEach(function (el) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-pressed', 'false');
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = !el.classList.contains('show-tech');
+        el.classList.toggle('show-tech', next);
+        el.setAttribute('aria-pressed', String(next));
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.schema-diagram').forEach(function (figure) {
+      var btn = figure.querySelector('.toggle-all');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willShowTech = !btn.classList.contains('all-tech');
+        btn.classList.toggle('all-tech', willShowTech);
+        btn.setAttribute('aria-pressed', String(willShowTech));
+        var icon = btn.querySelector('.toggle-icon');
+        var text = btn.querySelector('.toggle-text');
+        if (icon) icon.textContent = willShowTech ? '▾' : '▸';
+        if (text) text.textContent = willShowTech ? 'plain English' : 'schema names';
+        figure.querySelectorAll('.cyb-node, .cyb-edge-label').forEach(function (el) {
+          el.classList.toggle('show-tech', willShowTech);
+          el.setAttribute('aria-pressed', String(willShowTech));
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Where do NICE work roles align with CSEC2017 Knowledge Areas?</h1>
+<p class="subtitle lead">Cross-framework similarity at the role-to-curriculum-area level</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Cross-framework</div>
+    <div class="quarto-category">Workforce</div>
+    <div class="quarto-category">Higher Ed</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Pairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><section id="the-question" class="level2"><h2 class="anchored" data-anchor-id="the-question">The question</h2>
+<p>For each of the 41 NICE work roles, what is the closest CSEC2017 Knowledge Area by full-document text similarity, and how does that similarity distribute across the 8 KAs?</p>
+</section><section id="why-it-matters" class="level2"><h2 class="anchored" data-anchor-id="why-it-matters">Why it matters</h2>
+<p>Both NICE and CSEC2017 are widely-referenced US cybersecurity frameworks with overlapping audiences. CAE designation files cite both. ABET cybersecurity program criteria align loosely to both. Federal and academic policy discussions invoke both. Practitioners frequently ask whether a NICE-aligned curriculum implicitly addresses CSEC2017 KAs, or whether mapping between the two is straightforward.</p>
+<p>The frameworks were designed for different purposes. NICE specifies work roles defined by the tasks, knowledge, and skills a person in the position performs. CSEC2017 specifies curricular Knowledge Areas defined by what a cyber program teaches. They sit at different abstraction layers and use different vocabularies on purpose.</p>
+<p>This query asks whether that purpose-difference shows up in vocabulary overlap.</p>
+</section><section id="the-result" class="level2"><h2 class="anchored" data-anchor-id="the-result">The result</h2>
+<div class="cell">
+<div id="tbl-similarity-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-similarity-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: NICE work-role-to-CSEC2017-KA best-match similarity, summary statistics
+</figcaption><div aria-describedby="tbl-similarity-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Statistic</th>
+<th style="text-align: left;">Value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Minimum</td>
+<td style="text-align: left;">0.025</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1st Quartile</td>
+<td style="text-align: left;">0.037</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Median</td>
+<td style="text-align: left;">0.040</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mean</td>
+<td style="text-align: left;">0.043</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3rd Quartile</td>
+<td style="text-align: left;">0.049</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maximum</td>
+<td style="text-align: left;">0.070</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Every best-match similarity sits below 0.10. The strongest pairing in the entire 41-role set is roughly 7% vocabulary overlap. The median is 4%.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-ka-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-ka-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="nice-csec2017-alignment_files/figure-html/fig-ka-distribution-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: How NICE work roles distribute across CSEC2017 KAs as best matches. Three KAs (Data Security, Human Security, Societal Security) draw zero NICE roles as top match."><img src="nice-csec2017-alignment_files/figure-html/fig-ka-distribution-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ka-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: How NICE work roles distribute across CSEC2017 KAs as best matches. Three KAs (Data Security, Human Security, Societal Security) draw zero NICE roles as top match.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Of 41 NICE work roles, 27 (66%) best-match to Component Security. The remaining 14 distribute across four KAs (Organizational, System, Connection, Software). Three KAs attract zero NICE roles as top match.</p>
+</section><section id="what-this-tells-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-tells-us">What this tells us</h2>
+<section id="the-two-frameworks-are-not-text-aligned" class="level3"><h3 class="anchored" data-anchor-id="the-two-frameworks-are-not-text-aligned">The two frameworks are not text-aligned</h3>
+<p>A best-match similarity ceiling of 0.07 across all 41 NICE roles is the structural finding. Even the highest-overlap pairs share fewer than one in fourteen unique tokens. The vocabulary similarity is too low to support any defensible NICE-to-CSEC2017 crosswalking at the role-to-KA level.</p>
+</section><section id="component-security-dominance-is-a-vocabulary-scale-artifact" class="level3"><h3 class="anchored" data-anchor-id="component-security-dominance-is-a-vocabulary-scale-artifact">Component Security dominance is a vocabulary-scale artifact</h3>
+<p>Component Security’s 8-Topic scope covers hardware, firmware, integrated systems, embedded design, and component testing. That vocabulary is broad enough to overlap weakly with any NICE role that mentions technology components. Other KAs use narrower, more specialized vocabulary. Human Security covers identity, social engineering, awareness. Societal Security covers policy, ethics, law. Neither overlaps with NICE workforce-position language regardless of the role’s semantic relationship to those topics.</p>
+</section><section id="evidence-of-absence-is-useful" class="level3"><h3 class="anchored" data-anchor-id="evidence-of-absence-is-useful">Evidence of absence is useful</h3>
+<p>A practitioner considering a manual NICE-to-CSEC2017 crosswalk can use this result to decide not to do the work. The frameworks do not align at this layer because they were not designed to align at this layer. The right crosswalk for a NICE-aligned program is to the CAE Knowledge Unit set (NSA/CISA), not to CSEC2017 Knowledge Areas.</p>
+</section></section><section id="what-this-doesnt-tell-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-doesnt-tell-us">What this doesn’t tell us</h2>
+<section id="vocabulary-similarity-is-not-the-only-similarity-that-matters" class="level3"><h3 class="anchored" data-anchor-id="vocabulary-similarity-is-not-the-only-similarity-that-matters">Vocabulary similarity is not the only similarity that matters</h3>
+<p>NICE and CSEC2017 share many concepts at the semantic level (both cover incident response, cryptography, access control) but use different terminology and different framing. A NICE-aligned curriculum may genuinely address CSEC2017 Knowledge Areas through specific course content that doesn’t share much vocabulary with the NICE TKS statements. The text-similarity metric here can’t detect that alignment.</p>
+</section><section id="this-is-not-a-quality-claim-against-either-framework" class="level3"><h3 class="anchored" data-anchor-id="this-is-not-a-quality-claim-against-either-framework">This is not a quality claim against either framework</h3>
+<p>Low vocabulary overlap reflects different design purposes, not different quality. NICE is excellent for workforce planning. CSEC2017 is excellent for curriculum architecture. Their inability to align at the vocabulary level is a structural feature of two well-designed frameworks pursuing different goals.</p>
+</section><section id="different-metrics-produce-different-results" class="level3"><h3 class="anchored" data-anchor-id="different-metrics-produce-different-results">Different metrics produce different results</h3>
+<p>TF-IDF cosine similarity, embedding-based similarity, and topic-modeling approaches would each give different alignment estimates. Jaccard on unigrams is the simplest, most-interpretable choice. Downstream analysts can re-run on the same RDF graph with whatever metric suits their question.</p>
+</section></section><section id="look-up-by-nice-work-role" class="level2"><h2 class="anchored" data-anchor-id="look-up-by-nice-work-role">Look up by NICE work role</h2>
+<p>The widget below shows each of the 41 NICE work roles with its top-3 CSEC2017 Knowledge Areas by full-document Jaccard. Search by role name (“incident,” “forensics,” “policy”) or sort by overlap percentage.</p>
+<div class="cell">
+<div id="tbl-lookup" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-lookup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2
+</figcaption><div aria-describedby="tbl-lookup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-3372fa9a7c08f4c21540" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3372fa9a7c08f4c21540">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"NICE work role":["Communications Security (COMSEC) Management","Communications Security (COMSEC) Management","Communications Security (COMSEC) Management","Cybercrime Investigation","Cybercrime Investigation","Cybercrime Investigation","Cybersecurity Architecture","Cybersecurity Architecture","Cybersecurity Architecture","Cybersecurity Curriculum Development","Cybersecurity Curriculum Development","Cybersecurity Curriculum Development","Cybersecurity Instruction","Cybersecurity Instruction","Cybersecurity Instruction","Cybersecurity Legal Advice","Cybersecurity Legal Advice","Cybersecurity Legal Advice","Cybersecurity Policy and Planning","Cybersecurity Policy and Planning","Cybersecurity Policy and Planning","Cybersecurity Workforce Management","Cybersecurity Workforce Management","Cybersecurity Workforce Management","Data Analysis","Data Analysis","Data Analysis","Database Administration","Database Administration","Database Administration","Defensive Cybersecurity","Defensive Cybersecurity","Defensive Cybersecurity","Digital Evidence Analysis","Digital Evidence Analysis","Digital Evidence Analysis","Digital Forensics","Digital Forensics","Digital Forensics","Enterprise Architecture","Enterprise Architecture","Enterprise Architecture","Executive Cybersecurity Leadership","Executive Cybersecurity Leadership","Executive Cybersecurity Leadership","Incident Response","Incident Response","Incident Response","Infrastructure Support","Infrastructure Support","Infrastructure Support","Insider Threat Analysis","Insider Threat Analysis","Insider Threat Analysis","Knowledge Management","Knowledge Management","Knowledge Management","Network Operations","Network Operations","Network Operations","Operational Technology (OT) Cybersecurity Engineering","Operational Technology (OT) Cybersecurity Engineering","Operational Technology (OT) Cybersecurity Engineering","Privacy Compliance","Privacy Compliance","Privacy Compliance","Product Support Management","Product Support Management","Product Support Management","Program Management","Program Management","Program Management","Secure Project Management","Secure Project Management","Secure Project Management","Secure Software Development","Secure Software Development","Secure Software Development","Secure Systems Development","Secure Systems Development","Secure Systems Development","Security Control Assessment","Security Control Assessment","Security Control Assessment","Software Security Assessment","Software Security Assessment","Software Security Assessment","Systems Administration","Systems Administration","Systems Administration","Systems Authorization","Systems Authorization","Systems Authorization","Systems Requirements Planning","Systems Requirements Planning","Systems Requirements Planning","Systems Security Analysis","Systems Security Analysis","Systems Security Analysis","Systems Security Management","Systems Security Management","Systems Security Management","Systems Testing and Evaluation","Systems Testing and Evaluation","Systems Testing and Evaluation","Technical Support","Technical Support","Technical Support","Technology Portfolio Management","Technology Portfolio Management","Technology Portfolio Management","Technology Program Auditing","Technology Program Auditing","Technology Program Auditing","Technology Research and Development","Technology Research and Development","Technology Research and Development","Threat Analysis","Threat Analysis","Threat Analysis","Vulnerability Analysis","Vulnerability Analysis","Vulnerability Analysis"],"Rank":[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3],"CSEC2017 KA":["Component Security","Organizational Security","System Security","Connection Security","Component Security","System Security","Component Security","Software Security","Connection Security","Organizational Security","Component Security","Software Security","Component Security","Data Security","Software Security","System Security","Organizational Security","Component Security","Organizational Security","Component Security","Software Security","Organizational Security","Component Security","Software Security","Component Security","System Security","Connection Security","System Security","Connection Security","Data Security","Component Security","System Security","Software Security","Component Security","Software Security","Connection Security","Component Security","Software Security","Connection Security","Component Security","Connection Security","Software Security","Organizational Security","Component Security","Software Security","System Security","Connection Security","Data Security","System Security","Software Security","Component Security","Connection Security","Component Security","Human Security","Component Security","Organizational Security","Software Security","Component Security","System Security","Software Security","Component Security","Organizational Security","Connection Security","Organizational Security","Component Security","Software Security","Component Security","Organizational Security","Software Security","Component Security","Organizational Security","Connection Security","Component Security","Organizational Security","Connection Security","Component Security","Software Security","Connection Security","Component Security","System Security","Connection Security","Component Security","Software Security","System Security","Component Security","Software Security","Connection Security","Component Security","System Security","Organizational Security","Component Security","System Security","Connection Security","Component Security","Connection Security","Software Security","Component Security","Software Security","System Security","Component Security","Organizational Security","Software Security","Component Security","Software Security","System Security","Organizational Security","Connection Security","Component Security","Component Security","Organizational Security","Connection Security","Component Security","Software Security","Connection Security","Component Security","Software Security","Connection Security","Software Security","Connection Security","Component Security","System Security","Organizational Security","Component Security"],"Overlap %":[5.8,4.5,3.2,3.2,3.1,2.3,3.8,3.1,2.5,4.1,3,2.9,3.4,3.1,2.6,5,5,4.9,6.3,4,3.9,4,3.5,3,3.6,3.2,3.2,3.8,3.7,3.7,2.9,2.6,2.6,3.8,2.7,2.1,4,3.2,2.2,4.6,3.5,3,3.7,3.2,2.6,3,3,3,4.6,4.4,3.8,2.6,2.6,2.2,4.9,4.2,3.9,5.3,4.3,3.6,3.5,3.2,3.2,3.6,2.5,2.4,4,3.2,3,4.1,3.6,3.6,4.2,3.3,3.3,3.9,3.5,2.8,4.1,2.6,2.6,2.8,2.3,2.1,4.5,3.6,3.3,4.3,3.4,3.4,4.3,3.8,3.8,6.4,3.9,3.8,5.3,3.1,2.8,3.9,3.3,2.9,5.9,4.1,3.7,3.9,3.9,3.8,7,6.2,4.3,6.5,4.8,4.3,6.6,4.2,3.8,2.5,2.2,2.1,3.9,3.9,3.8]},"columns":[{"id":"NICE work role","name":"NICE work role","type":"character","minWidth":220},{"id":"Rank","name":"Rank","type":"numeric","maxWidth":70},{"id":"CSEC2017 KA","name":"CSEC2017 KA","type":"character","minWidth":180},{"id":"Overlap %","name":"Overlap %","type":"numeric","format":{"cell":{"suffix":"%"},"aggregated":{"suffix":"%"}},"maxWidth":110}],"groupBy":["NICE work role"],"filterable":true,"searchable":true,"defaultPageSize":15,"highlight":true,"striped":true,"compact":true,"dataKey":"ad3844135b9ec9af49d857554af3e6dd"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Rows group by NICE work role. Expand a role to see its top-3 CSEC2017 matches in similarity-descending order. The headline finding (every best match below 10% overlap) is visible in the data. Even the top-ranked match for any role rarely clears 7%.</p>
+</section><section id="reproduce-this" class="level2"><h2 class="anchored" data-anchor-id="reproduce-this">Reproduce this</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rdflib/">rdflib</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Pull NICE work roles + CSEC2017 KAs.</span></span>
+<span><span class="va">units</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span>
+<span><span class="va">nice_roles</span> <span class="op">&lt;-</span> <span class="va">units</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"^NICE"</span>, <span class="va">framework_name</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">unit</span>, <span class="va">unit_name</span><span class="op">)</span></span>
+<span><span class="va">csec_kas</span> <span class="op">&lt;-</span> <span class="va">units</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"CSEC2017"</span>, <span class="va">framework_name</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">unit</span>, <span class="va">unit_name</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Build full-document text per unit (parent description + all child element text).</span></span>
+<span><span class="co"># Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,</span></span>
+<span><span class="co"># keep the top 3 CSEC2017 KAs per NICE work role. Full prep script in</span></span>
+<span><span class="co"># `_data-prep-nice-csec2017-alignment.R` in the repository.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section><section id="related-queries" class="level2"><h2 class="anchored" data-anchor-id="related-queries">Related queries</h2>
+<ul>
+<li>
+<a href="../queries/k12-alignment.html">Where do Cyber.org K-12 and CSTA standards lexically align?</a>, the analogous query at the K-12 pedagogy layer.</li>
+<li>
+<a href="../queries/density-spread.html">How does element density vary across frameworks?</a>, the structural design-philosophy comparison.</li>
+</ul></section><section id="use-case-using-this-data" class="level2"><h2 class="anchored" data-anchor-id="use-case-using-this-data">Use case using this data</h2>
+<ul>
+<li>
+<a href="../use-cases/curriculum-coordinator.html">Marcus uses this analysis to decide against a manual NICE-to-CSEC2017 crosswalk</a>, the practitioner-facing version.</li>
+</ul>
+
+
+</section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ryanstraight\.github\.io\/cybedtools\/concordance\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org"><img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
+</div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.3">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>The two-tier vocabulary – Concordance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/branding/favicon/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5d91a59e15987bf42699e33880ff57bc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d72ca3fa1c5d0ffeb75fd70566f69546.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!-- Concordance brand head additions.
+
+     Quarto wires the SVG favicon link via website.favicon, and OG/Twitter
+     tags via website.image + website.description. This partial covers
+     what Quarto does not auto-emit: PNG favicon fallbacks, apple-touch-
+     icon, web-app-manifest, and theme-color.
+
+     Paths are absolute against site-url because Quarto include-in-header
+     content is included verbatim and does not get path-rewritten per
+     page depth. If site-url changes, update these URLs to match. -->
+
+<link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="128x128" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-128.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/apple-touch-icon.png">
+<link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
+<meta name="theme-color" content="#0F172A">
+
+
+<meta property="og:title" content="The two-tier vocabulary – Concordance">
+<meta property="og:description" content="How cybedtools represents heterogeneous frameworks in a single graph">
+<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/concepts/assets/branding/concordance-og-1200x630.png">
+<meta property="og:site_name" content="Concordance">
+<meta name="twitter:title" content="The two-tier vocabulary – Concordance">
+<meta name="twitter:description" content="How cybedtools represents heterogeneous frameworks in a single graph">
+<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/concepts/assets/branding/concordance-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content">
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../why.html"> 
+<span class="menu-text">Why</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../start/install.html"> 
+<span class="menu-text">Start</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-use-cases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Use cases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">    
+        <li>
+    <a class="dropdown-item" href="../use-cases/index.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/k12-teacher.html">
+ <span class="dropdown-text">K-12 teacher</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/curriculum-coordinator.html">
+ <span class="dropdown-text">Curriculum coordinator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/policy-analyst.html">
+ <span class="dropdown-text">Workforce policy analyst</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../frameworks/index.html"> 
+<span class="menu-text">Frameworks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../concepts/vocabulary.html" aria-current="page"> 
+<span class="menu-text">Concepts</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-under-the-hood" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Under the hood</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">    
+        <li>
+    <a class="dropdown-item" href="../queries/index.html">
+ <span class="dropdown-text">How the analysis works</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../queries/density-spread.html">
+ <span class="dropdown-text">Cross-framework density</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../reference/">
+ <span class="dropdown-text">Package reference</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ryanstraight/cybedtools"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://doi.org/10.5281/zenodo.20076116"> <i class="bi bi-bookmark-fill" role="img" aria-label="Cite this work">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-design-problem" id="toc-the-design-problem" class="nav-link active" data-scroll-target="#the-design-problem">The design problem</a></li>
+  <li><a href="#the-two-tier-solution" id="toc-the-two-tier-solution" class="nav-link" data-scroll-target="#the-two-tier-solution">The two-tier solution</a>
+  <ul class="collapse">
+  <li><a href="#tier-1-cybed-cross-framework-abstract-terms" id="toc-tier-1-cybed-cross-framework-abstract-terms" class="nav-link" data-scroll-target="#tier-1-cybed-cross-framework-abstract-terms">Tier 1: <code>cybed:</code> cross-framework abstract terms</a></li>
+  <li><a href="#tier-2-per-framework-subtypes" id="toc-tier-2-per-framework-subtypes" class="nav-link" data-scroll-target="#tier-2-per-framework-subtypes">Tier 2: per-framework subtypes</a></li>
+  </ul></li>
+  <li><a href="#tier-1-vocabulary" id="toc-tier-1-vocabulary" class="nav-link" data-scroll-target="#tier-1-vocabulary">Tier 1 vocabulary</a></li>
+  <li><a href="#tier-2-vocabulary-per-framework-subtypes" id="toc-tier-2-vocabulary-per-framework-subtypes" class="nav-link" data-scroll-target="#tier-2-vocabulary-per-framework-subtypes">Tier 2 vocabulary (per-framework subtypes)</a></li>
+  <li><a href="#why-a-custom-uri" id="toc-why-a-custom-uri" class="nav-link" data-scroll-target="#why-a-custom-uri">Why a custom URI</a></li>
+  <li><a href="#whats-reachable-from-where" id="toc-whats-reachable-from-where" class="nav-link" data-scroll-target="#whats-reachable-from-where">What’s reachable from where</a></li>
+  <li><a href="#what-this-enables" id="toc-what-this-enables" class="nav-link" data-scroll-target="#what-this-enables">What this enables</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Workforce</title>
+    <rect x="3" y="8" width="18" height="12" rx="1.5"></rect>
+    <path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path>
+    <line x1="3" y1="13.5" x2="21" y2="13.5"></line>
+    <rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect>
+  </symbol>
+
+  <symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Pedagogy</title>
+    <path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path>
+    <path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path>
+    <path d="M22 9 V14"></path>
+    <circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle>
+  </symbol>
+
+  <symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>US</title>
+    <rect x="3" y="6" width="18" height="12" rx="1"></rect>
+    <line x1="3" y1="10" x2="21" y2="10"></line>
+    <line x1="3" y1="14" x2="21" y2="14"></line>
+    <rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect>
+  </symbol>
+
+  <symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <title>EU</title>
+    <circle cx="12" cy="12" r="9"></circle>
+    <circle cx="12" cy="5" r="1" fill="currentColor"></circle>
+    <circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle>
+    <circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle>
+    <circle cx="12" cy="19" r="1" fill="currentColor"></circle>
+    <circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle>
+    <circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle>
+  </symbol>
+
+  <symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Global</title>
+    <circle cx="12" cy="12" r="9"></circle>
+    <ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse>
+    <line x1="12" y1="3" x2="12" y2="21"></line>
+  </symbol>
+
+  <symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Source</title>
+    <rect x="3" y="4" width="18" height="4" rx="1"></rect>
+    <path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path>
+    <line x1="10" y1="13" x2="14" y2="13"></line>
+  </symbol>
+
+  <symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Ingestion</title>
+    <circle cx="12" cy="12" r="3.5"></circle>
+    <line x1="12" y1="2" x2="12" y2="5"></line>
+    <line x1="12" y1="19" x2="12" y2="22"></line>
+    <line x1="22" y1="12" x2="19" y2="12"></line>
+    <line x1="5" y1="12" x2="2" y2="12"></line>
+    <line x1="19.07" y1="4.93" x2="17" y2="7"></line>
+    <line x1="7" y1="17" x2="4.93" y2="19.07"></line>
+    <line x1="19.07" y1="19.07" x2="17" y2="17"></line>
+    <line x1="7" y1="7" x2="4.93" y2="4.93"></line>
+  </symbol>
+
+  <symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>License</title>
+    <path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path>
+    <rect x="9" y="11" width="6" height="5" rx="0.6"></rect>
+    <path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path>
+  </symbol>
+
+
+</svg>
+
+<script>
+(function () {
+  function init() {
+    var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
+    els.forEach(function (el) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-pressed', 'false');
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = !el.classList.contains('show-tech');
+        el.classList.toggle('show-tech', next);
+        el.setAttribute('aria-pressed', String(next));
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.schema-diagram').forEach(function (figure) {
+      var btn = figure.querySelector('.toggle-all');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willShowTech = !btn.classList.contains('all-tech');
+        btn.classList.toggle('all-tech', willShowTech);
+        btn.setAttribute('aria-pressed', String(willShowTech));
+        var icon = btn.querySelector('.toggle-icon');
+        var text = btn.querySelector('.toggle-text');
+        if (icon) icon.textContent = willShowTech ? '▾' : '▸';
+        if (text) text.textContent = willShowTech ? 'plain English' : 'schema names';
+        figure.querySelectorAll('.cyb-node, .cyb-edge-label').forEach(function (el) {
+          el.classList.toggle('show-tech', willShowTech);
+          el.setAttribute('aria-pressed', String(willShowTech));
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The two-tier vocabulary</h1>
+<p class="subtitle lead">How cybedtools represents heterogeneous frameworks in a single graph</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-design-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-design-problem">The design problem</h2>
+<p>Eight frameworks. Each one was authored against a different theory of what counts as a structural element. NICE has work roles, tasks, knowledge statements, and skill statements. DigComp has competence areas and proficiency levels. SFIA has skills and seven levels of responsibility. Cyber.org K-12 has grade-band-by-sub-concept cells plus prose clarification statements. CSTA has level-by-concept cells plus practices. CSEC2017 has eight knowledge areas. ECSF has twelve profiles. DCWF aligns to NICE work roles with overlap.</p>
+<p>A single shared vocabulary that flattens these into one type hierarchy would erase the differences each framework was designed to express. A pure per-framework vocabulary with no shared terms would make cross-framework queries impossible. The schema has to preserve native vocabulary and enable shared queries at the same time.</p>
+</section>
+<section id="the-two-tier-solution" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-two-tier-solution">The two-tier solution</h2>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>A graph in 30 seconds.</strong> A graph is nodes connected by labeled edges. A query asks “find every node where these edges hold.” That is enough to read the diagram below. The technical names beneath each box show what the same graph looks like as RDF, but you do not need to know RDF or SPARQL to follow the structure.</p>
+</div></div><div class="column-page">
+<figure class="schema-diagram figure">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewbox="0 0 720 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="schema-title schema-desc">
+  <title id="schema-title">cybedtools two-tier vocabulary architecture</title>
+  <desc id="schema-desc">A nested-rectangle diagram showing how a Framework relates to its top-level Organizing units (which contain Roles as a subclass for workforce frameworks), and how Organizing units relate to Elements (containing Sub-elements as a subclass) and Examples (a separate predicate).</desc>
+  <defs><marker id="schema-arrow" viewbox="0 0 10 10" refx="8.5" refy="5" markerwidth="6" markerheight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"></path></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="360" y1="72" x2="360" y2="118" marker-end="url(#schema-arrow)"></line>
+    <line x1="280" y1="284" x2="218" y2="350" marker-end="url(#schema-arrow)"></line>
+    <line x1="450" y1="284" x2="540" y2="362" marker-end="url(#schema-arrow)" stroke-dasharray="5,4"></line>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="270" y="20" width="180" height="50" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"></rect>
+    <text class="lp" x="360" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="360" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Organizing unit">
+    <rect x="100" y="120" width="520" height="160" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6"></rect>
+    <text class="lp" x="360" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Organizing unit</text>
+    <text class="lt" x="360" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:OrganizingUnit</text>
+    <text class="lp" x="360" y="164" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">every framework's top-level units assert this</text>
+    <text class="lt" x="360" y="164" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">every framework asserts this on its top-level units</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Role">
+    <rect x="200" y="184" width="320" height="80" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"></rect>
+    <text class="lp" x="360" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Role</text>
+    <text class="lt" x="360" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cybed:Role</text>
+    <text class="lp" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">a kind of organizing unit · workforce frameworks only</text>
+    <text class="lt" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">subClassOf · workforce frameworks only</text>
+    <text class="lp" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
+    <text class="lt" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Element">
+    <rect x="40" y="350" width="340" height="170" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6"></rect>
+    <text class="lp" x="210" y="378" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Element</text>
+    <text class="lt" x="210" y="378" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:RoleElement</text>
+    <text class="lp" x="210" y="396" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">structural pieces attached to an organizing unit</text>
+    <text class="lt" x="210" y="396" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">attached via cybed:hasElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Sub-element">
+    <rect x="80" y="420" width="260" height="80" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"></rect>
+    <text class="lp" x="210" y="452" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Sub-element</text>
+    <text class="lt" x="210" y="452" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cybed:Subpoint</text>
+    <text class="lp" x="210" y="470" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">a kind of element · points back to its parent</text>
+    <text class="lt" x="210" y="470" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">subClassOf · cybed:elaborates parent</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Example">
+    <rect x="430" y="362" width="240" height="100" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6" stroke-dasharray="5,3"></rect>
+    <text class="lp" x="550" y="397" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Example</text>
+    <text class="lt" x="550" y="397" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:Example</text>
+    <text class="lp" x="550" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">pedagogical scaffolding</text>
+    <text class="lt" x="550" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">pedagogical scaffolding</text>
+    <text class="lp" x="550" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">reached through its own connection,</text>
+    <text class="lt" x="550" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">separate predicate · excluded from</text>
+    <text class="lp" x="550" y="447" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">not the default element list</text>
+    <text class="lt" x="550" y="447" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">default cybed:hasElement traversals</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-organizing-unit connection">
+    <text class="ep" x="368" y="100" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="368" y="100" font-family="JetBrains Mono,monospace" font-size="10.5" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Organizing-unit-to-element connection">
+    <text class="ep" x="240" y="322" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="240" y="322" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10.5" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Organizing-unit-to-example connection">
+    <text class="ep" x="498" y="322" font-family="Inter,sans-serif" font-size="11.5" font-style="italic" fill="currentColor" opacity="0.7">has example</text>
+    <text class="et" x="498" y="322" font-family="JetBrains Mono,monospace" font-size="10.5" font-style="italic" fill="currentColor" opacity="0.7">cybed:hasExample</text>
+  </g>
+</svg>
+<figcaption>The two-tier shape. Outer rectangles are cross-framework abstracts. Nested rectangles are subclasses. The dashed border on the <em>example</em> box marks it as reachable through a separate connection, not the default element list. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+</div>
+<p><code>cybedtools</code> uses a two-tier RDF vocabulary.</p>
+<section id="tier-1-cybed-cross-framework-abstract-terms" class="level3">
+<h3 class="anchored" data-anchor-id="tier-1-cybed-cross-framework-abstract-terms">Tier 1: <code>cybed:</code> cross-framework abstract terms</h3>
+<p>Every framework asserts these. They define the joinable surface for cross-framework queries.</p>
+</section>
+<section id="tier-2-per-framework-subtypes" class="level3">
+<h3 class="anchored" data-anchor-id="tier-2-per-framework-subtypes">Tier 2: per-framework subtypes</h3>
+<p>Each framework defines its own vocabulary that subclasses the <code>cybed:</code> abstracts. These preserve the framework’s native terminology.</p>
+<p>The two-tier shape lets a researcher write one SPARQL query that runs across the entire corpus at the Tier 1 surface, without losing the ability to ask framework-specific questions through Tier 2 subtypes.</p>
+</section>
+</section>
+<section id="tier-1-vocabulary" class="level2">
+<h2 class="anchored" data-anchor-id="tier-1-vocabulary">Tier 1 vocabulary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cybed:Framework</code></td>
+<td>Class</td>
+<td>The framework as a whole</td>
+</tr>
+<tr class="even">
+<td><code>cybed:OrganizingUnit</code></td>
+<td>Class (subClassOf <code>skos:Concept</code>)</td>
+<td>Any top-level enumerated unit. All frameworks in the corpus assert this on their parents.</td>
+</tr>
+<tr class="odd">
+<td><code>cybed:Role</code></td>
+<td>Class (subClassOf <code>cybed:OrganizingUnit</code>)</td>
+<td>Workforce-restricted. NICE work roles, DCWF work roles, ECSF profiles only.</td>
+</tr>
+<tr class="even">
+<td><code>cybed:RoleElement</code></td>
+<td>Class</td>
+<td>Anything attached to an organizing unit via <code>cybed:hasElement</code></td>
+</tr>
+<tr class="odd">
+<td><code>cybed:Subpoint</code></td>
+<td>Class (subClassOf <code>cybed:RoleElement</code>)</td>
+<td>Bullet points and enumerations embedded inside an element’s text</td>
+</tr>
+<tr class="even">
+<td><code>cybed:Example</code></td>
+<td>Class (subClassOf <code>cybed:RoleElement</code>)</td>
+<td>Pedagogical scaffolding (such as clarification statements). Reachable only via <code>cybed:hasExample</code></td>
+</tr>
+<tr class="odd">
+<td><code>cybed:hasOrganizingUnit</code></td>
+<td>Property</td>
+<td>Framework → organizing unit</td>
+</tr>
+<tr class="even">
+<td><code>cybed:hasRole</code></td>
+<td>Property</td>
+<td>Framework → role (workforce subset)</td>
+</tr>
+<tr class="odd">
+<td><code>cybed:hasElement</code></td>
+<td>Property</td>
+<td>Organizing unit → RoleElement (excluding Examples by default)</td>
+</tr>
+<tr class="even">
+<td><code>cybed:hasExample</code></td>
+<td>Property</td>
+<td>Organizing unit → Example (separate predicate)</td>
+</tr>
+<tr class="odd">
+<td><code>cybed:elaborates</code></td>
+<td>Property</td>
+<td>Subpoint → parent (back-edge)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tier-2-vocabulary-per-framework-subtypes" class="level2">
+<h2 class="anchored" data-anchor-id="tier-2-vocabulary-per-framework-subtypes">Tier 2 vocabulary (per-framework subtypes)</h2>
+<p>Each framework declares its own per-framework namespace and subclasses the Tier 1 abstracts:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Framework</th>
+<th>Namespace</th>
+<th>Per-framework subtypes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NICE</td>
+<td><code>nice:</code></td>
+<td><code>nice:Framework</code>, <code>nice:WorkRole</code>, <code>nice:Task</code>, <code>nice:KnowledgeStatement</code>, <code>nice:SkillStatement</code></td>
+</tr>
+<tr class="even">
+<td>DCWF</td>
+<td><code>dcwf:</code></td>
+<td><code>dcwf:Framework</code>, <code>dcwf:WorkRole</code>, <code>dcwf:Task</code>, <code>dcwf:KSA</code></td>
+</tr>
+<tr class="odd">
+<td>ECSF</td>
+<td><code>ecsf:</code></td>
+<td><code>ecsf:Framework</code>, <code>ecsf:Profile</code>, <code>ecsf:KSA</code></td>
+</tr>
+<tr class="even">
+<td>SFIA</td>
+<td><code>sfia:</code></td>
+<td><code>sfia:Framework</code>, <code>sfia:Skill</code>, <code>sfia:LevelDescriptor</code></td>
+</tr>
+<tr class="odd">
+<td>Cyber.org K-12</td>
+<td><code>cyberorg:</code></td>
+<td><code>cyberorg:Framework</code>, <code>cyberorg:StandardGroup</code>, <code>cyberorg:Standard</code></td>
+</tr>
+<tr class="even">
+<td>CSTA</td>
+<td><code>csta:</code></td>
+<td><code>csta:Framework</code>, <code>csta:StandardGroup</code>, <code>csta:Standard</code></td>
+</tr>
+<tr class="odd">
+<td>CSEC2017</td>
+<td><code>csec:</code></td>
+<td><code>csec:Framework</code>, <code>csec:KnowledgeArea</code>, <code>csec:Topic</code></td>
+</tr>
+<tr class="even">
+<td>DigComp</td>
+<td><code>digcomp:</code></td>
+<td><code>digcomp:Framework</code>, <code>digcomp:CompetenceArea</code>, <code>digcomp:Competence</code>, <code>digcomp:ProficiencyDescriptor</code></td>
+</tr>
+</tbody>
+</table>
+<p>A <code>nice:WorkRole</code> is also a <code>cybed:Role</code>, which is also a <code>cybed:OrganizingUnit</code>, which is also a <code>skos:Concept</code>. The chain runs all the way up the abstraction hierarchy. A query at any tier returns results from every framework that asserts the relevant Tier 1 type.</p>
+</section>
+<section id="why-a-custom-uri" class="level2">
+<h2 class="anchored" data-anchor-id="why-a-custom-uri">Why a custom URI</h2>
+<p>The package uses <code>https://w3id.org/cybed/ontology#</code> as the namespace for <code>cybed:</code> terms. The W3ID redirect resolves to the schema documentation hosted with the package. That gives the vocabulary a stable, persistent URI that does not depend on any one repository’s URL.</p>
+</section>
+<section id="whats-reachable-from-where" class="level2">
+<h2 class="anchored" data-anchor-id="whats-reachable-from-where">What’s reachable from where</h2>
+<p>A <code>cybed:hasElement</code> traversal on any organizing unit returns <code>cybed:Subpoint</code> nodes, because they subclass <code>cybed:RoleElement</code>. It does not return <code>cybed:Example</code> nodes, because the Example predicate is separate. This is intentional. Examples are pedagogical scaffolding. Including them in default element traversals would double-count the same conceptual content under two different shapes.</p>
+<p>A query that wants Examples explicitly uses <code>cybed:hasExample</code> instead. The package’s <code>example_framework_bindings()</code> helper does exactly this.</p>
+</section>
+<section id="what-this-enables" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-enables">What this enables</h2>
+<p>The <code>cybed:OrganizingUnit</code> abstraction lets a single SPARQL query return organizing units across the entire corpus. The <code>cybed:Role</code> abstraction restricts that query to the three workforce frameworks (NICE, DCWF, ECSF). The <code>cybed:hasElement</code> predicate returns the strict numbered-element traversal across every framework that uses it. The <code>cybed:hasExample</code> predicate exposes the pedagogical scaffolding layer separately, where it exists at all (currently Cyber.org K-12 and CSTA only).</p>
+<p>The two-tier shape is what makes the <a href="../queries/density-spread.html">density spread query</a> work across every framework with a single expression rather than reapplying per framework.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ryanstraight\.github\.io\/cybedtools\/concordance\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org"><img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

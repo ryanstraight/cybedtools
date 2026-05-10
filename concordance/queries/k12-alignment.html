@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.3">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2026-05-09">
+<meta name="description" content="Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side’s clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding.">
+<title>Where do Cyber.org K-12 and CSTA standards lexically align? – Concordance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/branding/favicon/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5d91a59e15987bf42699e33880ff57bc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d72ca3fa1c5d0ffeb75fd70566f69546.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<!-- Concordance brand head additions.
+
+     Quarto wires the SVG favicon link via website.favicon, and OG/Twitter
+     tags via website.image + website.description. This partial covers
+     what Quarto does not auto-emit: PNG favicon fallbacks, apple-touch-
+     icon, web-app-manifest, and theme-color.
+
+     Paths are absolute against site-url because Quarto include-in-header
+     content is included verbatim and does not get path-rewritten per
+     page depth. If site-url changes, update these URLs to match. --><link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="128x128" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-128.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/apple-touch-icon.png">
+<link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
+<meta name="theme-color" content="#0F172A">
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script><script src="../site_libs/react-18.2.0/react.min.js"></script><script src="../site_libs/react-18.2.0/react-dom.min.js"></script><script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script><link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="../site_libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+<script src="../site_libs/reactable-binding-0.4.5/reactable.js"></script>
+<meta property="og:title" content="Where do Cyber.org K-12 and CSTA standards lexically align? – Concordance">
+<meta property="og:description" content="Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side’s clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding.">
+<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/k12-alignment_files/figure-html/fig-similarity-shift-1.png">
+<meta property="og:site_name" content="Concordance">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1248">
+<meta name="twitter:title" content="Where do Cyber.org K-12 and CSTA standards lexically align? – Concordance">
+<meta name="twitter:description" content="Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side’s clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding.">
+<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/k12-alignment_files/figure-html/fig-similarity-shift-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1248">
+</head>
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content"><img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content"></a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../why.html"> 
+<span class="menu-text">Why</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../start/install.html"> 
+<span class="menu-text">Start</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-use-cases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Use cases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">
+<li>
+    <a class="dropdown-item" href="../use-cases/index.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/k12-teacher.html">
+ <span class="dropdown-text">K-12 teacher</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/curriculum-coordinator.html">
+ <span class="dropdown-text">Curriculum coordinator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/policy-analyst.html">
+ <span class="dropdown-text">Workforce policy analyst</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../frameworks/index.html"> 
+<span class="menu-text">Frameworks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../concepts/vocabulary.html"> 
+<span class="menu-text">Concepts</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-under-the-hood" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Under the hood</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">
+<li>
+    <a class="dropdown-item" href="../queries/index.html">
+ <span class="dropdown-text">How the analysis works</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../queries/density-spread.html">
+ <span class="dropdown-text">Cross-framework density</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../reference/">
+ <span class="dropdown-text">Package reference</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ryanstraight/cybedtools"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://doi.org/10.5281/zenodo.20076116"> <i class="bi bi-bookmark-fill" role="img" aria-label="Cite this work">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#the-question" id="toc-the-question" class="nav-link active" data-scroll-target="#the-question">The question</a></li>
+  <li><a href="#why-it-matters" id="toc-why-it-matters" class="nav-link" data-scroll-target="#why-it-matters">Why it matters</a></li>
+  <li><a href="#the-result" id="toc-the-result" class="nav-link" data-scroll-target="#the-result">The result</a></li>
+  <li>
+<a href="#what-this-tells-us" id="toc-what-this-tells-us" class="nav-link" data-scroll-target="#what-this-tells-us">What this tells us</a>
+  <ul class="collapse">
+<li><a href="#the-vocabulary-distinction-matters" id="toc-the-vocabulary-distinction-matters" class="nav-link" data-scroll-target="#the-vocabulary-distinction-matters">The vocabulary distinction matters</a></li>
+  <li><a href="#the-frameworks-are-still-largely-complementary" id="toc-the-frameworks-are-still-largely-complementary" class="nav-link" data-scroll-target="#the-frameworks-are-still-largely-complementary">The frameworks are still largely complementary</a></li>
+  <li><a href="#the-matches-concentrate-where-the-frameworks-share-computing-foundations" id="toc-the-matches-concentrate-where-the-frameworks-share-computing-foundations" class="nav-link" data-scroll-target="#the-matches-concentrate-where-the-frameworks-share-computing-foundations">The matches concentrate where the frameworks share computing foundations</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#what-this-doesnt-tell-us" id="toc-what-this-doesnt-tell-us" class="nav-link" data-scroll-target="#what-this-doesnt-tell-us">What this doesn’t tell us</a>
+  <ul class="collapse">
+<li><a href="#lexical-similarity-is-not-coverage" id="toc-lexical-similarity-is-not-coverage" class="nav-link" data-scroll-target="#lexical-similarity-is-not-coverage">Lexical similarity is not coverage</a></li>
+  <li><a href="#grade-band-drift-is-not-corrected-for" id="toc-grade-band-drift-is-not-corrected-for" class="nav-link" data-scroll-target="#grade-band-drift-is-not-corrected-for">Grade-band drift is not corrected for</a></li>
+  <li><a href="#the-metric-is-one-of-several-reasonable-choices" id="toc-the-metric-is-one-of-several-reasonable-choices" class="nav-link" data-scroll-target="#the-metric-is-one-of-several-reasonable-choices">The metric is one of several reasonable choices</a></li>
+  </ul>
+</li>
+  <li><a href="#look-up-your-standard" id="toc-look-up-your-standard" class="nav-link" data-scroll-target="#look-up-your-standard">Look up your standard</a></li>
+  <li><a href="#reproduce-this" id="toc-reproduce-this" class="nav-link" data-scroll-target="#reproduce-this">Reproduce this</a></li>
+  <li><a href="#related-queries" id="toc-related-queries" class="nav-link" data-scroll-target="#related-queries">Related queries</a></li>
+  <li><a href="#use-case-using-this-data" id="toc-use-case-using-this-data" class="nav-link" data-scroll-target="#use-case-using-this-data">Use case using this data</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Workforce</title>
+<rect x="3" y="8" width="18" height="12" rx="1.5"></rect><path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path><line x1="3" y1="13.5" x2="21" y2="13.5"></line><rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect></symbol><symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Pedagogy</title>
+<path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path><path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path><path d="M22 9 V14"></path><circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle></symbol><symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>US</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="14" x2="21" y2="14"></line><rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect></symbol><symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><title>EU</title>
+<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle><circle cx="12" cy="19" r="1" fill="currentColor"></circle><circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle><circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle></symbol><symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Global</title>
+<circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse><line x1="12" y1="3" x2="12" y2="21"></line></symbol><symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Source</title>
+<rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path><line x1="10" y1="13" x2="14" y2="13"></line></symbol><symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Ingestion</title>
+<circle cx="12" cy="12" r="3.5"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="22" y1="12" x2="19" y2="12"></line><line x1="5" y1="12" x2="2" y2="12"></line><line x1="19.07" y1="4.93" x2="17" y2="7"></line><line x1="7" y1="17" x2="4.93" y2="19.07"></line><line x1="19.07" y1="19.07" x2="17" y2="17"></line><line x1="7" y1="7" x2="4.93" y2="4.93"></line></symbol><symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>License</title>
+<path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path><rect x="9" y="11" width="6" height="5" rx="0.6"></rect><path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path></symbol></svg><script>
+(function () {
+  function init() {
+    var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
+    els.forEach(function (el) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-pressed', 'false');
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = !el.classList.contains('show-tech');
+        el.classList.toggle('show-tech', next);
+        el.setAttribute('aria-pressed', String(next));
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.schema-diagram').forEach(function (figure) {
+      var btn = figure.querySelector('.toggle-all');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willShowTech = !btn.classList.contains('all-tech');
+        btn.classList.toggle('all-tech', willShowTech);
+        btn.setAttribute('aria-pressed', String(willShowTech));
+        var icon = btn.querySelector('.toggle-icon');
+        var text = btn.querySelector('.toggle-text');
+        if (icon) icon.textContent = willShowTech ? '▾' : '▸';
+        if (text) text.textContent = willShowTech ? 'plain English' : 'schema names';
+        figure.querySelectorAll('.cyb-node, .cyb-edge-label').forEach(function (el) {
+          el.classList.toggle('show-tech', willShowTech);
+          el.setAttribute('aria-pressed', String(willShowTech));
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Where do Cyber.org K-12 and CSTA standards lexically align?</h1>
+<p class="subtitle lead">Pairwise text similarity with and without prose-encoded examples</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Cross-framework</div>
+    <div class="quarto-category">K-12</div>
+    <div class="quarto-category">Pedagogy</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side’s clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><section id="the-question" class="level2"><h2 class="anchored" data-anchor-id="the-question">The question</h2>
+<p>For each Cyber.org K-12 standard, what is the closest CSTA K-12 CS standard by text similarity, and how does that closeness change when each side’s prose-encoded examples (Cyber.org clarification statements, CSTA clarification-column content) are included alongside the parent statement text?</p>
+</section><section id="why-it-matters" class="level2"><h2 class="anchored" data-anchor-id="why-it-matters">Why it matters</h2>
+<p>Cyber.org and CSTA are the two most widely-referenced K-12 standards sets covering cybersecurity content in US classrooms. Practitioners frequently ask whether a curriculum aligned to one is implicitly aligned to the other. The naive comparison (parent text against parent text) understates the alignment because the two frameworks encode pedagogical detail differently. Cyber.org embeds clarifications directly inside the numbered standard’s prose. CSTA stores them in a separate clarification column.</p>
+<p>cybedtools v0.2.0 reclassifies both forms of clarification content as <code>cybed:Example</code> nodes, distinct from parent statements and from parser-extracted <code>cybed:Subpoint</code> bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its <code>cybed:hasExample</code> and <code>cybed:hasElement</code> children, concatenated and tokenized as a single document.</p>
+<p>The parent-only-vs-full-document contrast is the finding.</p>
+</section><section id="the-result" class="level2"><h2 class="anchored" data-anchor-id="the-result">The result</h2>
+<div class="cell">
+<div id="tbl-strength-distribution" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-strength-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Cyber.org standards by their best CSTA match strength, parent-only vs full-document
+</figcaption><div aria-describedby="tbl-strength-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Match strength</th>
+<th style="text-align: right;">Parent-only Jaccard</th>
+<th style="text-align: right;">Full-document Jaccard</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">weak</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">none</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">102</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The full-document pass roughly doubles the count of detectable matches (10 to 21) over the parent-only pass. None reach the moderate tier (Jaccard ≥ 0.20) under either pass.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-similarity-shift" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-similarity-shift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="k12-alignment_files/figure-html/fig-similarity-shift-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: How parent-only similarity shifts under full-document scoring. Each point is one Cyber.org standard’s best CSTA match. The 1:1 line is dashed. Points above the line gained similarity when CSTA Examples were included."><img src="k12-alignment_files/figure-html/fig-similarity-shift-1.png" class="img-fluid figure-img" width="624"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-similarity-shift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: How parent-only similarity shifts under full-document scoring. Each point is one Cyber.org standard’s best CSTA match. The 1:1 line is dashed. Points above the line gained similarity when CSTA Examples were included.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The points cluster above the 1:1 line. Full-document scoring systematically raises best-match similarity over parent-only scoring. The dotted horizontal line marks the 0.10 threshold below which no match is reported.</p>
+</section><section id="what-this-tells-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-tells-us">What this tells us</h2>
+<section id="the-vocabulary-distinction-matters" class="level3"><h3 class="anchored" data-anchor-id="the-vocabulary-distinction-matters">The vocabulary distinction matters</h3>
+<p>Compare Cyber.org and CSTA at the parent-statement level only and you find 10 of 123 Cyber.org standards with a CSTA match. Compare full documents (parent plus Subpoints plus Examples) and you find 21. Eleven Cyber.org standards have a plausible CSTA counterpart that is invisible to the parent-only comparison.</p>
+</section><section id="the-frameworks-are-still-largely-complementary" class="level3"><h3 class="anchored" data-anchor-id="the-frameworks-are-still-largely-complementary">The frameworks are still largely complementary</h3>
+<p>Even on the full-document pass, 102 of 123 Cyber.org standards (83%) have no detectable CSTA match. Cyber.org covers cybersecurity-specific territory (threat actors, social engineering, physical security, risk-management foundations) that the CSTA K-12 CS Standards do not address.</p>
+</section><section id="the-matches-concentrate-where-the-frameworks-share-computing-foundations" class="level3"><h3 class="anchored" data-anchor-id="the-matches-concentrate-where-the-frameworks-share-computing-foundations">The matches concentrate where the frameworks share computing foundations</h3>
+<p>Networking, hardware, software vulnerabilities, encryption, and personally identifiable information are where CSTA’s general computer-science scope overlaps with Cyber.org’s cybersecurity-specific scope. Outside that overlap, the frameworks sit on different territory.</p>
+</section></section><section id="what-this-doesnt-tell-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-doesnt-tell-us">What this doesn’t tell us</h2>
+<section id="lexical-similarity-is-not-coverage" class="level3"><h3 class="anchored" data-anchor-id="lexical-similarity-is-not-coverage">Lexical similarity is not coverage</h3>
+<p>A Jaccard score of 0.10 to 0.20 means 10-20% of the unique vocabulary is shared. Suggestive, not dispositive. A teacher claiming CSTA coverage from a Cyber.org-aligned lesson should read both standards and decide whether the same cognitive demand is met. The tool surfaces candidates. The practitioner makes the equivalence judgment.</p>
+</section><section id="grade-band-drift-is-not-corrected-for" class="level3"><h3 class="anchored" data-anchor-id="grade-band-drift-is-not-corrected-for">Grade-band drift is not corrected for</h3>
+<p>The strongest match in this data pairs a Cyber.org 6-8 standard with a CSTA 3A (grades 9-10) standard. Topic alignment is real. Cognitive-level alignment is not. This is a known limitation of any vocabulary-similarity approach to cross-framework comparison and applies equally to other K-12 cyber crosswalks (NICE, NCyTE materials).</p>
+</section><section id="the-metric-is-one-of-several-reasonable-choices" class="level3"><h3 class="anchored" data-anchor-id="the-metric-is-one-of-several-reasonable-choices">The metric is one of several reasonable choices</h3>
+<p>Jaccard on unigrams is interpretable and fast, but ignores word order, multi-word phrases, and synonymy. Other choices (cosine on TF-IDF vectors, embedding-based similarity, manually-curated crosswalk) trade interpretability for sensitivity. The cybedtools v0.2.0 SPARQL helpers return the structured graph, and downstream analysts can run whichever similarity metric suits their question.</p>
+</section></section><section id="look-up-your-standard" class="level2"><h2 class="anchored" data-anchor-id="look-up-your-standard">Look up your standard</h2>
+<p>The widget below shows every Cyber.org K-12 standard alongside its closest CSTA match (full-document Jaccard). Search by topic word (“network,” “encryption,” “PII”) to find your standards quickly, or sort by overlap to see the strongest candidates first.</p>
+<div class="cell">
+<div id="tbl-lookup" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-lookup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2
+</figcaption><div aria-describedby="tbl-lookup-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-51af64c28a322a9b72c3" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-51af64c28a322a9b72c3">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Cyber.org unit":["6-8 / CS / Communication and Networking","K-2 / CS / Operating Systems","K-2 / CS / Hardware","K-2 / DC / Personally Identifiable Information","6-8 / CS / Software","K-2 / CS / Components","3-5 / DC / Personally Identifiable Information","3-5 / SEC / Cryptography","K-2 / DC / Threats and Scams","6-8 / SEC / Cryptography","9-12 / SEC / Cryptography","K-2 / DC / Intellectual Property","K-2 / SEC / Cryptography","6-8 / DC / Intellectual Property","9-12 / DC / Intellectual Property","K-2 / DC / Digital Footprint","9-12 / SEC / Network Security","K-2 / CS / Communication and Networking","3-5 / CS / Components","3-5 / SEC / Confidentiality, Integrity, Availability","K-2 / CS / Internet of Things","6-8 / SEC / Access Control","9-12 / SEC / Information Security","6-8 / CS / Components","K-2 / CS / Cloud Computing","6-8 / SEC / Authentication","9-12 / CS / Communication and Networking","3-5 / CS / Internet of Things","6-8 / DC / Digital Footprint","K-2 / CS / Applications","9-12 / CS / Components","9-12 / DC / Law","6-8 / CS / Cloud Computing","K-2 / CS / Communication and Networking","6-8 / SEC / Confidentiality, Integrity, Availability","6-8 / SEC / Controls","K-2 / CS / Loss","3-5 / CS / Cloud Computing","6-8 / CS / Applications","9-12 / SEC / Access Control","K-2 / SEC / Information Security","3-5 / SEC / Access Control","3-5 / SEC / Data","9-12 / SEC / Authentication","3-5 / CS / Communication and Networking","6-8 / DC / Digital Footprint","3-5 / CS / Applications","3-5 / CS / Operating Systems","6-8 / CS / Loss","6-8 / SEC / Network Security","9-12 / CS / Software","9-12 / DC / Digital Footprint","3-5 / CS / Hardware","3-5 / DC / Intellectual Property","3-5 / SEC / Authentication","9-12 / CS / Internet of Things","9-12 / SEC / Controls","K-2 / CS / Programming","3-5 / SEC / Information Security","6-8 / SEC / Compromise","9-12 / CS / Protocols","9-12 / SEC / Confidentiality, Integrity, Availability","9-12 / SEC / Data","6-8 / CS / Internet of Things","6-8 / SEC / Physical Security","9-12 / DC / Personally Identifiable Information","3-5 / DC / Threats and Scams","9-12 / CS / Applications","9-12 / CS / Operating Systems","3-5 / CS / Software","3-5 / SEC / Controls","9-12 / CS / Hardware","K-2 / SEC / Authentication","K-2 / SEC / Network Security","6-8 / DC / Cyberbullying","K-2 / SEC / Access Control","3-5 / SEC / Physical Security","9-12 / DC / Ethics","9-12 / DC / Personally Identifiable Information","3-5 / DC / Law","6-8 / SEC / Information Security","9-12 / CS / Programming","K-2 / CS / Software","K-2 / SEC / Data","3-5 / CS / Programming","3-5 / SEC / Compromise","9-12 / DC / Threats and Scams","9-12 / SEC / Compromise","K-2 / CS / Protocols","3-5 / CS / Cloud Computing","6-8 / SEC / Data","3-5 / SEC / Network Security","6-8 / CS / Communication and Networking","K-2 / DC / Cyberbullying","K-2 / DC / Ethics","K-2 / SEC / Compromise","3-5 / DC / Digital Footprint","6-8 / DC / Personally Identifiable Information","9-12 / DC / Acceptable Use Policy","3-5 / CS / Loss","3-5 / DC / Acceptable Use Policy","9-12 / DC / Cyberbullying","6-8 / CS / Hardware","6-8 / DC / Law","6-8 / DC / Threats and Scams","9-12 / CS / Cloud Computing","K-2 / SEC / Physical Security","3-5 / CS / Protocols","6-8 / CS / Programming","9-12 / CS / Protocols","9-12 / SEC / Physical Security","6-8 / CS / Operating Systems","9-12 / CS / Loss","3-5 / DC / Cyberbullying","3-5 / DC / Ethics","6-8 / CS / Protocols","6-8 / DC / Acceptable Use Policy","K-2 / DC / Law","K-2 / SEC / Confidentiality, Integrity, Availability","K-2 / SEC / Controls","K-2 / DC / Acceptable Use Policy","6-8 / DC / Ethics","6-8 / DC / Personally Identifiable Information"],"Cyber.org standard":["Differentiate between a network device’s MAC and IP addresses. Clarification statement: Identify IP addressing schemes such as public and...","Describe the role of an operating system. Clarification statement: At this level, student discussions should focus on grade-appropriate e...","Identify the components or parts of computing devices. Clarification statement: At this level, student discussions should focus on grade-...","Distinguish between private vs. public information. Clarification statement: At this level, student discussions should focus on grade-app...","Identify examples of vulnerabilities that exist in software. Clarification statement: At this level, student discussions should focus on ...","Recognize that equipment is needed to access a network. Clarification statement: At this level, student discussions should focus on grade...","Define personally identifiable information (PII). Clarification statement: At this level, student discussions should focus on previous st...","Discuss why and how we encrypt information and communication systems. Clarification statement: At this level, student discussions should ...","Describe good and bad uses of digital devices. Clarification statement: At this level, student discussions should focus on grade-appropri...","Discuss methods and the need for encrypting information when it is being exchanged, e.g., http vs. https. Clarification statement: At thi...","Analyze how modern advancements in computing have impacted encryption. Clarification statement: At this level, student discussions should...","Discuss the concept of copyright. Clarification statement: At this level, student discussions should focus on grade-appropriate examples ...","Recognize how encryption safeguards information. Clarification statement: At this level, student discussions should focus on grade-approp...","Explain how intellectual property and copyright relate to fair use. Clarification statement: At this level, student discussions should fo...","Debate the importance of intellectual property laws. Clarification statement: At this level, student discussions should focus on previous...","Differentiate between good and bad online behavior. Clarification statement: At this level, student discussions should focus on grade-app...","Analyze the different types of attacks that affect network security. Clarification statement: At this level, student discussions should f...","Describe the difference between online and local use of computing devices. Clarification statement: At this level, student discussions sh...","Identify specific network components. Clarification statement: At this level, student discussions should focus on previous standards as w...","Describe the concepts of the CIA Triad and how they work to protect information. Clarification statement: At this level, student discussi...","Identify examples of devices that are part of the Internet of Things. Clarification statement: At this level, student discussions should ...","Explain the concept of access control and how to limit access to authorized users. Clarification statement: At this level, student discus...","Distinguish the different types of attacks that affect information security for individuals and organizations. Clarification statement: A...","Identify the role of connected network components. Clarification statement: At this level, student discussions should focus on previous s...","State the benefits of storing and sharing information using cloud computing. Clarification statement: At this level, student discussions ...","Explain how authentication and authorization methods can protect authorized users. Clarification statement: At this level, student discus...","Explain layers within the OSI networking model. Clarification statement: At this level, student discussions should focus on previous stan...","Define the Internet of Things. Clarification statement: At this level, student discussions should focus on previous standards as well as ...","Recognize the many sources of data that make up a digital footprint. Clarification statement: At this level, student discussions should f...","Recognize how applications are software that contain code. Clarification statement: At this level, student discussions should focus on gr...","Create a diagram of a network utilizing appropriate network components. Clarification statement: At this level, student discussions shoul...","Compare and contrast local, state, federal, and international cyber laws and regulations for individuals and businesses. Clarification st...","Identify the advantages and disadvantages of various cloud computing models. Clarification statement: At this level, student discussions ...","Define the concept of online. Clarification statement: At this level, student discussions should focus on grade-appropriate examples of b...","Explain the effects of a failure of the CIA Triad. Clarification statement: At this level, student discussions should focus on previous s...","Describe Defense in Depth and how physical access controls work together. Clarification statement: At this level, student discussions sho...","Define data loss and service outages. Clarification statement: At this level, student discussions should focus on grade-appropriate examp...","Demonstrate ways to store and share information using cloud computing. Clarification statement: At this level, student discussions should...","Discuss the role that software plays in the protection of a secure system. Clarification statement: At this level, student discussions sh...","Compare and contrast the concepts presented by access control principles, access control modules, and the principle of least privilege ac...","List examples of information that needs to be protected. Clarification statement: At this level, student discussions should focus on grad...","Describe the concept of appropriate access to private information. Clarification statement: At this level, student discussions should foc...","Identify when and how data can be altered accidentally or on purpose. Clarification statement: At this level, student discussions should ...","Evaluate authentication and authorization methods and the risks associated with failure. Clarification statement: At this level, student ...","Describe network communications. Clarification statement: At this level, student discussions should focus on previous standards as well a...","Recognize the permanence of a digital footprint. Clarification statement: At this level, student discussions should focus on previous sta...","Discuss how all software may have vulnerabilities. Clarification statement: At this level, student discussions should focus on previous s...","Distinguish between roles of various operating systems. Clarification statement: At this level, student discussions should focus on previ...","Explain the role and importance of backups. Clarification statement: At this level, student discussions should focus on previous standard...","Explain how malicious actions threaten network security. Clarification statement: At this level, student discussions should focus on prev...","Compare the advantages and disadvantages of patching systems in real time. Clarification statement: At this level, student discussions sh...","Examine the implications of both positive and negative digital footprints. Clarification statement: At this level, student discussions sh...","Explain the vulnerabilities of connecting devices. Clarification statement: At this level, student discussions should focus on previous s...","Explain how copyright relates to fair use. Clarification statement: At this level, student discussions should focus on previous standards...","Describe the role of authentication and authorization. Clarification statement: At this level, student discussions should focus on previo...","Analyze the vulnerabilities of Internet of Things devices. Clarification statement: At this level, student discussions should focus on pr...","Justify the use of Defense in Depth and the need for physical access controls. Clarification statement: At this level, student discussion...","Discuss how scripts can make web pages and/or apps respond to a user’s action. Clarification statement: At this level, student discussion...","Define events that are related to threats and vulnerabilities. Clarification statement: At this level, student discussions should focus o...","Describe Defense in Depth strategies to protect simple networks. Clarification statement: At this level, student discussions should focus...","Identify the risks associated with the different services available online. Clarification statement: At this level, student discussions s...","Explain various interactions between the CIA Triad and the three states of data. Clarification statement: At this level, student discussi...","Formulate a plan to apply security measures to protect data in all three states. Clarification statement: At this level, student discussi...","Evaluate the risks and benefits of Internet of Things devices. Clarification statement: At this level, student discussions should focus o...","Explain how malicious actions threaten physical security. Clarification statement: At this level, student discussions should focus on pre...","Explain the importance of social identity and the implications of online activity regarding private data, long-term career impacts, and t...","Recognize the different motivations that influence good and bad online behaviors. Clarification statement: At this level, student discuss...","Discuss how software that exists on and across various platforms can be used to monitor, collect, and analyze information from those plat...","Create a plan for hardening an operating system. Clarification statement: At this level, student discussions should focus on previous sta...","Understand the need for keeping apps and devices up to date. Clarification statement: At this level, student discussions should focus on ...","Identify physical access controls found in everyday life. Clarification statement: At this level, student discussions should focus on pre...","Identify methods of mitigating risk associated with connecting devices. Clarification statement: At this level, student discussions shoul...","Describe the concept of a good password and its importance. Clarification statement: At this level, student discussions should focus on g...","Identify methods for exchanging information and why they need to be protected. Clarification statement: At this level, student discussion...","Develop strategies to raise awareness of the effects of, and methods to identify and prevent, cyberbullying. Clarification statement: At ...","Define access to private information. Clarification statement: At this level, discussions should focus on grade-appropriate examples of p...","Explain the need to protect people and places from malicious intent. Clarification statement: At this level, student discussions should f...","Discuss the role that cyber ethics plays in current society. Clarification statement: At this level, student discussions should focus on ...","Explain the individual risks of a data breach to an organization housing personal data. Clarification statement: At this level, student d...","Explain how certain policies and laws are created to guide online interactions. Clarification statement: At this level, student discussio...","Analyze threats and vulnerabilities to information security for individuals and organizations. Clarification statement: At this level, st...","Describe the role of scripting in cyber attacks and cyber defense. Clarification statement: At this level, student discussions should foc...","Understand the need for keeping apps and devices up to date. Clarification statement: At this level, student discussions should focus on ...","Identify the difference between information being altered accidentally or on purpose. Clarification statement: At this level, student dis...","Explain how web pages and/or apps can be changed with simple adjustments to code. Clarification statement: At this level, student discuss...","Identify Defense in Depth solutions that can be used to protect networks and devices. Clarification statement: At this level, student dis...","Analyze the motives of threat actors. Clarification statement: At this level, student discussions should focus on previous standards as w...","Evaluate Defense in Depth strategies that can protect simple networks. Clarification statement: At this level, student discussions should...","Identify various services that are available online. Clarification statement: At this level, student discussions should focus on grade-ap...","Demonstrate safe cloud computing practices. Clarification statement: At this level, student discussions should focus on previous standard...","Describe data in its three states and potential threats to each state. Clarification statement: At this level, student discussions should...","Discuss vulnerabilities of open methods for exchanging information. Clarification statement: At this level, student discussions should fo...","Compare and contrast network topologies. Clarification statement: At this level, student discussions should focus on previous standards a...","Discuss examples of cyberbullying and model age-appropriate responses to cyberbullying. Clarification statement: At this level, student d...","Identify unsafe content. Clarification statement: At this level, student discussions should focus on grade-appropriate examples of unsafe...","Understand how Defense in Depth allows various security components to work together. Clarification statement: At this level, student disc...","Describe the concept of a digital footprint. Clarification statement: At this level, student discussions should focus on previous standar...","Discuss the risks and benefits of sharing PII. Clarification statement: At this level, student discussions should focus on previous stand...","Differentiate between the various agreements that protect individuals and organizations in their digital environments. Clarification stat...","Explain the role and importance of backups. Clarification statement: At this level, student discussions should focus on previous standard...","Explain various agreements and illustrate their purpose. Clarification statement: At this level, student discussions should focus on prev...","Prepare a plan to raise awareness of the effects of cyberbullying. Clarification statement: At this level, student discussions should foc...","Develop strategies to raise awareness of hardware vulnerabilities. Clarification statement: At this level, student discussions should foc...","Analyze specific federal, state, and local laws as they relate to cybersecurity and privacy. Clarification statement: At this level, stud...","Describe various types of threat actors. Clarification statement: At this level, student discussions should focus on previous standards a...","Evaluate the risks and benefits of cloud computing. Clarification statement: At this level, student discussions should focus on previous ...","Define physical security as it relates to cybersecurity. Clarification statement: At this level, student discussions should focus on rela...","Describe the different services available online. Clarification statement: At this level, student discussions should focus on previous st...","Explain the role of scripting in cyber attacks. Clarification statement: At this level, student discussions should focus on previous stan...","Compare and contrast the ports and protocols used for different services available online. Clarification statement: At this level, studen...","Analyze the different types of attacks that affect physical security. Clarification statement: At this level, student discussions should ...","Discuss the risks of outdated operating systems. Clarification statement: At this level, student discussions should focus on previous sta...","Develop a plan for risk mitigation that implements redundancy. Clarification statement: At this level, student discussions should focus o...","Discuss and demonstrate examples of cyberbullying and methods of age-appropriate intervention. Clarification statement: At this level, st...","Discuss examples of cyber attacks. Clarification statement: At this level, student discussions should focus on previous standards as well...","Identify the protocol connection types used for different services available online. Clarification statement: At this level, student disc...","Understand the various agreements and how they protect users and owners of technology. Clarification statement: At this level, student di...","Explain how online actions have real-world consequences and that laws and rules may also apply online. Clarification statement: At this l...","Identify the concepts of Confidentiality, Integrity, and Availability as presented in the CIA Triad. Clarification statement: At this lev...","Define the policy of “trust but verify” for identity assurance. Clarification statement: At this level, student discussions should focus ...","Describe how Acceptable Use Policies are designed to protect the user. Clarification statement: At this level, student discussions should...","Distinguish between ethical and malicious hacking. Clarification statement: At this level, student discussions should focus on previous s...","Examine techniques to detect, correct, and prevent disclosure of PII. Clarification statement: At this level, student discussions should ..."],"Closest CSTA unit":["3A / Networks & the Internet","1A / Computing Systems","1A / Computing Systems","1A / Impacts of Computing","1A / Computing Systems","1A / Impacts of Computing","1A / Impacts of Computing","2 / Networks & the Internet","1A / Networks & the Internet","2 / Data & Analysis","2 / Networks & the Internet","1A / Algorithms & Programming","2 / Data & Analysis","3A / Impacts of Computing","1B / Algorithms & Programming","1A / Impacts of Computing","3A / Networks & the Internet","1A / Computing Systems","1A / Computing Systems","2 / Networks & the Internet","1A / Computing Systems","3A / Networks & the Internet","3A / Networks & the Internet","1A / Computing Systems","1A / Impacts of Computing","3A / Networks & the Internet","1A / Computing Systems","2 / Networks & the Internet","2 / Data & Analysis","1A / Computing Systems","1A / Computing Systems","3A / Impacts of Computing","1A / Impacts of Computing","1A / Computing Systems","3A / Networks & the Internet","2 / Data & Analysis","2 / Networks & the Internet","1A / Impacts of Computing","2 / Networks & the Internet","3A / Networks & the Internet","1B / Networks & the Internet","3A / Algorithms & Programming","2 / Networks & the Internet","3A / Networks & the Internet","1A / Computing Systems","2 / Data & Analysis","1A / Computing Systems","1A / Computing Systems","2 / Networks & the Internet","3A / Networks & the Internet","1A / Computing Systems","2 / Data & Analysis","1A / Networks & the Internet","1B / Algorithms & Programming","3A / Networks & the Internet","1A / Computing Systems","2 / Data & Analysis","3B / Algorithms & Programming","2 / Networks & the Internet","1A / Networks & the Internet","2 / Networks & the Internet","3A / Networks & the Internet","2 / Networks & the Internet","1B / Impacts of Computing","3B / Algorithms & Programming","3A / Impacts of Computing","1A / Impacts of Computing","1B / Networks & the Internet","3A / Algorithms & Programming","1A / Computing Systems","2 / Data & Analysis","2 / Networks & the Internet","1A / Algorithms & Programming","1B / Networks & the Internet","1B / Algorithms & Programming","1A / Networks & the Internet","3A / Algorithms & Programming","2 / Networks & the Internet","2 / Networks & the Internet","2 / Impacts of Computing","3A / Networks & the Internet","3B / Algorithms & Programming","1A / Networks & the Internet","2 / Networks & the Internet","3A / Algorithms & Programming","1A / Computing Systems","2 / Data & Analysis","1A / Networks & the Internet","1B / Impacts of Computing","1A / Impacts of Computing","2 / Networks & the Internet","3A / Impacts of Computing","3B / Algorithms & Programming","2 / Impacts of Computing","1A / Computing Systems","3B / Algorithms & Programming","2 / Data & Analysis","1B / Impacts of Computing","2 / Data & Analysis","2 / Networks & the Internet","2 / Networks & the Internet","2 / Networks & the Internet","1B / Computing Systems","2 / Networks & the Internet","2 / Data & Analysis","3A / Networks & the Internet","3A / Networks & the Internet","1B / Impacts of Computing","3A / Algorithms & Programming","1A / Computing Systems","3B / Algorithms & Programming","1A / Computing Systems","1A / Computing Systems","3B / Algorithms & Programming","3A / Networks & the Internet","3B / Algorithms & Programming","1A / Computing Systems","3B / Algorithms & Programming","1A / Computing Systems","3B / Algorithms & Programming","1A / Computing Systems","2 / Networks & the Internet","2 / Networks & the Internet"],"Closest CSTA standard":["Evaluate the scalability and reliability of networks, by describing the relationship between routers, switches, servers, topology, and ad...","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Keep login information private, and log off of devices appropriately.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Compare how people live and work before and after the implementation or adoption of new computing technology.","Keep login information private, and log off of devices appropriately.","Apply multiple methods of encryption to model the secure transmission of information.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Represent data using multiple encoding schemes.","Apply multiple methods of encryption to model the secure transmission of information.","Give attribution when using the ideas and creations of others while developing programs.","Represent data using multiple encoding schemes.","Explain the beneficial and harmful effects that intellectual property laws can have on innovation.","Observe intellectual property rights and give appropriate attribution when creating or remixing programs.","Work respectfully and responsibly with others online.","Give examples to illustrate how sensitive data can be affected by malware and other attacks.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Model the role of protocols in transmitting data across networks and the Internet.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Give examples to illustrate how sensitive data can be affected by malware and other attacks.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Keep login information private, and log off of devices appropriately.","Compare various security measures, considering tradeoffs between the usability and security of a computing system.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Model the role of protocols in transmitting data across networks and the Internet.","Represent data using multiple encoding schemes.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Explain the beneficial and harmful effects that intellectual property laws can have on innovation.","Keep login information private, and log off of devices appropriately.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Represent data using multiple encoding schemes.","Model the role of protocols in transmitting data across networks and the Internet.","Keep login information private, and log off of devices appropriately.","Model the role of protocols in transmitting data across networks and the Internet.","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Discuss real-world cybersecurity problems and how personal information can be protected.","Evaluate licenses that limit or restrict use of computational artifacts when using resources such as libraries.","Model the role of protocols in transmitting data across networks and the Internet.","Compare various security measures, considering tradeoffs between the usability and security of a computing system.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Represent data using multiple encoding schemes.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Model the role of protocols in transmitting data across networks and the Internet.","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Represent data using multiple encoding schemes.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Observe intellectual property rights and give appropriate attribution when creating or remixing programs.","Compare various security measures, considering tradeoffs between the usability and security of a computing system.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Represent data using multiple encoding schemes.","Compare multiple programming languages and discuss how their features make them suitable for solving different types of problems.","Model the role of protocols in transmitting data across networks and the Internet.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Model the role of protocols in transmitting data across networks and the Internet.","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Model the role of protocols in transmitting data across networks and the Internet.","Discuss computing technologies that have changed the world, and express how those technologies influence, and are influenced by, cultural...","Explain security issues that might lead to compromised computer programs.","Explain the beneficial and harmful effects that intellectual property laws can have on innovation.","Keep login information private, and log off of devices appropriately.","Discuss real-world cybersecurity problems and how personal information can be protected.","Design and iteratively develop computational artifacts for practical intent, personal expression, or to address a societal issue by using...","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Represent data using multiple encoding schemes.","Model the role of protocols in transmitting data across networks and the Internet.","Model the way programs store and manipulate data by using numbers or other symbols to represent information.","Discuss real-world cybersecurity problems and how personal information can be protected.","Test and debug (identify and fix errors) a program or algorithm to ensure it runs as intended.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Evaluate licenses that limit or restrict use of computational artifacts when using resources such as libraries.","Model the role of protocols in transmitting data across networks and the Internet.","Model the role of protocols in transmitting data across networks and the Internet.","Collaborate with many contributors through strategies such as crowdsourcing or surveys when creating a computational artifact.","Give examples to illustrate how sensitive data can be affected by malware and other attacks.","Construct solutions to problems using student-created components, such as procedures, modules and/or objects.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Model the role of protocols in transmitting data across networks and the Internet.","Design and iteratively develop computational artifacts for practical intent, personal expression, or to address a societal issue by using...","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Represent data using multiple encoding schemes.","Explain what passwords are and why we use them, and use strong passwords to protect devices and information from unauthorized access.","Seek diverse perspectives for the purpose of improving computational artifacts.","Keep login information private, and log off of devices appropriately.","Model the role of protocols in transmitting data across networks and the Internet.","Use tools and methods for collaboration on a project to increase connectivity of people in different cultures and career fields.","Compare and contrast fundamental data structures and their uses.","Collaborate with many contributors through strategies such as crowdsourcing or surveys when creating a computational artifact.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Construct solutions to problems using student-created components, such as procedures, modules and/or objects.","Represent data using multiple encoding schemes.","Seek diverse perspectives for the purpose of improving computational artifacts.","Represent data using multiple encoding schemes.","Model the role of protocols in transmitting data across networks and the Internet.","Model the role of protocols in transmitting data across networks and the Internet.","Model the role of protocols in transmitting data across networks and the Internet.","Determine potential solutions to solve simple hardware and software problems using common troubleshooting strategies.","Model the role of protocols in transmitting data across networks and the Internet.","Represent data using multiple encoding schemes.","Give examples to illustrate how sensitive data can be affected by malware and other attacks.","Explain tradeoffs when selecting and implementing cybersecurity recommendations.","Seek diverse perspectives for the purpose of improving computational artifacts.","Design and develop computational artifacts working in team roles using collaborative tools.","Select and operate appropriate software to perform a variety of tasks, and recognize that users have different needs and preferences for ...","Compare multiple programming languages and discuss how their features make them suitable for solving different types of problems.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Demonstrate code reuse by creating programming solutions using libraries and APIs.","Give examples to illustrate how sensitive data can be affected by malware and other attacks.","Compare multiple programming languages and discuss how their features make them suitable for solving different types of problems.","Select and operate appropriate software to perform a variety of tasks, and recognize that users have different needs and preferences for ...","Analyze a large-scale computational problem and identify generalizable patterns that can be applied to a solution.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Develop and use a series of test cases to verify that a program performs according to its design specifications.","Use appropriate terminology in identifying and describing the function of common physical components of computing systems (hardware).","Model the role of protocols in transmitting data across networks and the Internet.","Model the role of protocols in transmitting data across networks and the Internet."],"Overlap %":[18.8,14.3,13.6,13.2,12.8,12.7,11.6,11.6,11.6,11.4,11.3,11.3,11.3,10.8,10.5,10.5,10.4,10.4,10.2,10.1,10,9.9,9.9,9.8,9.8,9.7,9.6,9.5,9.5,9.5,9.4,9.4,9.3,9.3,9.2,9.2,9.2,9.1,9.1,9.1,9.1,9,9,9,8.9,8.9,8.7,8.7,8.7,8.7,8.5,8.5,8.3,8.3,8.3,8.3,8.3,8.3,8.2,8.2,8.2,8.2,8.2,8.1,8.1,8.1,8,7.9,7.9,7.8,7.8,7.8,7.8,7.8,7.7,7.7,7.6,7.6,7.6,7.5,7.5,7.5,7.5,7.5,7.4,7.4,7.4,7.4,7.4,7.3,7.2,7.1,7.1,7.1,7.1,7.1,7,7,7,6.9,6.8,6.8,6.7,6.7,6.7,6.7,6.6,6.5,6.5,6.5,6.5,6.4,6.3,6.2,6.2,6.2,6.2,6.2,6.2,5.9,5.8,5.7,4.9]},"columns":[{"id":"Cyber.org unit","name":"Cyber.org unit","type":"character","maxWidth":110},{"id":"Cyber.org standard","name":"Cyber.org standard","type":"character","minWidth":220},{"id":"Closest CSTA unit","name":"Closest CSTA unit","type":"character","maxWidth":130},{"id":"Closest CSTA standard","name":"Closest CSTA standard","type":"character","minWidth":220},{"id":"Overlap %","name":"Overlap %","type":"numeric","format":{"cell":{"suffix":"%"},"aggregated":{"suffix":"%"}},"maxWidth":110}],"filterable":true,"searchable":true,"defaultPageSize":12,"highlight":true,"striped":true,"compact":true,"dataKey":"87f8b514eca443256c40d42ec0385706"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The full row count is 123, one per Cyber.org standard. Standards with no detectable CSTA match (overlap below 10% under the methodology above) appear with their closest candidate even though that candidate is not a defensible coverage claim. The “no detectable match” bracket on the persona page is the same data filtered to overlap below 10%.</p>
+</section><section id="reproduce-this" class="level2"><h2 class="anchored" data-anchor-id="reproduce-this">Reproduce this</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rdflib/">rdflib</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Pull parent standards (excludes Subpoints + Examples).</span></span>
+<span><span class="va">prefix_block</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
+<span>  <span class="st">"PREFIX cybed: &lt;https://w3id.org/cybed/ontology#&gt;\n"</span>,</span>
+<span>  <span class="st">"PREFIX cyberorg: &lt;https://cyber.org/standards/terms#&gt;\n"</span>,</span>
+<span>  <span class="st">"PREFIX csta: &lt;https://csteachers.org/k12standards/terms#&gt;\n"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">query_subjects</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rdf</span>, <span class="va">type_iri</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">prefix_block</span>, <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"SELECT ?s WHERE { ?s a %s }"</span>, <span class="va">type_iri</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">rdflib</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rdflib/reference/rdf_query.html">rdf_query</a></span><span class="op">(</span><span class="va">rdf</span>, <span class="va">q</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>s <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="kw">else</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">cyberorg_parents</span> <span class="op">&lt;-</span> <span class="fu">query_subjects</span><span class="op">(</span><span class="va">g</span>, <span class="st">"cyberorg:Standard"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span>element <span class="op">=</span> <span class="va">s</span>, framework <span class="op">=</span> <span class="st">"cyberorg"</span><span class="op">)</span></span>
+<span><span class="va">csta_parents</span> <span class="op">&lt;-</span> <span class="fu">query_subjects</span><span class="op">(</span><span class="va">g</span>, <span class="st">"csta:Standard"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span>element <span class="op">=</span> <span class="va">s</span>, framework <span class="op">=</span> <span class="st">"csta"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Attach element text.</span></span>
+<span><span class="va">elem_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.html">sparql_pairs</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"cybed:elementText"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span>element <span class="op">=</span> <span class="va">s</span>, text <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Attach Subpoint + Example children for full-document comparison.</span></span>
+<span><span class="va">has_element</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.html">sparql_pairs</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"cybed:hasElement"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">s</span>, child <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span>
+<span><span class="va">has_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.html">sparql_pairs</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"cybed:hasExample"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">s</span>, child <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span>
+<span><span class="va">all_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="va">has_element</span>, <span class="va">has_example</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Build full-document text per parent (parent + all child text concatenated).</span></span>
+<span><span class="co"># Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,</span></span>
+<span><span class="co"># keep best CSTA match per Cyber.org standard. The full prep script is</span></span>
+<span><span class="co"># in `concordance/_data-prep-k12-alignment.R` in the repository.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The data file shipped with this page (<code>_data/k12_alignment.rds</code>) is the output of that prep script run against cybedtools v0.2.0. Re-run the prep when the package or the staged framework data changes.</p>
+</section><section id="related-queries" class="level2"><h2 class="anchored" data-anchor-id="related-queries">Related queries</h2>
+<ul>
+<li>
+<a href="../queries/density-spread.html">How does element density vary across frameworks?</a>, the per-unit density comparison that motivates the Jaccard granularity choice.</li>
+<li>
+<a href="../concepts/vocabulary.html">The two-tier vocabulary</a>, why <code>cybed:Example</code> and <code>cybed:Subpoint</code> are distinct types, and why that distinction makes this comparison possible.</li>
+</ul></section><section id="use-case-using-this-data" class="level2"><h2 class="anchored" data-anchor-id="use-case-using-this-data">Use case using this data</h2>
+<ul>
+<li>
+<a href="../use-cases/k12-teacher.html">Tasha cross-walks her Cyber.org-aligned cyber unit to CSTA</a>, the practitioner-facing version of this analytic question.</li>
+</ul>
+
+
+</section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ryanstraight\.github\.io\/cybedtools\/concordance\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org"><img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
+</div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

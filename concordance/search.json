@@ -1,0 +1,1486 @@
+[
+  {
+    "objectID": "why.html",
+    "href": "why.html",
+    "title": "Why this exists",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "why.html#the-problem",
+    "href": "why.html#the-problem",
+    "title": "Why this exists",
+    "section": "The problem",
+    "text": "The problem\nCybersecurity workforce and learning frameworks proliferated through the 2010s and 2020s. Each was authored for a specific community, by a specific steward, under a specific licensing regime, and against a specific theory of what the framework was for. NICE specifies work roles for the US federal workforce. DCWF aligns the Department of Defense’s cyber workforce against NICE. ENISA’s ECSF sketches twelve professional profiles for the European Union. SFIA catalogs skills across the global IT profession. Cyber.org and CSTA specify K-12 teaching standards. CSEC2017 frames undergraduate curricula. DigComp 2.2 specifies citizen-level digital competence.\nA researcher who wants to compare any two of these is, at minimum, working across two different file formats, two licensing regimes, two authorial communities, and two distinct theoretical commitments about what counts as a structural element. Comparing them all means nine file formats, eight licenses, eight steward communities, and several deeply non-overlapping ideas about what an “element” even is.\ncybedtools makes that comparison structurally tractable. The differences that make each framework what it is stay intact."
+  },
+  {
+    "objectID": "why.html#what-the-package-does",
+    "href": "why.html#what-the-package-does",
+    "title": "Why this exists",
+    "section": "What the package does",
+    "text": "What the package does\nThe package ingests each framework’s published source data, parses it into a uniform two-tier semantic schema (cybed: cross-framework abstract terms plus per-framework subtypes that preserve native vocabulary), assembles a queryable RDF graph, and exposes a small set of R helpers for cross-framework analysis.\nThree findings ride out of that infrastructure cleanly.\n\nPer-unit element density spans roughly an order of magnitude\nNICE specifies about 52 elements per work role. DigComp specifies about 4 elements per competence area. The spread is real. It is a difference in design philosophy, not a quality claim.\n\n\nUS/EU coverage runs about 14 to 1 by raw element count\nECSF was designed to be profile-level by intent. DigComp was designed for citizen self-assessment. The ratio reflects authorial intent, not framework completeness.\n\n\nNICE work-role concentration is uneven\nA small number of work roles carry a disproportionate share of element coverage. The distribution is queryable directly from the package.\nOther questions can be asked of the same graph with the same query primitives."
+  },
+  {
+    "objectID": "why.html#who-its-for",
+    "href": "why.html#who-its-for",
+    "title": "Why this exists",
+    "section": "Who it’s for",
+    "text": "Who it’s for\nThe package targets four overlapping audiences.\n\nCybersecurity education researchers comparing curricular, workforce, or competency claims across frameworks.\nDoctoral students building dissertations that cite framework alignment as part of methodology.\nWorkforce policy analysts producing cross-jurisdiction reports for federal, foundation, or state-level stakeholders.\nCurriculum designers mapping local programs against multiple authoritative frameworks at once.\n\nIt does not target practitioners doing day-to-day workforce mapping inside a single framework. NICCS, DCWF program offices, the SFIA Foundation, CSTA, and the others publish their own authoritative tooling for that work. cybedtools is for the researcher who needs to answer questions no single framework’s tooling can answer."
+  },
+  {
+    "objectID": "why.html#what-this-deliberately-is-not",
+    "href": "why.html#what-this-deliberately-is-not",
+    "title": "Why this exists",
+    "section": "What this deliberately is not",
+    "text": "What this deliberately is not\ncybedtools is a comparison and querying layer. It is not a replacement for any framework. It does not redistribute framework source text under more permissive terms than the framework’s own license. It is not an authority on alignment between frameworks, and it makes no claim that one framework is more rigorous than another.\nWhen the package’s outputs disagree with a framework steward’s own view of their framework, the steward’s view is correct. The package gives researchers a structurally consistent way to ask questions across frameworks. That is a different thing from a license to override the people who maintain them."
+  },
+  {
+    "objectID": "why.html#how-it-relates-to-the-rest-of-the-field",
+    "href": "why.html#how-it-relates-to-the-rest-of-the-field",
+    "title": "Why this exists",
+    "section": "How it relates to the rest of the field",
+    "text": "How it relates to the rest of the field\nSeveral adjacent efforts share parts of the same goal. The framework stewards themselves publish authoritative tooling for within-framework analysis. NIST publishes for NICE, the SFIA Foundation for SFIA, the European Commission for ECSF and DigComp, and so on. Cross-framework comparative work in the literature, when it appears, is typically hand-coded across two or three frameworks at a time.\ncybedtools extends this landscape. Eight-framework analysis is tractable in a single R session, with provenance preserved back to each framework’s source export.\nRead the concepts · Browse the frameworks · See the queries"
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html",
+    "href": "use-cases/k12-teacher.html",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html#tashas-situation",
+    "href": "use-cases/k12-teacher.html#tashas-situation",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "Tasha’s situation",
+    "text": "Tasha’s situation\nTasha teaches 7th-grade STEM at a public middle school. Cybersecurity is a four-week unit inside her course, run once a year. She built the unit around the Cyber.org K-12 Cybersecurity Learning Standards because Cyber.org ships a free, ready-to-teach curriculum aligned to them.\nHer state has recently adopted a CS framework drawn from the CSTA K-12 CS Standards, and her district is now reporting all CS-related instruction against it. Her principal wants every cyber lesson tagged to a state-framework standard for the next reporting cycle. Tasha has roughly a dozen Cyber.org-aligned lessons in the unit and no time to rebuild them from scratch.\nHer question is concrete. Where does her existing Cyber.org-aligned work already cover the state-adopted framework, and where will she have to add something new?\n\n\nThis page uses real data computed against cybedtools v0.2.0. The persona is composite. The question, the code, and the result are not.\n\nTwo standards bodies, two roles. CSTA is a voluntary K-12 CS standards body whose work gets adopted into state CS frameworks. The principal is enforcing the state-adopted framework, not CSTA directly. Cyber.org publishes a federally-funded curriculum (free to use) whose standards are not, as a rule, formally adopted as state CS standards. The two are not interchangeable for state-framework reporting."
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html#what-were-asking-the-data",
+    "href": "use-cases/k12-teacher.html#what-were-asking-the-data",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "What we’re asking the data",
+    "text": "What we’re asking the data\nFor each of Tasha’s Cyber.org standards, what’s the closest CSTA standard, and is the match close enough to defend in her reporting?\n\n\nVocabulary overlap is the percentage of unique words two standards share, after dropping common words (“the,” “and,” “of”) and very short tokens. 0% means no shared vocabulary, 100% means identical wording. The analytic query page walks through the calculation."
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html#what-cybedtools-surfaces",
+    "href": "use-cases/k12-teacher.html#what-cybedtools-surfaces",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "What cybedtools surfaces",
+    "text": "What cybedtools surfaces\nA note on what counts as a match before the table arrives. Two K-12 standards on the same general topic share enough genre vocabulary (“network,” “data,” “device”) to land near 10% overlap by themselves. Every match in the table below sits in the 10-20% band, which means same general topic, not necessarily same teaching. Read the matched CSTA standard before claiming coverage.\n\n\n\nTable 1: Cyber.org standards by vocabulary overlap with their closest CSTA match\n\n\n\n\nVocabulary overlap\nCyber.org standards\n\n\n\nBelow 10% (no detectable match)\n102\n\n\n10% to 20%\n21\n\n\n20% or more\n0\n\n\n\n\n\n\n\n\nOf 123 Cyber.org standards, 21 share enough vocabulary with a CSTA standard to be worth a closer look (at least 10% overlap). None overlap heavily. That tracks. Cyber.org covers cybersecurity-specific territory that CSTA’s general CS scope was never designed to address.\n\n\n\nTable 2: Top 8 Cyber.org → CSTA matches by vocabulary overlap\n\n\n\n\n\n\n\n\n\nCyber.org\nCSTA closest match\nVocabulary overlap\n\n\n\n6-8 / CS / Communication and NetworkingDifferentiate between a network device’s MAC and IP addresses. Clarification statement:…\n\n3A / Networks & the InternetEvaluate the scalability and reliability of networks, by describing the relationship be…\n\n18.8%\n\n\nK-2 / CS / Operating SystemsDescribe the role of an operating system. Clarification statement: At this level, stude…\n\n1A / Computing SystemsUse appropriate terminology in identifying and describing the function of common physic…\n\n14.3%\n\n\nK-2 / CS / HardwareIdentify the components or parts of computing devices. Clarification statement: At this…\n\n1A / Computing SystemsUse appropriate terminology in identifying and describing the function of common physic…\n\n13.6%\n\n\nK-2 / DC / Personally Identifiable InformationDistinguish between private vs. public information. Clarification statement: At this le…\n\n1A / Impacts of ComputingKeep login information private, and log off of devices appropriately.\n\n13.2%\n\n\n6-8 / CS / SoftwareIdentify examples of vulnerabilities that exist in software. Clarification statement: A…\n\n1A / Computing SystemsUse appropriate terminology in identifying and describing the function of common physic…\n\n12.8%\n\n\nK-2 / CS / ComponentsRecognize that equipment is needed to access a network. Clarification statement: At thi…\n\n1A / Impacts of ComputingCompare how people live and work before and after the implementation or adoption of new…\n\n12.7%\n\n\n3-5 / DC / Personally Identifiable InformationDefine personally identifiable information (PII). Clarification statement: At this leve…\n\n1A / Impacts of ComputingKeep login information private, and log off of devices appropriately.\n\n11.6%\n\n\n3-5 / SEC / CryptographyDiscuss why and how we encrypt information and communication systems. Clarification sta…\n\n2 / Networks & the InternetApply multiple methods of encryption to model the secure transmission of information.\n\n11.6%\n\n\n\n\n\n\n\n\nThe matches concentrate where Cyber.org and general computer-science basics overlap: networking, hardware, encryption, and PII."
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html#what-this-means-for-tasha",
+    "href": "use-cases/k12-teacher.html#what-this-means-for-tasha",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "What this means for Tasha",
+    "text": "What this means for Tasha\nHer four-week unit is largely complementary to CSTA, not redundant with it. She cannot tag her Cyber.org-aligned lessons to CSTA wholesale and call the work done. Of her dozen-or-so lessons, only the ones touching networking, hardware, encryption, or PII have a defensible CSTA tag. Lessons on physical security, threat actors, or social engineering specifics cover content CSTA does not address.\nTwo specific cautions show up in the data.\nGrade-band drift\nThe strongest match in the table above pairs a Cyber.org 6-8 networking standard with a CSTA 3A (grades 9-10) networking standard. Vocabulary overlap is real. Cognitive demand is not. A 7th-grader differentiating MAC and IP addresses is not doing the same work as a 10th-grader evaluating network scalability. Tasha teaches 7th grade, so her defensible CSTA target band is Level 2 (grades 6-8). Anything at 3A or above carries grade-band-drift risk she will have to defend separately.\nA 10-20% overlap is not coverage\nIf Tasha’s principal asks why a specific lesson is tagged to a specific CSTA standard, Tasha needs to walk through the actual content overlap, not point at a percentage. The tool surfaces candidates. The practitioner makes the equivalence judgment.\nThe cyber-specific lessons need a different defense\nSocial engineering, threat actors, and physical security are precisely the topics some districts have explicit board policies about and that some parents push back on. The defense for those lessons is not CSTA-alignment evidence. The defense is curricular. The lessons implement standards from a CISA-funded K-12 cybersecurity curriculum (Cyber.org). Tasha may need to present that distinction explicitly to her principal, and to her school board if it surfaces there.\nWhat Tasha tells her principal about the 102 unmatched Cyber.org standards\nThe 123 Cyber.org standards span the full K-12 corpus. Tasha’s four-week 7th-grade unit covers only a subset of those, and for most of the standards her lessons do cover, no CSTA equivalent exists. Her honest reporting answer is “covers Cyber.org standard X, no CSTA equivalent.” Whether her district’s reporting form lets her record that, or whether she has to negotiate an “alternate framework” tag with her principal, is a local question for her CS coordinator. cybedtools surfaces the gap. The reporting workaround is a district-policy conversation.\nThe lesson-by-lesson move\nFor each lesson, the workflow is the same. Identify the Cyber.org standard the lesson covers, look up the closest CSTA match in the table, read the matched CSTA standard, decide if it applies. Most lessons land at “covers Cyber.org X, no meaningful CSTA equivalent.” A handful give her dual-tagging."
+  },
+  {
+    "objectID": "use-cases/k12-teacher.html#see-also",
+    "href": "use-cases/k12-teacher.html#see-also",
+    "title": "I teach to Cyber.org. What CSTA standards am I covering?",
+    "section": "See also",
+    "text": "See also\n\n\nThe analytic query behind this scenario walks through the data, the metric choice, and the methodology.\n\nCyber.org K-12 framework page for Cyber.org’s structure, scope, and licensing.\n\nCSTA K-12 framework page for CSTA’s structure, scope, and licensing.\n\nThe two-tier vocabulary for why cybedtools can ask the question across the two frameworks at all.\nFor lessons CSTA cannot tag, the NICE Framework K-12 working group’s high-school cyber-pathway alignments are the next-likeliest external tag, though cybedtools does not currently materialize those K-12 mappings as RDF triples."
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html",
+    "href": "use-cases/curriculum-coordinator.html",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html#marcuss-situation",
+    "href": "use-cases/curriculum-coordinator.html#marcuss-situation",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "Marcus’s situation",
+    "text": "Marcus’s situation\nMarcus runs the cybersecurity AAS at a community college near a DoD installation. His program holds CAE-CD designation, granted in 2018, with re-designation work on the horizon. Marcus carries the documentation load.\nHis program’s course outcomes were originally mapped to NIST’s NICE Framework work-role tasks. NICE was the default cyber-workforce reference when the program was built. The articulation agreement with the regional state university’s BS-Cybersecurity program references CSEC2017 Knowledge Areas instead. That program adopted CSEC2017 as its internal curriculum-mapping framework when it pursued ABET cybersecurity accreditation. When Marcus’s curriculum committee asked whether his NICE-aligned AAS course outcomes implicitly cover the CSEC2017 KAs the receiving institution maps against, he pulled cybedtools to sanity-check the question before committing to a manual crosswalk.\n\n\nThis page uses real data computed against cybedtools v0.2.0. The persona is composite. The question, the code, and the result are not."
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html#the-question-formally-stated",
+    "href": "use-cases/curriculum-coordinator.html#the-question-formally-stated",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "The question, formally stated",
+    "text": "The question, formally stated\nFor each of the 41 NICE work roles, what’s the closest CSEC2017 Knowledge Area by full-document text similarity?\n\n\nVocabulary overlap is the percentage of unique words two units share, after dropping common words (“the,” “and,” “of”) and short tokens. 0% means no shared vocabulary, 100% means identical wording. The underlying metric and the methodology choices live on the analytic query page."
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html#what-cybedtools-surfaces",
+    "href": "use-cases/curriculum-coordinator.html#what-cybedtools-surfaces",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "What cybedtools surfaces",
+    "text": "What cybedtools surfaces\n\n\n\nTable 1: Best-match vocabulary overlap across all 41 NICE work roles\n\n\n\n\nStatistic\nVocabulary overlap\n\n\n\nMinimum\n2.5%\n\n\nMedian\n4%\n\n\nMean\n4.3%\n\n\nMaximum\n7%\n\n\n\n\n\n\n\n\n\n\n\nTable 2: How often each CSEC2017 KA appears as some NICE role’s top match\n\n\n\n\nCSEC2017 KA\nNICE roles top-matched\n\n\n\nComponent Security\n27\n\n\nOrganizational Security\n6\n\n\nSystem Security\n5\n\n\nConnection Security\n2\n\n\nSoftware Security\n1\n\n\n\n\n\n\n\n\nThe first thing the data tells Marcus: every best-match overlap is below 10%. The strongest pairing in the entire set lands at roughly 7% vocabulary overlap. The median is 4%. Across all 41 NICE work roles, none has a CSEC2017 Knowledge Area whose vocabulary substantially matches its own.\nThe second thing: 27 of 41 NICE roles are pulled toward the same KA, Component Security. Three of the eight KAs (Data Security, Human Security, Societal Security) never appear as any NICE role’s best match."
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html#what-this-means-for-marcus",
+    "href": "use-cases/curriculum-coordinator.html#what-this-means-for-marcus",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "What this means for Marcus",
+    "text": "What this means for Marcus\nThe crosswalk he was about to build does not exist at the vocabulary level. NICE describes positions, the work a person in this role performs. CSEC2017 describes curricular knowledge areas, the body of material a cyber program teaches. They speak different languages on purpose, and the data reflects that.\nThe dominance of Component Security as top match is a tell, not a finding. Component Security has the most general-purpose vocabulary of the eight KAs. Anything about hardware, firmware, integrated systems, or technology components falls in scope, so it sweeps up vocabulary-similar NICE roles for a structural reason, not a substantive one. Marcus should not read “27 NICE roles map to Component Security” as a curriculum-coverage claim.\nThe committee gets a defensible answer\nWhen the curriculum committee asks whether NICE-to-CSEC2017 alignment was investigated, Marcus can point at this page. The evidence-of-absence result moves the committee conversation to the right level: course-outcome to course-outcome equivalence with the receiving BS program, not framework-to-framework alignment.\nWhat Marcus should do instead\nFor the CAE-CD re-designation file, the formally-recognized alignment is between his course outcomes and the CAE Knowledge Units (the 2024 revision). The CSEC2017 reference in the CAE program criteria is thought-model context, not an alignment-proof requirement. cybedtools does not currently include CAE KUs. The KUs are governed by the NSA-led CAE program with CISA as co-sponsor and are not openly licensed for redistribution. The KU mapping is a separate workflow Marcus runs through the program criteria directly.\nFor the articulation defense, the move is course-outcome-to-course-outcome equivalence with the receiving institution, not framework-to-framework crosswalking. cybedtools’ job here was to rule out the framework-to-framework path so Marcus knows where to spend his time.\nA note on DoD-side credentialing\nIf Marcus’s program is also pursuing DoD-aligned credentialing pathways (CySP scholarships, NICCS-listed courses, defense-contractor MOUs), NICE-to-DCWF is a separate cybedtools query. It surfaces where DCWF v5.1’s defense-side work roles share element identifiers with NICE’s general-purpose work roles. The shared identifiers reflect genuine overlap at the task, knowledge, and skill level, but they do not imply role-equivalence. DCWF is owned by DoD CIO and adds defense-mission work-role context NICE roles do not carry. That query is for student credentialing-pathway advising, not for AAS program articulation."
+  },
+  {
+    "objectID": "use-cases/curriculum-coordinator.html#see-also",
+    "href": "use-cases/curriculum-coordinator.html#see-also",
+    "title": "Mapping our cybersecurity AAS to NICE work roles",
+    "section": "See also",
+    "text": "See also\n\n\nThe analytic query behind this scenario walks through the SPARQL, the tokenization, and the similarity-metric choice.\n\nNICE Framework page for the framework’s structure and licensing.\n\nCSEC2017 page for the curricular-guidelines context.\n\nThe two-tier vocabulary for why cybed:Role (NICE work roles, ECSF profiles) and cybed:OrganizingUnit (CSEC2017 KAs and other non-role units) are distinct types.\n\nK-12 alignment query for the analogous question at the secondary layer, useful if the AAS program has dual-enrollment HS feeders."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html",
+    "href": "queries/us-eu-asymmetry.html",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#the-question",
+    "href": "queries/us-eu-asymmetry.html#the-question",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "The question",
+    "text": "The question\nHow does total element coverage in cybedtools split across US, EU, and global frameworks, and what does the gap reflect?"
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#why-it-matters",
+    "href": "queries/us-eu-asymmetry.html#why-it-matters",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "Why it matters",
+    "text": "Why it matters\nTotal element counts are an obvious cross-framework metric to reach for. They are also the easiest to misread. A reader who sees one jurisdiction’s element count vastly exceeding another’s may infer that the lagging jurisdiction is undercovered. The actual story is more often that the two jurisdictions chose different design philosophies for their workforce taxonomies.\nThe cybedtools corpus pulls four US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), two EU frameworks (ENISA ECSF, DigComp 2.2), and two global frameworks (SFIA, ACM/IEEE CSEC2017). The element-count ratio between them is large and worth naming, but the framing matters more than the figure."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#the-result",
+    "href": "queries/us-eu-asymmetry.html#the-result",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: Total element coverage per jurisdiction (with examples)\n\n\n\n\n\n\n\n\n\n\nJurisdiction\nFrameworks\nFrameworks (n)\nTotal elements\n\n\n\nUS\nNICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)\n4\n5,814\n\n\nglobal\nSFIA 9, ACM/IEEE CSEC2017\n2\n870\n\n\nEU\nECSF v1, DigComp 2.2\n2\n411\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Element coverage by jurisdiction. US frameworks dominate by raw element count. The figure reads at first glance as a coverage gap and isn’t.\n\n\n\n\nThe four US frameworks contribute 5,814 elements. The two EU frameworks contribute 411. That ratio runs at roughly 14.1 to one. Global frameworks add 870 more."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#what-this-tells-us",
+    "href": "queries/us-eu-asymmetry.html#what-this-tells-us",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThe ratio reflects design philosophy, not effort\nNICE and DCWF were built to specify the US federal civilian and defense cyber workforces at hiring-pipeline granularity. The element count is the point. ECSF was authored as an EU-wide interoperability frame at profile granularity, deliberately light at the per-profile level. DigComp 2.2 specifies citizen-level digital competence, three nesting levels deep but deliberately compact. The frameworks were built to do different jobs.\nTwo materialization gaps sit on the EU side\nECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.2.0 graph. DigComp 2.2’s Annex examples (the framework’s signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools’ EU element count understates what those frameworks actually specify.\nReading the ratio as a coverage gap is wrong\nUS workforce frameworks were designed for US workforce-planning purposes. EU frameworks were designed for EU interoperability and citizen-self-assessment purposes. The 14-to-1 figure is what those design choices look like at the element layer."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#what-this-doesnt-tell-us",
+    "href": "queries/us-eu-asymmetry.html#what-this-doesnt-tell-us",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nElement counts aren’t the only metric\nConcept depth, real-world adoption, regulatory force, and steward-community size all matter for cross-jurisdictional comparison and none of them appear in this figure.\nGlobal frameworks sit outside this view\nSFIA and CSEC2017 don’t fit cleanly into US or EU buckets. SFIA is UK-anchored with global commercial uptake. CSEC2017 is a joint ACM/IEEE/AIS/IFIP product. Both contribute element coverage that resists jurisdictional bucketing.\nThe cybedtools materialization is partial on the EU side\nThe figure understates EU specification depth because the e-CF cross-references and DigComp Annex examples aren’t yet extracted."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#reproduce-this",
+    "href": "queries/us-eu-asymmetry.html#reproduce-this",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\n\nframework_summary |&gt;\n  group_by(jurisdiction) |&gt;\n  summarise(\n    frameworks = paste(framework_name, collapse = \", \"),\n    total_elements = sum(element_count_with_examples),\n    .groups = \"drop\"\n  ) |&gt;\n  arrange(desc(total_elements))\nThe framework_summary tibble ships with the package as a lazy-loaded data object. Element totals are jurisdiction-attributed at the framework level via the jurisdiction column."
+  },
+  {
+    "objectID": "queries/us-eu-asymmetry.html#related-queries",
+    "href": "queries/us-eu-asymmetry.html#related-queries",
+    "title": "How is element coverage distributed across US and EU frameworks?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nHow does element density vary across frameworks?, the per-unit density comparison that frames the same design-philosophy point at the unit layer.\n\nWhich NICE work roles concentrate the most element coverage?, the within-NICE concentration that drives a chunk of the US-side total.\n\nWhere do NICE work roles align with ENISA ECSF role profiles?, the role-level cross-jurisdictional similarity finding."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html",
+    "href": "queries/nice-ecsf-alignment.html",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#the-question",
+    "href": "queries/nice-ecsf-alignment.html#the-question",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "The question",
+    "text": "The question\nFor each of the 41 NICE work roles, what is the closest ENISA ECSF role profile (and the next two closest) by full-document text similarity?"
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#why-it-matters",
+    "href": "queries/nice-ecsf-alignment.html#why-it-matters",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "Why it matters",
+    "text": "Why it matters\nNICE (US, NIST) and ECSF (EU, ENISA) are the two most-cited workforce frameworks for cross-jurisdictional cyber workforce policy work. Practitioners staffing US-EU mobility studies, transnational hiring discussions, and federal-level workforce-strategy briefings frequently need to surface plausible role-equivalence candidates between the two.\nBoth frameworks describe cyber workforce roles in workforce-position vocabulary. The structural difference is granularity. NICE specifies 41 detailed civilian work roles by position description. ECSF specifies 12 broader role profiles by intent. Many-to-one vocabulary patterns from NICE to ECSF are the rule.\nThis query asks whether vocabulary similarity surfaces those many-to-one patterns, and where the best candidate equivalence pairs sit."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#the-result",
+    "href": "queries/nice-ecsf-alignment.html#the-result",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: NICE work-role-to-ECSF-profile best-match similarity, summary statistics\n\n\n\n\nStatistic\nValue\n\n\n\nMinimum\n0.111\n\n\n1st Quartile\n0.133\n\n\nMedian\n0.145\n\n\nMean\n0.145\n\n\n3rd Quartile\n0.158\n\n\nMaximum\n0.177\n\n\n\n\n\n\n\n\nMedian best-match similarity is 0.145, roughly three times the NICE-to-CSEC2017 figure (0.040 in that query). NICE and ECSF speak the same vocabulary world. The difference between them is jurisdiction and granularity, not framework purpose.\n\n\n\n\n\n\n\nFigure 1: How NICE work roles distribute across ECSF profiles as best matches. Five ECSF profiles draw zero NICE roles as top match.\n\n\n\n\nCyber Incident Responder absorbs 12 NICE roles. CISO and Penetration Tester each absorb 7. Five ECSF profiles draw zero NICE roles as top match (Cybersecurity Implementer, Educator, Researcher, Risk Manager, Digital Forensics Investigator). The 41 NICE roles cluster into 7 of ECSF’s 12 profile slots.\n\n\n\nTable 2: Top 8 NICE → ECSF candidate equivalence pairs by similarity\n\n\n\n\n\n\n\n\n\nNICE work role\nClosest ECSF profile\nSimilarity\n\n\n\nIncident Response\nCyber Incident Responder\n0.177\n\n\nProgram Management\nCybersecurity Auditor\n0.174\n\n\nSecure Project Management\nChief Information Security Officer (CISO)\n0.171\n\n\nCybersecurity Workforce Management\nChief Information Security Officer (CISO)\n0.171\n\n\nPrivacy Compliance\nCyber Legal, Policy & Compliance Officer\n0.169\n\n\nSystems Security Management\nChief Information Security Officer (CISO)\n0.163\n\n\nProduct Support Management\nChief Information Security Officer (CISO)\n0.162\n\n\nCommunications Security (COMSEC) Management\nCyber Incident Responder\n0.162\n\n\n\n\n\n\n\n\nThe top match (NICE Incident Response paired to ECSF Cyber Incident Responder at 0.177) is a face-valid cross-jurisdictional analog. Several other top pairs hold up too. NICE Cybersecurity Workforce Management lines up with CISO. NICE Privacy Compliance lines up with CISO or Auditor depending on level."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#what-this-tells-us",
+    "href": "queries/nice-ecsf-alignment.html#what-this-tells-us",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThe vocabulary alignment is real\nMedian Jaccard 0.145 runs roughly three times the NICE-to-CSEC2017 result (0.040). The structural reason: both frameworks are workforce-position vocabularies. They are designed for the same kind of audience and use the same kind of language to describe the same kind of object, a cyber worker’s role.\nGranularity asymmetry drives the distribution\nECSF specifies 12 broader role profiles. NICE specifies 41 detailed civilian roles. The many-to-one patterns concentrate around the broadest ECSF profiles (Cyber Incident Responder absorbs 12 NICE roles, CISO and Penetration Tester each absorb 7) and leave the narrower ECSF profiles (Implementer, Educator, Researcher, Risk Manager, Forensics Investigator) with zero top-1 matches.\nThe five unmatched ECSF profiles still have NICE analogs\nThey didn’t surface as top-1 matches because other ECSF profiles absorbed their candidate NICE roles with marginally higher overlap. The next two ranks (in the saved top3 data) include those alignments. For a policy briefing where coverage of all twelve ECSF profiles matters, expanding from rank-1 to rank-3 catches the missing pairs.\nCISO over-attracts management-flavored NICE roles\nSeven NICE roles best-match to it: Secure Project Management, Cybersecurity Workforce Management, Systems Security Management, Product Support Management, Executive Cybersecurity Leadership, Technology Portfolio Management, and Cybersecurity Policy and Planning. Three of those (Product Support Management, Technology Portfolio Management, Secure Project Management) read as general technology management rather than cybersecurity-specific leadership. CISO absorbs them by default because ECSF has no non-cybersecurity-specific management profile and CISO carries the broadest management vocabulary in the catalog. A policy reviewer should treat the seven-CISO cluster as candidates for ECSF-side leadership-pathway alignment, not as ECSF CISO equivalents."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#what-this-doesnt-tell-us",
+    "href": "queries/nice-ecsf-alignment.html#what-this-doesnt-tell-us",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nVocabulary similarity is not equivalence\nA 0.18 best-match similarity does not mean a US-trained worker is qualified for the matched EU position. Credentialing pathways, regulatory contexts, clearance requirements, and language fluency remain separate considerations. cybedtools surfaces structural candidates. The equivalence judgment is human work.\nThe framework versions matter\nNICE v2 (NIST SP 800-181 Rev 1, 2020-2024 evolution) and ECSF v1 (ENISA, 2022) are both relatively young in their current form. Both are likely to evolve. This query is a snapshot against cybedtools v0.2.0. Re-run it when either framework ships a new version.\nCross-jurisdictional mobility is more than role-pair alignment\nThe briefing memo this query supports is one input to a much larger question (mutual recognition of credentials, language, employer sponsorship policies, EU Blue Card vs H-1B specifics). cybedtools provides the structural anchor. The policy work surrounds it."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#look-up-by-nice-work-role",
+    "href": "queries/nice-ecsf-alignment.html#look-up-by-nice-work-role",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "Look up by NICE work role",
+    "text": "Look up by NICE work role\nThe widget below shows each of the 41 NICE work roles with its top-3 ENISA ECSF role profiles by full-document Jaccard. Search by role name to find candidate equivalence pairs quickly. Useful for briefing preparation when you need to surface specific NICE-to-ECSF candidates without re-running the analysis.\n\n\n\nTable 3\n\n\n\n\n\n\n\n\n\nRows group by NICE work role. Expand to see the top-3 ECSF profiles in similarity-descending order. Candidate equivalence pairs surface at the top of each role’s group. The ECSF profiles that drop out of the top-1 view (Cybersecurity Implementer, Educator, Researcher, Risk Manager, Digital Forensics Investigator) appear as rank-2 or rank-3 matches for several NICE roles."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#reproduce-this",
+    "href": "queries/nice-ecsf-alignment.html#reproduce-this",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(purrr)\nlibrary(tidyr)\nlibrary(rdflib)\n\ng &lt;- load_combined_ntriples_graph()\n\n# Pull NICE work roles + ECSF role profiles.\nunits &lt;- organizing_unit_framework_bindings(g)\nnice_roles &lt;- units |&gt;\n  filter(grepl(\"^NICE\", framework_name)) |&gt;\n  select(unit, unit_name)\necsf_profiles &lt;- units |&gt;\n  filter(grepl(\"ECSF\", framework_name)) |&gt;\n  select(unit, unit_name)\n\n# Build full-document text per unit, tokenize, compute Jaccard pairwise,\n# keep top 3 ECSF profiles per NICE work role.\n# Full prep script in `_data-prep-nice-ecsf-alignment.R` in the repository."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#related-queries",
+    "href": "queries/nice-ecsf-alignment.html#related-queries",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nWhere do NICE work roles align with CSEC2017 Knowledge Areas?, the same question against a curriculum-vocabulary framework rather than a workforce-vocabulary framework. The contrast is informative.\n\nWhere do Cyber.org K-12 and CSTA standards lexically align?, the K-12 pedagogy-layer analog.\n\nHow does element density vary across frameworks?, the design-philosophy comparison that explains the US/EU granularity asymmetry."
+  },
+  {
+    "objectID": "queries/nice-ecsf-alignment.html#use-case-using-this-data",
+    "href": "queries/nice-ecsf-alignment.html#use-case-using-this-data",
+    "title": "Where do NICE work roles align with ENISA ECSF role profiles?",
+    "section": "Use case using this data",
+    "text": "Use case using this data\n\n\nDevi uses this analysis for a US-EU mobility briefing memo, the practitioner-facing version."
+  },
+  {
+    "objectID": "queries/k12-alignment.html",
+    "href": "queries/k12-alignment.html",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/k12-alignment.html#the-question",
+    "href": "queries/k12-alignment.html#the-question",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "The question",
+    "text": "The question\nFor each Cyber.org K-12 standard, what is the closest CSTA K-12 CS standard by text similarity, and how does that closeness change when each side’s prose-encoded examples (Cyber.org clarification statements, CSTA clarification-column content) are included alongside the parent statement text?"
+  },
+  {
+    "objectID": "queries/k12-alignment.html#why-it-matters",
+    "href": "queries/k12-alignment.html#why-it-matters",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "Why it matters",
+    "text": "Why it matters\nCyber.org and CSTA are the two most widely-referenced K-12 standards sets covering cybersecurity content in US classrooms. Practitioners frequently ask whether a curriculum aligned to one is implicitly aligned to the other. The naive comparison (parent text against parent text) understates the alignment because the two frameworks encode pedagogical detail differently. Cyber.org embeds clarifications directly inside the numbered standard’s prose. CSTA stores them in a separate clarification column.\ncybedtools v0.2.0 reclassifies both forms of clarification content as cybed:Example nodes, distinct from parent statements and from parser-extracted cybed:Subpoint bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its cybed:hasExample and cybed:hasElement children, concatenated and tokenized as a single document.\nThe parent-only-vs-full-document contrast is the finding."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#the-result",
+    "href": "queries/k12-alignment.html#the-result",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: Cyber.org standards by their best CSTA match strength, parent-only vs full-document\n\n\n\n\nMatch strength\nParent-only Jaccard\nFull-document Jaccard\n\n\n\nweak\n10\n21\n\n\nnone\n113\n102\n\n\n\n\n\n\n\n\nThe full-document pass roughly doubles the count of detectable matches (10 to 21) over the parent-only pass. None reach the moderate tier (Jaccard ≥ 0.20) under either pass.\n\n\n\n\n\n\n\nFigure 1: How parent-only similarity shifts under full-document scoring. Each point is one Cyber.org standard’s best CSTA match. The 1:1 line is dashed. Points above the line gained similarity when CSTA Examples were included.\n\n\n\n\nThe points cluster above the 1:1 line. Full-document scoring systematically raises best-match similarity over parent-only scoring. The dotted horizontal line marks the 0.10 threshold below which no match is reported."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#what-this-tells-us",
+    "href": "queries/k12-alignment.html#what-this-tells-us",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThe vocabulary distinction matters\nCompare Cyber.org and CSTA at the parent-statement level only and you find 10 of 123 Cyber.org standards with a CSTA match. Compare full documents (parent plus Subpoints plus Examples) and you find 21. Eleven Cyber.org standards have a plausible CSTA counterpart that is invisible to the parent-only comparison.\nThe frameworks are still largely complementary\nEven on the full-document pass, 102 of 123 Cyber.org standards (83%) have no detectable CSTA match. Cyber.org covers cybersecurity-specific territory (threat actors, social engineering, physical security, risk-management foundations) that the CSTA K-12 CS Standards do not address.\nThe matches concentrate where the frameworks share computing foundations\nNetworking, hardware, software vulnerabilities, encryption, and personally identifiable information are where CSTA’s general computer-science scope overlaps with Cyber.org’s cybersecurity-specific scope. Outside that overlap, the frameworks sit on different territory."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#what-this-doesnt-tell-us",
+    "href": "queries/k12-alignment.html#what-this-doesnt-tell-us",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nLexical similarity is not coverage\nA Jaccard score of 0.10 to 0.20 means 10-20% of the unique vocabulary is shared. Suggestive, not dispositive. A teacher claiming CSTA coverage from a Cyber.org-aligned lesson should read both standards and decide whether the same cognitive demand is met. The tool surfaces candidates. The practitioner makes the equivalence judgment.\nGrade-band drift is not corrected for\nThe strongest match in this data pairs a Cyber.org 6-8 standard with a CSTA 3A (grades 9-10) standard. Topic alignment is real. Cognitive-level alignment is not. This is a known limitation of any vocabulary-similarity approach to cross-framework comparison and applies equally to other K-12 cyber crosswalks (NICE, NCyTE materials).\nThe metric is one of several reasonable choices\nJaccard on unigrams is interpretable and fast, but ignores word order, multi-word phrases, and synonymy. Other choices (cosine on TF-IDF vectors, embedding-based similarity, manually-curated crosswalk) trade interpretability for sensitivity. The cybedtools v0.2.0 SPARQL helpers return the structured graph, and downstream analysts can run whichever similarity metric suits their question."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#look-up-your-standard",
+    "href": "queries/k12-alignment.html#look-up-your-standard",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "Look up your standard",
+    "text": "Look up your standard\nThe widget below shows every Cyber.org K-12 standard alongside its closest CSTA match (full-document Jaccard). Search by topic word (“network,” “encryption,” “PII”) to find your standards quickly, or sort by overlap to see the strongest candidates first.\n\n\n\nTable 2\n\n\n\n\n\n\n\n\n\nThe full row count is 123, one per Cyber.org standard. Standards with no detectable CSTA match (overlap below 10% under the methodology above) appear with their closest candidate even though that candidate is not a defensible coverage claim. The “no detectable match” bracket on the persona page is the same data filtered to overlap below 10%."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#reproduce-this",
+    "href": "queries/k12-alignment.html#reproduce-this",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(purrr)\nlibrary(tidyr)\nlibrary(rdflib)\n\ng &lt;- load_combined_ntriples_graph()\n\n# Pull parent standards (excludes Subpoints + Examples).\nprefix_block &lt;- paste0(\n  \"PREFIX cybed: &lt;https://w3id.org/cybed/ontology#&gt;\\n\",\n  \"PREFIX cyberorg: &lt;https://cyber.org/standards/terms#&gt;\\n\",\n  \"PREFIX csta: &lt;https://csteachers.org/k12standards/terms#&gt;\\n\"\n)\nquery_subjects &lt;- function(rdf, type_iri) {\n  q &lt;- paste0(prefix_block, sprintf(\"SELECT ?s WHERE { ?s a %s }\", type_iri))\n  res &lt;- rdflib::rdf_query(rdf, q)\n  if (nrow(res) == 0) tibble::tibble(s = character(0)) else tibble::as_tibble(res)\n}\n\ncyberorg_parents &lt;- query_subjects(g, \"cyberorg:Standard\") |&gt;\n  transmute(element = s, framework = \"cyberorg\")\ncsta_parents &lt;- query_subjects(g, \"csta:Standard\") |&gt;\n  transmute(element = s, framework = \"csta\")\n\n# Attach element text.\nelem_text &lt;- sparql_pairs(g, \"cybed:elementText\") |&gt;\n  transmute(element = s, text = o)\n\n# Attach Subpoint + Example children for full-document comparison.\nhas_element &lt;- sparql_pairs(g, \"cybed:hasElement\") |&gt;\n  transmute(parent = s, child = o)\nhas_example &lt;- sparql_pairs(g, \"cybed:hasExample\") |&gt;\n  transmute(parent = s, child = o)\nall_links &lt;- bind_rows(has_element, has_example)\n\n# Build full-document text per parent (parent + all child text concatenated).\n# Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,\n# keep best CSTA match per Cyber.org standard. The full prep script is\n# in `concordance/_data-prep-k12-alignment.R` in the repository.\nThe data file shipped with this page (_data/k12_alignment.rds) is the output of that prep script run against cybedtools v0.2.0. Re-run the prep when the package or the staged framework data changes."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#related-queries",
+    "href": "queries/k12-alignment.html#related-queries",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nHow does element density vary across frameworks?, the per-unit density comparison that motivates the Jaccard granularity choice.\n\nThe two-tier vocabulary, why cybed:Example and cybed:Subpoint are distinct types, and why that distinction makes this comparison possible."
+  },
+  {
+    "objectID": "queries/k12-alignment.html#use-case-using-this-data",
+    "href": "queries/k12-alignment.html#use-case-using-this-data",
+    "title": "Where do Cyber.org K-12 and CSTA standards lexically align?",
+    "section": "Use case using this data",
+    "text": "Use case using this data\n\n\nTasha cross-walks her Cyber.org-aligned cyber unit to CSTA, the practitioner-facing version of this analytic question."
+  },
+  {
+    "objectID": "queries/density-spread.html",
+    "href": "queries/density-spread.html",
+    "title": "How does element density vary across frameworks?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/density-spread.html#the-question",
+    "href": "queries/density-spread.html#the-question",
+    "title": "How does element density vary across frameworks?",
+    "section": "The question",
+    "text": "The question\nHow many elements does each framework specify per top-level organizing unit, and how does that count change when prose-encoded examples are included alongside numbered standards?"
+  },
+  {
+    "objectID": "queries/density-spread.html#why-it-matters",
+    "href": "queries/density-spread.html#why-it-matters",
+    "title": "How does element density vary across frameworks?",
+    "section": "Why it matters",
+    "text": "Why it matters\nPer-unit density is easy to mis-read as a quality ranking. It isn’t one. What the figure measures is how granular each framework’s stewards chose to be when they decided what work, what knowledge, or what competence belongs to a single organizing unit. NICE specifies tasks, knowledge statements, and skill statements per work role at one level of granularity. DigComp specifies competence areas at a different level, designed for citizen self-assessment. Both are valid specifications answering different questions."
+  },
+  {
+    "objectID": "queries/density-spread.html#the-result",
+    "href": "queries/density-spread.html#the-result",
+    "title": "How does element density vary across frameworks?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: Eight frameworks, ranked by elements per organizing unit (with examples)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFramework\nType\nJurisdiction\nUnits\nStrict elements\nWith examples\nPer unit (strict)\nPer unit (with ex.)\n\n\n\nNICE v2\nWorkforce\nUS\n41\n2115\n2115\n51.6\n51.6\n\n\nDCWF v5.1\nWorkforce\nUS\n74\n2945\n2945\n39.8\n39.8\n\n\nECSF v1\nWorkforce\nEU\n12\n390\n390\n32.5\n32.5\n\n\nCSTA K-12 CS (Rev 2017)\nPedagogy\nUS\n25\n140\n254\n5.6\n10.2\n\n\nSFIA 9\nWorkforce\nglobal\n147\n830\n830\n5.6\n5.6\n\n\nACM/IEEE CSEC2017\nPedagogy\nglobal\n8\n40\n40\n5.0\n5.0\n\n\nCyber.org K-12 v1.0\nPedagogy\nUS\n116\n123\n500\n1.1\n4.3\n\n\nDigComp 2.2\nPedagogy\nEU\n5\n21\n21\n4.2\n4.2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Per-unit element density across the framework corpus. Bars show the with-examples figure. The vertical tick on each bar marks the strict count for the same framework."
+  },
+  {
+    "objectID": "queries/density-spread.html#what-this-tells-us",
+    "href": "queries/density-spread.html#what-this-tells-us",
+    "title": "How does element density vary across frameworks?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThree observations carry weight.\nThe spread is real and large\nThe headline figure is roughly twelvefold (NICE 51.6 against DigComp 4.2, examples included). The strict-count spread is forty-sevenfold (NICE 51.6 against Cyber.org K-12 1.1, examples excluded). Either way, the gap merits an explanation.\nThe spread reflects design philosophy\nNICE was built to be operationally specific. It supports workforce planning at the position-description level for the United States federal government, and the granularity is the point. DigComp was built for citizen self-assessment, so the unit of specification is necessarily coarser. SFIA sits in the middle on purpose, the legacy of its history as a global IT-skills catalog. Not as fine-grained as NICE. Not as coarse as DigComp.\nThe strict-vs-with-examples gap is informative on its own\nFrameworks that encode pedagogical detail in prose clarification statements (Cyber.org K-12, CSTA) widen substantially when those examples are folded in. Workforce frameworks (NICE, DCWF, ECSF, SFIA) don’t move, because every bit of detail they ship is already in a numbered statement. Read the gap as a proxy for how much pedagogical scaffolding lives outside the numbered taxonomy."
+  },
+  {
+    "objectID": "queries/density-spread.html#what-this-doesnt-tell-us",
+    "href": "queries/density-spread.html#what-this-doesnt-tell-us",
+    "title": "How does element density vary across frameworks?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nDensity is not quality\nA framework with high per-unit density isn’t better-specified than one with low per-unit density. The denominator (organizing units) is a design choice, not a corpus property, and different denominators rerank the list.\nStrict counts undercount frameworks that encode detail in prose\nThe 47x strict spread overstates the specificity gap because it ignores the prose-encoded detail in the pedagogy frameworks. Use the with-examples figure when the comparison crosses the workforce-pedagogy boundary.\nCross-framework comparisons require shared denominators\n“Top-level organizing unit per framework” is the denominator used here. A NICE work role and a DigComp competence area aren’t the same kind of object, and treating them as commensurable for the purpose of a single ratio is itself an analytic move worth examining before leaning on the number."
+  },
+  {
+    "objectID": "queries/density-spread.html#reproduce-this",
+    "href": "queries/density-spread.html#reproduce-this",
+    "title": "How does element density vary across frameworks?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\n\nframework_summary |&gt;\n  arrange(desc(elements_per_organizing_unit_with_examples)) |&gt;\n  select(\n    framework_name,\n    organizing_unit_count,\n    element_count_strict,\n    element_count_with_examples,\n    elements_per_organizing_unit_strict,\n    elements_per_organizing_unit_with_examples\n  )\nThe framework_summary tibble ships with the package as a lazy-loaded data object. It is built from the canonical pipeline run documented in data-raw/build-framework-summary.R and tagged at each release."
+  },
+  {
+    "objectID": "queries/density-spread.html#related-queries",
+    "href": "queries/density-spread.html#related-queries",
+    "title": "How does element density vary across frameworks?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nHow is element coverage distributed across US and EU frameworks?, the 14:1 ratio and what it reframes.\n\nWhich NICE work roles concentrate the most element coverage?, power-law shape inside NICE.\n\nHow does the four-framework K-12 alignment compare?, pedagogy lens.\n\nThe vocabulary, why cybed:OrganizingUnit is the right denominator."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Many cybersecurity frameworks. One queryable graph.",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "index.html#the-same-question-different-answers",
+    "href": "index.html#the-same-question-different-answers",
+    "title": "Many cybersecurity frameworks. One queryable graph.",
+    "section": "The same question, different answers",
+    "text": "The same question, different answers\n\nGranularity per organizing unit, by design. The spread runs roughly twelvefold across the corpus. It tracks what each framework was authored to specify, not relative quality.\n\n\n  Workforce\n  Pedagogy\n\n\n  \n    \n      \n        \n          \n          \n        \n        NICE Framework v2\n      \n      \n        \n        51.6\n      \n    \n    \n      \n        \n          \n          \n        \n        DCWF v5.1\n      \n      \n        \n        39.8\n      \n    \n    \n      \n        \n          \n          \n        \n        ENISA ECSF\n      \n      \n        \n        32.5\n      \n    \n    \n      \n        \n          \n          \n        \n        CSTA K-12 CS\n      \n      \n        \n        10.2\n      \n    \n    \n      \n        \n          \n          \n        \n        SFIA 9\n      \n      \n        \n        5.6\n      \n    \n    \n      \n        \n          \n          \n        \n        ACM/IEEE CSEC2017\n      \n      \n        \n        5.0\n      \n    \n    \n      \n        \n          \n          \n        \n        Cyber.org K-12\n      \n      \n        \n        4.3\n      \n    \n    \n      \n        \n          \n          \n        \n        DigComp 2.2\n      \n      \n        \n        4.2\n      \n    \n  \n  Elements per top-level organizing unit, with examples included. Bar widths are scaled to the highest value (NICE, 51.6).\n\n\n\nNICE specifies tasks, knowledge statements, and skill statements per work role. DigComp specifies competence areas designed for citizen self-assessment. Different questions, different shapes.\nSee the full cross-framework analysis."
+  },
+  {
+    "objectID": "index.html#the-frameworks-at-a-glance",
+    "href": "index.html#the-frameworks-at-a-glance",
+    "title": "Many cybersecurity frameworks. One queryable graph.",
+    "section": "The frameworks at a glance",
+    "text": "The frameworks at a glance\n\n  \n    \n      \n        \n        US\n      \n      \n        \n        Workforce\n      \n    \n    NICE Framework v2\n    Units 41 · Elements 2,115\n  \n  \n    \n      \n        \n        US\n      \n      \n        \n        Workforce\n      \n    \n    DCWF v5.1\n    Units 74 · Elements 2,945\n  \n  \n    \n      \n        \n        EU\n      \n      \n        \n        Workforce\n      \n    \n    ENISA ECSF\n    Units 12 · Elements 390\n  \n  \n    \n      \n        \n        Global\n      \n      \n        \n        Workforce\n      \n    \n    SFIA 9\n    Units 147 · Elements 830\n  \n  \n    \n      \n        \n        US\n      \n      \n        \n        Pedagogy\n      \n    \n    Cyber.org K-12\n    Units 116 · Elements 500\n  \n  \n    \n      \n        \n        US\n      \n      \n        \n        Pedagogy\n      \n    \n    CSTA K-12 CS\n    Units 25 · Elements 254\n  \n  \n    \n      \n        \n        Global\n      \n      \n        \n        Pedagogy\n      \n    \n    ACM/IEEE CSEC2017\n    Units 8 · Elements 40\n  \n  \n    \n      \n        \n        EU\n      \n      \n        \n        Pedagogy\n      \n    \n    DigComp 2.2\n    Units 5 · Elements 21"
+  },
+  {
+    "objectID": "index.html#what-this-is-and-isnt",
+    "href": "index.html#what-this-is-and-isnt",
+    "title": "Many cybersecurity frameworks. One queryable graph.",
+    "section": "What this is and isn’t",
+    "text": "What this is and isn’t\n\ncybedtools is a comparison and querying layer over existing cybersecurity workforce and learning frameworks. When the package’s outputs disagree with a framework steward’s own view of their framework, the steward’s view is correct.\nThe package extends framework-based analysis. It gives researchers a uniform query surface across heterogeneous artefacts. It does not replace any framework, redistribute source text under more permissive terms than the framework’s own license, or rank frameworks against each other."
+  },
+  {
+    "objectID": "frameworks/nice-v2.html",
+    "href": "frameworks/nice-v2.html",
+    "title": "NICE Framework v2",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#at-a-glance",
+    "href": "frameworks/nice-v2.html#at-a-glance",
+    "title": "NICE Framework v2",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nNIST (National Initiative for Cybersecurity Careers and Studies)\n\n\nCanonical page\nNICE Framework Resource Center\n\n\nVersion\n2.0.0\n\n\nReleased\n2024-03\n\n\nSource format\nNIST Cybersecurity and Privacy Reference Tool (CPRT) JSON export\n\n\nLicense\nPublic domain (works of the United States Government)\n\n\nframework_summary slug\nnice-v2"
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#structure-in-cybed-terms",
+    "href": "frameworks/nice-v2.html#structure-in-cybed-terms",
+    "title": "NICE Framework v2",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  NICE Framework structural mapping\n  \n  \n    \n    \n    \n    \n  \n\n  \n    \n    Framework\n    nice:Framework\n  \n\n  \n    \n    Work role\n    nice:WorkRole\n    = cybed:Role\n    = cybed:OrganizingUnit\n  \n\n  \n    \n    Task\n    nice:Task\n    = cybed:RoleElement\n  \n\n  \n    \n    Knowledge statement\n    nice:KnowledgeStatement\n    = cybed:RoleElement\n  \n\n  \n    \n    Skill statement\n    nice:SkillStatement\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n\nClick any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#counts",
+    "href": "frameworks/nice-v2.html#counts",
+    "title": "NICE Framework v2",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nWork roles (organizing units)\n41\n\n\nStrict elements (numbered statements)\n2,115\n\n\nWith-examples elements\n2,115\n\n\nExamples (separate from elements)\n0\n\n\nElements per work role (strict and with-examples)\n51.6\n\n\n\nNICE’s strict and with-examples counts are identical. The framework encodes detail entirely in numbered statements, so the ingestion has no prose-embedded clarifications or annex examples to lift into separate cybed:Example nodes."
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#provenance",
+    "href": "frameworks/nice-v2.html#provenance",
+    "title": "NICE Framework v2",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nNIST’s CPRT JSON export. Retrieval URL and reference checksum live in the package’s provenance.yml.\n\n\n\n\n\nIngestion\nscripts/010-ingest-nice.R parses the CPRT structure into the cybed schema. Stage the JSON file at data/raw/nice/cprt-export.json per docs/framework-data-sources.md.\n\n\n\n\n\nLicense\nNIST CPRT data is in the US public domain. The package does not bundle the source JSON. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#caveats",
+    "href": "frameworks/nice-v2.html#caveats",
+    "title": "NICE Framework v2",
+    "section": "Caveats",
+    "text": "Caveats\n\nDCWF aligns to NICE and shares element identifiers across the two frameworks. Summing element counts across NICE and DCWF will double-count shared identifiers. Filter on framework_slug when summing.\nThe ingested data reflects the CPRT export retrieved at ingestion time. Re-run the ingestion script against a newer export to pick up subsequent NICE versions.\nA small number of work roles carry a disproportionate share of element coverage. See the top NICE work roles query."
+  },
+  {
+    "objectID": "frameworks/nice-v2.html#related",
+    "href": "frameworks/nice-v2.html#related",
+    "title": "NICE Framework v2",
+    "section": "Related",
+    "text": "Related\n\nDCWF v5.1, the DoD’s NICE-aligned counterpart.\nCross-framework density spread, where NICE sits in the corpus ranking.\nTop NICE work roles, the power-law distribution across the 41 roles.\nThe vocabulary, on how nice:WorkRole relates to cybed:Role and cybed:OrganizingUnit."
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html",
+    "href": "frameworks/ecsf-v1.html",
+    "title": "ENISA ECSF v1",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#at-a-glance",
+    "href": "frameworks/ecsf-v1.html#at-a-glance",
+    "title": "ENISA ECSF v1",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nEuropean Union Agency for Cybersecurity (ENISA)\n\n\nCanonical page\nEuropean Cybersecurity Skills Framework\n\n\nVersion\n1\n\n\nReleased\n2022-09-19\n\n\nSource format\nPDF report with companion JSON and XLSX\n\n\nLicense\nSubject to ENISA’s re-use notice. Verify against the source artefact\n\n\nframework_summary slug\necsf-v1"
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#structure-in-cybed-terms",
+    "href": "frameworks/ecsf-v1.html#structure-in-cybed-terms",
+    "title": "ENISA ECSF v1",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  ENISA ECSF structural mapping\n  \n  \n    \n    \n  \n\n  \n    \n    Framework\n    ecsf:Framework\n  \n\n  \n    \n    Profile\n    ecsf:Profile\n    = cybed:Role\n    = cybed:OrganizingUnit\n  \n\n  \n    \n    KSA\n    ecsf:KSA\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n\nClick any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#counts",
+    "href": "frameworks/ecsf-v1.html#counts",
+    "title": "ENISA ECSF v1",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nProfiles\n12\n\n\nStrict elements\n390\n\n\nWith-examples elements\n390\n\n\nElements per profile\n32.5"
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#provenance",
+    "href": "frameworks/ecsf-v1.html#provenance",
+    "title": "ENISA ECSF v1",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nENISA’s ECSF reference document.\n\n\n\n\n\nIngestion\nscripts/010-ingest-ecsf.R parses the structure into the cybed schema.\n\n\n\n\n\nLicense\nENISA’s re-use notice governs redistribution. The package does not bundle ECSF source text. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#caveats",
+    "href": "frameworks/ecsf-v1.html#caveats",
+    "title": "ENISA ECSF v1",
+    "section": "Caveats",
+    "text": "Caveats\n\nECSF profiles point at the European e-Competence Framework (e-CF) at fine granularity, but those cross-references are not expanded into RDF triples. Full ECSF coverage requires consulting the source’s e-CF pointers directly.\nECSF is aspirational by design. The framework was authored as a high-level interoperability frame across European cybersecurity workforce vocabularies, not as a hiring-grade enumeration like NICE or DCWF. Per-profile element counts read low because the framework is intentionally light at this layer.\nThe ingested data reflects ENISA’s published export at retrieval time. Re-run the ingestion script against a newer export to pick up subsequent versions."
+  },
+  {
+    "objectID": "frameworks/ecsf-v1.html#related",
+    "href": "frameworks/ecsf-v1.html#related",
+    "title": "ENISA ECSF v1",
+    "section": "Related",
+    "text": "Related\n\nNICE Framework v2, the closest workforce peer at a different specificity tier.\nCross-framework density spread\nThe vocabulary"
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html",
+    "href": "frameworks/dcwf-v51.html",
+    "title": "DCWF v5.1",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#at-a-glance",
+    "href": "frameworks/dcwf-v51.html#at-a-glance",
+    "title": "DCWF v5.1",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nDoD Chief Information Officer\n\n\nCanonical page\nDoD Cyber Workforce Framework\n\n\nVersion\n5.1\n\n\nReleased\n2025-07-25\n\n\nAligned to\nNICE Framework\n\n\nSource format\nDoD CIO Work Role Tool (XLSX)\n\n\nLicense\nPublic domain (works of the United States Government)\n\n\nframework_summary slug\ndcwf-v51"
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#structure-in-cybed-terms",
+    "href": "frameworks/dcwf-v51.html#structure-in-cybed-terms",
+    "title": "DCWF v5.1",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  DCWF structural mapping\n  \n  \n    \n    \n    \n  \n\n  \n    \n    Framework\n    dcwf:Framework\n  \n\n  \n    \n    Work role\n    dcwf:WorkRole\n    = cybed:Role\n    = cybed:OrganizingUnit\n  \n\n  \n    \n    Task\n    dcwf:Task\n    = cybed:RoleElement\n  \n\n  \n    \n    KSA\n    dcwf:KSA\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n\nClick any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#counts",
+    "href": "frameworks/dcwf-v51.html#counts",
+    "title": "DCWF v5.1",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nWork roles\n74\n\n\nStrict elements\n2,945\n\n\nWith-examples elements\n2,945\n\n\nElements per work role\n39.8\n\n\n\nDCWF encodes detail entirely in numbered statements. The strict and with-examples counts coincide because the ingestion has no prose-embedded clarifications to promote into separate cybed:Example nodes."
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#provenance",
+    "href": "frameworks/dcwf-v51.html#provenance",
+    "title": "DCWF v5.1",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nDoD Cyber Workforce Framework reference materials.\n\n\n\n\n\nIngestion\nscripts/010-ingest-dcwf.R parses the source structure into the cybed schema.\n\n\n\n\n\nLicense\nWorks of the United States Government are in the US public domain."
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#caveats",
+    "href": "frameworks/dcwf-v51.html#caveats",
+    "title": "DCWF v5.1",
+    "section": "Caveats",
+    "text": "Caveats\n\nDCWF aligns to NICE and shares element identifiers across the two frameworks. Summing element counts across DCWF and NICE will double-count shared identifiers. Filter on framework_slug when summing.\nThe ingested data reflects the source export retrieved at ingestion time. Re-run the ingestion script against a newer export for subsequent versions.\nDCWF is authoritative for the DoD cyberspace workforce, not the civilian side. Civilian federal and private-sector hiring pipelines that look DCWF-shaped typically map back through NICE."
+  },
+  {
+    "objectID": "frameworks/dcwf-v51.html#related",
+    "href": "frameworks/dcwf-v51.html#related",
+    "title": "DCWF v5.1",
+    "section": "Related",
+    "text": "Related\n\nNICE Framework v2, the framework DCWF aligns to.\nCross-framework density spread\nThe vocabulary"
+  },
+  {
+    "objectID": "frameworks/csta-2017.html",
+    "href": "frameworks/csta-2017.html",
+    "title": "CSTA K-12 CS Standards",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#at-a-glance",
+    "href": "frameworks/csta-2017.html#at-a-glance",
+    "title": "CSTA K-12 CS Standards",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nComputer Science Teachers Association\n\n\nCanonical page\nCSTA K-12 CS Standards\n\n\nVersion\nRevised 2017\n\n\nReleased\n2017\n\n\nSource format\nXLSX\n\n\nLicense\nCreative Commons BY-NC-SA 4.0\n\n\nframework_summary slug\ncsta-2017"
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#structure-in-cybed-terms",
+    "href": "frameworks/csta-2017.html#structure-in-cybed-terms",
+    "title": "CSTA K-12 CS Standards",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  CSTA K-12 CS structural mapping\n  \n  \n    \n    \n    \n  \n\n  \n    \n    Framework\n    csta:Framework\n  \n\n  \n    \n    Standard group\n    (level × concept cell)\n    csta:StandardGroup\n    = cybed:OrganizingUnit\n    (no cybed:Role)\n  \n\n  \n    \n    Standard\n    csta:Standard\n    = cybed:RoleElement\n  \n\n  \n    \n    Example\n    clarification text\n    cybed:Example\n    clarification text\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n  \n    has example\n    cybed:hasExample\n  \n\nNumbered standards attach to each standard group. Clarification text, where present, is reached through a separate connection. Click any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#counts",
+    "href": "frameworks/csta-2017.html#counts",
+    "title": "CSTA K-12 CS Standards",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nStandard groups\n25\n\n\nStrict elements (numbered standards)\n140\n\n\nWith-examples elements\n254\n\n\nExamples (clarification text)\n114\n\n\nElements per standard group (strict)\n5.6\n\n\nElements per standard group (with examples)\n10.2\n\n\n\nPer-unit density approximately doubles when clarification text is included alongside numbered standards."
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#provenance",
+    "href": "frameworks/csta-2017.html#provenance",
+    "title": "CSTA K-12 CS Standards",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nCSTA K-12 CS Standards distribution.\n\n\n\n\n\nIngestion\nscripts/010-ingest-csta.R parses standards and clarification text into the cybed schema.\n\n\n\n\n\nLicense\nCreative Commons BY-NC-SA 4.0, non-commercial use with attribution and share-alike. The package does not bundle the source distribution. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#caveats",
+    "href": "frameworks/csta-2017.html#caveats",
+    "title": "CSTA K-12 CS Standards",
+    "section": "Caveats",
+    "text": "Caveats\n\nCSTA’s seven core practices sit in the framework’s high-level structure but are not represented as per-cell numbered elements. They run alongside the level-by-concept enumeration rather than within it.\nSome clarifications are constraining specifications and others are illustrative. The package treats all clarifications uniformly as cybed:Example nodes. Analyses that need to distinguish prescriptive scaffolding from illustrative scaffolding will need to read the source text.\nCSTA’s revised 2017 standards predate the K-12 cybersecurity push and center general computer science. Cybersecurity content appears within Networks and the Internet and within Impacts of Computing rather than as a dedicated concept area, which is one of the gaps Cyber.org K-12 was authored to fill."
+  },
+  {
+    "objectID": "frameworks/csta-2017.html#related",
+    "href": "frameworks/csta-2017.html#related",
+    "title": "CSTA K-12 CS Standards",
+    "section": "Related",
+    "text": "Related\n\nCyber.org K-12, the closest peer framework.\nCross-framework density spread\nThe vocabulary"
+  },
+  {
+    "objectID": "concepts/vocabulary.html",
+    "href": "concepts/vocabulary.html",
+    "title": "The two-tier vocabulary",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "concepts/vocabulary.html#the-design-problem",
+    "href": "concepts/vocabulary.html#the-design-problem",
+    "title": "The two-tier vocabulary",
+    "section": "The design problem",
+    "text": "The design problem\nEight frameworks. Each one was authored against a different theory of what counts as a structural element. NICE has work roles, tasks, knowledge statements, and skill statements. DigComp has competence areas and proficiency levels. SFIA has skills and seven levels of responsibility. Cyber.org K-12 has grade-band-by-sub-concept cells plus prose clarification statements. CSTA has level-by-concept cells plus practices. CSEC2017 has eight knowledge areas. ECSF has twelve profiles. DCWF aligns to NICE work roles with overlap.\nA single shared vocabulary that flattens these into one type hierarchy would erase the differences each framework was designed to express. A pure per-framework vocabulary with no shared terms would make cross-framework queries impossible. The schema has to preserve native vocabulary and enable shared queries at the same time."
+  },
+  {
+    "objectID": "concepts/vocabulary.html#the-two-tier-solution",
+    "href": "concepts/vocabulary.html#the-two-tier-solution",
+    "title": "The two-tier vocabulary",
+    "section": "The two-tier solution",
+    "text": "The two-tier solution\n\n\nA graph in 30 seconds. A graph is nodes connected by labeled edges. A query asks “find every node where these edges hold.” That is enough to read the diagram below. The technical names beneath each box show what the same graph looks like as RDF, but you do not need to know RDF or SPARQL to follow the structure.\n\n\n▸schema names\n\n  cybedtools two-tier vocabulary architecture\n  A nested-rectangle diagram showing how a Framework relates to its top-level Organizing units (which contain Roles as a subclass for workforce frameworks), and how Organizing units relate to Elements (containing Sub-elements as a subclass) and Examples (a separate predicate).\n  \n  \n    \n    \n    \n  \n\n  \n    \n    Framework\n    cybed:Framework\n  \n\n  \n    \n    Organizing unit\n    cybed:OrganizingUnit\n    every framework's top-level units assert this\n    every framework asserts this on its top-level units\n  \n\n  \n    \n    Role\n    cybed:Role\n    a kind of organizing unit · workforce frameworks only\n    subClassOf · workforce frameworks only\n    (NICE, DCWF, ECSF)\n    (NICE, DCWF, ECSF)\n  \n\n  \n    \n    Element\n    cybed:RoleElement\n    structural pieces attached to an organizing unit\n    attached via cybed:hasElement\n  \n\n  \n    \n    Sub-element\n    cybed:Subpoint\n    a kind of element · points back to its parent\n    subClassOf · cybed:elaborates parent\n  \n\n  \n    \n    Example\n    cybed:Example\n    pedagogical scaffolding\n    pedagogical scaffolding\n    reached through its own connection,\n    separate predicate · excluded from\n    not the default element list\n    default cybed:hasElement traversals\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n  \n    has example\n    cybed:hasExample\n  \n\nThe two-tier shape. Outer rectangles are cross-framework abstracts. Nested rectangles are subclasses. The dashed border on the example box marks it as reachable through a separate connection, not the default element list. Click any box or edge label to flip between plain English and the technical schema name.\n\n\ncybedtools uses a two-tier RDF vocabulary.\n\nTier 1: cybed: cross-framework abstract terms\nEvery framework asserts these. They define the joinable surface for cross-framework queries.\n\n\nTier 2: per-framework subtypes\nEach framework defines its own vocabulary that subclasses the cybed: abstracts. These preserve the framework’s native terminology.\nThe two-tier shape lets a researcher write one SPARQL query that runs across the entire corpus at the Tier 1 surface, without losing the ability to ask framework-specific questions through Tier 2 subtypes."
+  },
+  {
+    "objectID": "concepts/vocabulary.html#tier-1-vocabulary",
+    "href": "concepts/vocabulary.html#tier-1-vocabulary",
+    "title": "The two-tier vocabulary",
+    "section": "Tier 1 vocabulary",
+    "text": "Tier 1 vocabulary\n\n\n\n\n\n\n\n\nTerm\nType\nDescription\n\n\n\n\ncybed:Framework\nClass\nThe framework as a whole\n\n\ncybed:OrganizingUnit\nClass (subClassOf skos:Concept)\nAny top-level enumerated unit. All frameworks in the corpus assert this on their parents.\n\n\ncybed:Role\nClass (subClassOf cybed:OrganizingUnit)\nWorkforce-restricted. NICE work roles, DCWF work roles, ECSF profiles only.\n\n\ncybed:RoleElement\nClass\nAnything attached to an organizing unit via cybed:hasElement\n\n\ncybed:Subpoint\nClass (subClassOf cybed:RoleElement)\nBullet points and enumerations embedded inside an element’s text\n\n\ncybed:Example\nClass (subClassOf cybed:RoleElement)\nPedagogical scaffolding (such as clarification statements). Reachable only via cybed:hasExample\n\n\ncybed:hasOrganizingUnit\nProperty\nFramework → organizing unit\n\n\ncybed:hasRole\nProperty\nFramework → role (workforce subset)\n\n\ncybed:hasElement\nProperty\nOrganizing unit → RoleElement (excluding Examples by default)\n\n\ncybed:hasExample\nProperty\nOrganizing unit → Example (separate predicate)\n\n\ncybed:elaborates\nProperty\nSubpoint → parent (back-edge)"
+  },
+  {
+    "objectID": "concepts/vocabulary.html#tier-2-vocabulary-per-framework-subtypes",
+    "href": "concepts/vocabulary.html#tier-2-vocabulary-per-framework-subtypes",
+    "title": "The two-tier vocabulary",
+    "section": "Tier 2 vocabulary (per-framework subtypes)",
+    "text": "Tier 2 vocabulary (per-framework subtypes)\nEach framework declares its own per-framework namespace and subclasses the Tier 1 abstracts:\n\n\n\n\n\n\n\n\nFramework\nNamespace\nPer-framework subtypes\n\n\n\n\nNICE\nnice:\nnice:Framework, nice:WorkRole, nice:Task, nice:KnowledgeStatement, nice:SkillStatement\n\n\nDCWF\ndcwf:\ndcwf:Framework, dcwf:WorkRole, dcwf:Task, dcwf:KSA\n\n\nECSF\necsf:\necsf:Framework, ecsf:Profile, ecsf:KSA\n\n\nSFIA\nsfia:\nsfia:Framework, sfia:Skill, sfia:LevelDescriptor\n\n\nCyber.org K-12\ncyberorg:\ncyberorg:Framework, cyberorg:StandardGroup, cyberorg:Standard\n\n\nCSTA\ncsta:\ncsta:Framework, csta:StandardGroup, csta:Standard\n\n\nCSEC2017\ncsec:\ncsec:Framework, csec:KnowledgeArea, csec:Topic\n\n\nDigComp\ndigcomp:\ndigcomp:Framework, digcomp:CompetenceArea, digcomp:Competence, digcomp:ProficiencyDescriptor\n\n\n\nA nice:WorkRole is also a cybed:Role, which is also a cybed:OrganizingUnit, which is also a skos:Concept. The chain runs all the way up the abstraction hierarchy. A query at any tier returns results from every framework that asserts the relevant Tier 1 type."
+  },
+  {
+    "objectID": "concepts/vocabulary.html#why-a-custom-uri",
+    "href": "concepts/vocabulary.html#why-a-custom-uri",
+    "title": "The two-tier vocabulary",
+    "section": "Why a custom URI",
+    "text": "Why a custom URI\nThe package uses https://w3id.org/cybed/ontology# as the namespace for cybed: terms. The W3ID redirect resolves to the schema documentation hosted with the package. That gives the vocabulary a stable, persistent URI that does not depend on any one repository’s URL."
+  },
+  {
+    "objectID": "concepts/vocabulary.html#whats-reachable-from-where",
+    "href": "concepts/vocabulary.html#whats-reachable-from-where",
+    "title": "The two-tier vocabulary",
+    "section": "What’s reachable from where",
+    "text": "What’s reachable from where\nA cybed:hasElement traversal on any organizing unit returns cybed:Subpoint nodes, because they subclass cybed:RoleElement. It does not return cybed:Example nodes, because the Example predicate is separate. This is intentional. Examples are pedagogical scaffolding. Including them in default element traversals would double-count the same conceptual content under two different shapes.\nA query that wants Examples explicitly uses cybed:hasExample instead. The package’s example_framework_bindings() helper does exactly this."
+  },
+  {
+    "objectID": "concepts/vocabulary.html#what-this-enables",
+    "href": "concepts/vocabulary.html#what-this-enables",
+    "title": "The two-tier vocabulary",
+    "section": "What this enables",
+    "text": "What this enables\nThe cybed:OrganizingUnit abstraction lets a single SPARQL query return organizing units across the entire corpus. The cybed:Role abstraction restricts that query to the three workforce frameworks (NICE, DCWF, ECSF). The cybed:hasElement predicate returns the strict numbered-element traversal across every framework that uses it. The cybed:hasExample predicate exposes the pedagogical scaffolding layer separately, where it exists at all (currently Cyber.org K-12 and CSTA only).\nThe two-tier shape is what makes the density spread query work across every framework with a single expression rather than reapplying per framework."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html",
+    "title": "Concordance & cybedtools branding",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI want to create a set of visual assets for the Concordance website and the cybedtools R package. Concordance needs a wordmark, logomark, lockup. The R package needs a hex logo (it needs to be reworked to match the Concordance assets)."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: local_ls]\n[tool: list_files]\n[tool: local_read]\n[tool: local_read]\n[tool: local_read]\n[tool: local_read]\n[tool: questions_v2]\n[tool: snip]"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-1",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-1",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nQuestions answered: - concept_direction: Graph / nodes / edges (literal RDF triple, like the current hex), Constellation / map / cross-reference - tone: Technical / engineering (precise, gridded, monospace) - wordmark_type: Custom-tweaked letterforms based on Inter (ligatures, alternate C, etc.) - color_use: Open to a small palette extension if it helps the mark - logomark_relationship: Hex is a ‘package badge’ variant of the Concordance mark - hex_motif: Replace with new motif that better represents it as associated with Concordance - hex_wordmark_split: Keep the morpheme color split - lockup_orientations: All - deliverable_surfaces: All of the above - variation_count: 3 directions, light variations on each"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-1",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-1",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: update_todos]\n[tool: copy_starter_component]\n[tool: write_file]\nI’ll commit to a system before building so the directions cohere:\nSystem: dark slate-950 canvas, sky-400 as the live accent, amber-300 as a single warmth note where it earns its keep. Type pairing: Inter (wordmark) + JetBrains Mono (technical inscriptions, hex). Three directions all rooted in graph/constellation language but distinct in mark-type.\n\nA · Constellation Triple — eight framework “stars” orbiting a central RDF triple. The literal cybed motif scaled up to brand level.\nB · Concordance Lines — parallel rules with a single vertical alignment anchor. The literary metaphor.\nC · Letterform Graph — the leading “C” is rebuilt from nodes & edges. Mark is type.\n\nLet me build.\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: done]\n[tool: snip]\n[tool: fork_verifier_agent]\nThree directions are laid out across the canvas — A · Constellation Triple, B · Concordance Lines, C · Letterform Graph — each with logomark/wordmark on ink + paper, horizontal and stacked lockups, site-header preview (light + dark), favicon ladder, stress board, and a 1280×640 GitHub social card. The cybedtools hex sticker section follows with all three motifs in slate and cream.\nA few things to flag: - Direction C’s wordmark uses the graph-arc as the leading C — works at display sizes; degrades fastest at 16px, where you’d want a solid-glyph fallback. - I added amber to the system as an optional warmth note but didn’t use it on any mark — kept the family disciplined to slate + sky. Easy to introduce later. - Hex motifs are inscribed below the cybedtools wordmark (same composition logic as your existing v4); the morpheme color split is preserved across all three.\nTell me which direction(s) to push further, and I can dial in line-weights, refine the wordmark tweaks, or produce the SVG export pack."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-2",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-2",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI’m leaning more toward B. Not sure why “ord” is the bit in blue, though. Also, we’ll be adding frameworks at some point, so “eight” is temporary. I don’t see any hex logos for the R package."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-2",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-2",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: grep]\nGood catches all three. Fixing:\n\n“ord” → “cord” — Concordance ← Latin concordia (con + cord, “with heart”/harmony). “cord” is the semantic root, “ord” was just three letters.\nDrop the count — replacing “eight” everywhere; making Direction B’s mark read as “many → one anchor” without committing to a number.\nHex — let me verify they’re rendering. They should be in the bottom section.\n\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: done]\n[tool: snip]\nUpdates landed:\n\ncord not ord — Latin concordia (con + cord, “with heart” → harmony). The morpheme that names the project, parallel to cybedtools’ cyb/ed/tools split.\nCount-agnostic — Direction B’s mark dropped from 8 rules to 6 (illustrative, not enumerative); A’s stars unchanged but framed the same way; “eight” removed from taglines and social card; framework strip ends in “…”.\nDirection B push section — added between the three-direction sweep and the hex section: bolder rule weight, a 3-rule minimal variant (for small sizes), the wordmark at 120/64/36/22, primary lockup at large scale, and the cybedtools hex sticker in slate + cream.\nHex section is at the very bottom of the canvas — pan/scroll right after the B push section to reach it. All three motifs render (constellation / concordance lines / letterform graph), each in slate and cream.\n\nTell me where to push next: tighten the cord wordmark (alternate weights/tracking), refine the rule pattern (e.g. a denser block, or rules of mixed weights to read as “more / less detail”), or jump to producing clean SVG export files for the chosen variant."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-3",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-3",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI like the six lines. For the hex, should bring the text down just a smidge and the lines up just a smidge. Right now the whitespace between them is a bit too much. Otherwise we’re getitng close."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-3",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-3",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: done]\nWordmark moved down to y=232 and rules now start at y=322 — gap closed by ~50px on the B hex. Same applies to all three hex variants since they share HexWordmark. Take a look and let me know if it’s tight enough or if you want them closer still."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-4",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-4",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nThat’s looking good. The hex badges need to be transparent outside the hex, though."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-4",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-4",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: done]\n[tool: snip]\nHex SVGs now render in a square viewBox cropped to the badge with everything outside the polygon transparent. To make the transparency obvious in the canvas, the hex preview artboards now sit on a checkerboard background — pan to the B push section or the bottom hex section to see it."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-5",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-5",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nOkay so we can nix the Direction A and C content. And no, the hex section still has nothing showing there."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-5",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-5",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: write_file]\n[tool: done]\n[tool: snip]\nDirection A and C content removed. The hex section was empty because DCSection only renders direct children whose JSX type is DCArtboard — my Card wrapper component was being filtered out. Hex artboards are now inlined directly: slate, cream, side-by-side comparison, and a cream-on-workspace context shot."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-6",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-6",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nLove it."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-6",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-6",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\nGlad it’s landing. When you’re ready I can produce a clean export pack — standalone SVGs (logomark, wordmark, lockups, hex slate + cream) plus a favicon set sized for the pkgdown site."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-7",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#user-7",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nYep, everything. Also need one for social graph sharing, you know what I mean."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-7",
+    "href": "assets/logo-candidates/claude-design-package/concordance/chats/chat1.html#assistant-7",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: run_script]\n[tool: update_todos]\n[tool: write_file]\n[tool: write_file]\n[tool: write_file]\n[tool: write_file]\n[tool: update_todos]\n[tool: snip]\n[tool: done]\n[tool: fork_verifier_agent]\nExport pack is live at Exports.html — every SVG, the full favicon ladder, the 1200×630 OG card and 1280×640 GitHub social card, the &lt;head&gt; snippet, web manifest, and pack README. Direct download links on every card.\nTwo things worth flagging: - The wordmark and lockup SVGs use &lt;text&gt; referencing Inter / JetBrains Mono. Fine for the pkgdown site (which loads both) and modern browsers; for embedding in PDFs or hostile rendering surfaces, outline the type first via Figma / Illustrator / inkscape --export-text-to-path. - The OG card PNG was rasterized server-side without Inter installed, so the wordmark falls back to a system sans. If you want pixel-perfect Inter on the OG card, say the word and I’ll generate a path-based version."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Concordance",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "about.html#what-this-is",
+    "href": "about.html#what-this-is",
+    "title": "About Concordance",
+    "section": "What this is",
+    "text": "What this is\nThe Cybersecurity Framework Concordance is the audience-facing surface for the cybedtools R package. cybedtools ingests, parses, and queries a corpus of cybersecurity workforce and learning frameworks under a shared semantic schema. This site renders the framework data, the cross-framework comparisons, and the working scenarios in a form that does not require running R.\nThe two carry related but distinct identities. cybedtools is the methodology engine. Concordance is what readers see and cite."
+  },
+  {
+    "objectID": "about.html#how-it-relates-to-cybedtools",
+    "href": "about.html#how-it-relates-to-cybedtools",
+    "title": "About Concordance",
+    "section": "How it relates to cybedtools",
+    "text": "How it relates to cybedtools\n\n\n\n\ncybedtools\nConcordance\n\n\n\n\nForm\nR package\nQuarto subsite\n\n\nAudience\nResearchers, methodology collaborators\nK-12 teachers, curriculum coordinators, workforce-policy analysts\n\n\nDistribution\nGitHub plus Zenodo, install via remotes::install_github\nStatic HTML, deployed to gh-pages\n\n\nLicense\nMIT\nContent CC BY 4.0, code MIT\n\n\nCanonical citation\ncitation(\"cybedtools\") from R, or CITATION.cff\nthis site (see below)\n\n\n\nEvery number, table, and lookup widget on this site is derived from the same package the methodology documents."
+  },
+  {
+    "objectID": "about.html#install-cybedtools",
+    "href": "about.html#install-cybedtools",
+    "title": "About Concordance",
+    "section": "Install cybedtools",
+    "text": "Install cybedtools\n# Option A: remotes\ninstall.packages(\"remotes\")\nremotes::install_github(\"ryanstraight/cybedtools\")\n\n# Option B: pak (faster on first install)\ninstall.packages(\"pak\")\npak::pkg_install(\"ryanstraight/cybedtools\")\nThe package depends on rdflib, jsonlite, dplyr, purrr, and tibble. See Start for the full staging pipeline (framework source data, ingestion, graph assembly, query loading)."
+  },
+  {
+    "objectID": "about.html#how-to-cite",
+    "href": "about.html#how-to-cite",
+    "title": "About Concordance",
+    "section": "How to cite",
+    "text": "How to cite\n\n\n\nIf your work references the methodology, the R package, or any element-level analysis behind the figures on this site, cite the package. The 0.2.0 version, for example:\nStraight, R. (2026). cybedtools: Comparison and querying of cybersecurity\nworkforce and learning frameworks. R package version 0.2.0.\nhttps://doi.org/10.5281/zenodo.20076116\n\n\n\nIf your work references Concordance itself (a specific worked scenario, a lookup widget, audience-facing prose, or the persona pages), cite the site:\nStraight, R. (2026). Cybersecurity Framework Concordance.\nhttps://ryanstraight.github.io/cybedtools/concordance/\nThe Zenodo DOI 10.5281/zenodo.20076116 is a concept DOI: it resolves to the latest released version of the package and persists across all subsequent versions. Per-version DOIs are minted automatically when each release is tagged on GitHub."
+  },
+  {
+    "objectID": "about.html#author",
+    "href": "about.html#author",
+    "title": "About Concordance",
+    "section": "Author",
+    "text": "Author\nRyan Straight, Assistant Professor, College of Information Science, University of Arizona. ORCID: 0000-0002-6251-5662."
+  },
+  {
+    "objectID": "about.html#acknowledgments",
+    "href": "about.html#acknowledgments",
+    "title": "About Concordance",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThe frameworks displayed on this site are the work of their respective authoring communities. cybedtools represents them under the layered licensing terms named on each framework’s page. The package’s design owes substantive intellectual debt to:\n\nThe NICE program at NIST for the Workforce Framework for Cybersecurity (SP 800-181 Rev 1).\nThe DoD Chief Information Officer for the DoD Cyber Workforce Framework v5.1.\nThe European Union Agency for Cybersecurity (ENISA) for the European Cybersecurity Skills Framework v1.\nThe SFIA Foundation for SFIA 9.\nThe Cyber Innovation Center and the Cyber.org K-12 standards team for the K-12 Cybersecurity Learning Standards.\nThe Computer Science Teachers Association for the K-12 CS Standards (Rev 2017).\nThe ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8 Joint Task Force for CSEC2017.\nVuorikari, Kluzer, and Punie (Joint Research Centre, European Commission) for DigComp 2.2."
+  },
+  {
+    "objectID": "about.html#ai-disclosure",
+    "href": "about.html#ai-disclosure",
+    "title": "About Concordance",
+    "section": "AI disclosure",
+    "text": "AI disclosure\nThe development and delivery of both cybedtools and Concordance was substantially accelerated by Anthropic’s Claude Code. Creation was undertaken using the Opus 4.7 model under the author’s direction."
+  },
+  {
+    "objectID": "about.html#license",
+    "href": "about.html#license",
+    "title": "About Concordance",
+    "section": "License",
+    "text": "License\nThis site carries layered licensing. Site content (prose, scenarios, query interpretations) is under Creative Commons Attribution 4.0 International (CC BY 4.0). Site source code (R, Quarto, SCSS, JavaScript, SVG) is under the MIT License. Framework source data retains its upstream license per framework. Full terms in LICENSE."
+  },
+  {
+    "objectID": "about.html#source-and-contributions",
+    "href": "about.html#source-and-contributions",
+    "title": "About Concordance",
+    "section": "Source and contributions",
+    "text": "Source and contributions\n\nRepository: github.com/ryanstraight/cybedtools\nIssues and feature requests: GitHub issues\nConcept DOI: 10.5281/zenodo.20076116\nCode of conduct: CODE_OF_CONDUCT.md"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html",
+    "title": "Concordance & cybedtools branding",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI want to create a set of visual assets for the Concordance website and the cybedtools R package. Concordance needs a wordmark, logomark, lockup. The R package needs a hex logo (it needs to be reworked to match the Concordance assets)."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: local_ls]\n[tool: list_files]\n[tool: local_read]\n[tool: local_read]\n[tool: local_read]\n[tool: local_read]\n[tool: questions_v2]\n[tool: snip]"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-1",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-1",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nQuestions answered: - concept_direction: Graph / nodes / edges (literal RDF triple, like the current hex), Constellation / map / cross-reference - tone: Technical / engineering (precise, gridded, monospace) - wordmark_type: Custom-tweaked letterforms based on Inter (ligatures, alternate C, etc.) - color_use: Open to a small palette extension if it helps the mark - logomark_relationship: Hex is a ‘package badge’ variant of the Concordance mark - hex_motif: Replace with new motif that better represents it as associated with Concordance - hex_wordmark_split: Keep the morpheme color split - lockup_orientations: All - deliverable_surfaces: All of the above - variation_count: 3 directions, light variations on each"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-1",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-1",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: update_todos]\n[tool: copy_starter_component]\n[tool: write_file]\nI’ll commit to a system before building so the directions cohere:\nSystem: dark slate-950 canvas, sky-400 as the live accent, amber-300 as a single warmth note where it earns its keep. Type pairing: Inter (wordmark) + JetBrains Mono (technical inscriptions, hex). Three directions all rooted in graph/constellation language but distinct in mark-type.\n\nA · Constellation Triple — eight framework “stars” orbiting a central RDF triple. The literal cybed motif scaled up to brand level.\nB · Concordance Lines — parallel rules with a single vertical alignment anchor. The literary metaphor.\nC · Letterform Graph — the leading “C” is rebuilt from nodes & edges. Mark is type.\n\nLet me build.\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: write_file]\n[tool: snip]\n[tool: done]\n[tool: snip]\n[tool: fork_verifier_agent]\nThree directions are laid out across the canvas — A · Constellation Triple, B · Concordance Lines, C · Letterform Graph — each with logomark/wordmark on ink + paper, horizontal and stacked lockups, site-header preview (light + dark), favicon ladder, stress board, and a 1280×640 GitHub social card. The cybedtools hex sticker section follows with all three motifs in slate and cream.\nA few things to flag: - Direction C’s wordmark uses the graph-arc as the leading C — works at display sizes; degrades fastest at 16px, where you’d want a solid-glyph fallback. - I added amber to the system as an optional warmth note but didn’t use it on any mark — kept the family disciplined to slate + sky. Easy to introduce later. - Hex motifs are inscribed below the cybedtools wordmark (same composition logic as your existing v4); the morpheme color split is preserved across all three.\nTell me which direction(s) to push further, and I can dial in line-weights, refine the wordmark tweaks, or produce the SVG export pack."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-2",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-2",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI’m leaning more toward B. Not sure why “ord” is the bit in blue, though. Also, we’ll be adding frameworks at some point, so “eight” is temporary. I don’t see any hex logos for the R package."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-2",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-2",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: grep]\nGood catches all three. Fixing:\n\n“ord” → “cord” — Concordance ← Latin concordia (con + cord, “with heart”/harmony). “cord” is the semantic root, “ord” was just three letters.\nDrop the count — replacing “eight” everywhere; making Direction B’s mark read as “many → one anchor” without committing to a number.\nHex — let me verify they’re rendering. They should be in the bottom section.\n\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: done]\n[tool: snip]\nUpdates landed:\n\ncord not ord — Latin concordia (con + cord, “with heart” → harmony). The morpheme that names the project, parallel to cybedtools’ cyb/ed/tools split.\nCount-agnostic — Direction B’s mark dropped from 8 rules to 6 (illustrative, not enumerative); A’s stars unchanged but framed the same way; “eight” removed from taglines and social card; framework strip ends in “…”.\nDirection B push section — added between the three-direction sweep and the hex section: bolder rule weight, a 3-rule minimal variant (for small sizes), the wordmark at 120/64/36/22, primary lockup at large scale, and the cybedtools hex sticker in slate + cream.\nHex section is at the very bottom of the canvas — pan/scroll right after the B push section to reach it. All three motifs render (constellation / concordance lines / letterform graph), each in slate and cream.\n\nTell me where to push next: tighten the cord wordmark (alternate weights/tracking), refine the rule pattern (e.g. a denser block, or rules of mixed weights to read as “more / less detail”), or jump to producing clean SVG export files for the chosen variant."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-3",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-3",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI like the six lines. For the hex, should bring the text down just a smidge and the lines up just a smidge. Right now the whitespace between them is a bit too much. Otherwise we’re getitng close."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-3",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-3",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: done]\nWordmark moved down to y=232 and rules now start at y=322 — gap closed by ~50px on the B hex. Same applies to all three hex variants since they share HexWordmark. Take a look and let me know if it’s tight enough or if you want them closer still."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-4",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-4",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nThat’s looking good. The hex badges need to be transparent outside the hex, though."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-4",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-4",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: str_replace_edit]\n[tool: done]\n[tool: snip]\nHex SVGs now render in a square viewBox cropped to the badge with everything outside the polygon transparent. To make the transparency obvious in the canvas, the hex preview artboards now sit on a checkerboard background — pan to the B push section or the bottom hex section to see it."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-5",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-5",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nOkay so we can nix the Direction A and C content. And no, the hex section still has nothing showing there."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-5",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-5",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: read_file]\n[tool: snip]\n[tool: write_file]\n[tool: done]\n[tool: snip]\nDirection A and C content removed. The hex section was empty because DCSection only renders direct children whose JSX type is DCArtboard — my Card wrapper component was being filtered out. Hex artboards are now inlined directly: slate, cream, side-by-side comparison, and a cream-on-workspace context shot."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-6",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-6",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nLove it."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-6",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-6",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\nGlad it’s landing. When you’re ready I can produce a clean export pack — standalone SVGs (logomark, wordmark, lockups, hex slate + cream) plus a favicon set sized for the pkgdown site."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-7",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-7",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nYep, everything. Also need one for social graph sharing, you know what I mean."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-7",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-7",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: run_script]\n[tool: update_todos]\n[tool: write_file]\n[tool: write_file]\n[tool: write_file]\n[tool: write_file]\n[tool: update_todos]\n[tool: snip]\n[tool: done]\n[tool: fork_verifier_agent]\nExport pack is live at Exports.html — every SVG, the full favicon ladder, the 1200×630 OG card and 1280×640 GitHub social card, the &lt;head&gt; snippet, web manifest, and pack README. Direct download links on every card.\nTwo things worth flagging: - The wordmark and lockup SVGs use &lt;text&gt; referencing Inter / JetBrains Mono. Fine for the pkgdown site (which loads both) and modern browsers; for embedding in PDFs or hostile rendering surfaces, outline the type first via Figma / Illustrator / inkscape --export-text-to-path. - The OG card PNG was rasterized server-side without Inter installed, so the wordmark falls back to a system sans. If you want pixel-perfect Inter on the OG card, say the word and I’ll generate a path-based version."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-8",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-8",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nI’d like to change the parts that say “FRAMEWORKS - ONE GRAPH” to “MANY FRAMEWORKS - ONE GRAPH”\nLikewise, I don’t like how the social card has “queryable graph.” on its own on the second line."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-8",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-8",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: run_script]\n[tool: grep]\n[tool: snip]\n[tool: str_replace_edit]\n[tool: snip]\nBoth updates applied:\n\nStacked lockups (SVGs and on-canvas) now read “MANY FRAMEWORKS · ONE GRAPH”.\nSocial card tagline broken deliberately into two balanced lines:\n\n“Cybersecurity workforce and learning frameworks.”\n“Many frameworks. One queryable graph.”\n\n\nRefresh Exports.html to see the regenerated previews."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-9",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-9",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nSocial card tagline: I don’t like “…learning frameworks. Many frameworks…” we need a better way of saying that in the first line."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-9",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-9",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: snip]\n[tool: run_script]\n[tool: snip]\nSocial card now reads:\n\nCybersecurity workforce roles, skills, and curricula — many frameworks, one queryable graph.\n\nThe em-dash bridges the two lines as one sentence, and the noun stack (roles / skills / curricula) names what the frameworks actually contain — no more “frameworks. Many frameworks.” collision. Refresh Exports.html to see it.\nIf you’d rather a different framing for line 1, a few alternatives in the same shape: - “Cybersecurity workforce, education, and competency frameworks —” - “Workforce, learning, and competency standards for cybersecurity —” - “Cybersecurity workforce, curriculum, and competency taxonomies —”"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-10",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-10",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nNo em-dashes. Let’s do:\nCybersecurity workforce roles, skills, and curricula. Many frameworks, one graph.\nHow does that read to you?"
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-10",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-10",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: run_script]\n[tool: snip]\nReads well — both lines are end-stopped, parallel, and the cadence drops cleanly:\n\nLine 1 is a noun list: roles, skills, and curricula — that’s exactly what frameworks like NICE / DCWF / SFIA / CSEC are catalogs of, so it grounds the abstract word “frameworks” in concrete artifacts.\nLine 2 is the value prop in seven words: many frameworks, one graph. Tight, balanced, mirrors the “Concordance” idea (many → one, divergent → convergent).\n\nOne trade you made: dropping “queryable.” That word was doing real work — distinguishing this from “yet another reference doc” and signaling that cybedtools returns data, not a PDF. If you want it back without bloating the line, options:\n\n“Many frameworks, one graph — query it.” (rhetorical punch, no em-dash if you don’t want one)\nMove “queryable” up to the eyebrow: change CONCORDANCE to CONCORDANCE · QUERYABLE GRAPH and keep line 2 as-is.\nLeave it. The word “graph” already implies traversal/query to anyone in the audience that matters; lay readers don’t care.\n\nI’d vote leave it. The current pair is the cleanest of all the iterations. Refreshed cards are saved."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-11",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#user-11",
+    "title": "Concordance & cybedtools branding",
+    "section": "User",
+    "text": "User\nOh. “Many frameworks, one queryable graph.” is fine."
+  },
+  {
+    "objectID": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-11",
+    "href": "assets/logo-candidates/claude-design-package-v2/concordance/chats/chat1.html#assistant-11",
+    "title": "Concordance & cybedtools branding",
+    "section": "Assistant",
+    "text": "Assistant\n[tool: run_script]\n[tool: snip]\n[tool: snip]\nUpdated. Social card now reads:\n\nCybersecurity workforce roles, skills, and curricula. Many frameworks, one queryable graph."
+  },
+  {
+    "objectID": "frameworks/csec2017.html",
+    "href": "frameworks/csec2017.html",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/csec2017.html#at-a-glance",
+    "href": "frameworks/csec2017.html#at-a-glance",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nJoint Task Force on Cybersecurity Education (ACM, IEEE-CS, AIS, IFIP)\n\n\nCanonical page\nCybersecurity Curricula 2017\n\n\nVersion\n2017 v1.0\n\n\nReleased\n2017-12-31\n\n\nSource format\nPDF\n\n\nLicense\nCopyright 2017 ACM/IEEE/AIS/IFIP, with permission granted for educational-materials development\n\n\nframework_summary slug\ncsec2017-v1"
+  },
+  {
+    "objectID": "frameworks/csec2017.html#structure-in-cybed-terms",
+    "href": "frameworks/csec2017.html#structure-in-cybed-terms",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  CSEC2017 structural mapping\n  \n  \n    \n    \n  \n\n  \n    \n    Framework\n    csec:Framework\n  \n\n  \n    \n    Knowledge area\n    (curricular thought-model grouping)\n    csec:KnowledgeArea\n    = cybed:OrganizingUnit\n    (no cybed:Role)\n  \n\n  \n    \n    Topic\n    csec:Topic\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n\nCSEC2017's Knowledge Areas are curricular thought-model groupings, not workforce roles. Click any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/csec2017.html#counts",
+    "href": "frameworks/csec2017.html#counts",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nKnowledge Areas\n8\n\n\nStrict elements (topics)\n40\n\n\nWith-examples elements\n40\n\n\nTopics per Knowledge Area\n5.0\n\n\n\nThe Knowledge Area / Topic structure is the framework’s coarse-grained surface. Beneath each topic, CSEC2017 defines further sub-elements (Essentials and supplementary content) that the current ingestion captures only at the topic level. Element counts are therefore a lower bound on what CSEC2017 specifies."
+  },
+  {
+    "objectID": "frameworks/csec2017.html#provenance",
+    "href": "frameworks/csec2017.html#provenance",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nCSEC2017 curricular guidelines (the Joint Task Force report from ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8).\n\n\n\n\n\nIngestion\nscripts/010-ingest-csec2017.R parses the structure into the cybed schema.\n\n\n\n\n\nLicense\nSubject to ACM/IEEE licensing terms. The package does not bundle the source text. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/csec2017.html#caveats",
+    "href": "frameworks/csec2017.html#caveats",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "Caveats",
+    "text": "Caveats\n\nCSEC2017’s KAs are curricular thought-model groupings, not workforce roles or competency clusters. Cross-framework comparisons that equate KAs with roles misrepresent the framework’s intent.\nPer-topic Essentials and supplementary content are not materialized as RDF triples. The strict count reflects only the top-level topic enumeration per Knowledge Area, so headline element-density figures should be read as a floor rather than a ceiling.\nCSEC2017 is a curricular guideline for university programs, not a hiring specification. The framework does not encode workforce roles or proficiency levels, so it sits on a different axis from NICE, DCWF, and ECSF in any cross-framework comparison."
+  },
+  {
+    "objectID": "frameworks/csec2017.html#related",
+    "href": "frameworks/csec2017.html#related",
+    "title": "ACM/IEEE CSEC2017",
+    "section": "Related",
+    "text": "Related\n\nCyber.org K-12, the K-12 pedagogy peer at a different educational level.\nCross-framework density spread\nThe vocabulary"
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html",
+    "href": "frameworks/cyberorg-k12.html",
+    "title": "Cyber.org K-12",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#at-a-glance",
+    "href": "frameworks/cyberorg-k12.html#at-a-glance",
+    "title": "Cyber.org K-12",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nCyber Innovation Center / Cyber.org\n\n\nCanonical page\nK-12 Cybersecurity Learning Standards\n\n\nVersion\n1.0\n\n\nReleased\n2021-09-09\n\n\nSource format\nPDF\n\n\nLicense\nCreative Commons BY-NC 4.0\n\n\nframework_summary slug\ncyberorg-k12-v1.0"
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#structure-in-cybed-terms",
+    "href": "frameworks/cyberorg-k12.html#structure-in-cybed-terms",
+    "title": "Cyber.org K-12",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  Cyber.org K-12 structural mapping\n  \n  \n    \n    \n    \n  \n\n  \n    \n    Framework\n    cyberorg:Framework\n  \n\n  \n    \n    Standard group\n    (grade band × sub-concept cell)\n    cyberorg:StandardGroup\n    = cybed:OrganizingUnit\n    (no cybed:Role)\n  \n\n  \n    \n    Standard\n    cyberorg:Standard\n    = cybed:RoleElement\n  \n\n  \n    \n    Example\n    clarification statements\n    cybed:Example\n    clarification statements\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n  \n    has example\n    cybed:hasExample\n  \n\nNumbered standards attach to each standard group. Clarification statements are reached through a separate connection. Click any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#counts",
+    "href": "frameworks/cyberorg-k12.html#counts",
+    "title": "Cyber.org K-12",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nStandard groups\n116\n\n\nStrict elements (numbered standards)\n123\n\n\nWith-examples elements\n500\n\n\nExamples (clarification statements)\n377\n\n\nElements per standard group (strict)\n1.1\n\n\nElements per standard group (with examples)\n4.3\n\n\n\nThe strict count reflects only numbered standards. The with-examples count promotes each Clarification statement to a queryable node, which roughly quadruples the apparent density. Use the strict count when comparing against frameworks (NICE, DCWF, SFIA) that encode all detail in numbered statements. Use the with-examples count when the comparison is about what reaches a classroom."
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#provenance",
+    "href": "frameworks/cyberorg-k12.html#provenance",
+    "title": "Cyber.org K-12",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nCyber.org K-12 Learning Standards distribution.\n\n\n\n\n\nIngestion\nscripts/010-ingest-cyberorg.R parses standards and clarification statements into the cybed schema.\n\n\n\n\n\nLicense\nCreative Commons BY-NC 4.0, non-commercial use with attribution. The package does not bundle the source distribution. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#caveats",
+    "href": "frameworks/cyberorg-k12.html#caveats",
+    "title": "Cyber.org K-12",
+    "section": "Caveats",
+    "text": "Caveats\n\nEach standard group typically contains one or two numbered standards, so numbered standards are sparse. The framework’s instructional density lives in the clarification-statement prose rather than in additional numbered standards. Analyses that look only at the strict count will undercount what the framework actually specifies for a teacher.\nClarification statements are teacher-facing pedagogical scaffolding, not enumerable sub-standards. They’re reachable through the separate cybed:hasExample predicate to keep this distinction visible at query time."
+  },
+  {
+    "objectID": "frameworks/cyberorg-k12.html#related",
+    "href": "frameworks/cyberorg-k12.html#related",
+    "title": "Cyber.org K-12",
+    "section": "Related",
+    "text": "Related\n\nCSTA K-12 CS, the closest peer framework.\nCross-framework density spread\nThe vocabulary, on why cybed:Example is separate from cybed:Subpoint."
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html",
+    "href": "frameworks/digcomp-22.html",
+    "title": "DigComp 2.2",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#at-a-glance",
+    "href": "frameworks/digcomp-22.html#at-a-glance",
+    "title": "DigComp 2.2",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nJoint Research Centre, European Commission\n\n\nCanonical page\nDigComp at the Joint Research Centre\n\n\nVersion\n2.2\n\n\nReleased\n2022-03-17\n\n\nAuthors\nVuorikari, Kluzer, and Punie\n\n\nSource format\nPDF (JRC publication JRC128415)\n\n\nLicense\nSubject to European Commission re-use terms\n\n\nframework_summary slug\ndigcomp-2.2"
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#structure-in-cybed-terms",
+    "href": "frameworks/digcomp-22.html#structure-in-cybed-terms",
+    "title": "DigComp 2.2",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  DigComp 2.2 structural mapping\n  \n  \n    \n    \n    \n  \n\n  \n    \n    Framework\n    digcomp:Framework\n  \n\n  \n    \n    Competence area\n    digcomp:CompetenceArea\n    = cybed:OrganizingUnit\n    (no cybed:Role)\n  \n\n  \n    \n    Competence\n    digcomp:Competence\n    = cybed:RoleElement\n  \n\n  \n    \n    Proficiency descriptor\n    digcomp:ProficiencyDescriptor\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n  \n    has element\n    cybed:hasElement\n  \n\n  DigComp nests three levels. Areas contain competences, and competences carry proficiency descriptors. Click any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#counts",
+    "href": "frameworks/digcomp-22.html#counts",
+    "title": "DigComp 2.2",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nCompetence Areas\n5\n\n\nStrict elements\n21\n\n\nWith-examples elements\n21\n\n\nElements per Competence Area\n4.2\n\n\n\nDigComp 2.2’s signature update was a set of per-competence Annex examples illustrating each competence under emerging technologies, AI in particular. Those Annex examples are not extracted as queryable nodes. The strict count reflects only the Competence and ProficiencyDescriptor enumeration, so element-density figures here materially understate what the publication actually contains."
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#provenance",
+    "href": "frameworks/digcomp-22.html#provenance",
+    "title": "DigComp 2.2",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nDigComp 2.2 publication (Vuorikari, Kluzer, and Punie, Joint Research Centre, JRC128415).\n\n\n\n\n\nIngestion\nscripts/010-ingest-digcomp.R parses the structure into the cybed schema.\n\n\n\n\n\nLicense\nSubject to European Commission re-use terms. The package does not bundle the source text. Users stage it locally."
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#caveats",
+    "href": "frameworks/digcomp-22.html#caveats",
+    "title": "DigComp 2.2",
+    "section": "Caveats",
+    "text": "Caveats\n\nDigComp specifies general digital competences for citizens, not cybersecurity-specific roles or curricula. Competence Area 4 (Safety) carries the cybersecurity-relevant content, but the framework’s specificity sits at general-digital-competence granularity, not at cybersecurity-workforce granularity. Treat DigComp as the citizen baseline that workforce frameworks like NICE and ECSF build above.\nThe 2.2 Annex examples illustrating AI-and-digital-citizenship interactions are not extracted into RDF triples. Full DigComp 2.2 coverage requires consulting the publication’s annex directly."
+  },
+  {
+    "objectID": "frameworks/digcomp-22.html#related",
+    "href": "frameworks/digcomp-22.html#related",
+    "title": "DigComp 2.2",
+    "section": "Related",
+    "text": "Related\n\nENISA ECSF v1, the EU workforce framework that picks up where DigComp’s citizen baseline leaves off.\nCross-framework density spread\nThe vocabulary"
+  },
+  {
+    "objectID": "frameworks/index.html",
+    "href": "frameworks/index.html",
+    "title": "Frameworks",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License\n    \n    \n    \n  \n\n\n\n\n\n\n\n\n\nThe framework corpus splits along two axes: workforce versus pedagogy, and US/EU/global jurisdiction. The combinations are not exhaustive (there is no global pedagogy framework, and the US is overrepresented in both columns), but together the frameworks span the practical comparison surface for most cybersecurity workforce and education research questions.\n\n\n\n\n\n\nCounts on this table use the with-examples figure. Strict counts (numbered standards only) appear on each framework’s page and on the density-spread query.\n\n\n\n\n\n\nFramework\n\n\n\nJurisdiction\n\n\n\nType\n\n\n\nUnits\n\n\n\nElements\n\n\n\nLicense\n\n\n\n\n\n\n\n\nCSTA K-12 CS Standards\n\n\nUS\n\n\nPedagogy\n\n\n25\n\n\n254\n\n\nCC BY-NC-SA 4.0\n\n\n\n\n\n\nCyber.org K-12\n\n\nUS\n\n\nPedagogy\n\n\n116\n\n\n500\n\n\nCC BY-NC 4.0\n\n\n\n\n\n\nDigComp 2.2\n\n\nEU\n\n\nPedagogy\n\n\n5\n\n\n21\n\n\nEU re-use terms\n\n\n\n\n\n\nDCWF v5.1\n\n\nUS\n\n\nWorkforce\n\n\n74\n\n\n2945\n\n\nPublic domain\n\n\n\n\n\n\nENISA ECSF v1\n\n\nEU\n\n\nWorkforce\n\n\n12\n\n\n390\n\n\nENISA re-use notice\n\n\n\n\n\n\nNICE Framework v2\n\n\nUS\n\n\nWorkforce\n\n\n41\n\n\n2115\n\n\nPublic domain\n\n\n\n\n\n\nSFIA 9\n\n\nGlobal\n\n\nWorkforce\n\n\n147\n\n\n830\n\n\nSFIA Use Policy\n\n\n\n\n\n\nNo matching items\n Back to top"
+  },
+  {
+    "objectID": "frameworks/sfia-9.html",
+    "href": "frameworks/sfia-9.html",
+    "title": "SFIA 9",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#at-a-glance",
+    "href": "frameworks/sfia-9.html#at-a-glance",
+    "title": "SFIA 9",
+    "section": "At a glance",
+    "text": "At a glance\n\n\n\nSteward\nSFIA Foundation\n\n\nCanonical page\nSFIA Foundation\n\n\nVersion\n9\n\n\nReleased\n2024-10\n\n\nSource format\nPDF, XLSX, JSON, and RDF distributions. cybedtools reads a third-party SQLite structural extract, and full skill text is fetched separately under the SFIA Use Policy\n\n\nLicense\nSFIA Use Policy. Free for individuals, small employers, and accredited training providers, paid for commercial consultancies and large employers, with full skill text redistribution restricted at every tier\n\n\nframework_summary slug\nsfia-9"
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#structure-in-cybed-terms",
+    "href": "frameworks/sfia-9.html#structure-in-cybed-terms",
+    "title": "SFIA 9",
+    "section": "Structure in cybed: terms",
+    "text": "Structure in cybed: terms\n\n\n▸schema names\n\n  SFIA 9 structural mapping\n  \n  \n    \n    \n  \n\n  \n    \n    Framework\n    sfia:Framework\n  \n\n  \n    \n    Skill\n    (skills, not roles)\n    sfia:Skill\n    = cybed:OrganizingUnit\n    (no cybed:Role)\n  \n\n  \n    \n    Level descriptor\n    sfia:LevelDescriptor\n    = cybed:RoleElement\n  \n\n  \n    contains\n    cybed:hasOrganizingUnit\n  \n  \n    has element\n    cybed:hasElement\n  \n\nSFIA enumerates skills, not roles. Click any box or edge label to flip between plain English and the technical schema name."
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#counts",
+    "href": "frameworks/sfia-9.html#counts",
+    "title": "SFIA 9",
+    "section": "Counts",
+    "text": "Counts\n\n\n\nMeasure\nValue\n\n\n\n\nSkills\n147\n\n\nStrict elements\n830\n\n\nWith-examples elements\n830\n\n\nElements per skill\n5.6\n\n\n\nThe elements counted here are level descriptors (one per skill-level pairing where the skill is defined at that level). SFIA’s seven levels of responsibility define the scale itself. Those level definitions are part of the framework’s overall structure but are not counted as per-skill elements."
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#provenance",
+    "href": "frameworks/sfia-9.html#provenance",
+    "title": "SFIA 9",
+    "section": "Provenance",
+    "text": "Provenance\n\n\n\n\n\nSource\nSFIA Foundation’s published distribution. cybedtools reads a third-party SQLite structural extract for the skill and level scaffolding. Full skill text is fetched separately under the SFIA Use Policy.\n\n\n\n\n\nIngestion\nscripts/010-ingest-sfia.R parses the structure into the cybed schema.\n\n\n\n\n\nLicense\nSubject to the SFIA Use Policy. The package stores only structural metadata locally and does not redistribute full skill text."
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#caveats",
+    "href": "frameworks/sfia-9.html#caveats",
+    "title": "SFIA 9",
+    "section": "Caveats",
+    "text": "Caveats\n\nSFIA enumerates skills and proficiency levels, not roles. Cross-framework analyses should not equate sfia:Skill with nice:WorkRole or dcwf:WorkRole without explicit justification.\nLevel descriptors only make sense relative to SFIA’s seven-point level scale. Cross-framework comparisons of “elements per organizing unit” reflect that scale, not absolute specificity.\nThe SFIA Use Policy’s licensing tier matters for redistribution. Free for individuals, small employers, and accredited training providers. Paid licensing for commercial consultancies and large employers. Redistribution of full skill text is restricted at every tier. Researchers extending cybedtools with downstream publications should verify their use case against the current policy."
+  },
+  {
+    "objectID": "frameworks/sfia-9.html#related",
+    "href": "frameworks/sfia-9.html#related",
+    "title": "SFIA 9",
+    "section": "Related",
+    "text": "Related\n\nCross-framework density spread\nThe vocabulary, on why sfia:Skill does not assert cybed:Role."
+  },
+  {
+    "objectID": "LICENSE.html",
+    "href": "LICENSE.html",
+    "title": "Licenses",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "LICENSE.html#site-content-cc-by-4.0",
+    "href": "LICENSE.html#site-content-cc-by-4.0",
+    "title": "Licenses",
+    "section": "Site content (CC BY 4.0)",
+    "text": "Site content (CC BY 4.0)\nProse, headings, captions, persona scenarios, query interpretations, and other written content on this site are licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).\nYou are free to share and adapt this content for any purpose, including commercial, provided you give appropriate credit, link to the license, and indicate any changes.\nSuggested attribution:\n\nStraight, R. Cybersecurity Framework Concordance. Licensed under CC BY 4.0. https://ryanstraight.github.io/cybedtools/concordance/"
+  },
+  {
+    "objectID": "LICENSE.html#site-source-code-mit",
+    "href": "LICENSE.html#site-source-code-mit",
+    "title": "Licenses",
+    "section": "Site source code (MIT)",
+    "text": "Site source code (MIT)\nThe R scripts, Quarto configurations, SCSS, JavaScript, and SVG assets that build this site are licensed under the MIT License, matching the cybedtools R package this site documents."
+  },
+  {
+    "objectID": "LICENSE.html#framework-source-data-per-framework-upstream-terms",
+    "href": "LICENSE.html#framework-source-data-per-framework-upstream-terms",
+    "title": "Licenses",
+    "section": "Framework source data (per-framework upstream terms)",
+    "text": "Framework source data (per-framework upstream terms)\nThe cybersecurity workforce and learning frameworks displayed on this site retain their upstream licenses:\n\nNICE Framework v2 and DCWF v5.1: US public domain (works of the United States Government)\nENISA ECSF v1: ENISA’s re-use notice\nSFIA 9: SFIA Use Policy (free for individuals, small employers, and accredited training providers; paid for commercial consultancies and large employers; full skill text restricted at every tier)\nCyber.org K-12 v1.0: Creative Commons BY-NC 4.0\nCSTA K-12 CS Standards (Rev 2017): Creative Commons BY-NC-SA 4.0\nACM/IEEE CSEC2017: ACM/IEEE educational-use terms\nDigComp 2.2: European Commission re-use terms\n\nEach framework’s per-page provenance section names its license. Truncated text fragments shown in the searchable lookup widgets fall within each framework’s terms as academic illustration; this site does not redistribute full framework source text.\nTo run the underlying queries against full framework text, install the cybedtools R package and stage the framework source data per docs/framework-data-sources.md."
+  },
+  {
+    "objectID": "queries/index.html",
+    "href": "queries/index.html",
+    "title": "Queries",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License\n    \n    \n    \n  \n\n\n\n\n\n\n\n\n\nEach page below works through one question against the staged framework graph. R code, a table or figure, and a candid read of what the result does and does not support. Lift any of them as a starting point for your own analyses, or as a template when you have a new question.\n\n\n\n\n\n\nMore queries are in development. The template is the same throughout: the question, why it matters, the result, what the result does and doesn’t tell us, a reproduction recipe, and links to related queries.\n\n\n\n\n\n\nQuery\n\n\n\nWhat it answers\n\n\n\nTags\n\n\n\n\n\n\n\n\nHow does element density vary across frameworks?\n\n\nPer-unit element density across the framework corpus, strict and with examples. The twelvefold-spread finding, reframed as a comparison of design philosophy rather than a quality ranking.\n\n\nCross-framework\n\n\n\n\n\n\nHow is element coverage distributed across US and EU frameworks?\n\n\nTotal element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point.\n\n\nCross-framework, Workforce, Cross-jurisdictional\n\n\n\n\n\n\nWhere do Cyber.org K-12 and CSTA standards lexically align?\n\n\nPairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side’s clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding.\n\n\nCross-framework, K-12, Pedagogy\n\n\n\n\n\n\nWhere do NICE work roles align with CSEC2017 Knowledge Areas?\n\n\nPairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding.\n\n\nCross-framework, Workforce, Higher Ed\n\n\n\n\n\n\nWhere do NICE work roles align with ENISA ECSF role profiles?\n\n\nPairwise Jaccard similarity between 41 NICE work roles (US) and 12 ENISA ECSF role profiles (EU), with each unit’s full document (parent description plus all child elements concatenated) as the comparison surface. Median similarity is roughly three times the NICE-to-CSEC2017 finding because both NICE and ECSF are workforce-position vocabularies.\n\n\nCross-framework, Workforce, Cross-jurisdictional\n\n\n\n\n\n\nWhich NICE work roles concentrate the most element coverage?\n\n\nPer-work-role element counts across NICE Framework v2. The top five carry roughly a fifth of total element coverage. The long tail is real, and what ‘covers NICE’ actually means depends on which end of the distribution a curriculum reaches.\n\n\nCross-framework, Workforce, NICE\n\n\n\n\n\n\nNo matching items\n Back to top"
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html",
+    "href": "queries/nice-csec2017-alignment.html",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#the-question",
+    "href": "queries/nice-csec2017-alignment.html#the-question",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "The question",
+    "text": "The question\nFor each of the 41 NICE work roles, what is the closest CSEC2017 Knowledge Area by full-document text similarity, and how does that similarity distribute across the 8 KAs?"
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#why-it-matters",
+    "href": "queries/nice-csec2017-alignment.html#why-it-matters",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "Why it matters",
+    "text": "Why it matters\nBoth NICE and CSEC2017 are widely-referenced US cybersecurity frameworks with overlapping audiences. CAE designation files cite both. ABET cybersecurity program criteria align loosely to both. Federal and academic policy discussions invoke both. Practitioners frequently ask whether a NICE-aligned curriculum implicitly addresses CSEC2017 KAs, or whether mapping between the two is straightforward.\nThe frameworks were designed for different purposes. NICE specifies work roles defined by the tasks, knowledge, and skills a person in the position performs. CSEC2017 specifies curricular Knowledge Areas defined by what a cyber program teaches. They sit at different abstraction layers and use different vocabularies on purpose.\nThis query asks whether that purpose-difference shows up in vocabulary overlap."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#the-result",
+    "href": "queries/nice-csec2017-alignment.html#the-result",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: NICE work-role-to-CSEC2017-KA best-match similarity, summary statistics\n\n\n\n\nStatistic\nValue\n\n\n\nMinimum\n0.025\n\n\n1st Quartile\n0.037\n\n\nMedian\n0.040\n\n\nMean\n0.043\n\n\n3rd Quartile\n0.049\n\n\nMaximum\n0.070\n\n\n\n\n\n\n\n\nEvery best-match similarity sits below 0.10. The strongest pairing in the entire 41-role set is roughly 7% vocabulary overlap. The median is 4%.\n\n\n\n\n\n\n\nFigure 1: How NICE work roles distribute across CSEC2017 KAs as best matches. Three KAs (Data Security, Human Security, Societal Security) draw zero NICE roles as top match.\n\n\n\n\nOf 41 NICE work roles, 27 (66%) best-match to Component Security. The remaining 14 distribute across four KAs (Organizational, System, Connection, Software). Three KAs attract zero NICE roles as top match."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#what-this-tells-us",
+    "href": "queries/nice-csec2017-alignment.html#what-this-tells-us",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThe two frameworks are not text-aligned\nA best-match similarity ceiling of 0.07 across all 41 NICE roles is the structural finding. Even the highest-overlap pairs share fewer than one in fourteen unique tokens. The vocabulary similarity is too low to support any defensible NICE-to-CSEC2017 crosswalking at the role-to-KA level.\nComponent Security dominance is a vocabulary-scale artifact\nComponent Security’s 8-Topic scope covers hardware, firmware, integrated systems, embedded design, and component testing. That vocabulary is broad enough to overlap weakly with any NICE role that mentions technology components. Other KAs use narrower, more specialized vocabulary. Human Security covers identity, social engineering, awareness. Societal Security covers policy, ethics, law. Neither overlaps with NICE workforce-position language regardless of the role’s semantic relationship to those topics.\nEvidence of absence is useful\nA practitioner considering a manual NICE-to-CSEC2017 crosswalk can use this result to decide not to do the work. The frameworks do not align at this layer because they were not designed to align at this layer. The right crosswalk for a NICE-aligned program is to the CAE Knowledge Unit set (NSA/CISA), not to CSEC2017 Knowledge Areas."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#what-this-doesnt-tell-us",
+    "href": "queries/nice-csec2017-alignment.html#what-this-doesnt-tell-us",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nVocabulary similarity is not the only similarity that matters\nNICE and CSEC2017 share many concepts at the semantic level (both cover incident response, cryptography, access control) but use different terminology and different framing. A NICE-aligned curriculum may genuinely address CSEC2017 Knowledge Areas through specific course content that doesn’t share much vocabulary with the NICE TKS statements. The text-similarity metric here can’t detect that alignment.\nThis is not a quality claim against either framework\nLow vocabulary overlap reflects different design purposes, not different quality. NICE is excellent for workforce planning. CSEC2017 is excellent for curriculum architecture. Their inability to align at the vocabulary level is a structural feature of two well-designed frameworks pursuing different goals.\nDifferent metrics produce different results\nTF-IDF cosine similarity, embedding-based similarity, and topic-modeling approaches would each give different alignment estimates. Jaccard on unigrams is the simplest, most-interpretable choice. Downstream analysts can re-run on the same RDF graph with whatever metric suits their question."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#look-up-by-nice-work-role",
+    "href": "queries/nice-csec2017-alignment.html#look-up-by-nice-work-role",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "Look up by NICE work role",
+    "text": "Look up by NICE work role\nThe widget below shows each of the 41 NICE work roles with its top-3 CSEC2017 Knowledge Areas by full-document Jaccard. Search by role name (“incident,” “forensics,” “policy”) or sort by overlap percentage.\n\n\n\nTable 2\n\n\n\n\n\n\n\n\n\nRows group by NICE work role. Expand a role to see its top-3 CSEC2017 matches in similarity-descending order. The headline finding (every best match below 10% overlap) is visible in the data. Even the top-ranked match for any role rarely clears 7%."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#reproduce-this",
+    "href": "queries/nice-csec2017-alignment.html#reproduce-this",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(purrr)\nlibrary(tidyr)\nlibrary(rdflib)\n\ng &lt;- load_combined_ntriples_graph()\n\n# Pull NICE work roles + CSEC2017 KAs.\nunits &lt;- organizing_unit_framework_bindings(g)\nnice_roles &lt;- units |&gt;\n  filter(grepl(\"^NICE\", framework_name)) |&gt;\n  select(unit, unit_name)\ncsec_kas &lt;- units |&gt;\n  filter(grepl(\"CSEC2017\", framework_name)) |&gt;\n  select(unit, unit_name)\n\n# Build full-document text per unit (parent description + all child element text).\n# Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,\n# keep the top 3 CSEC2017 KAs per NICE work role. Full prep script in\n# `_data-prep-nice-csec2017-alignment.R` in the repository."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#related-queries",
+    "href": "queries/nice-csec2017-alignment.html#related-queries",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nWhere do Cyber.org K-12 and CSTA standards lexically align?, the analogous query at the K-12 pedagogy layer.\n\nHow does element density vary across frameworks?, the structural design-philosophy comparison."
+  },
+  {
+    "objectID": "queries/nice-csec2017-alignment.html#use-case-using-this-data",
+    "href": "queries/nice-csec2017-alignment.html#use-case-using-this-data",
+    "title": "Where do NICE work roles align with CSEC2017 Knowledge Areas?",
+    "section": "Use case using this data",
+    "text": "Use case using this data\n\n\nMarcus uses this analysis to decide against a manual NICE-to-CSEC2017 crosswalk, the practitioner-facing version."
+  },
+  {
+    "objectID": "queries/top-work-roles.html",
+    "href": "queries/top-work-roles.html",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "queries/top-work-roles.html#the-question",
+    "href": "queries/top-work-roles.html#the-question",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "The question",
+    "text": "The question\nHow are NICE work-role element counts distributed across the 41 work roles, and how concentrated is the load at the top?"
+  },
+  {
+    "objectID": "queries/top-work-roles.html#why-it-matters",
+    "href": "queries/top-work-roles.html#why-it-matters",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "Why it matters",
+    "text": "Why it matters\nCurricula and training programs that “cover NICE” routinely do so by surveying its top work roles. Whether that approach reaches NICE’s specification surface depends on how concentrated the element load is. A flat distribution would mean the top five represent roughly an eighth of the total. A power-law would mean the top five carry a much larger share. The shape of the distribution is the question, and the answer reframes what “covers NICE” can credibly claim.\nThe element count per work role is the sum of NICE Tasks, Knowledge statements, and Skill statements attached to that role under cybed:hasElement."
+  },
+  {
+    "objectID": "queries/top-work-roles.html#the-result",
+    "href": "queries/top-work-roles.html#the-result",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "The result",
+    "text": "The result\n\n\n\nTable 1: Top 10 NICE work roles by element count\n\n\n\n\nRank\nNICE work role\nElement count\nShare of total (%)\n\n\n\n1\nSecurity Control Assessment\n307\n5.7\n\n\n2\nSecure Systems Development\n232\n4.3\n\n\n3\nCybersecurity Architecture\n219\n4.1\n\n\n4\nDefensive Cybersecurity\n206\n3.9\n\n\n5\nSystems Security Management\n204\n3.8\n\n\n6\nDigital Forensics\n182\n3.4\n\n\n7\nDigital Evidence Analysis\n175\n3.3\n\n\n8\nInsider Threat Analysis\n169\n3.2\n\n\n9\nThreat Analysis\n165\n3.1\n\n\n10\nSecure Software Development\n161\n3.0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Element count per NICE work role, all 41 roles. The top end is steep, the tail is real, and the median sits well below the mean.\n\n\n\n\nThe top five work roles carry 21.9% of NICE’s element total. The top role (Security Control Assessment) lands at 307 elements. The median role sits at 118, which means the top role carries roughly 2.6 times the load of a median role."
+  },
+  {
+    "objectID": "queries/top-work-roles.html#what-this-tells-us",
+    "href": "queries/top-work-roles.html#what-this-tells-us",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "What this tells us",
+    "text": "What this tells us\nThe distribution is concentrated, not extreme\nTop-five roles carry about a fifth of total elements. That’s well above flat-uniform (12.2% if every role were equal) and well below scale-free (where the top would carry half or more).\nTop-five surveying reaches breadth, not the full corpus\nMost of NICE’s specification body lives in the long tail. A program that limits coverage to the top five hits the densest specification surface but misses about four-fifths of NICE’s element load. Whether that matters depends on the program’s purpose. Workforce-pipeline preparation that wants to mirror federal hiring weights leans into the top end. Comprehensive curricular coverage needs the long tail too.\nThe shape is structural to NICE v2\nThe concentration reflects which work roles NIST chose to specify in depth. Roles like Security Control Assessment, Secure Systems Development, and Cybersecurity Architecture are built up with extensive Task and Knowledge statement libraries. Specialized roles in the long tail have leaner specification by design, not by oversight."
+  },
+  {
+    "objectID": "queries/top-work-roles.html#what-this-doesnt-tell-us",
+    "href": "queries/top-work-roles.html#what-this-doesnt-tell-us",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "What this doesn’t tell us",
+    "text": "What this doesn’t tell us\nElement count is specification weight, not workforce demand\nA role with high element count is well-specified. It is not necessarily the role most US cyber jobs map onto. Workforce-demand evidence sits in BLS occupational data and CyberSeek, not in NICE element counts.\nElement count is not curricular effort either\nA curricular program may invest heavily in a role with leaner NICE specification because the topic itself is conceptually demanding. Elements measure what NICE specifies, not what teaching the topic requires.\nThis is a property of NICE v2\nNICE Framework v1 distributed its specification differently. Comparisons across NICE versions need to refit element-count distributions per version, not assume the v2 shape carries."
+  },
+  {
+    "objectID": "queries/top-work-roles.html#look-up-by-nice-work-role",
+    "href": "queries/top-work-roles.html#look-up-by-nice-work-role",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "Look up by NICE work role",
+    "text": "Look up by NICE work role\nThe widget below ranks all 41 NICE work roles by element count. Search by role name to find a specific role’s position in the distribution.\n\n\n\nTable 2"
+  },
+  {
+    "objectID": "queries/top-work-roles.html#reproduce-this",
+    "href": "queries/top-work-roles.html#reproduce-this",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "Reproduce this",
+    "text": "Reproduce this\nlibrary(cybedtools)\nlibrary(dplyr)\n\nrdf &lt;- load_combined_ntriples_graph()\n\nnice_role_counts &lt;- role_framework_bindings(rdf) |&gt;\n  filter(grepl(\"^NICE\", framework_name)) |&gt;\n  inner_join(\n    role_element_bindings(rdf) |&gt; count(role, name = \"element_count\"),\n    by = \"role\"\n  ) |&gt;\n  arrange(desc(element_count)) |&gt;\n  select(role_name, element_count)\nThe full prep script is in concordance/_data-prep-top-work-roles.R in the repository."
+  },
+  {
+    "objectID": "queries/top-work-roles.html#related-queries",
+    "href": "queries/top-work-roles.html#related-queries",
+    "title": "Which NICE work roles concentrate the most element coverage?",
+    "section": "Related queries",
+    "text": "Related queries\n\n\nHow does element density vary across frameworks?, the cross-framework view that puts NICE at the dense end of the corpus.\n\nHow is element coverage distributed across US and EU frameworks?, the jurisdictional rollup that NICE concentration partially drives.\n\nWhere do NICE work roles align with CSEC2017 Knowledge Areas?, the curricular-vocabulary cross-walk against the same 41 NICE roles.\n\nWhere do NICE work roles align with ENISA ECSF role profiles?, the cross-jurisdictional view of the same roles."
+  },
+  {
+    "objectID": "start/install.html",
+    "href": "start/install.html",
+    "title": "Quick start",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License"
+  },
+  {
+    "objectID": "start/install.html#install-cybedtools",
+    "href": "start/install.html#install-cybedtools",
+    "title": "Quick start",
+    "section": "Install cybedtools",
+    "text": "Install cybedtools\nInstall from GitHub via remotes or pak:\n# Option A: remotes\ninstall.packages(\"remotes\")\nremotes::install_github(\"ryanstraight/cybedtools\")\n\n# Option B: pak (faster on first install)\ninstall.packages(\"pak\")\npak::pkg_install(\"ryanstraight/cybedtools\")"
+  },
+  {
+    "objectID": "start/install.html#stage-the-framework-data",
+    "href": "start/install.html#stage-the-framework-data",
+    "title": "Quick start",
+    "section": "Stage the framework data",
+    "text": "Stage the framework data\ncybedtools does not redistribute framework source text. Each framework’s license governs how its source data is obtained and stored. docs/framework-data-sources.md documents the canonical retrieval URL, license, and SHA256 reference checksum for each framework in the corpus.\n# After install, see where to put each framework's source data:\nsystem.file(\"doc\", \"framework-data-sources.md\", package = \"cybedtools\") |&gt;\n  readLines() |&gt; head(40)\nFor NICE and DCWF (US Government works, public domain), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework."
+  },
+  {
+    "objectID": "start/install.html#run-the-pipeline",
+    "href": "start/install.html#run-the-pipeline",
+    "title": "Quick start",
+    "section": "Run the pipeline",
+    "text": "Run the pipeline\nOnce source data is staged in data/raw/, run the pipeline scripts in order. Each script is numbered for reproducibility:\nRscript scripts/000-staging-check.R         # confirm source data present\nRscript scripts/010-ingest-nice.R           # parse NICE -&gt; JSON-LD\nRscript scripts/010-ingest-dcwf.R           # ... and so on per framework\nRscript scripts/020-assemble-jsonld.R       # uniform parser pass\nRscript scripts/025-export-ntriples.R       # combined RDF graph\nRscript scripts/030-load-graph.R            # smoke-test SPARQL load\nThe combined graph lands at data/processed/ntriples/_combined.nt. Every query on this site reads from that file."
+  },
+  {
+    "objectID": "start/install.html#first-query",
+    "href": "start/install.html#first-query",
+    "title": "Quick start",
+    "section": "First query",
+    "text": "First query\nlibrary(cybedtools)\nlibrary(dplyr)\n\n# Per-framework summary, lazy-loaded with the package\nframework_summary |&gt;\n  select(\n    framework_name,\n    organizing_unit_count,\n    elements_per_organizing_unit_with_examples\n  ) |&gt;\n  arrange(desc(elements_per_organizing_unit_with_examples))\nOutput:\n# A tibble: 8 × 3\n  framework_name              organizing_unit_count elements_per_organizing_unit_with_examples\n  &lt;chr&gt;                                       &lt;int&gt;                                      &lt;dbl&gt;\n1 NICE Workforce Framework v2                    41                                       51.6\n2 DCWF v5.1                                      74                                       39.8\n3 ENISA ECSF v1                                  12                                       32.5\n4 CSTA K-12 CS Rev 2017                          25                                       10.2\n5 SFIA 9                                        147                                        5.6\n6 ACM/IEEE CSEC2017                               8                                        5.0\n7 Cyber.org K-12 v1.0                           116                                        4.3\n8 DigComp 2.2                                     5                                        4.2"
+  },
+  {
+    "objectID": "start/install.html#next-steps",
+    "href": "start/install.html#next-steps",
+    "title": "Quick start",
+    "section": "Next steps",
+    "text": "Next steps\n\nRead the concepts page for the two-tier schema architecture.\nBrowse the framework pages for per-framework provenance and structure.\nStep through the canonical queries for worked examples."
+  },
+  {
+    "objectID": "use-cases/index.html",
+    "href": "use-cases/index.html",
+    "title": "Use cases",
+    "section": "",
+    "text": "Workforce\n    \n    \n    \n    \n  \n\n  \n    Pedagogy\n    \n    \n    \n    \n  \n\n  \n    US\n    \n    \n    \n    \n  \n\n  \n    EU\n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    Global\n    \n    \n    \n  \n\n  \n    Source\n    \n    \n    \n  \n\n  \n    Ingestion\n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n\n  \n    License\n    \n    \n    \n  \n\n\n\n\n\n\n\n\n\nThe frameworks in cybedtools matter most when someone has a specific job to do with them. Each page below walks through a realistic working scenario. Who the person is, what they need to know, and how cybedtools gets them there.\nThe personas are composite, not specific individuals. The questions, the data, and the code are real.\n\n\n\n\n\n\nFor the analytic shape behind each scenario (the underlying cross-framework query), see Under the hood.\n\n\n\n\n\n\nScenario\n\n\n\nWho and what\n\n\n\nTags\n\n\n\n\n\n\n\n\nI teach to Cyber.org. What CSTA standards am I covering?\n\n\nA middle-school STEM teacher uses cybedtools to see which CSTA K-12 CS standards her Cyber.org-aligned lessons already cover, and where she leaves gaps.\n\n\nK-12, Pedagogy, Cyber.org × CSTA\n\n\n\n\n\n\nMapping our cybersecurity AAS to NICE work roles\n\n\nA program coordinator uses cybedtools to map cybersecurity AAS course outcomes to NICE work-role tasks for the National Centers of Academic Excellence designation.\n\n\nHigher Ed, Workforce, NICE × CSEC2017\n\n\n\n\n\n\nSurfacing NICE-to-ECSF candidate equivalence pairs\n\n\nA state workforce-policy analyst uses cybedtools to surface candidate equivalence pairs between NICE work roles and ENISA ECSF role profiles for a US-EU workforce mobility briefing memo.\n\n\nWorkforce, Policy, NICE × ECSF\n\n\n\n\n\n\nNo matching items\n Back to top"
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html",
+    "href": "use-cases/policy-analyst.html",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "",
+    "text": "Workforce\nPedagogy\nUS\nEU\nGlobal\nSource\nIngestion\nLicense"
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html#devis-situation",
+    "href": "use-cases/policy-analyst.html#devis-situation",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "Devi’s situation",
+    "text": "Devi’s situation\nDevi staffs the cybersecurity workforce portfolio at a state-level workforce-development office. Her current deliverable is a state contribution to a National Governors Association (NGA) working-group product on US-EU cyber workforce mobility. Downstream readers include the Governor’s Office, the state Department of Commerce, the state cyber-industry association, and, via NGA’s transatlantic skills-cooperation track, EU Cybersecurity Skills Academy program officers.\nThe briefing needs a defensible, structurally-honest crosswalk between the US federal NICE Framework (the state’s cyber workforce strategy adopted NICE as its planning vocabulary) and the EU’s ENISA Cybersecurity Skills Framework (ECSF). Devi is not making role-equivalence claims for credentialing. She is identifying which NICE work roles have a plausible ECSF analog so the convening can discuss specific mobility candidates concretely.\nThis iteration scopes to NICE-ECSF role-vocabulary alignment only. DCWF (US defense-side workforce taxonomy), e-CF 4.0 (EU general-IT competence framework), and ESCO (EU general occupational taxonomy) are out of scope. The briefing memo treats each separately. Each operates under different institutional authority and serves different downstream readers.\nShe uses cybedtools to surface candidate equivalence pairs for each NICE work role, then reads the underlying role descriptions to make the equivalence judgment by hand for the briefing.\n\n\nThis page uses real data computed against cybedtools v0.2.0. The persona is composite. The question, the code, and the result are not."
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html#the-question-formally-stated",
+    "href": "use-cases/policy-analyst.html#the-question-formally-stated",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "The question, formally stated",
+    "text": "The question, formally stated\nFor each of the 41 NICE work roles, what’s the closest ENISA ECSF role profile (and the next two closest) by full-document text similarity?\n\n\nVocabulary overlap is the percentage of unique words two units share, after dropping common words (“the,” “and,” “of”) and short tokens. 0% means no shared vocabulary, 100% means identical wording. The underlying metric and the methodology choices live on the analytic query page."
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html#what-cybedtools-surfaces",
+    "href": "use-cases/policy-analyst.html#what-cybedtools-surfaces",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "What cybedtools surfaces",
+    "text": "What cybedtools surfaces\n\n\n\nTable 1: Best-match vocabulary overlap across all 41 NICE work roles\n\n\n\n\nStatistic\nVocabulary overlap\n\n\n\nMinimum\n11.1%\n\n\nMedian\n14.5%\n\n\nMean\n14.5%\n\n\nMaximum\n17.7%\n\n\n\n\n\n\n\n\n\n\n\nTable 2: ECSF profile frequency as some NICE work role’s top match\n\n\n\n\nECSF profile\nNICE roles top-matched\n\n\n\nCyber Incident Responder\n12\n\n\nChief Information Security Officer (CISO)\n7\n\n\nPenetration Tester\n7\n\n\nCyber Threat Intelligence Specialist\n5\n\n\nCybersecurity Auditor\n5\n\n\nCybersecurity Architect\n4\n\n\nCyber Legal, Policy & Compliance Officer\n1\n\n\n\n\n\n\n\n\n\n\n\nTable 3: Top 8 NICE → ECSF candidate equivalence pairs by vocabulary overlap\n\n\n\n\n\n\n\n\n\nNICE work role\nClosest ECSF profile\nVocabulary overlap\n\n\n\nIncident Response\nCyber Incident Responder\n17.7%\n\n\nProgram Management\nCybersecurity Auditor\n17.4%\n\n\nSecure Project Management\nChief Information Security Officer (CISO)\n17.1%\n\n\nCybersecurity Workforce Management\nChief Information Security Officer (CISO)\n17.1%\n\n\nPrivacy Compliance\nCyber Legal, Policy & Compliance Officer\n16.9%\n\n\nSystems Security Management\nChief Information Security Officer (CISO)\n16.3%\n\n\nProduct Support Management\nChief Information Security Officer (CISO)\n16.2%\n\n\nCommunications Security (COMSEC) Management\nCyber Incident Responder\n16.2%\n\n\n\n\n\n\n\n\nBest-match overlap runs from 11% to 18% across all 41 NICE work roles, median 14.5%, with the strongest pair (NICE Incident Response → ECSF Cyber Incident Responder) at 17.7%. The NICE-to-CSEC2017 median for comparison was 4%. The workforce-vocabulary alignment here runs roughly three times that, though the absolute overlap remains modest enough to support candidate-identification rather than equivalence claims. Both vocabularies describe workforce positions. The difference between them is jurisdiction and granularity, not framework purpose.\nSeven of ECSF’s twelve role profiles appear as someone’s top match. Five never do (Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, Digital Forensics Investigator). The dominance of Cyber Incident Responder (12 NICE roles), CISO (7), and Penetration Tester (7) reflects ECSF’s deliberately-coarser role catalog. ECSF profiles cover broader role families that several NICE-position-specific roles fold into."
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html#what-this-means-for-devi",
+    "href": "use-cases/policy-analyst.html#what-this-means-for-devi",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "What this means for Devi",
+    "text": "What this means for Devi\nReal candidate pairs exist\nThe top-of-table pairing of NICE Incident Response with ECSF Cyber Incident Responder is a face-valid cross-jurisdictional analog. Several other top-similarity pairs hold up too. NICE Penetration Testing maps to ECSF Penetration Tester. NICE Cyber Operations Planning maps to ECSF Cybersecurity Architect or CISO depending on level. For a briefing audience that needs concrete examples, these are usable.\nThe granularity asymmetry is the headline\nNICE specifies 41 detailed civilian work roles by position description. ECSF specifies 12 broader role profiles by intent. Many-to-one vocabulary patterns are the rule, not the exception. Devi’s briefing needs to describe the relationship as “NICE roles cluster into ECSF profiles,” not “NICE roles map one-to-one onto ECSF profiles.” That pattern matches cybedtools’ US/EU 14:1 element-coverage ratio at the element layer. The role-level granularity asymmetry surfaces the same design-philosophy difference one layer up.\nENISA does not enforce ECSF\nECSF is a recommendation document from ENISA, the EU agency for cybersecurity established by the 2019 Cybersecurity Act. ENISA holds a regulatory advisory mandate but no rule-making power. ECSF adoption across EU member states is uneven and is happening through the EU Cybersecurity Skills Academy initiative and member-state national cyber-skills frameworks, not through binding regulation. For Devi’s briefing audience, that means ECSF profile alignment establishes credibility with EU employers but does not establish portability to specific EU jurisdictions. Portability depends on the member state’s national implementation.\nCISO over-attracts management-flavored NICE roles\nSeven NICE roles best-match to CISO: Secure Project Management, Cybersecurity Workforce Management, Systems Security Management, Product Support Management, Executive Cybersecurity Leadership, Technology Portfolio Management, and Cybersecurity Policy and Planning. Three of those (Product Support Management, Technology Portfolio Management, Secure Project Management) read as general technology management rather than specifically cybersecurity leadership. Two forces produce that pattern. NICE includes general-IT-management roles in its catalog because the catalog inherits broader workforce-vocabulary patterns, and ECSF has no non-cybersecurity-specific management profile to absorb them. CISO meanwhile carries the broadest management vocabulary in the ECSF profile catalog. Both forces push general-management NICE roles to CISO by default. The seven-CISO cluster should be read as candidates for ECSF-side leadership-pathway alignment, not as ECSF CISO equivalents.\nThe five unmatched ECSF profiles still have analogs\nCybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, and Digital Forensics Investigator each lack a NICE work role that places them as a top-1 match. Looking at each profile’s strongest second- or third-rank NICE candidates surfaces face-valid analogs for four of the five:\n\n\nCybersecurity Implementer: NICE Software Security Assessment (12.2%), Database Administration, Secure Software Development.\n\nCybersecurity Educator: NICE Cybersecurity Curriculum Development (13.2%), the only NICE role that ranks ECSF Cybersecurity Educator in any role’s top three at all.\n\nCybersecurity Risk Manager: NICE Cybersecurity Legal Advice (13.3%), Knowledge Management, Systems Testing and Evaluation.\n\nDigital Forensics Investigator: NICE Incident Response (14.1%), Digital Forensics, Digital Evidence Analysis.\nCybersecurity Researcher is the exception\nThe profile does not appear in any NICE role’s top three even by expanded ranking. The structural reason: NICE catalogs federal civilian and federal-adjacent workforce roles. Cybersecurity research at the institutional scale ECSF imagines (universities, EU national labs) sits in DoD, intelligence-community, and national-lab structures NICE does not enumerate.\nThese five profiles still need US-side commentary in the briefing. The table is a starting point, not a coverage claim.\nThe convening can discuss specific candidates\nDevi can bring a slide showing the top 8 candidate equivalence pairs and treat them as discussion anchors. The audience does not need uniform coverage. They need concrete examples of where a US-trained worker’s degree program, certifications, or workforce-development training credentials (those that carry NICE alignment) would map to an EU employer’s ECSF-aligned hiring specification. That is what cybedtools surfaces.\nVocabulary candidates are not credentialing equivalence\nA 14-18% vocabulary overlap does not mean a US-trained worker is qualified for the matched EU position. Credentialing pathways, regulatory contexts, clearance requirements, language fluency, and, on the EU side, Bologna Process degree recognition all remain separate considerations the briefing memo will need to treat individually. cybedtools surfaces structural candidates. The equivalence judgment is human work."
+  },
+  {
+    "objectID": "use-cases/policy-analyst.html#see-also",
+    "href": "use-cases/policy-analyst.html#see-also",
+    "title": "Surfacing NICE-to-ECSF candidate equivalence pairs",
+    "section": "See also",
+    "text": "See also\n\n\nThe analytic query behind this scenario walks through the SPARQL, the tokenization, and the similarity-metric choice.\n\nNICE Framework page for the framework’s structure, scope, and licensing.\n\nENISA ECSF page for ECSF’s structure, scope, and the e-CF cross-reference embedding gap.\n\nHow does element density vary across frameworks?, the per-unit density comparison that explains the US/EU granularity asymmetry at the element level."
+  }
+]

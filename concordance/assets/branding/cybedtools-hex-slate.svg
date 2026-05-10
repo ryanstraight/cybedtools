@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60.41 -14 720.82 720.82" width="720.82" height="720.82">
+  <polygon points="300,0 600,173.205 600,519.615 300,692.82 0,519.615 0,173.205" fill="#0F172A" stroke="#38BDF8" stroke-width="14" stroke-linejoin="round"></polygon>
+  <text x="300" y="232" font-family="&#39;JetBrains Mono&#39;, Consolas, ui-monospace, monospace" font-weight="700" font-size="70" text-anchor="middle" letter-spacing="-0.5">
+    <tspan fill="#F1F5F9">cyb</tspan><tspan fill="#38BDF8">ed</tspan><tspan fill="#F1F5F9">tools</tspan>
+  </text>
+  <g stroke="#F1F5F9" stroke-width="6.5" stroke-linecap="square" fill="none">
+  <line x1="214" y1="322" x2="410" y2="322"></line>
+  <line x1="170" y1="358" x2="360" y2="358"></line>
+  <line x1="202" y1="394" x2="454" y2="394"></line>
+  <line x1="258" y1="430" x2="396" y2="430"></line>
+  <line x1="182" y1="466" x2="384" y2="466"></line>
+  <line x1="224" y1="502" x2="428" y2="502"></line>
+  </g>
+  <line x1="300" y1="304" x2="300" y2="520" stroke="#38BDF8" stroke-width="8" stroke-linecap="square"></line>
+  <circle cx="300" cy="304" r="7" fill="#38BDF8"></circle>
+  <circle cx="300" cy="520" r="7" fill="#38BDF8"></circle>
+</svg>

@@ -1,0 +1,33 @@
+[
+  {
+    "listing": "/frameworks/index.html",
+    "items": [
+      "/frameworks/csta-2017.html",
+      "/frameworks/cyberorg-k12.html",
+      "/frameworks/digcomp-22.html",
+      "/frameworks/dcwf-v51.html",
+      "/frameworks/ecsf-v1.html",
+      "/frameworks/nice-v2.html",
+      "/frameworks/sfia-9.html"
+    ]
+  },
+  {
+    "listing": "/queries/index.html",
+    "items": [
+      "/queries/density-spread.html",
+      "/queries/us-eu-asymmetry.html",
+      "/queries/k12-alignment.html",
+      "/queries/nice-csec2017-alignment.html",
+      "/queries/nice-ecsf-alignment.html",
+      "/queries/top-work-roles.html"
+    ]
+  },
+  {
+    "listing": "/use-cases/index.html",
+    "items": [
+      "/use-cases/k12-teacher.html",
+      "/use-cases/curriculum-coordinator.html",
+      "/use-cases/policy-analyst.html"
+    ]
+  }
+]

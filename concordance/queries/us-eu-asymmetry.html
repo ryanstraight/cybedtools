@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.3">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2026-05-09">
+<meta name="description" content="Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point.">
+<title>How is element coverage distributed across US and EU frameworks? – Concordance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/branding/favicon/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5d91a59e15987bf42699e33880ff57bc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d72ca3fa1c5d0ffeb75fd70566f69546.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<!-- Concordance brand head additions.
+
+     Quarto wires the SVG favicon link via website.favicon, and OG/Twitter
+     tags via website.image + website.description. This partial covers
+     what Quarto does not auto-emit: PNG favicon fallbacks, apple-touch-
+     icon, web-app-manifest, and theme-color.
+
+     Paths are absolute against site-url because Quarto include-in-header
+     content is included verbatim and does not get path-rewritten per
+     page depth. If site-url changes, update these URLs to match. --><link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-64.png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-96.png">
+<link rel="icon" type="image/png" sizes="128x128" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-128.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/apple-touch-icon.png">
+<link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
+<meta name="theme-color" content="#0F172A">
+<meta property="og:title" content="How is element coverage distributed across US and EU frameworks? – Concordance">
+<meta property="og:description" content="Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point.">
+<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/us-eu-asymmetry_files/figure-html/fig-jurisdiction-1.png">
+<meta property="og:site_name" content="Concordance">
+<meta property="og:image:height" content="691">
+<meta property="og:image:width" content="1248">
+<meta name="twitter:title" content="How is element coverage distributed across US and EU frameworks? – Concordance">
+<meta name="twitter:description" content="Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point.">
+<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/queries/us-eu-asymmetry_files/figure-html/fig-jurisdiction-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="691">
+<meta name="twitter:image-width" content="1248">
+</head>
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content"><img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content"></a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../why.html"> 
+<span class="menu-text">Why</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../start/install.html"> 
+<span class="menu-text">Start</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-use-cases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Use cases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">
+<li>
+    <a class="dropdown-item" href="../use-cases/index.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/k12-teacher.html">
+ <span class="dropdown-text">K-12 teacher</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/curriculum-coordinator.html">
+ <span class="dropdown-text">Curriculum coordinator</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../use-cases/policy-analyst.html">
+ <span class="dropdown-text">Workforce policy analyst</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../frameworks/index.html"> 
+<span class="menu-text">Frameworks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../concepts/vocabulary.html"> 
+<span class="menu-text">Concepts</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-under-the-hood" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Under the hood</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">
+<li>
+    <a class="dropdown-item" href="../queries/index.html">
+ <span class="dropdown-text">How the analysis works</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../queries/density-spread.html">
+ <span class="dropdown-text">Cross-framework density</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../reference/">
+ <span class="dropdown-text">Package reference</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ryanstraight/cybedtools"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://doi.org/10.5281/zenodo.20076116"> <i class="bi bi-bookmark-fill" role="img" aria-label="Cite this work">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#the-question" id="toc-the-question" class="nav-link active" data-scroll-target="#the-question">The question</a></li>
+  <li><a href="#why-it-matters" id="toc-why-it-matters" class="nav-link" data-scroll-target="#why-it-matters">Why it matters</a></li>
+  <li><a href="#the-result" id="toc-the-result" class="nav-link" data-scroll-target="#the-result">The result</a></li>
+  <li>
+<a href="#what-this-tells-us" id="toc-what-this-tells-us" class="nav-link" data-scroll-target="#what-this-tells-us">What this tells us</a>
+  <ul class="collapse">
+<li><a href="#the-ratio-reflects-design-philosophy-not-effort" id="toc-the-ratio-reflects-design-philosophy-not-effort" class="nav-link" data-scroll-target="#the-ratio-reflects-design-philosophy-not-effort">The ratio reflects design philosophy, not effort</a></li>
+  <li><a href="#two-materialization-gaps-sit-on-the-eu-side" id="toc-two-materialization-gaps-sit-on-the-eu-side" class="nav-link" data-scroll-target="#two-materialization-gaps-sit-on-the-eu-side">Two materialization gaps sit on the EU side</a></li>
+  <li><a href="#reading-the-ratio-as-a-coverage-gap-is-wrong" id="toc-reading-the-ratio-as-a-coverage-gap-is-wrong" class="nav-link" data-scroll-target="#reading-the-ratio-as-a-coverage-gap-is-wrong">Reading the ratio as a coverage gap is wrong</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#what-this-doesnt-tell-us" id="toc-what-this-doesnt-tell-us" class="nav-link" data-scroll-target="#what-this-doesnt-tell-us">What this doesn’t tell us</a>
+  <ul class="collapse">
+<li><a href="#element-counts-arent-the-only-metric" id="toc-element-counts-arent-the-only-metric" class="nav-link" data-scroll-target="#element-counts-arent-the-only-metric">Element counts aren’t the only metric</a></li>
+  <li><a href="#global-frameworks-sit-outside-this-view" id="toc-global-frameworks-sit-outside-this-view" class="nav-link" data-scroll-target="#global-frameworks-sit-outside-this-view">Global frameworks sit outside this view</a></li>
+  <li><a href="#the-cybedtools-materialization-is-partial-on-the-eu-side" id="toc-the-cybedtools-materialization-is-partial-on-the-eu-side" class="nav-link" data-scroll-target="#the-cybedtools-materialization-is-partial-on-the-eu-side">The cybedtools materialization is partial on the EU side</a></li>
+  </ul>
+</li>
+  <li><a href="#reproduce-this" id="toc-reproduce-this" class="nav-link" data-scroll-target="#reproduce-this">Reproduce this</a></li>
+  <li><a href="#related-queries" id="toc-related-queries" class="nav-link" data-scroll-target="#related-queries">Related queries</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Workforce</title>
+<rect x="3" y="8" width="18" height="12" rx="1.5"></rect><path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path><line x1="3" y1="13.5" x2="21" y2="13.5"></line><rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect></symbol><symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Pedagogy</title>
+<path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path><path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path><path d="M22 9 V14"></path><circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle></symbol><symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>US</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="14" x2="21" y2="14"></line><rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect></symbol><symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><title>EU</title>
+<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle><circle cx="12" cy="19" r="1" fill="currentColor"></circle><circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle><circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle></symbol><symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Global</title>
+<circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse><line x1="12" y1="3" x2="12" y2="21"></line></symbol><symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Source</title>
+<rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path><line x1="10" y1="13" x2="14" y2="13"></line></symbol><symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Ingestion</title>
+<circle cx="12" cy="12" r="3.5"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="22" y1="12" x2="19" y2="12"></line><line x1="5" y1="12" x2="2" y2="12"></line><line x1="19.07" y1="4.93" x2="17" y2="7"></line><line x1="7" y1="17" x2="4.93" y2="19.07"></line><line x1="19.07" y1="19.07" x2="17" y2="17"></line><line x1="7" y1="7" x2="4.93" y2="4.93"></line></symbol><symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>License</title>
+<path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path><rect x="9" y="11" width="6" height="5" rx="0.6"></rect><path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path></symbol></svg><script>
+(function () {
+  function init() {
+    var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
+    els.forEach(function (el) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-pressed', 'false');
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = !el.classList.contains('show-tech');
+        el.classList.toggle('show-tech', next);
+        el.setAttribute('aria-pressed', String(next));
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.schema-diagram').forEach(function (figure) {
+      var btn = figure.querySelector('.toggle-all');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willShowTech = !btn.classList.contains('all-tech');
+        btn.classList.toggle('all-tech', willShowTech);
+        btn.setAttribute('aria-pressed', String(willShowTech));
+        var icon = btn.querySelector('.toggle-icon');
+        var text = btn.querySelector('.toggle-text');
+        if (icon) icon.textContent = willShowTech ? '▾' : '▸';
+        if (text) text.textContent = willShowTech ? 'plain English' : 'schema names';
+        figure.querySelectorAll('.cyb-node, .cyb-edge-label').forEach(function (el) {
+          el.classList.toggle('show-tech', willShowTech);
+          el.setAttribute('aria-pressed', String(willShowTech));
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">How is element coverage distributed across US and EU frameworks?</h1>
+<p class="subtitle lead">The 14-to-1 jurisdictional ratio, reframed</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Cross-framework</div>
+    <div class="quarto-category">Workforce</div>
+    <div class="quarto-category">Cross-jurisdictional</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><section id="the-question" class="level2"><h2 class="anchored" data-anchor-id="the-question">The question</h2>
+<p>How does total element coverage in cybedtools split across US, EU, and global frameworks, and what does the gap reflect?</p>
+</section><section id="why-it-matters" class="level2"><h2 class="anchored" data-anchor-id="why-it-matters">Why it matters</h2>
+<p>Total element counts are an obvious cross-framework metric to reach for. They are also the easiest to misread. A reader who sees one jurisdiction’s element count vastly exceeding another’s may infer that the lagging jurisdiction is undercovered. The actual story is more often that the two jurisdictions chose different design philosophies for their workforce taxonomies.</p>
+<p>The cybedtools corpus pulls four US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), two EU frameworks (ENISA ECSF, DigComp 2.2), and two global frameworks (SFIA, ACM/IEEE CSEC2017). The element-count ratio between them is large and worth naming, but the framing matters more than the figure.</p>
+</section><section id="the-result" class="level2"><h2 class="anchored" data-anchor-id="the-result">The result</h2>
+<div class="cell">
+<div id="tbl-jurisdiction" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-jurisdiction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Total element coverage per jurisdiction (with examples)
+</figcaption><div aria-describedby="tbl-jurisdiction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 60%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Jurisdiction</th>
+<th style="text-align: left;">Frameworks</th>
+<th style="text-align: right;">Frameworks (n)</th>
+<th style="text-align: left;">Total elements</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">NICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">5,814</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">global</td>
+<td style="text-align: left;">SFIA 9, ACM/IEEE CSEC2017</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">870</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EU</td>
+<td style="text-align: left;">ECSF v1, DigComp 2.2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">411</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-jurisdiction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-jurisdiction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="us-eu-asymmetry_files/figure-html/fig-jurisdiction-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Element coverage by jurisdiction. US frameworks dominate by raw element count. The figure reads at first glance as a coverage gap and isn’t."><img src="us-eu-asymmetry_files/figure-html/fig-jurisdiction-1.png" class="img-fluid figure-img" width="624"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-jurisdiction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Element coverage by jurisdiction. US frameworks dominate by raw element count. The figure reads at first glance as a coverage gap and isn’t.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The four US frameworks contribute 5,814 elements. The two EU frameworks contribute 411. That ratio runs at roughly 14.1 to one. Global frameworks add 870 more.</p>
+</section><section id="what-this-tells-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-tells-us">What this tells us</h2>
+<section id="the-ratio-reflects-design-philosophy-not-effort" class="level3"><h3 class="anchored" data-anchor-id="the-ratio-reflects-design-philosophy-not-effort">The ratio reflects design philosophy, not effort</h3>
+<p>NICE and DCWF were built to specify the US federal civilian and defense cyber workforces at hiring-pipeline granularity. The element count is the point. ECSF was authored as an EU-wide interoperability frame at profile granularity, deliberately light at the per-profile level. DigComp 2.2 specifies citizen-level digital competence, three nesting levels deep but deliberately compact. The frameworks were built to do different jobs.</p>
+</section><section id="two-materialization-gaps-sit-on-the-eu-side" class="level3"><h3 class="anchored" data-anchor-id="two-materialization-gaps-sit-on-the-eu-side">Two materialization gaps sit on the EU side</h3>
+<p>ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.2.0 graph. DigComp 2.2’s Annex examples (the framework’s signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools’ EU element count understates what those frameworks actually specify.</p>
+</section><section id="reading-the-ratio-as-a-coverage-gap-is-wrong" class="level3"><h3 class="anchored" data-anchor-id="reading-the-ratio-as-a-coverage-gap-is-wrong">Reading the ratio as a coverage gap is wrong</h3>
+<p>US workforce frameworks were designed for US workforce-planning purposes. EU frameworks were designed for EU interoperability and citizen-self-assessment purposes. The 14-to-1 figure is what those design choices look like at the element layer.</p>
+</section></section><section id="what-this-doesnt-tell-us" class="level2"><h2 class="anchored" data-anchor-id="what-this-doesnt-tell-us">What this doesn’t tell us</h2>
+<section id="element-counts-arent-the-only-metric" class="level3"><h3 class="anchored" data-anchor-id="element-counts-arent-the-only-metric">Element counts aren’t the only metric</h3>
+<p>Concept depth, real-world adoption, regulatory force, and steward-community size all matter for cross-jurisdictional comparison and none of them appear in this figure.</p>
+</section><section id="global-frameworks-sit-outside-this-view" class="level3"><h3 class="anchored" data-anchor-id="global-frameworks-sit-outside-this-view">Global frameworks sit outside this view</h3>
+<p>SFIA and CSEC2017 don’t fit cleanly into US or EU buckets. SFIA is UK-anchored with global commercial uptake. CSEC2017 is a joint ACM/IEEE/AIS/IFIP product. Both contribute element coverage that resists jurisdictional bucketing.</p>
+</section><section id="the-cybedtools-materialization-is-partial-on-the-eu-side" class="level3"><h3 class="anchored" data-anchor-id="the-cybedtools-materialization-is-partial-on-the-eu-side">The cybedtools materialization is partial on the EU side</h3>
+<p>The figure understates EU specification depth because the e-CF cross-references and DigComp Annex examples aren’t yet extracted.</p>
+</section></section><section id="reproduce-this" class="level2"><h2 class="anchored" data-anchor-id="reproduce-this">Reproduce this</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">framework_summary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">jurisdiction</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    frameworks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">framework_name</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span>,</span>
+<span>    total_elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">element_count_with_examples</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">total_elements</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>framework_summary</code> tibble ships with the package as a lazy-loaded data object. Element totals are jurisdiction-attributed at the framework level via the <code>jurisdiction</code> column.</p>
+</section><section id="related-queries" class="level2"><h2 class="anchored" data-anchor-id="related-queries">Related queries</h2>
+<ul>
+<li>
+<a href="../queries/density-spread.html">How does element density vary across frameworks?</a>, the per-unit density comparison that frames the same design-philosophy point at the unit layer.</li>
+<li>
+<a href="../queries/top-work-roles.html">Which NICE work roles concentrate the most element coverage?</a>, the within-NICE concentration that drives a chunk of the US-side total.</li>
+<li>
+<a href="../queries/nice-ecsf-alignment.html">Where do NICE work roles align with ENISA ECSF role profiles?</a>, the role-level cross-jurisdictional similarity finding.</li>
+</ul>
+
+
+</section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ryanstraight\.github\.io\/cybedtools\/concordance\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org"><img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
+</div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
