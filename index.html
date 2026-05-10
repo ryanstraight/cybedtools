@@ -17,8 +17,8 @@
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <script src="extra.js"></script><meta property="og:title" content="cybedtools">
-<meta name="description" content="Eight cybersecurity workforce and learning frameworks in a shared semantic schema. One R query operates across all of them. A comparison layer over existing frameworks, not a replacement.">
-<meta property="og:description" content="Eight cybersecurity workforce and learning frameworks in a shared semantic schema. One R query operates across all of them. A comparison layer over existing frameworks, not a replacement.">
+<meta name="description" content="Cybersecurity workforce and learning frameworks in a shared semantic schema. One R query operates across the corpus. A comparison layer over existing frameworks, not a replacement.">
+<meta property="og:description" content="Cybersecurity workforce and learning frameworks in a shared semantic schema. One R query operates across the corpus. A comparison layer over existing frameworks, not a replacement.">
 <meta property="og:image" content="https://ryanstraight.github.io/cybedtools/logo.png">
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -57,6 +57,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="https://ryanstraight.github.io/cybedtools/concordance/">Concordance</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -91,7 +92,10 @@
 </div>
 <!-- badges: start -->
 
-<p>Eight cybersecurity workforce and learning frameworks. Eight different schemas, eight different vocabularies. Comparing them (what’s specified where, where they overlap, how their structural commitments differ) has historically meant rebuilding the comparison from scratch every time, in a spreadsheet.</p>
+<blockquote>
+<p><strong>Looking for the audience-facing surface?</strong> <a href="https://ryanstraight.github.io/cybedtools/concordance/">Concordance</a> renders the framework data, the cross-framework comparisons, and the working scenarios in a form that does not require running R. Cite Concordance for site content; cite cybedtools for the methodology and any element-level analysis.</p>
+</blockquote>
+<p>A corpus of cybersecurity workforce and learning frameworks. Each carries a different schema and a different vocabulary. Comparing them (what’s specified where, where they overlap, how their structural commitments differ) has historically meant rebuilding the comparison from scratch every time, in a spreadsheet.</p>
 <p>cybedtools makes the comparison one query.</p>
 <p>The package ingests four workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF) and four pedagogical or learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2), expresses them all in a shared <code>cybed:</code> semantic schema, and exposes a small set of R helpers that let you query across them as if they were one corpus.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer.</p>
@@ -286,11 +290,11 @@ EU open re-use
 </tr>
 </tbody>
 </table>
-<p>The “Top-level units” column reports each framework’s top-level enumerated unit. NICE / DCWF / ECSF declare work roles or work profiles; SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2 declares competence areas. Cyber.org K-12 and CSTA do not name the cell that groups their numbered standards within their internal axes (grade band x sub-concept for Cyber.org; level x concept for CSTA), so cybedtools labels both <code>StandardGroup</code>. All eight types subclass <code>cybed:OrganizingUnit</code> so cross-framework queries reach them uniformly; NICE / DCWF / ECSF additionally subclass <code>cybed:Role</code>. The “Elements” column counts parents, parsed Subpoints, and (for Cyber.org K-12 and CSTA) Clarification-statement Examples; <code>framework_summary</code> carries <code>element_count_strict</code> for analyses that need the count without Examples. See <code>docs/framework-data-sources.md</code> for the per-framework structural mapping.</p>
+<p>The “Top-level units” column reports each framework’s top-level enumerated unit. NICE / DCWF / ECSF declare work roles or work profiles; SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2 declares competence areas. Cyber.org K-12 and CSTA do not name the cell that groups their numbered standards within their internal axes (grade band x sub-concept for Cyber.org; level x concept for CSTA), so cybedtools labels both <code>StandardGroup</code>. Every framework’s top-level type subclasses <code>cybed:OrganizingUnit</code> so cross-framework queries reach them uniformly; NICE / DCWF / ECSF additionally subclass <code>cybed:Role</code>. The “Elements” column counts parents, parsed Subpoints, and (for Cyber.org K-12 and CSTA) Clarification-statement Examples; <code>framework_summary</code> carries <code>element_count_strict</code> for analyses that need the count without Examples. See <code>docs/framework-data-sources.md</code> for the per-framework structural mapping.</p>
 <div class="section level2">
 <h2 id="what-you-can-find-with-this">What you can find with this<a class="anchor" aria-label="anchor" href="#what-you-can-find-with-this"></a>
 </h2>
-<p>The eight frameworks were authored independently, for different audiences, at different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats, under different licenses, with different design philosophies. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings illustrate what that surfaces.</p>
+<p>The frameworks in the corpus were authored independently, for different audiences, at different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats, under different licenses, with different design philosophies. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings illustrate what that surfaces.</p>
 <div class="section level3">
 <h3 id="per-unit-density-varies-by-12x-across-the-corpus">Per-unit density varies by 12x across the corpus<a class="anchor" aria-label="anchor" href="#per-unit-density-varies-by-12x-across-the-corpus"></a>
 </h3>
@@ -326,10 +330,10 @@ EU open re-use
 <span><span class="co">#&gt;   &lt;chr&gt;                                    &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;      </span></span>
 <span><span class="co">#&gt; 1 https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT </span></span>
 <span><span class="co">#&gt; 2 https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…</span></span></code></pre></div>
-<p>The same helpers run against a staged eight-framework graph by swapping <code><a href="reference/make_demo_graph.html">make_demo_graph()</a></code> for <code><a href="reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph()</a></code>.</p>
+<p>The same helpers run against the staged framework graph by swapping <code><a href="reference/make_demo_graph.html">make_demo_graph()</a></code> for <code><a href="reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph()</a></code>.</p>
 </div>
 <div class="section level2">
-<h2 id="a-query-against-the-eight-framework-corpus">A query against the eight-framework corpus<a class="anchor" aria-label="anchor" href="#a-query-against-the-eight-framework-corpus"></a>
+<h2 id="a-query-against-the-framework-corpus">A query against the framework corpus<a class="anchor" aria-label="anchor" href="#a-query-against-the-framework-corpus"></a>
 </h2>
 <p>Once the combined graph is staged (see <a href="#getting-started">Getting started</a>), one expression returns per-unit density per framework, sorted descending:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -392,6 +396,7 @@ EU open re-use
 <ul class="list-unstyled">
 <li><a href="https://github.com/ryanstraight/cybedtools/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/ryanstraight/cybedtools/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://ryanstraight.github.io/cybedtools/concordance/">Browse the Concordance</a></li>
 </ul>
 </div>
 
