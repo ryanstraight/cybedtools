@@ -44,9 +44,12 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-d72ca3fa1c5d0ffeb75fd70566f69546.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f2fe521dbbe6b5db406d10b5ce0845e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-273c3291f8b805a9dd7c5711ffec43e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-92a3b9ee01463d23e3e1a80a2a8bc61d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-273c3291f8b805a9dd7c5711ffec43e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -98,16 +101,14 @@ ul.task-list li input[type="checkbox"] {
 
 <meta property="og:title" content="Concordance · many frameworks, one queryable graph">
 <meta property="og:description" content="Cybersecurity Framework Concordance. Interactive views over a corpus of cybersecurity workforce and learning frameworks, queried through a shared semantic schema.">
-<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/concordance-og-1200x630.png">
+<meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/concordance-lockup-stacked-paper.svg">
 <meta property="og:site_name" content="Concordance">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
+<meta property="og:image:alt" content="Concordance: many frameworks, one graph">
 <meta name="twitter:title" content="Concordance · many frameworks, one queryable graph">
 <meta name="twitter:description" content="Cybersecurity Framework Concordance. Interactive views over a corpus of cybersecurity workforce and learning frameworks, queried through a shared semantic schema.">
-<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/concordance-og-1200x630.png">
+<meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/concordance-lockup-stacked-paper.svg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="630">
-<meta name="twitter:image-width" content="1200">
+<meta name="twitter:image:alt" content="Concordance: many frameworks, one graph">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -506,8 +507,12 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="many-cybersecurity-frameworks.-one-queryable-graph." class="level1 hero">
-<h1>Many cybersecurity frameworks. One queryable graph.</h1>
+<div class="hero">
+<div class="hero-mark">
+<p><a href="assets/branding/concordance-lockup-stacked-paper.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="assets/branding/concordance-lockup-stacked-paper.svg" class="hero-logo img-fluid" alt="Concordance: many frameworks, one graph" width="560"></a></p>
+</div>
+<section id="many-cybersecurity-frameworks.-one-queryable-graph." class="level1 visually-hidden">
+<h1 class="visually-hidden">Many cybersecurity frameworks. One queryable graph.</h1>
 <div class="lede">
 <p>Compare structure, density, and coverage across NICE, DCWF, ECSF, SFIA, Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2. The differences each framework was authored to express stay intact.</p>
 </div>
@@ -515,6 +520,7 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="./why.html" class="btn btn-primary">Why this exists</a> <a href="./frameworks/index.html" class="btn btn-outline-secondary">Browse frameworks</a></p>
 </div>
 </section>
+</div>
 <section id="the-same-question-different-answers" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-same-question-different-answers">The same question, different answers</h2>
 <div class="chart-subtitle">
@@ -1198,6 +1204,38 @@ ul.task-list li input[type="checkbox"] {
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
