@@ -1,0 +1,104 @@
+---
+title: "About Concordance"
+subtitle: "What this site is, how it relates to the cybedtools R package, and how to cite it"
+body-classes: about-page-hero
+---
+
+::: {.about-hero}
+![](assets/branding/concordance-lockup-stacked-paper.svg){fig-alt="Concordance: frameworks, one graph" width=320 .about-lockup}
+
+::: {.about-subtitle}
+What this site is, how it relates to the cybedtools R package, and how to cite it.
+:::
+:::
+
+## What this is
+
+The Cybersecurity Framework Concordance is the audience-facing surface for the [cybedtools R package](https://github.com/ryanstraight/cybedtools). cybedtools ingests, parses, and queries a corpus of cybersecurity workforce and learning frameworks under a shared semantic schema. This site renders the framework data, the cross-framework comparisons, and the working scenarios in a form that does not require running R.
+
+The two carry related but distinct identities. cybedtools is the methodology engine. Concordance is what readers see and cite.
+
+## How it relates to cybedtools
+
+| | cybedtools | Concordance |
+|---|---|---|
+| Form | R package | Quarto subsite |
+| Audience | Researchers, methodology collaborators | K-12 teachers, curriculum coordinators, workforce-policy analysts |
+| Distribution | GitHub plus Zenodo, install via `remotes::install_github` | Static HTML, deployed to gh-pages |
+| License | MIT | Content CC BY 4.0, code MIT |
+| Canonical citation | `citation("cybedtools")` from R, or [`CITATION.cff`](https://github.com/ryanstraight/cybedtools/blob/main/CITATION.cff) | this site (see below) |
+
+Every number, table, and lookup widget on this site is derived from the same package the methodology documents.
+
+## Install cybedtools
+
+```r
+# Option A: remotes
+install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
+
+# Option B: pak (faster on first install)
+install.packages("pak")
+pak::pkg_install("ryanstraight/cybedtools")
+```
+
+The package depends on `rdflib`, `jsonlite`, `dplyr`, `purrr`, and `tibble`. See [Start](start/install.qmd) for the full staging pipeline (framework source data, ingestion, graph assembly, query loading).
+
+## How to cite
+
+::: {.column-margin}
+![](assets/branding/cybedtools-hex-slate.svg){width=80 fig-alt="cybedtools R package hex sticker" .cite-mark}
+:::
+
+If your work references the methodology, the R package, or any element-level analysis behind the figures on this site, cite the package. The 0.2.0 version, for example:
+
+```
+Straight, R. (2026). cybedtools: Comparison and querying of cybersecurity
+workforce and learning frameworks. R package version 0.2.0.
+https://doi.org/10.5281/zenodo.20076116
+```
+
+::: {.column-margin}
+![](assets/branding/concordance-mark-mini-paper.svg){width=80 fig-alt="Concordance mark" .cite-mark}
+:::
+
+If your work references Concordance itself (a specific worked scenario, a lookup widget, audience-facing prose, or the persona pages), cite the site:
+
+```
+Straight, R. (2026). Cybersecurity Framework Concordance.
+https://ryanstraight.github.io/cybedtools/concordance/
+```
+
+The Zenodo DOI [10.5281/zenodo.20076116](https://doi.org/10.5281/zenodo.20076116) is a *concept DOI*: it resolves to the latest released version of the package and persists across all subsequent versions. Per-version DOIs are minted automatically when each release is tagged on GitHub.
+
+## Author
+
+Ryan Straight, Assistant Professor, College of Information Science, University of Arizona. ORCID: [0000-0002-6251-5662](https://orcid.org/0000-0002-6251-5662).
+
+## Acknowledgments
+
+The frameworks displayed on this site are the work of their respective authoring communities. cybedtools represents them under the layered licensing terms named on each framework's page. The package's design owes substantive intellectual debt to:
+
+- The NICE program at NIST for the Workforce Framework for Cybersecurity (SP 800-181 Rev 1).
+- The DoD Chief Information Officer for the DoD Cyber Workforce Framework v5.1.
+- The European Union Agency for Cybersecurity (ENISA) for the European Cybersecurity Skills Framework v1.
+- The SFIA Foundation for SFIA 9.
+- The Cyber Innovation Center and the Cyber.org K-12 standards team for the K-12 Cybersecurity Learning Standards.
+- The Computer Science Teachers Association for the K-12 CS Standards (Rev 2017).
+- The ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8 Joint Task Force for CSEC2017.
+- Vuorikari, Kluzer, and Punie (Joint Research Centre, European Commission) for DigComp 2.2.
+
+## AI disclosure
+
+The development and delivery of both cybedtools and Concordance was substantially accelerated by Anthropic's Claude Code. Creation was undertaken using the Opus 4.7 model under the author's direction.
+
+## License
+
+This site carries layered licensing. Site content (prose, scenarios, query interpretations) is under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Site source code (R, Quarto, SCSS, JavaScript, SVG) is under the [MIT License](https://opensource.org/license/MIT). Framework source data retains its upstream license per framework. Full terms in [LICENSE](LICENSE.html).
+
+## Source and contributions
+
+- Repository: [github.com/ryanstraight/cybedtools](https://github.com/ryanstraight/cybedtools)
+- Issues and feature requests: [GitHub issues](https://github.com/ryanstraight/cybedtools/issues)
+- Concept DOI: [10.5281/zenodo.20076116](https://doi.org/10.5281/zenodo.20076116)
+- Code of conduct: [CODE_OF_CONDUCT.md](https://github.com/ryanstraight/cybedtools/blob/main/CODE_OF_CONDUCT.md)

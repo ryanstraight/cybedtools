@@ -1,0 +1,139 @@
+---
+title: "DCWF v5.1"
+subtitle: "DoD Cyber Workforce Framework (DoDD 8140)"
+jurisdiction: "US"
+framework-type: "Workforce"
+organizing-units: 74
+elements: 2945
+license: "Public domain"
+date: 2026-05-08
+categories: [workforce, us]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | DoD Chief Information Officer |
+| Canonical page | [DoD Cyber Workforce Framework](https://dodcio.defense.gov/Cyber-Workforce/DCWF/) |
+| Version | 5.1 |
+| Released | 2025-07-25 |
+| Aligned to | NICE Framework |
+| Source format | DoD CIO Work Role Tool (XLSX) |
+| License | Public domain (works of the United States Government) |
+| `framework_summary` slug | `dcwf-v51` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 540 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dcwf-structure-title">
+  <title id="dcwf-structure-title">DCWF structural mapping</title>
+  <defs><marker id="dcwf-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="270" y1="58" x2="270" y2="100" marker-end="url(#dcwf-arrow)"/>
+    <line x1="220" y1="172" x2="160" y2="220" marker-end="url(#dcwf-arrow)"/>
+    <line x1="320" y1="172" x2="380" y2="220" marker-end="url(#dcwf-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="190" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="270" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="270" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">dcwf:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Work role">
+    <rect x="110" y="100" width="320" height="72" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="270" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Work role</text>
+    <text class="lt" x="270" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">dcwf:WorkRole</text>
+    <text class="lt" x="270" y="143" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role</text>
+    <text class="lt" x="270" y="159" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Task">
+    <rect x="80" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="160" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Task</text>
+    <text class="lt" x="160" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">dcwf:Task</text>
+    <text class="lt" x="160" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="KSA">
+    <rect x="300" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="380" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">KSA</text>
+    <text class="lt" x="380" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">dcwf:KSA</text>
+    <text class="lt" x="380" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-work-role connection">
+    <text class="ep" x="278" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="278" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Work-role-to-element connection">
+    <text class="ep" x="262" y="200" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="262" y="200" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Work roles | 74 |
+| Strict elements | 2,945 |
+| With-examples elements | 2,945 |
+| Elements per work role | 39.8 |
+
+DCWF encodes detail entirely in numbered statements. The strict and
+with-examples counts coincide because the ingestion has no
+prose-embedded clarifications to promote into separate
+`cybed:Example` nodes.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+DoD Cyber Workforce Framework reference materials.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-dcwf.R` parses the source structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Works of the United States Government are in the US public domain.
+:::
+
+:::
+
+## Caveats
+
+- DCWF aligns to NICE and **shares element identifiers across the two frameworks**. Summing element counts across DCWF and NICE will double-count shared identifiers. Filter on `framework_slug` when summing.
+- The ingested data reflects the **source export retrieved at ingestion time**. Re-run the ingestion script against a newer export for subsequent versions.
+- DCWF is **authoritative for the DoD cyberspace workforce, not the civilian side**. Civilian federal and private-sector hiring pipelines that look DCWF-shaped typically map back through NICE.
+
+## Related
+
+- [NICE Framework v2](nice-v2.qmd), the framework DCWF aligns to.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

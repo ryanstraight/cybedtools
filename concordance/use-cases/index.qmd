@@ -1,0 +1,34 @@
+---
+title: "Use cases"
+subtitle: "Three working professionals putting cybedtools to use"
+listing:
+  contents:
+    - "k12-teacher.qmd"
+    - "curriculum-coordinator.qmd"
+    - "policy-analyst.qmd"
+  type: table
+  fields: [title, description, categories]
+  field-display-names:
+    title: "Scenario"
+    description: "Who and what"
+    categories: "Tags"
+  sort: false
+  sort-ui: false
+  filter-ui: false
+  page-size: 12
+  table-striped: true
+  table-hover: true
+---
+
+The frameworks in cybedtools matter most when someone has a
+specific job to do with them. Each page below walks through a
+realistic working scenario. Who the person is, what they need to
+know, and how cybedtools gets them there.
+
+The personas are composite, not specific individuals. The questions,
+the data, and the code are real.
+
+::: {.column-margin}
+For the analytic shape behind each scenario (the underlying
+cross-framework query), see [Under the hood](../queries/index.qmd).
+:::

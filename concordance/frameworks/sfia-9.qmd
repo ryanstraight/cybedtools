@@ -1,0 +1,132 @@
+---
+title: "SFIA 9"
+subtitle: "Skills Framework for the Information Age"
+jurisdiction: "Global"
+framework-type: "Workforce"
+organizing-units: 147
+elements: 830
+license: "SFIA Use Policy"
+date: 2026-05-08
+categories: [workforce, global]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | SFIA Foundation |
+| Canonical page | [SFIA Foundation](https://sfia-online.org/en) |
+| Version | 9 |
+| Released | 2024-10 |
+| Source format | PDF, XLSX, JSON, and RDF distributions. cybedtools reads a third-party SQLite structural extract, and full skill text is fetched separately under the SFIA Use Policy |
+| License | SFIA Use Policy. Free for individuals, small employers, and accredited training providers, paid for commercial consultancies and large employers, with full skill text redistribution restricted at every tier |
+| `framework_summary` slug | `sfia-9` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sfia-structure-title">
+  <title id="sfia-structure-title">SFIA 9 structural mapping</title>
+  <defs><marker id="sfia-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="220" y1="58" x2="220" y2="100" marker-end="url(#sfia-arrow)"/>
+    <line x1="220" y1="170" x2="220" y2="212" marker-end="url(#sfia-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="140" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="220" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">sfia:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Skill">
+    <rect x="60" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Skill</text>
+    <text class="lp" x="220" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(skills, not roles)</text>
+    <text class="lt" x="220" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">sfia:Skill</text>
+    <text class="lt" x="220" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="220" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Level descriptor">
+    <rect x="140" y="212" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Level descriptor</text>
+    <text class="lt" x="220" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">sfia:LevelDescriptor</text>
+    <text class="lt" x="220" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-skill connection">
+    <text class="ep" x="228" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="228" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Skill-to-level-descriptor connection">
+    <text class="ep" x="228" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="228" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>SFIA enumerates skills, not roles. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Skills | 147 |
+| Strict elements | 830 |
+| With-examples elements | 830 |
+| Elements per skill | 5.6 |
+
+The elements counted here are level descriptors (one per skill-level
+pairing where the skill is defined at that level). SFIA's seven
+levels of responsibility define the scale itself. Those level
+definitions are part of the framework's overall structure but are not
+counted as per-skill elements.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+SFIA Foundation's published distribution. cybedtools reads a third-party SQLite structural extract for the skill and level scaffolding. Full skill text is fetched separately under the SFIA Use Policy.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-sfia.R` parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Subject to the SFIA Use Policy. The package stores only structural metadata locally and does not redistribute full skill text.
+:::
+
+:::
+
+## Caveats
+
+- SFIA enumerates **skills and proficiency levels, not roles**. Cross-framework analyses should not equate `sfia:Skill` with `nice:WorkRole` or `dcwf:WorkRole` without explicit justification.
+- Level descriptors **only make sense relative to SFIA's seven-point level scale**. Cross-framework comparisons of "elements per organizing unit" reflect that scale, not absolute specificity.
+- The SFIA Use Policy's **licensing tier matters for redistribution**. Free for individuals, small employers, and accredited training providers. Paid licensing for commercial consultancies and large employers. Redistribution of full skill text is restricted at every tier. Researchers extending cybedtools with downstream publications should verify their use case against the current policy.
+
+## Related
+
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd), on why `sfia:Skill`
+  does not assert `cybed:Role`.

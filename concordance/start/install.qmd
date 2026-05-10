@@ -1,0 +1,95 @@
+---
+title: "Quick start"
+subtitle: "Install the package, stage framework data, run your first query"
+---
+
+## Install cybedtools
+
+Install from GitHub via `remotes` or `pak`:
+
+```{.r}
+# Option A: remotes
+install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
+
+# Option B: pak (faster on first install)
+install.packages("pak")
+pak::pkg_install("ryanstraight/cybedtools")
+```
+
+## Stage the framework data
+
+`cybedtools` does not redistribute framework source text. Each
+framework's license governs how its source data is obtained and
+stored. `docs/framework-data-sources.md` documents the canonical
+retrieval URL, license, and SHA256 reference checksum for each
+framework in the corpus.
+
+```{.r}
+# After install, see where to put each framework's source data:
+system.file("doc", "framework-data-sources.md", package = "cybedtools") |>
+  readLines() |> head(40)
+```
+
+For NICE and DCWF (US Government works, public domain), the package
+ships pointers to the canonical NIST CPRT and DoD CIO downloads. For
+SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the
+steward's redistribution policy as documented per framework.
+
+## Run the pipeline
+
+Once source data is staged in `data/raw/`, run the pipeline scripts
+in order. Each script is numbered for reproducibility:
+
+```{.bash}
+Rscript scripts/000-staging-check.R         # confirm source data present
+Rscript scripts/010-ingest-nice.R           # parse NICE -> JSON-LD
+Rscript scripts/010-ingest-dcwf.R           # ... and so on per framework
+Rscript scripts/020-assemble-jsonld.R       # uniform parser pass
+Rscript scripts/025-export-ntriples.R       # combined RDF graph
+Rscript scripts/030-load-graph.R            # smoke-test SPARQL load
+```
+
+The combined graph lands at `data/processed/ntriples/_combined.nt`.
+Every query on this site reads from that file.
+
+## First query
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+
+# Per-framework summary, lazy-loaded with the package
+framework_summary |>
+  select(
+    framework_name,
+    organizing_unit_count,
+    elements_per_organizing_unit_with_examples
+  ) |>
+  arrange(desc(elements_per_organizing_unit_with_examples))
+```
+
+Output:
+
+```
+# A tibble: 8 × 3
+  framework_name              organizing_unit_count elements_per_organizing_unit_with_examples
+  <chr>                                       <int>                                      <dbl>
+1 NICE Workforce Framework v2                    41                                       51.6
+2 DCWF v5.1                                      74                                       39.8
+3 ENISA ECSF v1                                  12                                       32.5
+4 CSTA K-12 CS Rev 2017                          25                                       10.2
+5 SFIA 9                                        147                                        5.6
+6 ACM/IEEE CSEC2017                               8                                        5.0
+7 Cyber.org K-12 v1.0                           116                                        4.3
+8 DigComp 2.2                                     5                                        4.2
+```
+
+## Next steps
+
+- Read [the concepts](../concepts/vocabulary.qmd) page for the
+  two-tier schema architecture.
+- Browse [the framework pages](../frameworks/index.qmd) for
+  per-framework provenance and structure.
+- Step through [the canonical queries](../queries/index.qmd) for
+  worked examples.

@@ -1,0 +1,34 @@
+---
+title: "Frameworks"
+subtitle: "What each framework specifies, where it sits, and what its source license permits"
+listing:
+  contents: "*-*.qmd"
+  type: table
+  fields: [title, jurisdiction, framework-type, organizing-units, elements, license]
+  field-display-names:
+    title: "Framework"
+    jurisdiction: "Jurisdiction"
+    framework-type: "Type"
+    organizing-units: "Units"
+    elements: "Elements"
+    license: "License"
+  sort: "framework-type asc, jurisdiction asc, title asc"
+  sort-ui: false
+  filter-ui: false
+  page-size: 10
+  table-striped: true
+  table-hover: true
+---
+
+The framework corpus splits along two axes: workforce versus
+pedagogy, and US/EU/global jurisdiction. The combinations are not
+exhaustive (there is no global pedagogy framework, and the US is
+overrepresented in both columns), but together the frameworks span
+the practical comparison surface for most cybersecurity workforce
+and education research questions.
+
+::: {.column-margin}
+Counts on this table use the with-examples figure. Strict counts
+(numbered standards only) appear on each framework's page and on
+the [density-spread query](../queries/density-spread.qmd).
+:::

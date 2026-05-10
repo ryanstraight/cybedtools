@@ -1,0 +1,142 @@
+---
+title: "How is element coverage distributed across US and EU frameworks?"
+subtitle: "The 14-to-1 jurisdictional ratio, reframed"
+description: "Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point."
+date: 2026-05-09
+categories: [Cross-framework, Workforce, Cross-jurisdictional]
+---
+
+```{r}
+#| label: setup
+#| include: false
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(forcats)
+})
+
+fs <- cybedtools::framework_summary
+
+juris_totals <- fs |>
+  group_by(jurisdiction) |>
+  summarise(
+    frameworks = paste(framework_name, collapse = ", "),
+    n_frameworks = n(),
+    n_elements = sum(element_count_with_examples),
+    .groups = "drop"
+  ) |>
+  arrange(desc(n_elements))
+
+us_total <- juris_totals$n_elements[juris_totals$jurisdiction == "US"]
+eu_total <- juris_totals$n_elements[juris_totals$jurisdiction == "EU"]
+global_total <- juris_totals$n_elements[juris_totals$jurisdiction == "global"]
+us_eu_ratio <- round(us_total / eu_total, 1)
+```
+
+## The question
+
+How does total element coverage in cybedtools split across US, EU, and global frameworks, and what does the gap reflect?
+
+## Why it matters
+
+Total element counts are an obvious cross-framework metric to reach for. They are also the easiest to misread. A reader who sees one jurisdiction's element count vastly exceeding another's may infer that the lagging jurisdiction is undercovered. The actual story is more often that the two jurisdictions chose different design philosophies for their workforce taxonomies.
+
+The cybedtools corpus pulls four US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), two EU frameworks (ENISA ECSF, DigComp 2.2), and two global frameworks (SFIA, ACM/IEEE CSEC2017). The element-count ratio between them is large and worth naming, but the framing matters more than the figure.
+
+## The result
+
+```{r}
+#| label: tbl-jurisdiction
+#| tbl-cap: "Total element coverage per jurisdiction (with examples)"
+juris_totals |>
+  transmute(
+    Jurisdiction = jurisdiction,
+    Frameworks = frameworks,
+    `Frameworks (n)` = n_frameworks,
+    `Total elements` = format(n_elements, big.mark = ",")
+  ) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-jurisdiction
+#| fig-cap: "Element coverage by jurisdiction. US frameworks dominate by raw element count. The figure reads at first glance as a coverage gap and isn't."
+#| fig-width: 6.5
+#| fig-height: 3.6
+juris_totals |>
+  mutate(jurisdiction = fct_reorder(jurisdiction, n_elements)) |>
+  ggplot(aes(x = jurisdiction, y = n_elements, fill = jurisdiction)) +
+  geom_col(width = 0.6) +
+  geom_text(aes(label = format(n_elements, big.mark = ",")),
+            hjust = -0.15, size = 3.6, color = "#0F172A") +
+  coord_flip() +
+  scale_fill_manual(
+    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC")
+  ) +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.18)),
+    labels = scales::comma
+  ) +
+  labs(x = NULL, y = "Total elements (with examples)", fill = NULL) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.text.y = element_text(size = 11, face = "bold")
+  )
+```
+
+The four US frameworks contribute `r format(us_total, big.mark = ",")` elements. The two EU frameworks contribute `r format(eu_total, big.mark = ",")`. That ratio runs at roughly `r us_eu_ratio` to one. Global frameworks add `r format(global_total, big.mark = ",")` more.
+
+## What this tells us
+
+### The ratio reflects design philosophy, not effort
+
+NICE and DCWF were built to specify the US federal civilian and defense cyber workforces at hiring-pipeline granularity. The element count is the point. ECSF was authored as an EU-wide interoperability frame at profile granularity, deliberately light at the per-profile level. DigComp 2.2 specifies citizen-level digital competence, three nesting levels deep but deliberately compact. The frameworks were built to do different jobs.
+
+### Two materialization gaps sit on the EU side
+
+ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.2.0 graph. DigComp 2.2's Annex examples (the framework's signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools' EU element count understates what those frameworks actually specify.
+
+### Reading the ratio as a coverage gap is wrong
+
+US workforce frameworks were designed for US workforce-planning purposes. EU frameworks were designed for EU interoperability and citizen-self-assessment purposes. The 14-to-1 figure is what those design choices look like at the element layer.
+
+## What this doesn't tell us
+
+### Element counts aren't the only metric
+
+Concept depth, real-world adoption, regulatory force, and steward-community size all matter for cross-jurisdictional comparison and none of them appear in this figure.
+
+### Global frameworks sit outside this view
+
+SFIA and CSEC2017 don't fit cleanly into US or EU buckets. SFIA is UK-anchored with global commercial uptake. CSEC2017 is a joint ACM/IEEE/AIS/IFIP product. Both contribute element coverage that resists jurisdictional bucketing.
+
+### The cybedtools materialization is partial on the EU side
+
+The figure understates EU specification depth because the e-CF cross-references and DigComp Annex examples aren't yet extracted.
+
+## Reproduce this
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+
+framework_summary |>
+  group_by(jurisdiction) |>
+  summarise(
+    frameworks = paste(framework_name, collapse = ", "),
+    total_elements = sum(element_count_with_examples),
+    .groups = "drop"
+  ) |>
+  arrange(desc(total_elements))
+```
+
+The `framework_summary` tibble ships with the package as a lazy-loaded data object. Element totals are jurisdiction-attributed at the framework level via the `jurisdiction` column.
+
+## Related queries
+
+- [How does element density vary across frameworks?](density-spread.qmd), the per-unit density comparison that frames the same design-philosophy point at the unit layer.
+- [Which NICE work roles concentrate the most element coverage?](top-work-roles.qmd), the within-NICE concentration that drives a chunk of the US-side total.
+- [Where do NICE work roles align with ENISA ECSF role profiles?](nice-ecsf-alignment.qmd), the role-level cross-jurisdictional similarity finding.

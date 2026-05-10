@@ -1,0 +1,12 @@
+{
+  "name": "Concordance",
+  "short_name": "Concordance",
+  "description": "Cybersecurity workforce and learning frameworks. One queryable graph.",
+  "icons": [
+    { "src": "favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "favicon/web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "theme_color": "#0F172A",
+  "background_color": "#0F172A",
+  "display": "standalone"
+}

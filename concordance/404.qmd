@@ -1,0 +1,21 @@
+---
+title: "Page not found"
+pagetitle: "404 · Concordance"
+body-classes: not-found
+---
+
+::: {.not-found-hero}
+![](assets/branding/concordance-mark-paper.svg){fig-alt="Concordance mark" width=140 .not-found-mark}
+
+::: {.not-found-code}
+404
+:::
+
+::: {.not-found-message}
+This page is not in the index. The link may be stale, or the page may have moved.
+:::
+
+::: {.not-found-actions}
+[Return to the homepage](index.html){.not-found-link} · [Browse frameworks](frameworks/index.qmd){.not-found-link} · [Open the use cases](use-cases/index.qmd){.not-found-link}
+:::
+:::

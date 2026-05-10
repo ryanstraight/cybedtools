@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-workforce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Workforce</title>
+    <rect x="3" y="8" width="18" height="12" rx="1.5"/>
+    <path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"/>
+    <line x1="3" y1="13.5" x2="21" y2="13.5"/>
+    <rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <symbol id="icon-pedagogy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Pedagogy</title>
+    <path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"/>
+    <path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"/>
+    <path d="M22 9 V14"/>
+    <circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <symbol id="icon-us" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>US</title>
+    <rect x="3" y="6" width="18" height="12" rx="1"/>
+    <line x1="3" y1="10" x2="21" y2="10"/>
+    <line x1="3" y1="14" x2="21" y2="14"/>
+    <rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"/>
+  </symbol>
+
+  <symbol id="icon-eu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <title>EU</title>
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="5"    r="1" fill="currentColor"/>
+    <circle cx="17.6" cy="8.5"  r="1" fill="currentColor"/>
+    <circle cx="17.6" cy="15.5" r="1" fill="currentColor"/>
+    <circle cx="12" cy="19"   r="1" fill="currentColor"/>
+    <circle cx="6.4"  cy="15.5" r="1" fill="currentColor"/>
+    <circle cx="6.4"  cy="8.5"  r="1" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="icon-global" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Global</title>
+    <circle cx="12" cy="12" r="9"/>
+    <ellipse cx="12" cy="12" rx="9" ry="3.4"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+  </symbol>
+
+  <symbol id="icon-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Source</title>
+    <rect x="3" y="4" width="18" height="4" rx="1"/>
+    <path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"/>
+    <line x1="10" y1="13" x2="14" y2="13"/>
+  </symbol>
+
+  <symbol id="icon-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>Ingestion</title>
+    <circle cx="12" cy="12" r="3.5"/>
+    <line x1="12" y1="2" x2="12" y2="5"/>
+    <line x1="12" y1="19" x2="12" y2="22"/>
+    <line x1="22" y1="12" x2="19" y2="12"/>
+    <line x1="5" y1="12" x2="2" y2="12"/>
+    <line x1="19.07" y1="4.93" x2="17" y2="7"/>
+    <line x1="7" y1="17" x2="4.93" y2="19.07"/>
+    <line x1="19.07" y1="19.07" x2="17" y2="17"/>
+    <line x1="7" y1="7" x2="4.93" y2="4.93"/>
+  </symbol>
+
+  <symbol id="icon-license" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <title>License</title>
+    <path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"/>
+    <rect x="9" y="11" width="6" height="5" rx="0.6"/>
+    <path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"/>
+  </symbol>
+
+
+</svg>
+
+<script>
+(function () {
+  function init() {
+    var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
+    els.forEach(function (el) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-pressed', 'false');
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var next = !el.classList.contains('show-tech');
+        el.classList.toggle('show-tech', next);
+        el.setAttribute('aria-pressed', String(next));
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.click();
+        }
+      });
+    });
+
+    document.querySelectorAll('.schema-diagram').forEach(function (figure) {
+      var btn = figure.querySelector('.toggle-all');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willShowTech = !btn.classList.contains('all-tech');
+        btn.classList.toggle('all-tech', willShowTech);
+        btn.setAttribute('aria-pressed', String(willShowTech));
+        var icon = btn.querySelector('.toggle-icon');
+        var text = btn.querySelector('.toggle-text');
+        if (icon) icon.textContent = willShowTech ? '▾' : '▸';
+        if (text) text.textContent = willShowTech ? 'plain English' : 'schema names';
+        figure.querySelectorAll('.cyb-node, .cyb-edge-label').forEach(function (el) {
+          el.classList.toggle('show-tech', willShowTech);
+          el.setAttribute('aria-pressed', String(willShowTech));
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

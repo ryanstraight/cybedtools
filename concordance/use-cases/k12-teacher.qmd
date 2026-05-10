@@ -1,0 +1,122 @@
+---
+title: "I teach to Cyber.org. What CSTA standards am I covering?"
+subtitle: "A K-12 teacher cross-walking two cyber learning standards"
+description: "A middle-school STEM teacher uses cybedtools to see which CSTA K-12 CS standards her Cyber.org-aligned lessons already cover, and where she leaves gaps."
+categories: [K-12, Pedagogy, Cyber.org × CSTA]
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(here)
+library(stringr)
+
+alignment <- readRDS(here("_data", "k12_alignment.rds"))
+
+# Convert similarity scores to percentages for display.
+alignment <- alignment |>
+  mutate(parent_pct = round(parent_sim * 100, 1),
+         full_pct   = round(full_sim   * 100, 1))
+```
+
+## Tasha's situation
+
+Tasha teaches 7th-grade STEM at a public middle school. Cybersecurity is a four-week unit inside her course, run once a year. She built the unit around the Cyber.org K-12 Cybersecurity Learning Standards because Cyber.org ships a free, ready-to-teach curriculum aligned to them.
+
+Her state has recently adopted a CS framework drawn from the CSTA K-12 CS Standards, and her district is now reporting all CS-related instruction against it. Her principal wants every cyber lesson tagged to a state-framework standard for the next reporting cycle. Tasha has roughly a dozen Cyber.org-aligned lessons in the unit and no time to rebuild them from scratch.
+
+Her question is concrete. Where does her existing Cyber.org-aligned work already cover the state-adopted framework, and where will she have to add something new?
+
+::: {.column-margin}
+This page uses real data computed against cybedtools v0.2.0. The
+persona is composite. The question, the code, and the result are not.
+:::
+
+::: {.column-margin}
+**Two standards bodies, two roles.** CSTA is a voluntary K-12 CS standards body whose work gets adopted into state CS frameworks. The principal is enforcing the state-adopted framework, not CSTA directly. Cyber.org publishes a federally-funded curriculum (free to use) whose standards are not, as a rule, formally adopted as state CS standards. The two are not interchangeable for state-framework reporting.
+:::
+
+## What we're asking the data
+
+For each of Tasha's Cyber.org standards, what's the closest CSTA standard, and is the match close enough to defend in her reporting?
+
+::: {.column-margin}
+**Vocabulary overlap** is the percentage of unique words two standards share, after dropping common words ("the," "and," "of") and very short tokens. 0% means no shared vocabulary, 100% means identical wording. The [analytic query page](../queries/k12-alignment.qmd) walks through the calculation.
+:::
+
+## What cybedtools surfaces
+
+A note on what counts as a match before the table arrives. Two K-12 standards on the same general topic share enough genre vocabulary ("network," "data," "device") to land near 10% overlap by themselves. Every match in the table below sits in the 10-20% band, which means same general topic, not necessarily same teaching. Read the matched CSTA standard before claiming coverage.
+
+```{r}
+#| label: tbl-overall
+#| tbl-cap: "Cyber.org standards by vocabulary overlap with their closest CSTA match"
+#| echo: false
+tibble::tibble(
+  `Vocabulary overlap` = c(
+    "Below 10% (no detectable match)",
+    "10% to 20%",
+    "20% or more"),
+  `Cyber.org standards` = c(
+    sum(alignment$full_pct < 10),
+    sum(alignment$full_pct >= 10 & alignment$full_pct < 20),
+    sum(alignment$full_pct >= 20))
+) |>
+  knitr::kable()
+```
+
+Of 123 Cyber.org standards, 21 share enough vocabulary with a CSTA standard to be worth a closer look (at least 10% overlap). None overlap heavily. That tracks. Cyber.org covers cybersecurity-specific territory that CSTA's general CS scope was never designed to address.
+
+```{r}
+#| label: tbl-top-matches
+#| tbl-cap: "Top 8 Cyber.org → CSTA matches by vocabulary overlap"
+#| echo: false
+alignment |>
+  arrange(desc(full_pct)) |>
+  slice_head(n = 8) |>
+  transmute(
+    `Cyber.org` = paste0(cyberorg_unit, "<br><i>",
+                        str_trunc(cyberorg_text, 90), "</i>"),
+    `CSTA closest match` = paste0(full_csta_unit, "<br><i>",
+                                 str_trunc(full_csta_text, 90), "</i>"),
+    `Vocabulary overlap` = paste0(full_pct, "%")
+  ) |>
+  knitr::kable(escape = FALSE)
+```
+
+The matches concentrate where Cyber.org and general computer-science basics overlap: networking, hardware, encryption, and PII.
+
+## What this means for Tasha
+
+Her four-week unit is largely complementary to CSTA, not redundant with it. She cannot tag her Cyber.org-aligned lessons to CSTA wholesale and call the work done. Of her dozen-or-so lessons, only the ones touching networking, hardware, encryption, or PII have a defensible CSTA tag. Lessons on physical security, threat actors, or social engineering specifics cover content CSTA does not address.
+
+Two specific cautions show up in the data.
+
+### Grade-band drift
+
+The strongest match in the table above pairs a Cyber.org 6-8 networking standard with a CSTA 3A (grades 9-10) networking standard. Vocabulary overlap is real. Cognitive demand is not. A 7th-grader differentiating MAC and IP addresses is not doing the same work as a 10th-grader evaluating network scalability. Tasha teaches 7th grade, so her defensible CSTA target band is Level 2 (grades 6-8). Anything at 3A or above carries grade-band-drift risk she will have to defend separately.
+
+### A 10-20% overlap is not coverage
+
+If Tasha's principal asks why a specific lesson is tagged to a specific CSTA standard, Tasha needs to walk through the actual content overlap, not point at a percentage. The tool surfaces candidates. The practitioner makes the equivalence judgment.
+
+### The cyber-specific lessons need a different defense
+
+Social engineering, threat actors, and physical security are precisely the topics some districts have explicit board policies about and that some parents push back on. The defense for those lessons is not CSTA-alignment evidence. The defense is curricular. The lessons implement standards from a CISA-funded K-12 cybersecurity curriculum (Cyber.org). Tasha may need to present that distinction explicitly to her principal, and to her school board if it surfaces there.
+
+### What Tasha tells her principal about the 102 unmatched Cyber.org standards
+
+The 123 Cyber.org standards span the full K-12 corpus. Tasha's four-week 7th-grade unit covers only a subset of those, and for most of the standards her lessons do cover, no CSTA equivalent exists. Her honest reporting answer is "covers Cyber.org standard X, no CSTA equivalent." Whether her district's reporting form lets her record that, or whether she has to negotiate an "alternate framework" tag with her principal, is a local question for her CS coordinator. cybedtools surfaces the gap. The reporting workaround is a district-policy conversation.
+
+### The lesson-by-lesson move
+
+For each lesson, the workflow is the same. Identify the Cyber.org standard the lesson covers, look up the closest CSTA match in the table, read the matched CSTA standard, decide if it applies. Most lessons land at "covers Cyber.org X, no meaningful CSTA equivalent." A handful give her dual-tagging.
+
+## See also
+
+- [The analytic query behind this scenario](../queries/k12-alignment.qmd) walks through the data, the metric choice, and the methodology.
+- [Cyber.org K-12 framework page](../frameworks/cyberorg-k12.qmd) for Cyber.org's structure, scope, and licensing.
+- [CSTA K-12 framework page](../frameworks/csta-2017.qmd) for CSTA's structure, scope, and licensing.
+- [The two-tier vocabulary](../concepts/vocabulary.qmd) for why cybedtools can ask the question across the two frameworks at all.
+- For lessons CSTA cannot tag, the NICE Framework K-12 working group's high-school cyber-pathway alignments are the next-likeliest external tag, though cybedtools does not currently materialize those K-12 mappings as RDF triples.

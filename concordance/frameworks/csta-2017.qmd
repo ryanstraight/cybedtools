@@ -1,0 +1,144 @@
+---
+title: "CSTA K-12 CS Standards"
+subtitle: "Computer Science Teachers Association K-12 Standards (Revised 2017)"
+jurisdiction: "US"
+framework-type: "Pedagogy"
+organizing-units: 25
+elements: 254
+license: "CC BY-NC-SA 4.0"
+date: 2026-05-08
+categories: [pedagogy, us]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Computer Science Teachers Association |
+| Canonical page | [CSTA K-12 CS Standards](https://csteachers.org/k12standards/) |
+| Version | Revised 2017 |
+| Released | 2017 |
+| Source format | XLSX |
+| License | Creative Commons BY-NC-SA 4.0 |
+| `framework_summary` slug | `csta-2017` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 620 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="csta-structure-title">
+  <title id="csta-structure-title">CSTA K-12 CS structural mapping</title>
+  <defs><marker id="csta-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="310" y1="58" x2="310" y2="100" marker-end="url(#csta-arrow)"/>
+    <line x1="220" y1="170" x2="160" y2="220" marker-end="url(#csta-arrow)"/>
+    <line x1="400" y1="170" x2="460" y2="220" marker-end="url(#csta-arrow)" stroke-dasharray="5,4"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="230" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="310" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="310" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csta:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Standard group">
+    <rect x="150" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="310" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Standard group</text>
+    <text class="lp" x="310" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(level × concept cell)</text>
+    <text class="lt" x="310" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csta:StandardGroup</text>
+    <text class="lt" x="310" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="310" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Standard">
+    <rect x="80" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="160" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Standard</text>
+    <text class="lt" x="160" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">csta:Standard</text>
+    <text class="lt" x="160" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Example">
+    <rect x="380" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6" stroke-dasharray="5,3"/>
+    <text class="lp" x="460" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Example</text>
+    <text class="lp" x="460" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">clarification text</text>
+    <text class="lt" x="460" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">cybed:Example</text>
+    <text class="lt" x="460" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">clarification text</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-standard-group connection">
+    <text class="ep" x="318" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="318" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Standard-group-to-standard connection">
+    <text class="ep" x="195" y="200" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="195" y="200" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Standard-group-to-example connection">
+    <text class="ep" x="425" y="200" font-family="Inter,sans-serif" font-size="11.5" font-style="italic" fill="currentColor" opacity="0.7">has example</text>
+    <text class="et" x="425" y="200" font-family="JetBrains Mono,monospace" font-size="10" font-style="italic" fill="currentColor" opacity="0.7">cybed:hasExample</text>
+  </g>
+</svg>
+<figcaption>Numbered standards attach to each standard group. Clarification text, where present, is reached through a separate connection. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Standard groups | 25 |
+| Strict elements (numbered standards) | 140 |
+| With-examples elements | 254 |
+| Examples (clarification text) | 114 |
+| Elements per standard group (strict) | 5.6 |
+| Elements per standard group (with examples) | 10.2 |
+
+Per-unit density approximately doubles when clarification text is
+included alongside numbered standards.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+CSTA K-12 CS Standards distribution.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-csta.R` parses standards and clarification text into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Creative Commons BY-NC-SA 4.0, non-commercial use with attribution and share-alike. The package does not bundle the source distribution. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- CSTA's seven core practices sit in the framework's high-level structure but are **not represented as per-cell numbered elements**. They run alongside the level-by-concept enumeration rather than within it.
+- Some clarifications are **constraining specifications and others are illustrative**. The package treats all clarifications uniformly as `cybed:Example` nodes. Analyses that need to distinguish prescriptive scaffolding from illustrative scaffolding will need to read the source text.
+- CSTA's revised 2017 standards **predate the K-12 cybersecurity push** and center general computer science. Cybersecurity content appears within Networks and the Internet and within Impacts of Computing rather than as a dedicated concept area, which is one of the gaps Cyber.org K-12 was authored to fill.
+
+## Related
+
+- [Cyber.org K-12](cyberorg-k12.qmd), the closest peer framework.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

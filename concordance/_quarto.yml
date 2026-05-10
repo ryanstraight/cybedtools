@@ -1,0 +1,125 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "_data/*.rds"
+  preview:
+    port: 4848
+    browser: false
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+  message: false
+
+website:
+  title: "Concordance"
+  description: >-
+    Cybersecurity Framework Concordance. Interactive views over a
+    corpus of cybersecurity workforce and learning frameworks, queried
+    through a shared semantic schema.
+  favicon: assets/branding/favicon/favicon.svg
+  image: assets/branding/concordance-og-1200x630.png
+  site-url: https://ryanstraight.github.io/cybedtools/concordance/
+  repo-url: https://github.com/ryanstraight/cybedtools
+  repo-subdir: concordance
+  page-navigation: true
+  back-to-top-navigation: true
+  open-graph: true
+  twitter-card:
+    card-style: summary_large_image
+  search:
+    location: navbar
+    type: overlay
+    copy-button: true
+  navbar:
+    pinned: true
+    collapse-below: lg
+    title: false
+    logo: assets/branding/concordance-lockup-horizontal-paper.svg
+    logo-alt: "Concordance"
+    logo-href: index.html
+    left:
+      - text: "Why"
+        file: why.qmd
+      - text: "Start"
+        file: start/install.qmd
+      - text: "Use cases"
+        menu:
+          - text: "Overview"
+            file: use-cases/index.qmd
+          - text: "K-12 teacher"
+            file: use-cases/k12-teacher.qmd
+          - text: "Curriculum coordinator"
+            file: use-cases/curriculum-coordinator.qmd
+          - text: "Workforce policy analyst"
+            file: use-cases/policy-analyst.qmd
+      - text: "Frameworks"
+        file: frameworks/index.qmd
+      - text: "Concepts"
+        file: concepts/vocabulary.qmd
+      - text: "Under the hood"
+        menu:
+          - text: "How the analysis works"
+            file: queries/index.qmd
+          - text: "Cross-framework density"
+            file: queries/density-spread.qmd
+          - text: "Package reference"
+            href: ../reference/
+    right:
+      - text: "About"
+        file: about.qmd
+      - icon: github
+        href: https://github.com/ryanstraight/cybedtools
+        aria-label: GitHub
+      - icon: bookmark-fill
+        href: https://doi.org/10.5281/zenodo.20076116
+        aria-label: "Cite this work"
+  page-footer:
+    border: true
+    left: |
+      Con<span class="cord">cord</span>ance · Content [CC BY 4.0](LICENSE.html) · Code [MIT](LICENSE.html) · [Concept DOI](https://doi.org/10.5281/zenodo.20076116)
+    right: |
+      Built with [<img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto">](https://quarto.org) & [<img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude">](https://claude.ai) & ❤️
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme.scss]
+      dark: [cosmo, theme.scss]
+    include-in-header: _includes/concordance-head.html
+    include-before-body: _includes/icons.html
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    toc-title: "On this page"
+    code-link: true
+    code-tools: false
+    code-fold: false
+    code-overflow: wrap
+    code-copy: hover
+    code-line-numbers: false
+    code-block-bg: true
+    code-block-border-left: true
+    link-external-icon: false
+    link-external-newwindow: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    fig-align: center
+    fig-responsive: true
+    smooth-scroll: true
+    anchor-sections: true
+    citations-hover: true
+    crossrefs-hover: true
+    footnotes-hover: true
+    grid:
+      sidebar-width: 260px
+      body-width: 680px
+      margin-width: 240px
+      gutter-width: 1.5rem
+    lightbox: auto
+    df-print: kable
+
+bibliography: references.bib
+csl: https://www.zotero.org/styles/apa

@@ -1,0 +1,290 @@
+---
+pagetitle: "Concordance · many frameworks, one queryable graph"
+toc: false
+page-layout: article
+---
+
+::: {.hero}
+
+# Many cybersecurity frameworks. One queryable graph.
+
+::: {.lede}
+Compare structure, density, and coverage across NICE, DCWF, ECSF, SFIA,
+Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2. The differences each
+framework was authored to express stay intact.
+:::
+
+::: {.cta-row}
+[Why this exists](why.qmd){.btn .btn-primary}
+[Browse frameworks](frameworks/index.qmd){.btn .btn-outline-secondary}
+:::
+
+:::
+
+## The same question, different answers
+
+::: {.chart-subtitle}
+Granularity per organizing unit, by design. The spread runs roughly
+twelvefold across the corpus. It tracks what each framework was
+authored to specify, not relative quality.
+:::
+
+```{=html}
+<div class="density-legend">
+  <span class="legend-item"><span class="swatch swatch-workforce"></span>Workforce</span>
+  <span class="legend-item"><span class="swatch swatch-pedagogy"></span>Pedagogy</span>
+</div>
+<figure class="density-figure">
+  <div class="density-chart">
+    <div class="bar-row" data-type="workforce">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/nice-v2.html">NICE Framework v2</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 100%;"></div>
+        <span class="bar-value">51.6</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="workforce">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/dcwf-v51.html">DCWF v5.1</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 77.1%;"></div>
+        <span class="bar-value">39.8</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="workforce">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="EU"><use href="#icon-eu"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/ecsf-v1.html">ENISA ECSF</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 63.0%;"></div>
+        <span class="bar-value">32.5</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="pedagogy" data-outlier>
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/csta-2017.html">CSTA K-12 CS</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 19.8%;"></div>
+        <span class="bar-value">10.2</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="workforce">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="Global"><use href="#icon-global"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/sfia-9.html">SFIA 9</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 10.9%;"></div>
+        <span class="bar-value">5.6</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="pedagogy">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="Global"><use href="#icon-global"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/csec2017.html">ACM/IEEE CSEC2017</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 9.7%;"></div>
+        <span class="bar-value">5.0</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="pedagogy">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/cyberorg-k12.html">Cyber.org K-12</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 8.3%;"></div>
+        <span class="bar-value">4.3</span>
+      </div>
+    </div>
+    <div class="bar-row" data-type="pedagogy">
+      <div class="bar-meta">
+        <span class="bar-pictograms">
+          <svg class="bar-icon" role="img" aria-label="EU"><use href="#icon-eu"/></svg>
+          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
+        </span>
+        <a class="bar-name" href="frameworks/digcomp-22.html">DigComp 2.2</a>
+      </div>
+      <div class="bar-visual">
+        <div class="bar-fill" style="width: 8.1%;"></div>
+        <span class="bar-value">4.2</span>
+      </div>
+    </div>
+  </div>
+  <figcaption>Elements per top-level organizing unit, with examples included. Bar widths are scaled to the highest value (NICE, 51.6).</figcaption>
+</figure>
+```
+
+::: {.column-margin}
+NICE specifies tasks, knowledge statements, and skill statements per
+work role. DigComp specifies competence areas designed for citizen
+self-assessment. Different questions, different shapes.
+:::
+
+[See the full cross-framework analysis](queries/density-spread.qmd){.no-icon}.
+
+## The frameworks at a glance
+
+```{=html}
+<div class="framework-grid">
+  <a class="framework-card" href="frameworks/nice-v2.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
+        <span class="pictogram-label">US</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
+        <span class="pictogram-label">Workforce</span>
+      </span>
+    </span>
+    <span class="name">NICE Framework v2</span>
+    <span class="stats"><span class="label">Units</span> 41 · <span class="label">Elements</span> 2,115</span>
+  </a>
+  <a class="framework-card" href="frameworks/dcwf-v51.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
+        <span class="pictogram-label">US</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
+        <span class="pictogram-label">Workforce</span>
+      </span>
+    </span>
+    <span class="name">DCWF v5.1</span>
+    <span class="stats"><span class="label">Units</span> 74 · <span class="label">Elements</span> 2,945</span>
+  </a>
+  <a class="framework-card" href="frameworks/ecsf-v1.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-eu"/></svg></span>
+        <span class="pictogram-label">EU</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
+        <span class="pictogram-label">Workforce</span>
+      </span>
+    </span>
+    <span class="name">ENISA ECSF</span>
+    <span class="stats"><span class="label">Units</span> 12 · <span class="label">Elements</span> 390</span>
+  </a>
+  <a class="framework-card" href="frameworks/sfia-9.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-global"/></svg></span>
+        <span class="pictogram-label">Global</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
+        <span class="pictogram-label">Workforce</span>
+      </span>
+    </span>
+    <span class="name">SFIA 9</span>
+    <span class="stats"><span class="label">Units</span> 147 · <span class="label">Elements</span> 830</span>
+  </a>
+  <a class="framework-card" href="frameworks/cyberorg-k12.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
+        <span class="pictogram-label">US</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
+        <span class="pictogram-label">Pedagogy</span>
+      </span>
+    </span>
+    <span class="name">Cyber.org K-12</span>
+    <span class="stats"><span class="label">Units</span> 116 · <span class="label">Elements</span> 500</span>
+  </a>
+  <a class="framework-card" href="frameworks/csta-2017.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
+        <span class="pictogram-label">US</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
+        <span class="pictogram-label">Pedagogy</span>
+      </span>
+    </span>
+    <span class="name">CSTA K-12 CS</span>
+    <span class="stats"><span class="label">Units</span> 25 · <span class="label">Elements</span> 254</span>
+  </a>
+  <a class="framework-card" href="frameworks/csec2017.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-global"/></svg></span>
+        <span class="pictogram-label">Global</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
+        <span class="pictogram-label">Pedagogy</span>
+      </span>
+    </span>
+    <span class="name">ACM/IEEE CSEC2017</span>
+    <span class="stats"><span class="label">Units</span> 8 · <span class="label">Elements</span> 40</span>
+  </a>
+  <a class="framework-card" href="frameworks/digcomp-22.html">
+    <span class="pictograms">
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-eu"/></svg></span>
+        <span class="pictogram-label">EU</span>
+      </span>
+      <span class="pictogram">
+        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
+        <span class="pictogram-label">Pedagogy</span>
+      </span>
+    </span>
+    <span class="name">DigComp 2.2</span>
+    <span class="stats"><span class="label">Units</span> 5 · <span class="label">Elements</span> 21</span>
+  </a>
+</div>
+```
+
+## What this is and isn't
+
+::: {.callout-defensive role="note" aria-label="What this is and isn't"}
+
+`cybedtools` is a comparison and querying layer over existing
+cybersecurity workforce and learning frameworks. **When the package's
+outputs disagree with a framework steward's own view of their framework,
+the steward's view is correct.**
+
+The package extends framework-based analysis. It gives researchers a
+uniform query surface across heterogeneous artefacts. It does not
+replace any framework, redistribute source text under more permissive
+terms than the framework's own license, or rank frameworks against
+each other.
+
+:::

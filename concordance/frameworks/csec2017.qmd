@@ -1,0 +1,133 @@
+---
+title: "ACM/IEEE CSEC2017"
+subtitle: "Cybersecurity Curricula 2017"
+jurisdiction: "Global"
+framework-type: "Pedagogy"
+organizing-units: 8
+elements: 40
+license: "ACM/IEEE educational use"
+date: 2026-05-08
+categories: [pedagogy, global]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Joint Task Force on Cybersecurity Education (ACM, IEEE-CS, AIS, IFIP) |
+| Canonical page | [Cybersecurity Curricula 2017](https://cybered.acm.org/) |
+| Version | 2017 v1.0 |
+| Released | 2017-12-31 |
+| Source format | PDF |
+| License | Copyright 2017 ACM/IEEE/AIS/IFIP, with permission granted for educational-materials development |
+| `framework_summary` slug | `csec2017-v1` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="csec-structure-title">
+  <title id="csec-structure-title">CSEC2017 structural mapping</title>
+  <defs><marker id="csec-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#csec-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#csec-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csec:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Knowledge area">
+    <rect x="70" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Knowledge area</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(curricular thought-model grouping)</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csec:KnowledgeArea</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="230" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Topic">
+    <rect x="150" y="212" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Topic</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">csec:Topic</text>
+    <text class="lt" x="230" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-knowledge-area connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Knowledge-area-to-topic connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>CSEC2017's Knowledge Areas are curricular thought-model groupings, not workforce roles. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Knowledge Areas | 8 |
+| Strict elements (topics) | 40 |
+| With-examples elements | 40 |
+| Topics per Knowledge Area | 5.0 |
+
+The Knowledge Area / Topic structure is the framework's
+coarse-grained surface. Beneath each topic, CSEC2017 defines further
+sub-elements (Essentials and supplementary content) that the current
+ingestion captures only at the topic level. Element counts are
+therefore a lower bound on what CSEC2017 specifies.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+CSEC2017 curricular guidelines (the Joint Task Force report from ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8).
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-csec2017.R` parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Subject to ACM/IEEE licensing terms. The package does not bundle the source text. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- CSEC2017's KAs are **curricular thought-model groupings, not workforce roles or competency clusters**. Cross-framework comparisons that equate KAs with roles misrepresent the framework's intent.
+- Per-topic Essentials and supplementary content are **not materialized as RDF triples**. The strict count reflects only the top-level topic enumeration per Knowledge Area, so headline element-density figures should be read as a floor rather than a ceiling.
+- CSEC2017 is a **curricular guideline for university programs, not a hiring specification**. The framework does not encode workforce roles or proficiency levels, so it sits on a different axis from NICE, DCWF, and ECSF in any cross-framework comparison.
+
+## Related
+
+- [Cyber.org K-12](cyberorg-k12.qmd), the K-12 pedagogy peer at a
+  different educational level.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

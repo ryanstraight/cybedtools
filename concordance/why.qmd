@@ -1,0 +1,102 @@
+---
+title: "Why this exists"
+subtitle: "What cybedtools does, who it's for, and what it deliberately doesn't try to do"
+---
+
+## The problem
+
+Cybersecurity workforce and learning frameworks proliferated through
+the 2010s and 2020s. Each was authored for a specific community, by a
+specific steward, under a specific licensing regime, and against a
+specific theory of what the framework was for. NICE specifies work
+roles for the US federal workforce. DCWF aligns the Department of
+Defense's cyber workforce against NICE. ENISA's ECSF sketches twelve
+professional profiles for the European Union. SFIA catalogs skills
+across the global IT profession. Cyber.org and CSTA specify K-12
+teaching standards. CSEC2017 frames undergraduate curricula. DigComp
+2.2 specifies citizen-level digital competence.
+
+A researcher who wants to compare any two of these is, at minimum,
+working across two different file formats, two licensing regimes, two
+authorial communities, and two distinct theoretical commitments about
+what counts as a structural element. Comparing them all means nine
+file formats, eight licenses, eight steward communities, and several
+deeply non-overlapping ideas about what an "element" even is.
+
+`cybedtools` makes that comparison structurally tractable. The
+differences that make each framework what it is stay intact.
+
+## What the package does
+
+The package ingests each framework's published source data, parses it
+into a uniform two-tier semantic schema (`cybed:` cross-framework
+abstract terms plus per-framework subtypes that preserve native
+vocabulary), assembles a queryable RDF graph, and exposes a small set
+of R helpers for cross-framework analysis.
+
+Three findings ride out of that infrastructure cleanly.
+
+### Per-unit element density spans roughly an order of magnitude
+
+NICE specifies about 52 elements per work role. DigComp specifies about 4 elements per competence area. The spread is real. It is a difference in design philosophy, not a quality claim.
+
+### US/EU coverage runs about 14 to 1 by raw element count
+
+ECSF was designed to be profile-level by intent. DigComp was designed for citizen self-assessment. The ratio reflects authorial intent, not framework completeness.
+
+### NICE work-role concentration is uneven
+
+A small number of work roles carry a disproportionate share of element coverage. The distribution is queryable directly from the package.
+
+Other questions can be asked of the same graph with the same query
+primitives.
+
+## Who it's for
+
+The package targets four overlapping audiences.
+
+- **Cybersecurity education researchers** comparing curricular,
+  workforce, or competency claims across frameworks.
+- **Doctoral students** building dissertations that cite framework
+  alignment as part of methodology.
+- **Workforce policy analysts** producing cross-jurisdiction reports
+  for federal, foundation, or state-level stakeholders.
+- **Curriculum designers** mapping local programs against multiple
+  authoritative frameworks at once.
+
+It does not target practitioners doing day-to-day workforce mapping
+inside a single framework. NICCS, DCWF program offices, the SFIA
+Foundation, CSTA, and the others publish their own authoritative
+tooling for that work. `cybedtools` is for the researcher who needs
+to answer questions no single framework's tooling can answer.
+
+## What this deliberately is not
+
+`cybedtools` is a comparison and querying layer. It is not a
+replacement for any framework. It does not redistribute framework
+source text under more permissive terms than the framework's own
+license. It is not an authority on alignment between frameworks, and
+it makes no claim that one framework is more rigorous than another.
+
+When the package's outputs disagree with a framework steward's own
+view of their framework, the steward's view is correct. The package
+gives researchers a structurally consistent way to ask questions
+across frameworks. That is a different thing from a license to
+override the people who maintain them.
+
+## How it relates to the rest of the field
+
+Several adjacent efforts share parts of the same goal. The framework
+stewards themselves publish authoritative tooling for within-framework
+analysis. NIST publishes for NICE, the SFIA Foundation for SFIA, the
+European Commission for ECSF and DigComp, and so on. Cross-framework
+comparative work in the literature, when it appears, is typically
+hand-coded across two or three frameworks at a time.
+
+`cybedtools` extends this landscape. Eight-framework analysis is
+tractable in a single R session, with provenance preserved back to
+each framework's source export.
+
+[Read the concepts](concepts/vocabulary.qmd) ·
+[Browse the frameworks](frameworks/index.qmd) ·
+[See the queries](queries/index.qmd)

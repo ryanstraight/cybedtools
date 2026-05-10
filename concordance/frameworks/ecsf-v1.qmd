@@ -1,0 +1,126 @@
+---
+title: "ENISA ECSF v1"
+subtitle: "European Cybersecurity Skills Framework"
+jurisdiction: "EU"
+framework-type: "Workforce"
+organizing-units: 12
+elements: 390
+license: "ENISA re-use notice"
+date: 2026-05-08
+categories: [workforce, eu]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | European Union Agency for Cybersecurity (ENISA) |
+| Canonical page | [European Cybersecurity Skills Framework](https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework) |
+| Version | 1 |
+| Released | 2022-09-19 |
+| Source format | PDF report with companion JSON and XLSX |
+| License | Subject to ENISA's re-use notice. Verify against the source artefact |
+| `framework_summary` slug | `ecsf-v1` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ecsf-structure-title">
+  <title id="ecsf-structure-title">ENISA ECSF structural mapping</title>
+  <defs><marker id="ecsf-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="220" y1="58" x2="220" y2="100" marker-end="url(#ecsf-arrow)"/>
+    <line x1="220" y1="180" x2="220" y2="222" marker-end="url(#ecsf-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="140" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="220" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">ecsf:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Profile">
+    <rect x="60" y="100" width="320" height="80" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Profile</text>
+    <text class="lt" x="220" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">ecsf:Profile</text>
+    <text class="lt" x="220" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role</text>
+    <text class="lt" x="220" y="163" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="KSA">
+    <rect x="140" y="222" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="220" y="257" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">KSA</text>
+    <text class="lt" x="220" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">ecsf:KSA</text>
+    <text class="lt" x="220" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-profile connection">
+    <text class="ep" x="228" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="228" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Profile-to-element connection">
+    <text class="ep" x="228" y="206" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="228" y="206" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Profiles | 12 |
+| Strict elements | 390 |
+| With-examples elements | 390 |
+| Elements per profile | 32.5 |
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+ENISA's ECSF reference document.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-ecsf.R` parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+ENISA's re-use notice governs redistribution. The package does not bundle ECSF source text. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- ECSF profiles point at the European e-Competence Framework (e-CF) at fine granularity, but those **cross-references are not expanded into RDF triples**. Full ECSF coverage requires consulting the source's e-CF pointers directly.
+- ECSF is **aspirational by design**. The framework was authored as a high-level interoperability frame across European cybersecurity workforce vocabularies, not as a hiring-grade enumeration like NICE or DCWF. Per-profile element counts read low because the framework is intentionally light at this layer.
+- The ingested data reflects ENISA's **published export at retrieval time**. Re-run the ingestion script against a newer export to pick up subsequent versions.
+
+## Related
+
+- [NICE Framework v2](nice-v2.qmd), the closest workforce peer at a
+  different specificity tier.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

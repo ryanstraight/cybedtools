@@ -1,0 +1,62 @@
+meta:
+  name: Concordance
+
+color:
+  palette:
+    slate-950: "#020617"
+    slate-900: "#0F172A"
+    slate-850: "#131F32"
+    slate-800: "#1E293B"
+    slate-700: "#334155"
+    slate-600: "#475569"
+    slate-500: "#64748B"
+    slate-400: "#94A3B8"
+    slate-300: "#CBD5E1"
+    slate-200: "#E2E8F0"
+    slate-100: "#F1F5F9"
+    slate-50:  "#F8FAFC"
+    sky-800:   "#075985"
+    sky-700:   "#0369A1"
+    sky-600:   "#0284C7"
+    sky-500:   "#0EA5E9"
+    sky-400:   "#38BDF8"
+    sky-300:   "#7DD3FC"
+    sky-100:   "#E0F2FE"
+  foreground:
+    light: slate-900
+    dark: slate-50
+  background:
+    light: slate-50
+    dark: slate-950
+  primary:
+    light: sky-700
+    dark: sky-400
+  secondary:
+    light: slate-700
+    dark: slate-300
+  info: sky-500
+  link:
+    light: sky-700
+    dark: sky-300
+
+typography:
+  fonts:
+    - family: Inter
+      source: google
+      weight: [400, 500, 600, 700]
+    - family: JetBrains Mono
+      source: google
+      weight: [400, 500, 700]
+  base:
+    family: Inter
+    weight: 400
+    line-height: 1.65
+  headings:
+    family: Inter
+    weight: 600
+    line-height: 1.25
+  monospace:
+    family: JetBrains Mono
+    weight: 400
+  link:
+    decoration: none

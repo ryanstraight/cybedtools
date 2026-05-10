@@ -1,0 +1,5 @@
+/.quarto/
+**/*.quarto_ipynb
+
+# Exploratory brand-design material, not for public history
+/assets/logo-candidates/

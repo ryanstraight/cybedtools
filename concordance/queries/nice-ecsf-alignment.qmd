@@ -1,0 +1,214 @@
+---
+title: "Where do NICE work roles align with ENISA ECSF role profiles?"
+subtitle: "Cross-jurisdictional similarity at the workforce-role level"
+description: "Pairwise Jaccard similarity between 41 NICE work roles (US) and 12 ENISA ECSF role profiles (EU), with each unit's full document (parent description plus all child elements concatenated) as the comparison surface. Median similarity is roughly three times the NICE-to-CSEC2017 finding because both NICE and ECSF are workforce-position vocabularies."
+date: 2026-05-09
+categories: [Cross-framework, Workforce, Cross-jurisdictional]
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(here)
+
+best <- readRDS(here("_data", "nice_ecsf_best.rds"))
+top3 <- readRDS(here("_data", "nice_ecsf_alignment.rds"))
+```
+
+## The question
+
+For each of the 41 NICE work roles, what is the closest ENISA ECSF role profile (and the next two closest) by full-document text similarity?
+
+## Why it matters
+
+NICE (US, NIST) and ECSF (EU, ENISA) are the two most-cited workforce frameworks for cross-jurisdictional cyber workforce policy work. Practitioners staffing US-EU mobility studies, transnational hiring discussions, and federal-level workforce-strategy briefings frequently need to surface plausible role-equivalence candidates between the two.
+
+Both frameworks describe cyber workforce roles in workforce-position vocabulary. The structural difference is granularity. NICE specifies 41 detailed civilian work roles by position description. ECSF specifies 12 broader role profiles by intent. Many-to-one vocabulary patterns from NICE to ECSF are the rule.
+
+This query asks whether vocabulary similarity surfaces those many-to-one patterns, and where the best candidate equivalence pairs sit.
+
+## The result
+
+```{r}
+#| label: tbl-similarity-summary
+#| tbl-cap: "NICE work-role-to-ECSF-profile best-match similarity, summary statistics"
+tibble::tibble(
+  Statistic = c("Minimum", "1st Quartile", "Median", "Mean", "3rd Quartile", "Maximum"),
+  Value = c(
+    sprintf("%.3f", min(best$similarity)),
+    sprintf("%.3f", quantile(best$similarity, 0.25)),
+    sprintf("%.3f", median(best$similarity)),
+    sprintf("%.3f", mean(best$similarity)),
+    sprintf("%.3f", quantile(best$similarity, 0.75)),
+    sprintf("%.3f", max(best$similarity))
+  )
+) |>
+  knitr::kable()
+```
+
+Median best-match similarity is 0.145, roughly three times the NICE-to-CSEC2017 figure (0.040 in [that query](nice-csec2017-alignment.qmd)). NICE and ECSF speak the same vocabulary world. The difference between them is jurisdiction and granularity, not framework purpose.
+
+```{r}
+#| label: fig-ecsf-distribution
+#| fig-cap: "How NICE work roles distribute across ECSF profiles as best matches. Five ECSF profiles draw zero NICE roles as top match."
+#| fig-width: 7
+#| fig-height: 5
+ecsf_levels <- c(
+  "Cyber Incident Responder",
+  "Chief Information Security Officer (CISO)",
+  "Penetration Tester",
+  "Cyber Threat Intelligence Specialist",
+  "Cybersecurity Auditor",
+  "Cybersecurity Architect",
+  "Cyber Legal, Policy & Compliance Officer",
+  "Cybersecurity Educator",
+  "Cybersecurity Implementer",
+  "Cybersecurity Researcher",
+  "Cybersecurity Risk Manager",
+  "Digital Forensics Investigator"
+)
+counts <- best |>
+  count(ecsf_name, name = "n") |>
+  tidyr::complete(ecsf_name = ecsf_levels, fill = list(n = 0)) |>
+  mutate(ecsf_name = factor(ecsf_name, levels = rev(ecsf_levels)))
+
+ggplot(counts, aes(x = ecsf_name, y = n)) +
+  geom_col(width = 0.65, fill = "#0284C7") +
+  geom_text(aes(label = n), hjust = -0.3, size = 3.5, color = "#0F172A") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, max(counts$n) + 2),
+                     breaks = seq(0, 14, 2),
+                     expand = c(0, 0)) +
+  labs(x = NULL, y = "NICE work roles best-matched to this profile") +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank())
+```
+
+Cyber Incident Responder absorbs 12 NICE roles. CISO and Penetration Tester each absorb 7. Five ECSF profiles draw zero NICE roles as top match (Cybersecurity Implementer, Educator, Researcher, Risk Manager, Digital Forensics Investigator). The 41 NICE roles cluster into 7 of ECSF's 12 profile slots.
+
+```{r}
+#| label: tbl-strongest-pairs
+#| tbl-cap: "Top 8 NICE → ECSF candidate equivalence pairs by similarity"
+best |>
+  arrange(desc(similarity)) |>
+  slice_head(n = 8) |>
+  transmute(
+    `NICE work role` = nice_name,
+    `Closest ECSF profile` = ecsf_name,
+    Similarity = similarity
+  ) |>
+  knitr::kable()
+```
+
+The top match (NICE Incident Response paired to ECSF Cyber Incident Responder at 0.177) is a face-valid cross-jurisdictional analog. Several other top pairs hold up too. NICE Cybersecurity Workforce Management lines up with CISO. NICE Privacy Compliance lines up with CISO or Auditor depending on level.
+
+## What this tells us
+
+### The vocabulary alignment is real
+
+Median Jaccard 0.145 runs roughly three times the NICE-to-CSEC2017 result (0.040). The structural reason: both frameworks are workforce-position vocabularies. They are designed for the same kind of audience and use the same kind of language to describe the same kind of object, a cyber worker's role.
+
+### Granularity asymmetry drives the distribution
+
+ECSF specifies 12 broader role profiles. NICE specifies 41 detailed civilian roles. The many-to-one patterns concentrate around the broadest ECSF profiles (Cyber Incident Responder absorbs 12 NICE roles, CISO and Penetration Tester each absorb 7) and leave the narrower ECSF profiles (Implementer, Educator, Researcher, Risk Manager, Forensics Investigator) with zero top-1 matches.
+
+### The five unmatched ECSF profiles still have NICE analogs
+
+They didn't surface as top-1 matches because other ECSF profiles absorbed their candidate NICE roles with marginally higher overlap. The next two ranks (in the saved `top3` data) include those alignments. For a policy briefing where coverage of all twelve ECSF profiles matters, expanding from rank-1 to rank-3 catches the missing pairs.
+
+### CISO over-attracts management-flavored NICE roles
+
+Seven NICE roles best-match to it: Secure Project Management, Cybersecurity Workforce Management, Systems Security Management, Product Support Management, Executive Cybersecurity Leadership, Technology Portfolio Management, and Cybersecurity Policy and Planning. Three of those (Product Support Management, Technology Portfolio Management, Secure Project Management) read as general technology management rather than cybersecurity-specific leadership. CISO absorbs them by default because ECSF has no non-cybersecurity-specific management profile and CISO carries the broadest management vocabulary in the catalog. A policy reviewer should treat the seven-CISO cluster as candidates for ECSF-side leadership-pathway alignment, not as ECSF CISO equivalents.
+
+## What this doesn't tell us
+
+### Vocabulary similarity is not equivalence
+
+A 0.18 best-match similarity does not mean a US-trained worker is qualified for the matched EU position. Credentialing pathways, regulatory contexts, clearance requirements, and language fluency remain separate considerations. cybedtools surfaces structural candidates. The equivalence judgment is human work.
+
+### The framework versions matter
+
+NICE v2 (NIST SP 800-181 Rev 1, 2020-2024 evolution) and ECSF v1 (ENISA, 2022) are both relatively young in their current form. Both are likely to evolve. This query is a snapshot against cybedtools v0.2.0. Re-run it when either framework ships a new version.
+
+### Cross-jurisdictional mobility is more than role-pair alignment
+
+The briefing memo this query supports is one input to a much larger question (mutual recognition of credentials, language, employer sponsorship policies, EU Blue Card vs H-1B specifics). cybedtools provides the structural anchor. The policy work surrounds it.
+
+## Look up by NICE work role
+
+The widget below shows each of the 41 NICE work roles with its top-3 ENISA ECSF role profiles by full-document Jaccard. Search by role name to find candidate equivalence pairs quickly. Useful for briefing preparation when you need to surface specific NICE-to-ECSF candidates without re-running the analysis.
+
+```{r}
+#| label: tbl-lookup
+#| echo: false
+library(reactable)
+top3 |>
+  group_by(nice_name) |>
+  arrange(desc(similarity), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup() |>
+  arrange(nice_name, rank) |>
+  transmute(
+    `NICE work role` = nice_name,
+    Rank = rank,
+    `ECSF profile` = ecsf_name,
+    `Overlap %` = round(similarity * 100, 1)
+  ) |>
+  reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    defaultPageSize = 15,
+    groupBy = "NICE work role",
+    columns = list(
+      `NICE work role` = colDef(minWidth = 220),
+      Rank = colDef(maxWidth = 70),
+      `ECSF profile` = colDef(minWidth = 220),
+      `Overlap %` = colDef(maxWidth = 110, format = colFormat(suffix = "%"))
+    ),
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = FALSE,
+    compact = TRUE
+  )
+```
+
+Rows group by NICE work role. Expand to see the top-3 ECSF profiles in similarity-descending order. Candidate equivalence pairs surface at the top of each role's group. The ECSF profiles that drop out of the top-1 view (Cybersecurity Implementer, Educator, Researcher, Risk Manager, Digital Forensics Investigator) appear as rank-2 or rank-3 matches for several NICE roles.
+
+## Reproduce this
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+library(stringr)
+library(purrr)
+library(tidyr)
+library(rdflib)
+
+g <- load_combined_ntriples_graph()
+
+# Pull NICE work roles + ECSF role profiles.
+units <- organizing_unit_framework_bindings(g)
+nice_roles <- units |>
+  filter(grepl("^NICE", framework_name)) |>
+  select(unit, unit_name)
+ecsf_profiles <- units |>
+  filter(grepl("ECSF", framework_name)) |>
+  select(unit, unit_name)
+
+# Build full-document text per unit, tokenize, compute Jaccard pairwise,
+# keep top 3 ECSF profiles per NICE work role.
+# Full prep script in `_data-prep-nice-ecsf-alignment.R` in the repository.
+```
+
+## Related queries
+
+- [Where do NICE work roles align with CSEC2017 Knowledge Areas?](nice-csec2017-alignment.qmd), the same question against a curriculum-vocabulary framework rather than a workforce-vocabulary framework. The contrast is informative.
+- [Where do Cyber.org K-12 and CSTA standards lexically align?](k12-alignment.qmd), the K-12 pedagogy-layer analog.
+- [How does element density vary across frameworks?](density-spread.qmd), the design-philosophy comparison that explains the US/EU granularity asymmetry.
+
+## Use case using this data
+
+- [Devi uses this analysis for a US-EU mobility briefing memo](../use-cases/policy-analyst.qmd), the practitioner-facing version.

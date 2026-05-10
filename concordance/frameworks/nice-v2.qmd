@@ -1,0 +1,152 @@
+---
+title: "NICE Framework v2"
+subtitle: "Workforce Framework for Cybersecurity (NIST SP 800-181r1)"
+jurisdiction: "US"
+framework-type: "Workforce"
+organizing-units: 41
+elements: 2115
+license: "Public domain"
+date: 2026-05-08
+date-modified: 2026-05-08
+categories: [workforce, us]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | NIST (National Initiative for Cybersecurity Careers and Studies) |
+| Canonical page | [NICE Framework Resource Center](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center) |
+| Version | 2.0.0 |
+| Released | 2024-03 |
+| Source format | NIST Cybersecurity and Privacy Reference Tool (CPRT) JSON export |
+| License | Public domain (works of the United States Government) |
+| `framework_summary` slug | `nice-v2` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nice-structure-title">
+  <title id="nice-structure-title">NICE Framework structural mapping</title>
+  <defs><marker id="nice-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="340" y1="58" x2="340" y2="100" marker-end="url(#nice-arrow)"/>
+    <line x1="220" y1="172" x2="130" y2="220" marker-end="url(#nice-arrow)"/>
+    <line x1="340" y1="172" x2="340" y2="220" marker-end="url(#nice-arrow)"/>
+    <line x1="460" y1="172" x2="550" y2="220" marker-end="url(#nice-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="260" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="340" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="340" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">nice:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Work role">
+    <rect x="180" y="100" width="320" height="72" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="340" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Work role</text>
+    <text class="lt" x="340" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">nice:WorkRole</text>
+    <text class="lt" x="340" y="143" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role</text>
+    <text class="lt" x="340" y="159" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Task">
+    <rect x="50" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="130" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Task</text>
+    <text class="lt" x="130" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">nice:Task</text>
+    <text class="lt" x="130" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Knowledge statement">
+    <rect x="260" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="340" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Knowledge statement</text>
+    <text class="lt" x="340" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="600" fill="currentColor">nice:KnowledgeStatement</text>
+    <text class="lt" x="340" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Skill statement">
+    <rect x="470" y="220" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="550" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Skill statement</text>
+    <text class="lt" x="550" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">nice:SkillStatement</text>
+    <text class="lt" x="550" y="263" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-work-role connection">
+    <text class="ep" x="348" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="348" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Work-role-to-element connection">
+    <text class="ep" x="332" y="200" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="332" y="200" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Work roles (organizing units) | 41 |
+| Strict elements (numbered statements) | 2,115 |
+| With-examples elements | 2,115 |
+| Examples (separate from elements) | 0 |
+| Elements per work role (strict and with-examples) | 51.6 |
+
+NICE's strict and with-examples counts are identical. The framework
+encodes detail entirely in numbered statements, so the ingestion has
+no prose-embedded clarifications or annex examples to lift into
+separate `cybed:Example` nodes.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+NIST's CPRT JSON export. Retrieval URL and reference checksum live in the package's `provenance.yml`.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-nice.R` parses the CPRT structure into the cybed schema. Stage the JSON file at `data/raw/nice/cprt-export.json` per `docs/framework-data-sources.md`.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+NIST CPRT data is in the US public domain. The package does not bundle the source JSON. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- DCWF aligns to NICE and **shares element identifiers across the two frameworks**. Summing element counts across NICE and DCWF will double-count shared identifiers. Filter on `framework_slug` when summing.
+- The ingested data reflects the **CPRT export retrieved at ingestion time**. Re-run the ingestion script against a newer export to pick up subsequent NICE versions.
+- A small number of work roles **carry a disproportionate share of element coverage**. See the [top NICE work roles query](../queries/top-work-roles.qmd).
+
+## Related
+
+- [DCWF v5.1](dcwf-v51.qmd), the DoD's NICE-aligned counterpart.
+- [Cross-framework density spread](../queries/density-spread.qmd),
+  where NICE sits in the corpus ranking.
+- [Top NICE work roles](../queries/top-work-roles.qmd), the power-law
+  distribution across the 41 roles.
+- [The vocabulary](../concepts/vocabulary.qmd), on how `nice:WorkRole`
+  relates to `cybed:Role` and `cybed:OrganizingUnit`.

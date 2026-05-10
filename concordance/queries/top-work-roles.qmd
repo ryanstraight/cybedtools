@@ -1,0 +1,194 @@
+---
+title: "Which NICE work roles concentrate the most element coverage?"
+subtitle: "Power-law shape across the 41 NICE work roles"
+description: "Per-work-role element counts across NICE Framework v2. The top five carry roughly a fifth of total element coverage. The long tail is real, and what 'covers NICE' actually means depends on which end of the distribution a curriculum reaches."
+date: 2026-05-09
+categories: [Cross-framework, Workforce, NICE]
+---
+
+```{r}
+#| label: setup
+#| include: false
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(forcats)
+  library(here)
+  library(reactable)
+})
+
+data_path <- here("_data", "top_work_roles.rds")
+if (file.exists(data_path)) {
+  nice_roles <- readRDS(data_path)
+} else {
+  # Fallback: top five hardcoded from the README's live-derived snapshot.
+  # Run concordance/_data-prep-top-work-roles.R to compute the full ranking.
+  nice_roles <- tibble::tribble(
+    ~role_name,                    ~element_count,
+    "Security Control Assessment", 307,
+    "Secure Systems Development",  232,
+    "Cybersecurity Architecture",  219,
+    "Defensive Cybersecurity",     206,
+    "Systems Security Management", 204
+  )
+}
+
+total_elements <- sum(nice_roles$element_count)
+top5_share <- round(sum(nice_roles$element_count[1:5]) / total_elements * 100, 1)
+median_role <- median(nice_roles$element_count)
+top_role_count <- max(nice_roles$element_count)
+```
+
+## The question
+
+How are NICE work-role element counts distributed across the 41 work roles, and how concentrated is the load at the top?
+
+## Why it matters
+
+Curricula and training programs that "cover NICE" routinely do so by surveying its top work roles. Whether that approach reaches NICE's specification surface depends on how concentrated the element load is. A flat distribution would mean the top five represent roughly an eighth of the total. A power-law would mean the top five carry a much larger share. The shape of the distribution is the question, and the answer reframes what "covers NICE" can credibly claim.
+
+The element count per work role is the sum of NICE Tasks, Knowledge statements, and Skill statements attached to that role under `cybed:hasElement`.
+
+## The result
+
+```{r}
+#| label: tbl-top10
+#| tbl-cap: "Top 10 NICE work roles by element count"
+nice_roles |>
+  slice_head(n = 10) |>
+  mutate(
+    Rank = row_number(),
+    `Share of total (%)` = round(element_count / total_elements * 100, 1)
+  ) |>
+  transmute(
+    Rank,
+    `NICE work role` = role_name,
+    `Element count` = format(element_count, big.mark = ","),
+    `Share of total (%)`
+  ) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-power-law
+#| fig-cap: "Element count per NICE work role, all 41 roles. The top end is steep, the tail is real, and the median sits well below the mean."
+#| fig-width: 7
+#| fig-height: 7
+nice_roles |>
+  mutate(role_name = fct_reorder(role_name, element_count)) |>
+  ggplot(aes(x = role_name, y = element_count)) +
+  geom_col(width = 0.6, fill = "#0284C7") +
+  geom_hline(yintercept = median_role, linetype = "dotted",
+             color = "#64748B") +
+  annotate(
+    "text",
+    x = 2,
+    y = median_role,
+    label = paste0("median: ", median_role),
+    hjust = -0.1, vjust = -0.4, size = 3.2, color = "#475569"
+  ) +
+  coord_flip() +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.05)),
+    labels = scales::comma
+  ) +
+  labs(x = NULL, y = "Element count") +
+  theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 9)
+  )
+```
+
+The top five work roles carry `r top5_share`% of NICE's element total. The top role (`r nice_roles$role_name[1]`) lands at `r format(top_role_count, big.mark = ",")` elements. The median role sits at `r median_role`, which means the top role carries roughly `r round(top_role_count / median_role, 1)` times the load of a median role.
+
+## What this tells us
+
+### The distribution is concentrated, not extreme
+
+Top-five roles carry about a fifth of total elements. That's well above flat-uniform (12.2% if every role were equal) and well below scale-free (where the top would carry half or more).
+
+### Top-five surveying reaches breadth, not the full corpus
+
+Most of NICE's specification body lives in the long tail. A program that limits coverage to the top five hits the densest specification surface but misses about four-fifths of NICE's element load. Whether that matters depends on the program's purpose. Workforce-pipeline preparation that wants to mirror federal hiring weights leans into the top end. Comprehensive curricular coverage needs the long tail too.
+
+### The shape is structural to NICE v2
+
+The concentration reflects which work roles NIST chose to specify in depth. Roles like Security Control Assessment, Secure Systems Development, and Cybersecurity Architecture are built up with extensive Task and Knowledge statement libraries. Specialized roles in the long tail have leaner specification by design, not by oversight.
+
+## What this doesn't tell us
+
+### Element count is specification weight, not workforce demand
+
+A role with high element count is well-specified. It is not necessarily the role most US cyber jobs map onto. Workforce-demand evidence sits in BLS occupational data and CyberSeek, not in NICE element counts.
+
+### Element count is not curricular effort either
+
+A curricular program may invest heavily in a role with leaner NICE specification because the topic itself is conceptually demanding. Elements measure what NICE specifies, not what teaching the topic requires.
+
+### This is a property of NICE v2
+
+NICE Framework v1 distributed its specification differently. Comparisons across NICE versions need to refit element-count distributions per version, not assume the v2 shape carries.
+
+## Look up by NICE work role
+
+The widget below ranks all 41 NICE work roles by element count. Search by role name to find a specific role's position in the distribution.
+
+```{r}
+#| label: tbl-lookup
+#| echo: false
+nice_roles |>
+  mutate(
+    Rank = row_number(),
+    `Share of total (%)` = round(element_count / total_elements * 100, 1)
+  ) |>
+  transmute(
+    Rank,
+    `NICE work role` = role_name,
+    `Element count` = element_count,
+    `Share of total (%)`
+  ) |>
+  reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    defaultPageSize = 12,
+    columns = list(
+      Rank = colDef(maxWidth = 70),
+      `NICE work role` = colDef(minWidth = 240),
+      `Element count` = colDef(maxWidth = 130, format = colFormat(separators = TRUE)),
+      `Share of total (%)` = colDef(maxWidth = 150, format = colFormat(suffix = "%"))
+    ),
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = FALSE,
+    compact = TRUE
+  )
+```
+
+## Reproduce this
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+
+rdf <- load_combined_ntriples_graph()
+
+nice_role_counts <- role_framework_bindings(rdf) |>
+  filter(grepl("^NICE", framework_name)) |>
+  inner_join(
+    role_element_bindings(rdf) |> count(role, name = "element_count"),
+    by = "role"
+  ) |>
+  arrange(desc(element_count)) |>
+  select(role_name, element_count)
+```
+
+The full prep script is in `concordance/_data-prep-top-work-roles.R` in the repository.
+
+## Related queries
+
+- [How does element density vary across frameworks?](density-spread.qmd), the cross-framework view that puts NICE at the dense end of the corpus.
+- [How is element coverage distributed across US and EU frameworks?](us-eu-asymmetry.qmd), the jurisdictional rollup that NICE concentration partially drives.
+- [Where do NICE work roles align with CSEC2017 Knowledge Areas?](nice-csec2017-alignment.qmd), the curricular-vocabulary cross-walk against the same 41 NICE roles.
+- [Where do NICE work roles align with ENISA ECSF role profiles?](nice-ecsf-alignment.qmd), the cross-jurisdictional view of the same roles.

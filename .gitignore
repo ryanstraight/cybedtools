@@ -13,6 +13,12 @@
 # pkgdown site (built locally; generated on CI and deployed to gh-pages)
 _pkgdown_site/
 
+# Concordance subsite (built locally; deployed to gh-pages/concordance)
+concordance/_site/
+concordance/_data/
+concordance/_freeze/
+concordance/.quarto/
+
 # Coverage and CI scratch
 coverage.xml
 codecov.yml
@@ -48,3 +54,6 @@ desktop.ini
 *.pem
 *.key
 .positai
+
+# Project-internal Claude Code tooling (audience-review agents, etc.)
+.claude/

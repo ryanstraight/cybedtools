@@ -1,0 +1,24 @@
+---
+title: "Queries"
+subtitle: "Worked R examples for cross-framework and per-framework analysis"
+listing:
+  contents: "*-*.qmd"
+  type: table
+  fields: [title, description, categories]
+  field-display-names:
+    title: "Query"
+    description: "What it answers"
+    categories: "Tags"
+  sort: "title asc"
+  sort-ui: false
+  filter-ui: false
+  page-size: 20
+  table-striped: true
+  table-hover: true
+---
+
+Each page below works through one question against the staged framework graph. R code, a table or figure, and a candid read of what the result does and does not support. Lift any of them as a starting point for your own analyses, or as a template when you have a new question.
+
+::: {.column-margin}
+More queries are in development. The template is the same throughout: the question, why it matters, the result, what the result does and doesn't tell us, a reproduction recipe, and links to related queries.
+:::

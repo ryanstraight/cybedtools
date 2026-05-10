@@ -1,0 +1,196 @@
+---
+title: "Where do Cyber.org K-12 and CSTA standards lexically align?"
+subtitle: "Pairwise text similarity with and without prose-encoded examples"
+description: "Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side's clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding."
+date: 2026-05-09
+categories: [Cross-framework, K-12, Pedagogy]
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(here)
+
+alignment <- readRDS(here("_data", "k12_alignment.rds"))
+parents   <- readRDS(here("_data", "k12_alignment_parents.rds"))
+```
+
+## The question
+
+For each Cyber.org K-12 standard, what is the closest CSTA K-12 CS standard by text similarity, and how does that closeness change when each side's prose-encoded examples (Cyber.org clarification statements, CSTA clarification-column content) are included alongside the parent statement text?
+
+## Why it matters
+
+Cyber.org and CSTA are the two most widely-referenced K-12 standards sets covering cybersecurity content in US classrooms. Practitioners frequently ask whether a curriculum aligned to one is implicitly aligned to the other. The naive comparison (parent text against parent text) understates the alignment because the two frameworks encode pedagogical detail differently. Cyber.org embeds clarifications directly inside the numbered standard's prose. CSTA stores them in a separate clarification column.
+
+cybedtools v0.2.0 reclassifies both forms of clarification content as `cybed:Example` nodes, distinct from parent statements and from parser-extracted `cybed:Subpoint` bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its `cybed:hasExample` and `cybed:hasElement` children, concatenated and tokenized as a single document.
+
+The parent-only-vs-full-document contrast is the finding.
+
+## The result
+
+```{r}
+#| label: tbl-strength-distribution
+#| tbl-cap: "Cyber.org standards by their best CSTA match strength, parent-only vs full-document"
+tier_levels <- c("strong", "moderate", "weak", "none")
+parent_counts <- alignment |>
+  count(strength = factor(parent_strength, levels = tier_levels), name = "parent_only") |>
+  arrange(strength)
+full_counts <- alignment |>
+  count(strength = factor(full_strength, levels = tier_levels), name = "full_document") |>
+  arrange(strength)
+parent_counts |>
+  full_join(full_counts, by = "strength") |>
+  rename(`Match strength` = strength,
+         `Parent-only Jaccard` = parent_only,
+         `Full-document Jaccard` = full_document) |>
+  knitr::kable()
+```
+
+The full-document pass roughly doubles the count of detectable matches (10 to 21) over the parent-only pass. None reach the moderate tier (Jaccard ≥ 0.20) under either pass.
+
+```{r}
+#| label: fig-similarity-shift
+#| fig-cap: "How parent-only similarity shifts under full-document scoring. Each point is one Cyber.org standard's best CSTA match. The 1:1 line is dashed. Points above the line gained similarity when CSTA Examples were included."
+#| fig-width: 6.5
+#| fig-height: 5
+ggplot(alignment, aes(x = parent_sim, y = full_sim)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "#94A3B8") +
+  geom_point(alpha = 0.55, color = "#0284C7", size = 2) +
+  geom_hline(yintercept = 0.10, linetype = "dotted", color = "#64748B") +
+  scale_x_continuous(limits = c(0, 0.25), breaks = seq(0, 0.25, 0.05)) +
+  scale_y_continuous(limits = c(0, 0.25), breaks = seq(0, 0.25, 0.05)) +
+  labs(
+    x = "Parent-only Jaccard",
+    y = "Full-document Jaccard"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+```
+
+The points cluster above the 1:1 line. Full-document scoring systematically raises best-match similarity over parent-only scoring. The dotted horizontal line marks the 0.10 threshold below which no match is reported.
+
+## What this tells us
+
+### The vocabulary distinction matters
+
+Compare Cyber.org and CSTA at the parent-statement level only and you find 10 of 123 Cyber.org standards with a CSTA match. Compare full documents (parent plus Subpoints plus Examples) and you find 21. Eleven Cyber.org standards have a plausible CSTA counterpart that is invisible to the parent-only comparison.
+
+### The frameworks are still largely complementary
+
+Even on the full-document pass, 102 of 123 Cyber.org standards (83%) have no detectable CSTA match. Cyber.org covers cybersecurity-specific territory (threat actors, social engineering, physical security, risk-management foundations) that the CSTA K-12 CS Standards do not address.
+
+### The matches concentrate where the frameworks share computing foundations
+
+Networking, hardware, software vulnerabilities, encryption, and personally identifiable information are where CSTA's general computer-science scope overlaps with Cyber.org's cybersecurity-specific scope. Outside that overlap, the frameworks sit on different territory.
+
+## What this doesn't tell us
+
+### Lexical similarity is not coverage
+
+A Jaccard score of 0.10 to 0.20 means 10-20% of the unique vocabulary is shared. Suggestive, not dispositive. A teacher claiming CSTA coverage from a Cyber.org-aligned lesson should read both standards and decide whether the same cognitive demand is met. The tool surfaces candidates. The practitioner makes the equivalence judgment.
+
+### Grade-band drift is not corrected for
+
+The strongest match in this data pairs a Cyber.org 6-8 standard with a CSTA 3A (grades 9-10) standard. Topic alignment is real. Cognitive-level alignment is not. This is a known limitation of any vocabulary-similarity approach to cross-framework comparison and applies equally to other K-12 cyber crosswalks (NICE, NCyTE materials).
+
+### The metric is one of several reasonable choices
+
+Jaccard on unigrams is interpretable and fast, but ignores word order, multi-word phrases, and synonymy. Other choices (cosine on TF-IDF vectors, embedding-based similarity, manually-curated crosswalk) trade interpretability for sensitivity. The cybedtools v0.2.0 SPARQL helpers return the structured graph, and downstream analysts can run whichever similarity metric suits their question.
+
+## Look up your standard
+
+The widget below shows every Cyber.org K-12 standard alongside its closest CSTA match (full-document Jaccard). Search by topic word ("network," "encryption," "PII") to find your standards quickly, or sort by overlap to see the strongest candidates first.
+
+```{r}
+#| label: tbl-lookup
+#| echo: false
+library(reactable)
+library(stringr)
+alignment |>
+  arrange(desc(full_sim)) |>
+  transmute(
+    `Cyber.org unit` = cyberorg_unit,
+    `Cyber.org standard` = str_trunc(cyberorg_text, 140),
+    `Closest CSTA unit` = full_csta_unit,
+    `Closest CSTA standard` = str_trunc(full_csta_text, 140),
+    `Overlap %` = round(full_sim * 100, 1)
+  ) |>
+  reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    defaultPageSize = 12,
+    columns = list(
+      `Cyber.org unit` = colDef(maxWidth = 110),
+      `Cyber.org standard` = colDef(minWidth = 220),
+      `Closest CSTA unit` = colDef(maxWidth = 130),
+      `Closest CSTA standard` = colDef(minWidth = 220),
+      `Overlap %` = colDef(maxWidth = 110, format = colFormat(suffix = "%"))
+    ),
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = FALSE,
+    compact = TRUE
+  )
+```
+
+The full row count is 123, one per Cyber.org standard. Standards with no detectable CSTA match (overlap below 10% under the methodology above) appear with their closest candidate even though that candidate is not a defensible coverage claim. The "no detectable match" bracket on the persona page is the same data filtered to overlap below 10%.
+
+## Reproduce this
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+library(stringr)
+library(purrr)
+library(tidyr)
+library(rdflib)
+
+g <- load_combined_ntriples_graph()
+
+# Pull parent standards (excludes Subpoints + Examples).
+prefix_block <- paste0(
+  "PREFIX cybed: <https://w3id.org/cybed/ontology#>\n",
+  "PREFIX cyberorg: <https://cyber.org/standards/terms#>\n",
+  "PREFIX csta: <https://csteachers.org/k12standards/terms#>\n"
+)
+query_subjects <- function(rdf, type_iri) {
+  q <- paste0(prefix_block, sprintf("SELECT ?s WHERE { ?s a %s }", type_iri))
+  res <- rdflib::rdf_query(rdf, q)
+  if (nrow(res) == 0) tibble::tibble(s = character(0)) else tibble::as_tibble(res)
+}
+
+cyberorg_parents <- query_subjects(g, "cyberorg:Standard") |>
+  transmute(element = s, framework = "cyberorg")
+csta_parents <- query_subjects(g, "csta:Standard") |>
+  transmute(element = s, framework = "csta")
+
+# Attach element text.
+elem_text <- sparql_pairs(g, "cybed:elementText") |>
+  transmute(element = s, text = o)
+
+# Attach Subpoint + Example children for full-document comparison.
+has_element <- sparql_pairs(g, "cybed:hasElement") |>
+  transmute(parent = s, child = o)
+has_example <- sparql_pairs(g, "cybed:hasExample") |>
+  transmute(parent = s, child = o)
+all_links <- bind_rows(has_element, has_example)
+
+# Build full-document text per parent (parent + all child text concatenated).
+# Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,
+# keep best CSTA match per Cyber.org standard. The full prep script is
+# in `concordance/_data-prep-k12-alignment.R` in the repository.
+```
+
+The data file shipped with this page (`_data/k12_alignment.rds`) is the output of that prep script run against cybedtools v0.2.0. Re-run the prep when the package or the staged framework data changes.
+
+## Related queries
+
+- [How does element density vary across frameworks?](density-spread.qmd), the per-unit density comparison that motivates the Jaccard granularity choice.
+- [The two-tier vocabulary](../concepts/vocabulary.qmd), why `cybed:Example` and `cybed:Subpoint` are distinct types, and why that distinction makes this comparison possible.
+
+## Use case using this data
+
+- [Tasha cross-walks her Cyber.org-aligned cyber unit to CSTA](../use-cases/k12-teacher.qmd), the practitioner-facing version of this analytic question.

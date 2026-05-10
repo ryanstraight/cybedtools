@@ -1,0 +1,974 @@
+/*-- scss:defaults --*/
+
+// Local Sass palette tokens for component overrides. Brand colors come
+// from _brand.yml as CSS custom properties; these are named hex values
+// for places where a specific accent shade is part of the visual
+// identity (hover borders, schema-diagram fills, density bars).
+$sky-700: #0369A1;
+$sky-600: #0284C7;
+$sky-400: #38BDF8;
+$sky-300: #7DD3FC;
+$slate-200: #E2E8F0;
+$slate-700: #334155;
+
+/*-- scss:rules --*/
+
+// Component-only overrides; color and typography come from _brand.yml.
+// Theme-aware colors use Bootstrap 5.3 CSS custom properties so light
+// and dark variants resolve automatically.
+
+// Defensive dark-mode foreground overrides. Quarto's dark-mode toggle
+// swaps `quarto-light` for `quarto-dark` on the body element; the
+// `data-bs-theme="dark"` attribute is only on the navbar, not on the
+// body content, so selectors targeting [data-bs-theme="dark"] body do
+// not match. The body.quarto-dark selector is the correct anchor for
+// content overrides.
+//
+// We cover both selectors here so the rules apply to body content
+// (via .quarto-dark) and to anything that happens to live inside a
+// data-bs-theme=dark scope (the navbar).
+.quarto-dark,
+[data-bs-theme="dark"] {
+  --bs-body-color: #E2E8F0;       // slate-200, softened from pure-white harshness
+  --bs-body-color-rgb: 226, 232, 240;
+  --bs-emphasis-color: #F8FAFC;   // slate-50 for emphasized text
+  --bs-emphasis-color-rgb: 248, 250, 252;
+  --bs-heading-color: #F1F5F9;    // slate-100 for headings
+  --bs-secondary-color: #CBD5E1;  // slate-300, kept; margin notes were already fine
+  --bs-secondary-color-rgb: 203, 213, 225;
+  --bs-body-bg: #020617;
+  --bs-tertiary-bg: #1E293B;      // slate-800 for callout/code backgrounds
+  --bs-border-color: #334155;     // slate-700 for borders
+}
+
+// Element-level overrides anchored to .quarto-dark on body. These win
+// over any cosmo-theme color rules that target specific elements.
+.quarto-dark,
+.quarto-dark p,
+.quarto-dark li,
+.quarto-dark td,
+.quarto-dark th,
+.quarto-dark dd,
+.quarto-dark dt {
+  color: #E2E8F0;  // slate-200
+}
+
+.quarto-dark h1,
+.quarto-dark h2,
+.quarto-dark h3,
+.quarto-dark h4,
+.quarto-dark h5,
+.quarto-dark h6,
+.quarto-dark .quarto-title h1.title,
+.quarto-dark .quarto-title-block .title {
+  color: #F1F5F9;  // slate-100, slightly brighter than body but not pure white
+}
+
+// Subtitle and lede elements
+.quarto-dark .quarto-title .subtitle,
+.quarto-dark .lede,
+.quarto-dark .subtitle {
+  color: #CBD5E1;  // slate-300, lower-emphasis secondary text
+}
+
+// Defensive callout in dark mode: needs explicit dark background since
+// var(--bs-tertiary-bg) wasn't resolving correctly here.
+.quarto-dark .callout-defensive {
+  background: #1E293B;       // slate-800
+  color: #E2E8F0;            // slate-200
+  border-color: #334155;     // slate-700
+  border-left-color: #38BDF8; // sky-400
+}
+
+body {
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+h2 {
+  margin-top: 3rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+}
+
+// Hero block
+.hero {
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  max-width: 18ch;
+  margin-bottom: 1.5rem;
+}
+
+.hero p.lede {
+  font-size: 1.35rem;
+  color: var(--bs-secondary-color);
+  max-width: 60ch;
+  line-height: 1.45;
+  margin-bottom: 2rem;
+}
+
+.hero .cta-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hero .cta-row .btn {
+  border-radius: 4px;
+  padding: 0.55rem 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+// Inline code
+p code, li code, td code {
+  background-color: var(--bs-tertiary-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+// Margin notes
+.column-margin {
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+  line-height: 1.5;
+  border-left: 2px solid var(--bs-border-color);
+  padding-left: 0.85rem;
+}
+
+// Code blocks
+pre.sourceCode {
+  border-radius: 4px;
+  border: 1px solid var(--bs-border-color);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+// Framework / query card grid
+.framework-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 520px) {
+  .framework-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 880px) {
+  .framework-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.framework-card {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  background: var(--bs-body-bg);
+  transition: border-color 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.framework-card:hover {
+  border-color: $sky-400;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(14, 165, 233, 0.12), 0 4px 12px rgba(14, 165, 233, 0.08);
+}
+
+.framework-card:hover .name {
+  color: var(--bs-link-color);
+}
+
+.framework-card .name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bs-body-color);
+}
+
+.framework-card .jurisdiction {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+
+// Pictogram pair on framework cards (poster-style tinted circles + labels)
+.framework-card .pictograms {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 0.6rem;
+  align-items: flex-start;
+}
+
+.framework-card .pictogram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+}
+
+.framework-card .pictogram-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 165, 233, 0.14);
+  border: 1px solid rgba(14, 165, 233, 0.28);
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.framework-card:hover .pictogram-circle {
+  background: rgba(14, 165, 233, 0.22);
+  border-color: rgba(14, 165, 233, 0.5);
+}
+
+.framework-card .pictogram-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--bs-emphasis-color);
+}
+
+.framework-card .pictogram-label {
+  font-family: var(--bs-font-sans-serif);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  line-height: 1;
+}
+
+// Density chart (homepage)
+figure.density-figure {
+  margin: 2rem 0 1.5rem;
+}
+
+.density-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.density-chart .bar-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 230px) 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.density-chart .bar-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.density-chart .bar-pictograms {
+  display: inline-flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.density-chart .bar-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--bs-secondary-color);
+  display: block;
+}
+
+.density-chart .bar-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--bs-body-color);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.density-chart .bar-name:hover {
+  color: var(--bs-link-color);
+  text-decoration: none;
+}
+
+.density-chart .bar-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  background: rgba(14, 165, 233, 0.05);
+  border-radius: 3px;
+}
+
+.density-chart .bar-fill {
+  height: 100%;
+  background: rgba(14, 165, 233, 0.55);
+  border-radius: 3px;
+  transition: filter 0.18s ease, background 0.18s ease;
+  min-width: 2px;
+}
+
+.density-chart .bar-row[data-type="pedagogy"] .bar-fill {
+  background: rgba(14, 165, 233, 0.55);
+  border: 1px solid rgba(14, 165, 233, 0.55);
+  background-color: transparent;
+  background-image: none;
+}
+
+.density-chart .bar-row:hover .bar-fill {
+  filter: brightness(1.12);
+}
+
+.density-chart .bar-row[data-outlier] .bar-visual::after {
+  content: "outlier among pedagogy frameworks";
+  font-family: var(--bs-font-monospace);
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--bs-secondary-color);
+  margin-left: 0.7rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .density-chart .bar-row[data-outlier] .bar-visual::after {
+    display: none;
+  }
+}
+
+// Density chart legend
+.density-legend {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0.5rem 0 1rem;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+  letter-spacing: 0.04em;
+}
+
+.density-legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.density-legend .swatch {
+  display: inline-block;
+  width: 28px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.density-legend .swatch-workforce {
+  background: rgba(14, 165, 233, 0.55);
+}
+
+.density-legend .swatch-pedagogy {
+  background: transparent;
+  border: 1px solid rgba(14, 165, 233, 0.55);
+}
+
+// Chart subtitle (sits between h2 and figure)
+.chart-subtitle {
+  font-size: 1.05rem;
+  color: var(--bs-body-color);
+  max-width: 64ch;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+}
+
+.density-chart .bar-value {
+  font-family: var(--bs-font-monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--bs-emphasis-color);
+  margin-left: 0.6rem;
+  flex-shrink: 0;
+}
+
+figure.density-figure figcaption {
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+  margin-top: 1rem;
+  line-height: 1.5;
+  max-width: 70ch;
+}
+
+@media (max-width: 600px) {
+  .density-chart .bar-row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+}
+
+// Schema architecture diagrams (concepts/vocabulary + per-framework structure)
+figure.schema-diagram {
+  position: relative;
+  margin: 2.5rem 0;
+}
+
+figure.schema-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+figure.schema-diagram figcaption {
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  margin-top: 0.6rem;
+  line-height: 1.45;
+}
+
+// Per-figure "toggle all" button (sits in top-right corner)
+.schema-diagram .toggle-all {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-family: var(--bs-font-monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--bs-secondary-color);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 3px;
+  padding: 0.32em 0.7em;
+  user-select: none;
+  background: var(--bs-body-bg);
+  z-index: 2;
+  line-height: 1.2;
+  font-weight: 400;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+}
+
+.schema-diagram .toggle-all:hover,
+.schema-diagram .toggle-all:focus-visible {
+  color: var(--bs-link-color);
+  border-color: var(--bs-link-color);
+  outline: none;
+}
+
+.schema-diagram .toggle-all .toggle-icon {
+  font-size: 0.85em;
+}
+
+// Per-element click-to-flip: each node and each edge label toggles
+// independently between plain English and schema names.
+.schema-diagram .cyb-node,
+.schema-diagram .cyb-edge-label {
+  cursor: pointer;
+  outline: none;
+}
+
+.schema-diagram .cyb-node:hover rect {
+  filter: brightness(1.18);
+}
+
+.schema-diagram .cyb-node:hover text {
+  fill: var(--bs-link-color);
+}
+
+.schema-diagram .cyb-edge-label:hover text {
+  fill: var(--bs-link-color);
+  font-weight: 700;
+}
+
+// Keyboard focus indication
+.schema-diagram .cyb-node:focus-visible rect {
+  stroke: var(--bs-link-color);
+  stroke-width: 2.4;
+}
+
+.schema-diagram .cyb-edge-label:focus-visible text {
+  fill: var(--bs-link-color);
+  font-weight: 700;
+}
+
+// Default: plain English visible, schema names hidden, scoped per element
+.schema-diagram .cyb-node .lt,
+.schema-diagram .cyb-edge-label .et {
+  display: none;
+}
+
+.schema-diagram .cyb-node.show-tech .lp,
+.schema-diagram .cyb-edge-label.show-tech .ep {
+  display: none;
+}
+
+.schema-diagram .cyb-node.show-tech .lt,
+.schema-diagram .cyb-edge-label.show-tech .et {
+  display: inline;
+}
+
+.framework-card .stats {
+  font-family: var(--bs-font-monospace);
+  font-size: 0.82rem;
+  color: var(--bs-emphasis-color);
+  line-height: 1.5;
+  margin-top: 0.25rem;
+}
+
+.framework-card .stats .label {
+  color: var(--bs-secondary-color);
+}
+
+// Section dividers
+hr {
+  border: 0;
+  border-top: 1px solid var(--bs-border-color);
+  margin: 3rem 0;
+}
+
+// Defensive callout
+.callout-defensive {
+  border: 1px solid var(--bs-border-color);
+  border-left: 3px solid $sky-600;
+  border-radius: 0 4px 4px 0;
+  background: var(--bs-tertiary-bg);
+  padding: 1rem 1.25rem;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+  color: var(--bs-body-color);
+  line-height: 1.6;
+}
+
+[data-bs-theme="dark"] .callout-defensive {
+  border-left-color: $sky-400;
+}
+
+// Tabsets
+.panel-tabset .nav-link {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--bs-secondary-color);
+  padding: 0.45rem 0.9rem;
+}
+
+.panel-tabset .nav-link.active {
+  color: var(--bs-link-color);
+  background: transparent;
+  border-bottom: 2px solid var(--bs-link-color);
+}
+
+.panel-tabset .nav-link:hover {
+  color: var(--bs-link-hover-color);
+}
+
+// Listing cards
+.quarto-listing .quarto-grid-item {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 6px;
+  transition: border-color 0.15s ease;
+}
+
+.quarto-listing .quarto-grid-item:hover {
+  border-color: $sky-400;
+  box-shadow: 0 1px 2px rgba(14, 165, 233, 0.12), 0 4px 12px rgba(14, 165, 233, 0.08);
+}
+
+.quarto-listing .quarto-grid-item:hover h3.listing-title,
+.quarto-listing .quarto-grid-item:hover .listing-title {
+  color: var(--bs-link-color);
+}
+
+.quarto-listing .quarto-grid-item h3.listing-title,
+.quarto-listing .quarto-grid-item .listing-title {
+  font-weight: 600;
+  color: var(--bs-body-color);
+  font-size: 1.05rem;
+  letter-spacing: -0.005em;
+}
+
+.quarto-listing .quarto-grid-item .listing-description {
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.quarto-listing .quarto-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-tertiary-bg);
+  border-radius: 3px;
+  padding: 0.15em 0.55em;
+}
+
+a.no-icon::after {
+  display: none !important;
+}
+
+// Provenance card grid (framework detail pages)
+.provenance-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin: 1.25rem 0 2rem;
+}
+
+@media (min-width: 720px) {
+  .provenance-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.provenance-card {
+  border: 1px solid var(--bs-border-color);
+  border-left: 3px solid $sky-600;
+  border-radius: 4px;
+  padding: 1rem 1.15rem;
+  background: var(--bs-body-bg);
+}
+
+.provenance-card .provenance-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: $sky-600;
+  margin-bottom: 0.55rem;
+}
+
+.provenance-card p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.provenance-card p:first-of-type strong {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+
+.provenance-card p:last-child {
+  margin-bottom: 0;
+}
+
+.quarto-dark .provenance-card {
+  border-left-color: $sky-400;
+}
+
+.quarto-dark .provenance-card .provenance-icon {
+  color: $sky-400;
+}
+
+// Footer links: make hyperlinks visually distinct from surrounding text.
+// Quarto's default leaves footer links indistinguishable from neighboring
+// prose, so DOIs and license links read as plain text.
+.nav-footer a,
+.page-footer a {
+  color: var(--bs-link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.nav-footer a:hover,
+.page-footer a:hover {
+  color: var(--bs-link-hover-color);
+  text-decoration-thickness: 2px;
+}
+
+// Inline icons inside footer links: suppress the link underline on the icon
+// itself (an underlined glyph reads as defaced) and lock the icon to the
+// line-height so it aligns with surrounding text.
+.nav-footer a:has(> img.footer-icon),
+.page-footer a:has(> img.footer-icon),
+.nav-footer a:has(> svg.footer-icon),
+.page-footer a:has(> svg.footer-icon) {
+  text-decoration: none;
+}
+
+.footer-icon {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  object-fit: contain;
+}
+
+// Theme-aware navbar lockup: Quarto emits two <img> elements (.light-content
+// and .dark-content) from a single logo: field. The light-content uses the
+// paper variant (slate-900 wordmark, sky-700 cord) for the default light
+// navbar. Override the dark-content img to use the dark variant
+// (slate-50 wordmark, sky-400 cord) when the navbar is in dark mode.
+.navbar-logo.dark-content {
+  content: url('assets/branding/concordance-lockup-horizontal.svg');
+}
+
+// About page hero: stacked lockup centered with subtitle below, replacing
+// the default title block. The about page sets body-classes: about-page-hero
+// in its frontmatter so we can suppress the default title block here.
+body.about-page-hero #title-block-header,
+body.about-page-hero header.quarto-title-block,
+body.about-page-hero .quarto-title-banner,
+body.about-page-hero .quarto-title-block {
+  display: none;
+}
+
+.about-hero {
+  text-align: center;
+  margin: 1.5rem 0 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #E2E8F0; // slate-200
+}
+
+.about-hero .about-lockup,
+.about-hero img.about-lockup {
+  display: block;
+  margin: 0 auto 1.5rem;
+  max-width: 320px;
+  height: auto;
+}
+
+.about-subtitle {
+  color: #64748B; // slate-500
+  font-size: 1rem;
+  max-width: 38rem;
+  margin: 0 auto;
+  line-height: 1.5;
+  text-wrap: balance; // Distribute line breaks evenly; prevents orphan widows.
+}
+
+.quarto-dark .about-hero .about-lockup {
+  // In dark mode swap to the dark-bg variant so the wordmark stays legible.
+  content: url('assets/branding/concordance-lockup-stacked.svg');
+}
+
+.quarto-dark .about-hero {
+  border-bottom-color: #1E293B; // slate-800
+}
+
+.quarto-dark .about-subtitle {
+  color: #94A3B8; // slate-400
+}
+
+// The cord-color split: the morpheme that names the project (Latin concordia,
+// con + cord = "with heart"). Sky-700 on light surfaces, sky-400 on dark,
+// matching the wordmark SVG variants.
+.cord {
+  color: #0369A1; // sky-700
+  font-weight: 500;
+}
+
+.quarto-dark .cord {
+  color: #38BDF8; // sky-400
+}
+
+// Citation-block margin marks on the About page: small artifact identifiers
+// in the margin column next to each citation. Light-mode uses the paper
+// concordance mark; dark-mode swaps to the dark-bg variant.
+.cite-mark {
+  display: block;
+  margin: 0.5rem auto 0;
+}
+
+.quarto-dark img.cite-mark[src$="concordance-mark-mini-paper.svg"] {
+  content: url('assets/branding/concordance-mark-mini.svg');
+}
+
+// 404 page: centered hero with mark, large 404 numerals, brief explanation,
+// and navigation links. Suppress the default title block via body-classes.
+body.not-found #title-block-header,
+body.not-found header.quarto-title-block,
+body.not-found .quarto-title-banner,
+body.not-found .quarto-title-block {
+  display: none;
+}
+
+.not-found-hero {
+  text-align: center;
+  margin: 4rem auto 6rem;
+  max-width: 560px;
+  padding: 0 1rem;
+}
+
+.not-found-mark {
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.quarto-dark .not-found-mark {
+  content: url('assets/branding/concordance-mark.svg');
+}
+
+.not-found-code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #0369A1; // sky-700
+  margin: 0.25rem 0 1.5rem;
+  line-height: 1;
+}
+
+.quarto-dark .not-found-code {
+  color: #38BDF8; // sky-400
+}
+
+.not-found-message {
+  color: #475569; // slate-600
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-wrap: balance;
+}
+
+.quarto-dark .not-found-message {
+  color: #94A3B8; // slate-400
+}
+
+.not-found-actions {
+  font-size: 0.95rem;
+  color: #64748B; // slate-500
+}
+
+.not-found-link {
+  color: #0369A1; // sky-700
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 120ms;
+}
+
+.not-found-link:hover {
+  border-bottom-color: #0369A1;
+}
+
+.quarto-dark .not-found-link {
+  color: #38BDF8; // sky-400
+}
+
+.quarto-dark .not-found-link:hover {
+  border-bottom-color: #38BDF8;
+}
+
+// LICENSE page hero: standalone wordmark above the H1 to brand the entrance
+// to the license information.
+.license-hero {
+  margin: 1rem 0 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.license-wordmark {
+  display: block;
+  max-width: 280px;
+  height: auto;
+}
+
+.quarto-dark .license-hero {
+  border-bottom-color: #1E293B;
+}
+
+.quarto-dark .license-wordmark {
+  content: url('assets/branding/concordance-wordmark.svg');
+}
+
+// Print stylesheet: when a page is printed, suppress navbar/footer/sidebar
+// noise and add a Concordance wordmark in the page header so the printed
+// artifact carries brand identity. Uses the paper variant since print is
+// always a paper surface.
+@media print {
+  .quarto-secondary-nav,
+  .quarto-page-breadcrumbs,
+  nav.navbar,
+  footer.footer,
+  .nav-footer,
+  .page-footer,
+  .quarto-margin-footer,
+  #quarto-margin-sidebar,
+  #quarto-sidebar,
+  .quarto-toc,
+  #TOC,
+  .toc-action,
+  aside,
+  .column-margin {
+    display: none !important;
+  }
+
+  body::before {
+    content: '';
+    display: block;
+    background-image: url('assets/branding/concordance-wordmark-paper.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    width: 220px;
+    height: 36px;
+    margin: 0 0 1.5rem;
+  }
+
+  body {
+    background: white !important;
+    color: #0F172A !important;
+    font-size: 11pt;
+  }
+
+  a {
+    color: #0369A1 !important;
+    text-decoration: none !important;
+  }
+
+  // Show full URLs after external links so the printed copy stays useful
+  // when the reader is offline.
+  a[href^="http"]:not([href*="ryanstraight.github.io"])::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #64748B;
+  }
+}

@@ -1,0 +1,204 @@
+---
+title: "The two-tier vocabulary"
+subtitle: "How cybedtools represents heterogeneous frameworks in a single graph"
+---
+
+## The design problem
+
+Eight frameworks. Each one was authored against a different theory of
+what counts as a structural element. NICE has work roles, tasks,
+knowledge statements, and skill statements. DigComp has competence
+areas and proficiency levels. SFIA has skills and seven levels of
+responsibility. Cyber.org K-12 has grade-band-by-sub-concept cells
+plus prose clarification statements. CSTA has level-by-concept cells
+plus practices. CSEC2017 has eight knowledge areas. ECSF has twelve
+profiles. DCWF aligns to NICE work roles with overlap.
+
+A single shared vocabulary that flattens these into one type hierarchy
+would erase the differences each framework was designed to express. A
+pure per-framework vocabulary with no shared terms would make
+cross-framework queries impossible. The schema has to preserve native
+vocabulary and enable shared queries at the same time.
+
+## The two-tier solution
+
+::: {.column-margin}
+**A graph in 30 seconds.** A graph is nodes connected by labeled
+edges. A query asks "find every node where these edges hold." That
+is enough to read the diagram below. The technical names beneath
+each box show what the same graph looks like as RDF, but you do not
+need to know RDF or SPARQL to follow the structure.
+:::
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 720 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="schema-title schema-desc">
+  <title id="schema-title">cybedtools two-tier vocabulary architecture</title>
+  <desc id="schema-desc">A nested-rectangle diagram showing how a Framework relates to its top-level Organizing units (which contain Roles as a subclass for workforce frameworks), and how Organizing units relate to Elements (containing Sub-elements as a subclass) and Examples (a separate predicate).</desc>
+  <defs><marker id="schema-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="360" y1="72" x2="360" y2="118" marker-end="url(#schema-arrow)"/>
+    <line x1="280" y1="284" x2="218" y2="350" marker-end="url(#schema-arrow)"/>
+    <line x1="450" y1="284" x2="540" y2="362" marker-end="url(#schema-arrow)" stroke-dasharray="5,4"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="270" y="20" width="180" height="50" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="360" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="360" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Organizing unit">
+    <rect x="100" y="120" width="520" height="160" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="360" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Organizing unit</text>
+    <text class="lt" x="360" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:OrganizingUnit</text>
+    <text class="lp" x="360" y="164" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">every framework's top-level units assert this</text>
+    <text class="lt" x="360" y="164" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">every framework asserts this on its top-level units</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Role">
+    <rect x="200" y="184" width="320" height="80" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="360" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Role</text>
+    <text class="lt" x="360" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cybed:Role</text>
+    <text class="lp" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">a kind of organizing unit · workforce frameworks only</text>
+    <text class="lt" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">subClassOf · workforce frameworks only</text>
+    <text class="lp" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
+    <text class="lt" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Element">
+    <rect x="40" y="350" width="340" height="170" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="210" y="378" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Element</text>
+    <text class="lt" x="210" y="378" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:RoleElement</text>
+    <text class="lp" x="210" y="396" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">structural pieces attached to an organizing unit</text>
+    <text class="lt" x="210" y="396" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">attached via cybed:hasElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Sub-element">
+    <rect x="80" y="420" width="260" height="80" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="210" y="452" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Sub-element</text>
+    <text class="lt" x="210" y="452" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cybed:Subpoint</text>
+    <text class="lp" x="210" y="470" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">a kind of element · points back to its parent</text>
+    <text class="lt" x="210" y="470" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">subClassOf · cybed:elaborates parent</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Example">
+    <rect x="430" y="362" width="240" height="100" rx="8" fill="rgba(14,165,233,0.07)" stroke="#0284C7" stroke-width="1.6" stroke-dasharray="5,3"/>
+    <text class="lp" x="550" y="397" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Example</text>
+    <text class="lt" x="550" y="397" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">cybed:Example</text>
+    <text class="lp" x="550" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">pedagogical scaffolding</text>
+    <text class="lt" x="550" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">pedagogical scaffolding</text>
+    <text class="lp" x="550" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">reached through its own connection,</text>
+    <text class="lt" x="550" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">separate predicate · excluded from</text>
+    <text class="lp" x="550" y="447" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">not the default element list</text>
+    <text class="lt" x="550" y="447" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">default cybed:hasElement traversals</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-organizing-unit connection">
+    <text class="ep" x="368" y="100" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="368" y="100" font-family="JetBrains Mono,monospace" font-size="10.5" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Organizing-unit-to-element connection">
+    <text class="ep" x="240" y="322" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="240" y="322" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10.5" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Organizing-unit-to-example connection">
+    <text class="ep" x="498" y="322" font-family="Inter,sans-serif" font-size="11.5" font-style="italic" fill="currentColor" opacity="0.7">has example</text>
+    <text class="et" x="498" y="322" font-family="JetBrains Mono,monospace" font-size="10.5" font-style="italic" fill="currentColor" opacity="0.7">cybed:hasExample</text>
+  </g>
+</svg>
+<figcaption>The two-tier shape. Outer rectangles are cross-framework abstracts. Nested rectangles are subclasses. The dashed border on the <em>example</em> box marks it as reachable through a separate connection, not the default element list. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+`cybedtools` uses a two-tier RDF vocabulary.
+
+### Tier 1: `cybed:` cross-framework abstract terms
+
+Every framework asserts these. They define the joinable surface for cross-framework queries.
+
+### Tier 2: per-framework subtypes
+
+Each framework defines its own vocabulary that subclasses the `cybed:` abstracts. These preserve the framework's native terminology.
+
+The two-tier shape lets a researcher write one SPARQL query that runs
+across the entire corpus at the Tier 1 surface, without losing the
+ability to ask framework-specific questions through Tier 2 subtypes.
+
+## Tier 1 vocabulary
+
+| Term | Type | Description |
+|---|---|---|
+| `cybed:Framework` | Class | The framework as a whole |
+| `cybed:OrganizingUnit` | Class (subClassOf `skos:Concept`) | Any top-level enumerated unit. All frameworks in the corpus assert this on their parents. |
+| `cybed:Role` | Class (subClassOf `cybed:OrganizingUnit`) | Workforce-restricted. NICE work roles, DCWF work roles, ECSF profiles only. |
+| `cybed:RoleElement` | Class | Anything attached to an organizing unit via `cybed:hasElement` |
+| `cybed:Subpoint` | Class (subClassOf `cybed:RoleElement`) | Bullet points and enumerations embedded inside an element's text |
+| `cybed:Example` | Class (subClassOf `cybed:RoleElement`) | Pedagogical scaffolding (such as clarification statements). Reachable only via `cybed:hasExample` |
+| `cybed:hasOrganizingUnit` | Property | Framework → organizing unit |
+| `cybed:hasRole` | Property | Framework → role (workforce subset) |
+| `cybed:hasElement` | Property | Organizing unit → RoleElement (excluding Examples by default) |
+| `cybed:hasExample` | Property | Organizing unit → Example (separate predicate) |
+| `cybed:elaborates` | Property | Subpoint → parent (back-edge) |
+
+## Tier 2 vocabulary (per-framework subtypes)
+
+Each framework declares its own per-framework namespace and subclasses
+the Tier 1 abstracts:
+
+| Framework | Namespace | Per-framework subtypes |
+|---|---|---|
+| NICE | `nice:` | `nice:Framework`, `nice:WorkRole`, `nice:Task`, `nice:KnowledgeStatement`, `nice:SkillStatement` |
+| DCWF | `dcwf:` | `dcwf:Framework`, `dcwf:WorkRole`, `dcwf:Task`, `dcwf:KSA` |
+| ECSF | `ecsf:` | `ecsf:Framework`, `ecsf:Profile`, `ecsf:KSA` |
+| SFIA | `sfia:` | `sfia:Framework`, `sfia:Skill`, `sfia:LevelDescriptor` |
+| Cyber.org K-12 | `cyberorg:` | `cyberorg:Framework`, `cyberorg:StandardGroup`, `cyberorg:Standard` |
+| CSTA | `csta:` | `csta:Framework`, `csta:StandardGroup`, `csta:Standard` |
+| CSEC2017 | `csec:` | `csec:Framework`, `csec:KnowledgeArea`, `csec:Topic` |
+| DigComp | `digcomp:` | `digcomp:Framework`, `digcomp:CompetenceArea`, `digcomp:Competence`, `digcomp:ProficiencyDescriptor` |
+
+A `nice:WorkRole` is also a `cybed:Role`, which is also a
+`cybed:OrganizingUnit`, which is also a `skos:Concept`. The chain runs
+all the way up the abstraction hierarchy. A query at any tier returns
+results from every framework that asserts the relevant Tier 1 type.
+
+## Why a custom URI
+
+The package uses `https://w3id.org/cybed/ontology#` as the namespace
+for `cybed:` terms. The W3ID redirect resolves to the schema
+documentation hosted with the package. That gives the vocabulary a
+stable, persistent URI that does not depend on any one repository's
+URL.
+
+## What's reachable from where
+
+A `cybed:hasElement` traversal on any organizing unit returns
+`cybed:Subpoint` nodes, because they subclass `cybed:RoleElement`. It
+does not return `cybed:Example` nodes, because the Example predicate
+is separate. This is intentional. Examples are pedagogical
+scaffolding. Including them in default element traversals would
+double-count the same conceptual content under two different shapes.
+
+A query that wants Examples explicitly uses `cybed:hasExample`
+instead. The package's `example_framework_bindings()` helper does
+exactly this.
+
+## What this enables
+
+The `cybed:OrganizingUnit` abstraction lets a single SPARQL query
+return organizing units across the entire corpus. The `cybed:Role`
+abstraction restricts that query to the three workforce frameworks
+(NICE, DCWF, ECSF). The `cybed:hasElement` predicate returns the
+strict numbered-element traversal across every framework that uses
+it. The `cybed:hasExample` predicate exposes the pedagogical
+scaffolding layer separately, where it exists at all (currently
+Cyber.org K-12 and CSTA only).
+
+The two-tier shape is what makes the [density spread
+query](../queries/density-spread.qmd) work across every framework
+with a single expression rather than reapplying per framework.

@@ -1,0 +1,145 @@
+---
+title: "DigComp 2.2"
+subtitle: "European Digital Competence Framework for Citizens"
+jurisdiction: "EU"
+framework-type: "Pedagogy"
+organizing-units: 5
+elements: 21
+license: "EU re-use terms"
+date: 2026-05-08
+categories: [pedagogy, eu]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Joint Research Centre, European Commission |
+| Canonical page | [DigComp at the Joint Research Centre](https://joint-research-centre.ec.europa.eu/digcomp_en) |
+| Version | 2.2 |
+| Released | 2022-03-17 |
+| Authors | Vuorikari, Kluzer, and Punie |
+| Source format | PDF (JRC publication JRC128415) |
+| License | Subject to European Commission re-use terms |
+| `framework_summary` slug | `digcomp-2.2` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="digcomp-structure-title">
+  <title id="digcomp-structure-title">DigComp 2.2 structural mapping</title>
+  <defs><marker id="dc-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#dc-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#dc-arrow)"/>
+    <line x1="230" y1="282" x2="230" y2="324" marker-end="url(#dc-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">digcomp:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Competence area">
+    <rect x="60" y="100" width="340" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="135" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Competence area</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">digcomp:CompetenceArea</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="230" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Competence">
+    <rect x="120" y="212" width="220" height="70" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Competence</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">digcomp:Competence</text>
+    <text class="lt" x="230" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Proficiency descriptor">
+    <rect x="100" y="324" width="260" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="359" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Proficiency descriptor</text>
+    <text class="lt" x="230" y="349" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">digcomp:ProficiencyDescriptor</text>
+    <text class="lt" x="230" y="367" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-competence-area connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Competence-area-to-competence connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Competence-to-proficiency-descriptor connection">
+    <text class="ep" x="238" y="308" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="308" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+  <figcaption>DigComp nests three levels. Areas contain competences, and competences carry proficiency descriptors. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Competence Areas | 5 |
+| Strict elements | 21 |
+| With-examples elements | 21 |
+| Elements per Competence Area | 4.2 |
+
+DigComp 2.2's signature update was a set of per-competence Annex
+examples illustrating each competence under emerging technologies,
+AI in particular. Those Annex examples are not extracted as
+queryable nodes. The strict count reflects only the Competence and
+ProficiencyDescriptor enumeration, so element-density figures here
+materially understate what the publication actually contains.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+DigComp 2.2 publication (Vuorikari, Kluzer, and Punie, Joint Research Centre, JRC128415).
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-digcomp.R` parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Subject to European Commission re-use terms. The package does not bundle the source text. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- DigComp specifies **general digital competences for citizens, not cybersecurity-specific roles or curricula**. Competence Area 4 (Safety) carries the cybersecurity-relevant content, but the framework's specificity sits at general-digital-competence granularity, not at cybersecurity-workforce granularity. Treat DigComp as the citizen baseline that workforce frameworks like NICE and ECSF build above.
+- The 2.2 Annex examples illustrating AI-and-digital-citizenship interactions are **not extracted into RDF triples**. Full DigComp 2.2 coverage requires consulting the publication's annex directly.
+
+## Related
+
+- [ENISA ECSF v1](ecsf-v1.qmd), the EU workforce framework that
+  picks up where DigComp's citizen baseline leaves off.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

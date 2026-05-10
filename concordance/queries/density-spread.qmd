@@ -1,0 +1,163 @@
+---
+title: "How does element density vary across frameworks?"
+subtitle: "Per-unit density, strict and with examples"
+description: "Per-unit element density across the framework corpus, strict and with examples. The twelvefold-spread finding, reframed as a comparison of design philosophy rather than a quality ranking."
+categories: [Cross-framework]
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(here)
+
+data_path <- here("_data", "density_spread.rds")
+if (file.exists(data_path)) {
+  density_spread <- readRDS(data_path)
+} else {
+  # Fallback: pull straight from the lazy-loaded package tibble so the
+  # site renders even if the data-prep script has not been run.
+  density_spread <- cybedtools::framework_summary |>
+    arrange(desc(elements_per_organizing_unit_with_examples)) |>
+    select(
+      framework_name,
+      framework_slug,
+      framework_type,
+      jurisdiction,
+      organizing_unit_count,
+      element_count_strict,
+      element_count_with_examples,
+      elements_per_organizing_unit_strict,
+      elements_per_organizing_unit_with_examples,
+      license
+    )
+}
+```
+
+## The question
+
+How many elements does each framework specify per top-level organizing unit, and how does that count change when prose-encoded examples are included alongside numbered standards?
+
+## Why it matters
+
+Per-unit density is easy to mis-read as a quality ranking. It isn't one. What the figure measures is how granular each framework's stewards chose to be when they decided what work, what knowledge, or what competence belongs to a single organizing unit. NICE specifies tasks, knowledge statements, and skill statements per work role at one level of granularity. DigComp specifies competence areas at a different level, designed for citizen self-assessment. Both are valid specifications answering different questions.
+
+## The result
+
+```{r}
+#| label: tbl-density
+#| tbl-cap: "Eight frameworks, ranked by elements per organizing unit (with examples)"
+density_spread |>
+  transmute(
+    Framework = framework_name,
+    Type = tools::toTitleCase(framework_type),
+    Jurisdiction = jurisdiction,
+    Units = organizing_unit_count,
+    `Strict elements` = element_count_strict,
+    `With examples` = element_count_with_examples,
+    `Per unit (strict)` = round(elements_per_organizing_unit_strict, 1),
+    `Per unit (with ex.)` = round(elements_per_organizing_unit_with_examples, 1)
+  ) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: fig-density
+#| fig-cap: "Per-unit element density across the framework corpus. Bars show the with-examples figure. The vertical tick on each bar marks the strict count for the same framework."
+#| fig-width: 7.5
+#| fig-height: 4.8
+density_spread |>
+  mutate(
+    framework_name = fct_reorder(
+      framework_name,
+      elements_per_organizing_unit_with_examples
+    )
+  ) |>
+  ggplot(aes(
+    x = framework_name,
+    y = elements_per_organizing_unit_with_examples,
+    fill = jurisdiction
+  )) +
+  geom_col(width = 0.7) +
+  geom_point(
+    aes(y = elements_per_organizing_unit_strict),
+    shape = 124, size = 6, color = "#0F172A"
+  ) +
+  coord_flip() +
+  scale_fill_manual(
+    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC")
+  ) +
+  labs(
+    x = NULL,
+    y = "Elements per organizing unit",
+    fill = "Jurisdiction"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    legend.title = element_text(size = 9, face = "bold"),
+    axis.text.y = element_text(size = 10),
+    plot.margin = margin(8, 16, 8, 8)
+  )
+```
+
+## What this tells us
+
+Three observations carry weight.
+
+### The spread is real and large
+
+The headline figure is roughly twelvefold (NICE 51.6 against DigComp 4.2, examples included). The strict-count spread is forty-sevenfold (NICE 51.6 against Cyber.org K-12 1.1, examples excluded). Either way, the gap merits an explanation.
+
+### The spread reflects design philosophy
+
+NICE was built to be operationally specific. It supports workforce planning at the position-description level for the United States federal government, and the granularity is the point. DigComp was built for citizen self-assessment, so the unit of specification is necessarily coarser. SFIA sits in the middle on purpose, the legacy of its history as a global IT-skills catalog. Not as fine-grained as NICE. Not as coarse as DigComp.
+
+### The strict-vs-with-examples gap is informative on its own
+
+Frameworks that encode pedagogical detail in prose clarification statements (Cyber.org K-12, CSTA) widen substantially when those examples are folded in. Workforce frameworks (NICE, DCWF, ECSF, SFIA) don't move, because every bit of detail they ship is already in a numbered statement. Read the gap as a proxy for how much pedagogical scaffolding lives outside the numbered taxonomy.
+
+## What this doesn't tell us
+
+### Density is not quality
+
+A framework with high per-unit density isn't better-specified than one with low per-unit density. The denominator (organizing units) is a design choice, not a corpus property, and different denominators rerank the list.
+
+### Strict counts undercount frameworks that encode detail in prose
+
+The 47x strict spread overstates the specificity gap because it ignores the prose-encoded detail in the pedagogy frameworks. Use the with-examples figure when the comparison crosses the workforce-pedagogy boundary.
+
+### Cross-framework comparisons require shared denominators
+
+"Top-level organizing unit per framework" is the denominator used here. A NICE work role and a DigComp competence area aren't the same kind of object, and treating them as commensurable for the purpose of a single ratio is itself an analytic move worth examining before leaning on the number.
+
+## Reproduce this
+
+```{.r}
+library(cybedtools)
+library(dplyr)
+
+framework_summary |>
+  arrange(desc(elements_per_organizing_unit_with_examples)) |>
+  select(
+    framework_name,
+    organizing_unit_count,
+    element_count_strict,
+    element_count_with_examples,
+    elements_per_organizing_unit_strict,
+    elements_per_organizing_unit_with_examples
+  )
+```
+
+The `framework_summary` tibble ships with the package as a lazy-loaded data object. It is built from the canonical pipeline run documented in `data-raw/build-framework-summary.R` and tagged at each release.
+
+## Related queries
+
+- [How is element coverage distributed across US and EU frameworks?](us-eu-asymmetry.qmd), the 14:1 ratio and what it reframes.
+- [Which NICE work roles concentrate the most element coverage?](top-work-roles.qmd), power-law shape inside NICE.
+- [How does the four-framework K-12 alignment compare?](k12-alignment.qmd), pedagogy lens.
+- [The vocabulary](../concepts/vocabulary.qmd), why `cybed:OrganizingUnit` is the right denominator.

@@ -1,0 +1,95 @@
+---
+title: "Mapping our cybersecurity AAS to NICE work roles"
+subtitle: "A community-college program coordinator preparing for the CAE designation pathway"
+description: "A program coordinator uses cybedtools to map cybersecurity AAS course outcomes to NICE work-role tasks for the National Centers of Academic Excellence designation."
+categories: [Higher Ed, Workforce, NICE × CSEC2017]
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(here)
+library(stringr)
+
+best  <- readRDS(here("_data", "nice_csec2017_best.rds")) |>
+  mutate(pct = round(similarity * 100, 1))
+top3  <- readRDS(here("_data", "nice_csec2017_alignment.rds"))
+```
+
+## Marcus's situation
+
+Marcus runs the cybersecurity AAS at a community college near a DoD installation. His program holds CAE-CD designation, granted in 2018, with re-designation work on the horizon. Marcus carries the documentation load.
+
+His program's course outcomes were originally mapped to NIST's NICE Framework work-role tasks. NICE was the default cyber-workforce reference when the program was built. The articulation agreement with the regional state university's BS-Cybersecurity program references CSEC2017 Knowledge Areas instead. That program adopted CSEC2017 as its internal curriculum-mapping framework when it pursued ABET cybersecurity accreditation. When Marcus's curriculum committee asked whether his NICE-aligned AAS course outcomes implicitly cover the CSEC2017 KAs the receiving institution maps against, he pulled cybedtools to sanity-check the question before committing to a manual crosswalk.
+
+::: {.column-margin}
+This page uses real data computed against cybedtools v0.2.0. The
+persona is composite. The question, the code, and the result are not.
+:::
+
+## The question, formally stated
+
+For each of the 41 NICE work roles, what's the closest CSEC2017 Knowledge Area by full-document text similarity?
+
+::: {.column-margin}
+**Vocabulary overlap** is the percentage of unique words two units share, after dropping common words ("the," "and," "of") and short tokens. 0% means no shared vocabulary, 100% means identical wording. The underlying metric and the methodology choices live on the [analytic query page](../queries/nice-csec2017-alignment.qmd).
+:::
+
+## What cybedtools surfaces
+
+```{r}
+#| label: tbl-similarity-summary
+#| tbl-cap: "Best-match vocabulary overlap across all 41 NICE work roles"
+tibble::tibble(
+  Statistic = c("Minimum", "Median", "Mean", "Maximum"),
+  `Vocabulary overlap` = c(
+    paste0(min(best$pct), "%"),
+    paste0(median(best$pct), "%"),
+    paste0(round(mean(best$pct), 1), "%"),
+    paste0(max(best$pct), "%")
+  )
+) |>
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-ka-frequency
+#| tbl-cap: "How often each CSEC2017 KA appears as some NICE role's top match"
+best |>
+  count(`CSEC2017 KA` = csec_name, name = "NICE roles top-matched") |>
+  arrange(desc(`NICE roles top-matched`)) |>
+  knitr::kable()
+```
+
+The first thing the data tells Marcus: every best-match overlap is below 10%. The strongest pairing in the entire set lands at roughly 7% vocabulary overlap. The median is 4%. Across all 41 NICE work roles, none has a CSEC2017 Knowledge Area whose vocabulary substantially matches its own.
+
+The second thing: 27 of 41 NICE roles are pulled toward the same KA, Component Security. Three of the eight KAs (Data Security, Human Security, Societal Security) never appear as any NICE role's best match.
+
+## What this means for Marcus
+
+The crosswalk he was about to build does not exist at the vocabulary level. NICE describes positions, the work a person in this role performs. CSEC2017 describes curricular knowledge areas, the body of material a cyber program teaches. They speak different languages on purpose, and the data reflects that.
+
+The dominance of Component Security as top match is a tell, not a finding. Component Security has the most general-purpose vocabulary of the eight KAs. Anything about hardware, firmware, integrated systems, or technology components falls in scope, so it sweeps up vocabulary-similar NICE roles for a structural reason, not a substantive one. Marcus should not read "27 NICE roles map to Component Security" as a curriculum-coverage claim.
+
+### The committee gets a defensible answer
+
+When the curriculum committee asks whether NICE-to-CSEC2017 alignment was investigated, Marcus can point at this page. The evidence-of-absence result moves the committee conversation to the right level: course-outcome to course-outcome equivalence with the receiving BS program, not framework-to-framework alignment.
+
+### What Marcus should do instead
+
+For the CAE-CD re-designation file, the formally-recognized alignment is between his course outcomes and the CAE Knowledge Units (the 2024 revision). The CSEC2017 reference in the CAE program criteria is thought-model context, not an alignment-proof requirement. cybedtools does not currently include CAE KUs. The KUs are governed by the NSA-led CAE program with CISA as co-sponsor and are not openly licensed for redistribution. The KU mapping is a separate workflow Marcus runs through the program criteria directly.
+
+For the articulation defense, the move is course-outcome-to-course-outcome equivalence with the receiving institution, not framework-to-framework crosswalking. cybedtools' job here was to rule out the framework-to-framework path so Marcus knows where to spend his time.
+
+### A note on DoD-side credentialing
+
+If Marcus's program is also pursuing DoD-aligned credentialing pathways (CySP scholarships, NICCS-listed courses, defense-contractor MOUs), NICE-to-DCWF is a separate cybedtools query. It surfaces where DCWF v5.1's defense-side work roles share element identifiers with NICE's general-purpose work roles. The shared identifiers reflect genuine overlap at the task, knowledge, and skill level, but they do not imply role-equivalence. DCWF is owned by DoD CIO and adds defense-mission work-role context NICE roles do not carry. That query is for student credentialing-pathway advising, not for AAS program articulation.
+
+## See also
+
+- [The analytic query behind this scenario](../queries/nice-csec2017-alignment.qmd) walks through the SPARQL, the tokenization, and the similarity-metric choice.
+- [NICE Framework page](../frameworks/nice-v2.qmd) for the framework's structure and licensing.
+- [CSEC2017 page](../frameworks/csec2017.qmd) for the curricular-guidelines context.
+- [The two-tier vocabulary](../concepts/vocabulary.qmd) for why `cybed:Role` (NICE work roles, ECSF profiles) and `cybed:OrganizingUnit` (CSEC2017 KAs and other non-role units) are distinct types.
+- [K-12 alignment query](../queries/k12-alignment.qmd) for the analogous question at the secondary layer, useful if the AAS program has dual-enrollment HS feeders.
