@@ -2,7 +2,7 @@
 title: "Frameworks"
 subtitle: "What each framework specifies, where it sits, and what its source license permits"
 listing:
-  contents: "*-*.qmd"
+  contents: ["*-*.qmd", "csec2017.qmd"]
   type: table
   fields: [title, jurisdiction, framework-type, organizing-units, elements, license]
   field-display-names:
