@@ -64,9 +64,8 @@
 <div class="section level3">
 <h3 id="documentation-fixes-development-version">Documentation fixes<a class="anchor" aria-label="anchor" href="#documentation-fixes-development-version"></a></h3>
 <ul><li>
-<code>framework_summary</code> documentation said the README headline “density spread” finding used <code>element_count_strict</code>, and that <code>elements_per_organizing_unit_strict</code> was “the headline density figure used in the README.” Both were wrong. The README computes its headline from the with-examples columns and has since v0.2.0. The strict count is the supplementary figure. Corrected in three places, so <code><a href="../reference/framework_summary.html">?framework_summary</a></code> and the pkgdown reference page now match what the README actually reports.</li>
-<li>
-<code>man/cybedtools-package.Rd</code> had not been regenerated since the Concordance site URL was added to <code>DESCRIPTION</code>, so the shipped man page and the pkgdown index omitted it from Useful links.</li>
+<code>framework_summary</code> documentation attributed the README headline density figure to the strict element count. The README uses the with-examples count; the strict count is the supplementary figure.</li>
+<li>Regenerated <code>man/cybedtools-package.Rd</code> to include the Concordance site URL in Useful links.</li>
 </ul></div>
 </div>
     <div class="section level2">
