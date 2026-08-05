@@ -43,6 +43,7 @@ Useful links:
 \itemize{
   \item \url{https://github.com/ryanstraight/cybedtools}
   \item \url{https://ryanstraight.github.io/cybedtools/}
+  \item \url{https://ryanstraight.github.io/cybedtools/concordance/}
   \item Report bugs at \url{https://github.com/ryanstraight/cybedtools/issues}
 }
 

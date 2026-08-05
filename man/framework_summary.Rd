@@ -23,8 +23,8 @@ buckets; for CSEC2017, Knowledge Areas; for DigComp 2.2, competence
 areas. Cross-framework comparison via \code{cybed:OrganizingUnit}.}
 \item{element_count_strict}{Integer. Distinct framework-as-specified
 elements (parents plus \code{cybed:Subpoint} children). Excludes
-\code{cybed:Example} instances. Use this column for headline density
-comparisons across frameworks.}
+\code{cybed:Example} instances. Use this column when the comparison
+must exclude pedagogical scaffolding.}
 \item{element_count_with_examples}{Integer. Distinct elements
 including \code{cybed:Example} instances (Cyber.org K-12 and CSTA
 Clarification-statement scaffolding). For frameworks without
@@ -34,11 +34,13 @@ Non-zero for Cyber.org K-12 and CSTA only; zero for the other six
 frameworks.}
 \item{elements_per_organizing_unit_strict}{Numeric.
 \code{element_count_strict / organizing_unit_count}, rounded to one
-decimal. The headline density figure used in the README.}
+decimal. The supplementary density figure, reported in the
+cross-framework-analysis vignette.}
 \item{elements_per_organizing_unit_with_examples}{Numeric.
 \code{element_count_with_examples / organizing_unit_count}, rounded
-to one decimal. Used in the cross-framework-analysis vignette to
-show how Examples inflate Cyber.org K-12 and CSTA's apparent
+to one decimal. The headline density figure used in the README.
+The vignette shows it alongside the strict column to make visible
+how Examples inflate Cyber.org K-12 and CSTA's apparent
 specification density.}
 \item{license}{Character. Distribution license as published by the
 framework owner.}
@@ -70,10 +72,12 @@ parents plus parsed Subpoints (framework-as-specified content);
 and CSTA Clarification-statement Examples (pedagogical scaffolding,
 not enumerable sub-standards). For frameworks that emit no Examples
 (NICE, DCWF, ECSF, SFIA, CSEC2017, DigComp 2.2) the two columns are
-equal. The README headline "density spread" finding uses the strict
-count for cross-framework parity; the cross-framework-analysis vignette
-shows both columns side-by-side and discusses the encoding heterogeneity
-that drives the difference.
+equal. The README headline "density spread" finding uses the
+with-examples count, which counts what each framework puts in front of
+a teacher, trainee, or curriculum designer. The strict count is the
+supplementary figure, reported in the cross-framework-analysis
+vignette, which shows both columns side-by-side and discusses the
+encoding heterogeneity that drives the difference.
 
 The \code{framework_type} column denotes content focus (workforce
 competencies vs educational standards), not the structural distinction
