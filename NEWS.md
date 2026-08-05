@@ -1,3 +1,13 @@
+# cybedtools (development version)
+
+## Documentation fixes
+
+- `framework_summary` documentation attributed the README headline density
+  figure to the strict element count. The README uses the with-examples
+  count; the strict count is the supplementary figure.
+- Regenerated `man/cybedtools-package.Rd` to include the Concordance site
+  URL in Useful links.
+
 # cybedtools 0.2.0
 
 ## Breaking changes
