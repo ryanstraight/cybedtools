@@ -52,7 +52,7 @@ A tibble with 8 rows and 11 columns.
 
   Integer. Distinct framework-as-specified elements (parents plus
   `cybed:Subpoint` children). Excludes `cybed:Example` instances. Use
-  this column for headline density comparisons across frameworks.
+  this column when the comparison must exclude pedagogical scaffolding.
 
 - element_count_with_examples:
 
@@ -68,13 +68,15 @@ A tibble with 8 rows and 11 columns.
 - elements_per_organizing_unit_strict:
 
   Numeric. `element_count_strict / organizing_unit_count`, rounded to
-  one decimal. The headline density figure used in the README.
+  one decimal. The supplementary density figure, reported in the
+  cross-framework-analysis vignette.
 
 - elements_per_organizing_unit_with_examples:
 
   Numeric. `element_count_with_examples / organizing_unit_count`,
-  rounded to one decimal. Used in the cross-framework-analysis vignette
-  to show how Examples inflate Cyber.org K-12 and CSTA's apparent
+  rounded to one decimal. The headline density figure used in the
+  README. The vignette shows it alongside the strict column to make
+  visible how Examples inflate Cyber.org K-12 and CSTA's apparent
   specification density.
 
 - license:
@@ -95,8 +97,10 @@ parents plus parsed Subpoints (framework-as-specified content);
 CSTA Clarification-statement Examples (pedagogical scaffolding, not
 enumerable sub-standards). For frameworks that emit no Examples (NICE,
 DCWF, ECSF, SFIA, CSEC2017, DigComp 2.2) the two columns are equal. The
-README headline "density spread" finding uses the strict count for
-cross-framework parity; the cross-framework-analysis vignette shows both
+README headline "density spread" finding uses the with-examples count,
+which counts what each framework puts in front of a teacher, trainee, or
+curriculum designer. The strict count is the supplementary figure,
+reported in the cross-framework-analysis vignette, which shows both
 columns side-by-side and discusses the encoding heterogeneity that
 drives the difference.
 

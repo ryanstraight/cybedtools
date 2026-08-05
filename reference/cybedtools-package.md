@@ -40,6 +40,8 @@ Useful links:
 
 - <https://ryanstraight.github.io/cybedtools/>
 
+- <https://ryanstraight.github.io/cybedtools/concordance/>
+
 - Report bugs at <https://github.com/ryanstraight/cybedtools/issues>
 
 ## Author

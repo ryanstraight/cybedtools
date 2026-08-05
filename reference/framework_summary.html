@@ -122,8 +122,8 @@ areas. Cross-framework comparison via <code>cybed:OrganizingUnit</code>.</p></dd
 <dt>element_count_strict</dt>
 <dd><p>Integer. Distinct framework-as-specified
 elements (parents plus <code>cybed:Subpoint</code> children). Excludes
-<code>cybed:Example</code> instances. Use this column for headline density
-comparisons across frameworks.</p></dd>
+<code>cybed:Example</code> instances. Use this column when the comparison
+must exclude pedagogical scaffolding.</p></dd>
 
 <dt>element_count_with_examples</dt>
 <dd><p>Integer. Distinct elements
@@ -139,13 +139,15 @@ frameworks.</p></dd>
 <dt>elements_per_organizing_unit_strict</dt>
 <dd><p>Numeric.
 <code>element_count_strict / organizing_unit_count</code>, rounded to one
-decimal. The headline density figure used in the README.</p></dd>
+decimal. The supplementary density figure, reported in the
+cross-framework-analysis vignette.</p></dd>
 
 <dt>elements_per_organizing_unit_with_examples</dt>
 <dd><p>Numeric.
 <code>element_count_with_examples / organizing_unit_count</code>, rounded
-to one decimal. Used in the cross-framework-analysis vignette to
-show how Examples inflate Cyber.org K-12 and CSTA's apparent
+to one decimal. The headline density figure used in the README.
+The vignette shows it alongside the strict column to make visible
+how Examples inflate Cyber.org K-12 and CSTA's apparent
 specification density.</p></dd>
 
 <dt>license</dt>
@@ -168,10 +170,12 @@ parents plus parsed Subpoints (framework-as-specified content);
 and CSTA Clarification-statement Examples (pedagogical scaffolding,
 not enumerable sub-standards). For frameworks that emit no Examples
 (NICE, DCWF, ECSF, SFIA, CSEC2017, DigComp 2.2) the two columns are
-equal. The README headline "density spread" finding uses the strict
-count for cross-framework parity; the cross-framework-analysis vignette
-shows both columns side-by-side and discusses the encoding heterogeneity
-that drives the difference.</p>
+equal. The README headline "density spread" finding uses the
+with-examples count, which counts what each framework puts in front of
+a teacher, trainee, or curriculum designer. The strict count is the
+supplementary figure, reported in the cross-framework-analysis
+vignette, which shows both columns side-by-side and discusses the
+encoding heterogeneity that drives the difference.</p>
 <p>The <code>framework_type</code> column denotes content focus (workforce
 competencies vs educational standards), not the structural distinction
 that drives <code>cybed:Role</code> assertion. SFIA carries <code>framework_type == "workforce"</code> because it specifies workforce skills, but its parent
@@ -221,7 +225,7 @@ questions, query <code>cybed:Role</code> and <code>cybed:OrganizingUnit</code> d
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

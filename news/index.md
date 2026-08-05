@@ -1,5 +1,22 @@
 # Changelog
 
+## cybedtools (development version)
+
+### Documentation fixes
+
+- `framework_summary` documentation said the README headline “density
+  spread” finding used `element_count_strict`, and that
+  `elements_per_organizing_unit_strict` was “the headline density figure
+  used in the README.” Both were wrong. The README computes its headline
+  from the with-examples columns and has since v0.2.0. The strict count
+  is the supplementary figure. Corrected in three places, so
+  [`?framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
+  and the pkgdown reference page now match what the README actually
+  reports.
+- `man/cybedtools-package.Rd` had not been regenerated since the
+  Concordance site URL was added to `DESCRIPTION`, so the shipped man
+  page and the pkgdown index omitted it from Useful links.
+
 ## cybedtools 0.2.0
 
 ### Breaking changes
