@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
 <p>Agentic-tool guidance for <code>cybedtools</code>. Conforms to the vendor-neutral <a href="https://agents.md" class="external-link">agents.md</a> convention. Read by Cursor, Claude Code, OpenAI Codex, Aider, and similar tools. Web-fetching agents that follow the <code>/llms.txt</code> convention should additionally pull <a href="https://ryanstraight.github.io/cybedtools/llms.txt" class="uri">https://ryanstraight.github.io/cybedtools/llms.txt</a> for the full reference index.</p>
 <div class="section level2">
 <h2 id="what-this-package-is">What this package is<a class="anchor" aria-label="anchor" href="#what-this-package-is"></a></h2>
-<p>R package providing a reproducible JSON-LD + SPARQL pipeline for analyzing cybersecurity workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF) and pedagogical/learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). The intellectual contribution is a framework-agnostic schema (<code>cybed:</code>) that lets one query operate across heterogeneous frameworks. The implementation enforces the schema and provides analytical helpers.</p>
+<p>R package providing a reproducible JSON-LD + SPARQL pipeline for analyzing cybersecurity workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore’s OTCCF) and pedagogical/learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). The intellectual contribution is a framework-agnostic schema (<code>cybed:</code>) that lets one query operate across heterogeneous frameworks. The implementation enforces the schema and provides analytical helpers.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer over them. Agents generating example outputs from this package should not frame those outputs as competing with or replacing NICE, SFIA, or any other upstream framework.</p>
 </div>
 <div class="section level2">
@@ -113,7 +113,7 @@
 <p>The package’s design discipline is therefore:</p>
 <ol style="list-style-type: decimal"><li>SPARQL queries are single basic graph patterns.</li>
 <li>Joins, multi-property assembly, and aggregation happen in R via dplyr.</li>
-</ol><p>This is implemented by <code>R/sparql-helpers.R</code>. The two primitives (<code>sparql_pairs</code>, <code>sparql_subjects</code>) issue exactly one triple match; the four domain helpers (<code>framework_metadata</code>, <code>role_framework_bindings</code>, <code>element_framework_bindings</code>, <code>role_element_bindings</code>) compose multiple single-BGP calls and join in R.</p>
+</ol><p>This is implemented by <code>R/sparql-helpers.R</code>. The two primitives (<code>sparql_pairs</code>, <code>sparql_subjects</code>) issue exactly one triple match; the domain helpers (<code>framework_metadata</code>, <code>role_framework_bindings</code>, <code>element_framework_bindings</code>, <code>role_element_bindings</code>, <code>element_text</code>) compose one or more single-BGP calls and join in R.</p>
 <p><strong>If you, the agent, are asked to write a multi-pattern SPARQL query against this package’s graphs: don’t. Decompose into single-BGP calls and join in dplyr.</strong> A future v0.2+ release may add an Apache Jena Fuseki backend that lifts this constraint.</p>
 </div>
 <div class="section level2">

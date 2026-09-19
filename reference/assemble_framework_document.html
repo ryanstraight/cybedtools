@@ -31,7 +31,7 @@ appropriate @context."><meta property="og:image" content="https://ryanstraight.g
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,8 @@ appropriate <code>@context</code>.</p>
 <span>  <span class="va">framework_node</span>,</span>
 <span>  <span class="va">role_nodes</span>,</span>
 <span>  <span class="va">element_nodes</span>,</span>
-<span>  <span class="va">framework_prefix</span></span>
+<span>  <span class="va">framework_prefix</span>,</span>
+<span>  relation_nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -103,6 +104,13 @@ appropriate <code>@context</code>.</p>
 <dt id="arg-framework-prefix">framework_prefix<a class="anchor" aria-label="anchor" href="#arg-framework-prefix"></a></dt>
 <dd><p>Character, the Tier 2 prefix.</p></dd>
 
+
+<dt id="arg-relation-nodes">relation_nodes<a class="anchor" aria-label="anchor" href="#arg-relation-nodes"></a></dt>
+<dd><p>List of named lists produced by
+<code><a href="build_unit_relation_node.html">build_unit_relation_node()</a></code>. Optional: frameworks that publish no
+qualified unit-to-unit statements pass nothing and the <code>@graph</code> is
+unchanged.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -115,8 +123,10 @@ appropriate <code>@context</code>.</p>
 <code><a href="build_jsonld_context.html">build_jsonld_context()</a></code>,
 <code><a href="build_multi_framework_context.html">build_multi_framework_context()</a></code>,
 <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>,
+<code><a href="build_related_unit_metadata.html">build_related_unit_metadata()</a></code>,
 <code><a href="build_role_element_node.html">build_role_element_node()</a></code>,
-<code><a href="build_role_node.html">build_role_node()</a></code></p></div>
+<code><a href="build_role_node.html">build_role_node()</a></code>,
+<code><a href="build_unit_relation_node.html">build_unit_relation_node()</a></code></p></div>
     </div>
 
     <div class="section level2">

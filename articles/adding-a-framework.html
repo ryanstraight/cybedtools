@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,9 +99,10 @@
 <h2 id="scope-of-this-vignette">Scope of this vignette<a class="anchor" aria-label="anchor" href="#scope-of-this-vignette"></a>
 </h2>
 <p>Extending <code>cybedtools</code> with a framework beyond the current
-eight (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp
-2.2) is a six-step process. This vignette walks through the steps using
-a hypothetical “Framework X” to make the pattern concrete.</p>
+eleven (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp
+2.2, CyQUAL, CCSSF, OTCCF) is a six-step process. This vignette walks
+through the steps using a hypothetical “Framework X” to make the pattern
+concrete.</p>
 <p>The six steps:</p>
 <ol style="list-style-type: decimal">
 <li>Pick a slug and framework prefix.</li>
@@ -137,7 +138,7 @@ names.</li>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">valid_framework_prefixes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"nice"</span>, <span class="st">"dcwf"</span>, <span class="st">"ecf"</span>, <span class="st">"sfia"</span>, <span class="st">"ecsf"</span>,</span>
+<span>  <span class="st">"nice"</span>, <span class="st">"dcwf"</span>, <span class="st">"ecf"</span>, <span class="st">"sfia"</span>, <span class="st">"ecsf"</span>, <span class="st">"cyqual"</span>, <span class="st">"ccssf"</span>, <span class="st">"otccf"</span>,</span>
 <span>  <span class="st">"cyberorg"</span>, <span class="st">"csta"</span>, <span class="st">"csec"</span>, <span class="st">"digcomp"</span>,</span>
 <span>  <span class="st">"fx"</span>   <span class="co"># new</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -162,21 +163,31 @@ structure:</p>
 <span>  version_date      <span class="op">=</span> <span class="st">"2026-01-01"</span>,</span>
 <span>  publisher         <span class="op">=</span> <span class="st">"Framework X Authority"</span>,</span>
 <span>  filename          <span class="op">=</span> <span class="st">"frameworkx-source.json"</span>,</span>
-<span>  staging_dir       <span class="op">=</span> <span class="fu">here</span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"frameworkx"</span><span class="op">)</span>,</span>
+<span>  staging_dir       <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"frameworkx"</span><span class="op">)</span>,</span>
 <span>  <span class="co"># ...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Extraction functions producing tidy tibbles</span></span>
-<span><span class="va">extract_frameworkx</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">source_path</span><span class="op">)</span> <span class="op">{</span> <span class="va">...</span> <span class="op">}</span></span>
+<span><span class="va">extract_frameworkx</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">source_path</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># your extraction logic here</span></span>
+<span>  <span class="co"># placeholder: return one tidy tibble per output CSV</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>element_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Provenance manifest writer (use existing frameworks as template)</span></span>
-<span><span class="va">write_provenance_manifest</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="va">...</span> <span class="op">}</span></span>
+<span><span class="va">write_provenance_manifest</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">config</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># your manifest-writing logic here (SHA256, retrieval date, licensing)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>  <span class="co"># placeholder</span></span>
+<span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Main wraps it</span></span>
-<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">config</span> <span class="op">=</span> <span class="va">frameworkx_config</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">source_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">config</span><span class="op">$</span><span class="va">staging_dir</span>, <span class="va">config</span><span class="op">$</span><span class="va">filename</span><span class="op">)</span></span>
+<span>  <span class="va">tables_dir</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">config</span><span class="op">$</span><span class="va">staging_dir</span>, <span class="st">"tables"</span><span class="op">)</span></span>
+<span></span>
 <span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">extract_frameworkx</span><span class="op">(</span><span class="va">source_path</span><span class="op">)</span></span>
-<span>  <span class="fu">write_csv</span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tables_dir</span>, <span class="st">"elements.csv"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">write_provenance_manifest</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tables_dir</span>, <span class="st">"elements.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">write_provenance_manifest</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -239,7 +250,7 @@ clusters, knowledge areas, competence areas). SFIA, Cyber.org K-12,
 CSTA, CSEC2017, and DigComp 2.2 do this.</li>
 </ul>
 <p>Both paths assert <code>cybed:OrganizingUnit</code> so
-cross-framework queries reach all eight frameworks via the abstract
+cross-framework queries reach all eleven frameworks via the abstract
 type. Only <code><a href="../reference/build_role_node.html">build_role_node()</a></code> additionally asserts
 <code>cybed:Role</code>, restricting workforce-only queries
 appropriately.</p>
@@ -297,8 +308,12 @@ appropriately.</p>
 <span>  <span class="co"># The orchestrator collects framework + role + element nodes and the</span></span>
 <span>  <span class="co"># prefix; it then assembles the per-framework JSON-LD document and</span></span>
 <span>  <span class="co"># merges it into the combined graph.</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>framework <span class="op">=</span> <span class="va">framework_node</span>, roles <span class="op">=</span> <span class="va">role_nodes</span>, elements <span class="op">=</span> <span class="va">element_nodes</span>,</span>
-<span>       prefix <span class="op">=</span> <span class="st">"fx"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    framework <span class="op">=</span> <span class="va">framework_node</span>,</span>
+<span>    roles <span class="op">=</span> <span class="va">role_nodes</span>,</span>
+<span>    elements <span class="op">=</span> <span class="va">element_nodes</span>,</span>
+<span>    prefix <span class="op">=</span> <span class="st">"fx"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Register the assembler so the orchestrator can find it.</span></span>
@@ -318,7 +333,7 @@ standards clusters, or competence areas rather than roles), replace the
 <span><span class="op">)</span></span></code></pre></div>
 <p>Pick a <code>framework_subtype</code> that names what the unit IS in
 the framework’s own terminology rather than coercing it under
-“WorkRole.” See the <a href="../articles/namespace-architecture.html">namespace-architecture</a>
+“WorkRole.” See the <a href="https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html">namespace-architecture</a>
 article for the existing per-framework subtype table; new frameworks
 should follow the same pattern.</p>
 <p>And in <code>assembly_config$frameworks</code>, add
@@ -345,6 +360,115 @@ the framework-agnostic types. Queries that explicitly target
 <code>cybed:Role</code> (workforce-only) include the new framework only
 if its parents assert <code>cybed:Role</code> (i.e.,
 <code>build_role_node</code> was used). No query rewrites required.</p>
+</div>
+<div class="section level2">
+<h2 id="what-if-one-unit-relates-to-another">What if one unit relates to another?<a class="anchor" aria-label="anchor" href="#what-if-one-unit-relates-to-another"></a>
+</h2>
+<p>Some frameworks say that one organizing unit stands in a relation to
+another. The OTCCF is the case that prompted the vocabulary: CSA
+publishes which technical skills each job role requires, and at what
+proficiency level. Two helpers cover this, and you usually want
+both.</p>
+<p><code><a href="../reference/build_related_unit_metadata.html">build_related_unit_metadata()</a></code> produces the plain edge, a
+<code>cybed:relatedUnit</code> key you fold into the
+<code>metadata</code> argument of
+<code><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node()</a></code> or
+<code><a href="../reference/build_role_node.html">build_role_node()</a></code>. It answers “what is this unit connected
+to” in one hop. Call it <strong>once per source unit</strong>, passing
+every target that unit has in a single call. Two calls merged with
+<code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> give the node two <code>cybed:relatedUnit</code> keys,
+which is not valid JSON-LD. Targets in more than one framework go in the
+same call, with <code>to_prefix</code> supplied per target.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rel_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_related_unit_metadata.html">build_related_unit_metadata</a></span><span class="op">(</span></span>
+<span>  to_unit_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"network-security"</span>, <span class="st">"incident-response"</span><span class="op">)</span>,</span>
+<span>  to_prefix   <span class="op">=</span> <span class="st">"fx"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/build_role_node.html">build_role_node</a></span><span class="op">(</span></span>
+<span>  role_id             <span class="op">=</span> <span class="st">"ot-security-engineer"</span>,</span>
+<span>  role_name           <span class="op">=</span> <span class="st">"OT Security Engineer"</span>,</span>
+<span>  framework_prefix    <span class="op">=</span> <span class="st">"fx"</span>,</span>
+<span>  framework_role_type <span class="op">=</span> <span class="st">"JobRole"</span>,</span>
+<span>  framework_id        <span class="op">=</span> <span class="st">"frameworkx-v1"</span>,</span>
+<span>  metadata            <span class="op">=</span> <span class="va">rel_meta</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/build_unit_relation_node.html">build_unit_relation_node()</a></code> produces the qualified
+statement, a <code>cybed:UnitRelation</code> node carrying
+<code>cybed:fromUnit</code>, <code>cybed:toUnit</code>,
+<code>cybed:relationLabel</code>, and
+<code>cybed:proficiencyLevel</code>. Use it when the publisher says more
+than “these two are related”. Levels are stored as character, exactly as
+printed. Do not convert them to numbers and do not normalize them across
+frameworks. One framework’s 4 and another’s Intermediate are not on the
+same scale, and a shared numeric type would assert a comparability the
+sources do not.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_unit_relation_node.html">build_unit_relation_node</a></span><span class="op">(</span></span>
+<span>  from_unit_id      <span class="op">=</span> <span class="st">"ot-security-engineer"</span>,</span>
+<span>  to_unit_id        <span class="op">=</span> <span class="st">"network-security"</span>,</span>
+<span>  from_prefix       <span class="op">=</span> <span class="st">"fx"</span>,</span>
+<span>  relation_label    <span class="op">=</span> <span class="st">"requires"</span>,</span>
+<span>  proficiency_level <span class="op">=</span> <span class="st">"4"</span>,</span>
+<span>  framework_id      <span class="op">=</span> <span class="st">"frameworkx-v1"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Collect the relation nodes and return them from your assembler in the
+optional <code>relation_nodes</code> slot of
+<code><a href="../reference/assemble_framework_document.html">assemble_framework_document()</a></code>. Frameworks with no
+unit-to-unit statements leave it out, and the document is unchanged.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/assemble_framework_document.html">assemble_framework_document</a></span><span class="op">(</span></span>
+<span>  framework_node   <span class="op">=</span> <span class="va">fx_framework</span>,</span>
+<span>  role_nodes       <span class="op">=</span> <span class="va">fx_units</span>,</span>
+<span>  element_nodes    <span class="op">=</span> <span class="va">fx_elements</span>,</span>
+<span>  framework_prefix <span class="op">=</span> <span class="st">"fx"</span>,</span>
+<span>  relation_nodes   <span class="op">=</span> <span class="va">fx_relations</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="what-if-the-steward-asks-to-be-credited-or-the-text-is-not-in-english">What if the steward asks to be credited, or the text is not in
+English?<a class="anchor" aria-label="anchor" href="#what-if-the-steward-asks-to-be-credited-or-the-text-is-not-in-english"></a>
+</h2>
+<p><code><a href="../reference/build_framework_node.html">build_framework_node()</a></code> takes two optional arguments for
+this. <code>attribution</code> writes <code>schema:creditText</code> and
+holds the steward’s wording verbatim. If a permission letter gives you a
+sentence to use, put that sentence here without rewording it.
+<code>in_language</code> writes <code>schema:inLanguage</code> and takes
+a BCP 47 tag. Set it when the framework’s text is not English, so a
+reader of the graph is not left to guess.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/build_framework_node.html">build_framework_node</a></span><span class="op">(</span></span>
+<span>  framework_id     <span class="op">=</span> <span class="st">"frameworkx-v1"</span>,</span>
+<span>  framework_name   <span class="op">=</span> <span class="st">"Framework X"</span>,</span>
+<span>  framework_prefix <span class="op">=</span> <span class="st">"fx"</span>,</span>
+<span>  version          <span class="op">=</span> <span class="st">"1.0"</span>,</span>
+<span>  publisher        <span class="op">=</span> <span class="st">"Example Authority"</span>,</span>
+<span>  jurisdiction     <span class="op">=</span> <span class="st">"CZ"</span>,</span>
+<span>  sector           <span class="op">=</span> <span class="st">"public"</span>,</span>
+<span>  specificity      <span class="op">=</span> <span class="st">"cybersecurity-specific"</span>,</span>
+<span>  attribution      <span class="op">=</span> <span class="st">"Framework X, published by the Example Authority. Used with permission."</span>,</span>
+<span>  in_language      <span class="op">=</span> <span class="st">"cs"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="what-if-the-steward-limits-what-may-be-republished">What if the steward limits what may be republished?<a class="anchor" aria-label="anchor" href="#what-if-the-steward-limits-what-may-be-republished"></a>
+</h2>
+<p>Permission to build a graph is not always permission to publish the
+framework’s text. Record what the steward actually granted in the
+framework’s block in <code>docs/framework-invariants.yml</code>, under
+<code>public_redistribution</code>. Two values are in use.
+<code>full_with_attribution</code> means the statement text may be
+published as long as the attribution travels with it, which is where
+CyQUAL sits. <code>structure_only</code> means titles, categories,
+levels, and mappings may be published and the statement text may not,
+which is where CCSSF and OTCCF sit. Put the reasoning in a comment
+beside the value, including the date of the written permission, so the
+next reader does not have to reconstruct it.</p>
+<p>Treat the value as binding on anything the package makes public,
+which includes the Concordance site and any data deposit. Analysis on a
+local graph is unaffected. If a steward’s terms do not fit either value,
+add a new one and say so in the comment rather than rounding down to the
+nearest existing label.</p>
 </div>
 <div class="section level2">
 <h2 id="what-if-the-source-is-a-pdf">What if the source is a PDF?<a class="anchor" aria-label="anchor" href="#what-if-the-source-is-a-pdf"></a>

@@ -11,9 +11,10 @@ framework partOf are excluded.
 Examples are a strict subset of the elements returned by
 [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md).
 Use this helper when reporting on the Subpoint-vs-Example split for a
-framework, or when constructing a "strict" element count (parent +
-Subpoint, no Example) by subtracting Example counts from total element
-counts.
+framework, or when constructing a "strict" native element count by
+subtracting both Example counts (this helper) and Subpoint counts
+([`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md))
+from the total element count.
 
 ## Usage
 
@@ -31,16 +32,28 @@ example_framework_bindings(rdf)
 
 A tibble with columns `example`, `framework`, `framework_name`.
 
+## Note
+
+The `framework` column holds the framework's full URI. Avoid naming a
+local variable or function parameter `framework` in code that filters or
+mutates this tibble – dplyr's data masking silently resolves a bare
+`framework` reference inside
+[`filter()`](https://dplyr.tidyverse.org/reference/filter.html)/[`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)
+to this COLUMN rather than your same-named variable, with no error and
+no warning, only a wrong (often zero-row) result surfacing later.
+
 ## See also
 
 Other SPARQL helpers:
 [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md),
+[`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md),
 [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md),
 [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md),
 [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md),
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
-[`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)
+[`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
+[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
 
 ## Examples
 

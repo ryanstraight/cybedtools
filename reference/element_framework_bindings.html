@@ -41,7 +41,7 @@ counting column in framework_summary).'><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,15 +106,26 @@ counting column in <code>framework_summary</code>).</p>
     <p>A tibble with columns <code>element</code>, <code>framework</code>, <code>framework_name</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>The <code>framework</code> column holds the framework's full URI. Avoid
+naming a local variable or function parameter <code>framework</code> in code
+that filters or mutates this tibble – dplyr's data masking silently
+resolves a bare <code>framework</code> reference inside <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>/<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>
+to this COLUMN rather than your same-named variable, with no error
+and no warning, only a wrong (often zero-row) result surfacing later.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other SPARQL helpers:
+<code><a href="element_text.html">element_text()</a></code>,
 <code><a href="example_framework_bindings.html">example_framework_bindings()</a></code>,
 <code><a href="framework_metadata.html">framework_metadata()</a></code>,
 <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>,
 <code><a href="role_element_bindings.html">role_element_bindings()</a></code>,
 <code><a href="role_framework_bindings.html">role_framework_bindings()</a></code>,
 <code><a href="sparql_pairs.html">sparql_pairs()</a></code>,
-<code><a href="sparql_subjects.html">sparql_subjects()</a></code></p></div>
+<code><a href="sparql_subjects.html">sparql_subjects()</a></code>,
+<code><a href="subpoint_framework_bindings.html">subpoint_framework_bindings()</a></code></p></div>
     </div>
 
     <div class="section level2">

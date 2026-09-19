@@ -35,6 +35,16 @@ schema.
 
   Construct a `cybed:RoleElement` node
 
+- [`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md)
+  **\[experimental\]** :
+
+  Build `cybed:relatedUnit` metadata for an organizing unit
+
+- [`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
+  **\[experimental\]** :
+
+  Construct a `cybed:UnitRelation` node
+
 - [`assemble_framework_document()`](https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.md)
   **\[stable\]** :
 
@@ -121,11 +131,16 @@ cross-framework-analysis for worked examples.
 - [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md)
   **\[stable\]** : Domain helper: element-to-framework bindings with
   framework name attached
+- [`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+  **\[stable\]** : Domain helper: subpoint-to-framework bindings with
+  framework name attached
 - [`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md)
   **\[stable\]** : Domain helper: example-to-framework bindings with
   framework name attached
 - [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
-  **\[stable\]** : Domain helper: role-to-element bindings
+  **\[stable\]** : Domain helper: organizing-unit-to-element bindings
+- [`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
+  **\[stable\]** : Domain helper: statement text keyed by element
 
 ## Validation
 
@@ -137,4 +152,4 @@ cross-framework-analysis for worked examples.
 Pre-computed summary tibbles shipped with the package.
 
 - [`framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
-  : Eight-framework summary tibble
+  : Eleven-framework summary tibble

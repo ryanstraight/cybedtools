@@ -4,7 +4,7 @@
 
 Every framework's top-level enumerated unit is an instance of
 `cybed:OrganizingUnit` (subClassOf `skos:Concept`), the cross-framework
-abstract that lets one SPARQL query reach all eight frameworks' parent
+abstract that lets one SPARQL query reach all eleven frameworks' parent
 units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
 unit is genuinely a work role or work profile additionally assert
 `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); pass
@@ -95,8 +95,10 @@ Other JSON-LD construction:
 [`build_framework_node()`](https://ryanstraight.github.io/cybedtools/reference/build_framework_node.md),
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md),
-[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md),
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
 
 ## Examples
 

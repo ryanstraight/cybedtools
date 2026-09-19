@@ -16,7 +16,8 @@ load_single_framework_graph(framework_slug, jsonld_dir = NULL)
 - framework_slug:
 
   Character, one of `"nice"`, `"sfia"`, `"dcwf"`, `"ecsf"`,
-  `"cyberorg-k12"`, `"csta"`, `"csec2017"`, or `"digcomp"`.
+  `"cyberorg-k12"`, `"csta"`, `"csec2017"`, `"digcomp"`, or `"cyqual"`,
+  `"ccssf"`, or `"otccf"`.
 
 - jsonld_dir:
 

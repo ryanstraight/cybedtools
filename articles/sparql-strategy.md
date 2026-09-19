@@ -1,7 +1,7 @@
 # SPARQL query strategy
 
-The queries operate against the unified RDF graph produced by
-`scripts/030-load-rdf-graph.R` and, for query execution, the combined
+The queries operate against the unified RDF graph produced by the
+loaders in `R/rdf-graph.R` and, for query execution, the combined
 N-Triples file produced by `scripts/025-export-ntriples.R`.
 
 ## Design choices
@@ -15,32 +15,33 @@ The package supports two kinds of question:
 
 The cybed: base vocabulary is the selection path for both. A single
 helper call targeting `cybed:OrganizingUnit` returns comparable
-parent-level bindings across NICE, DCWF, SFIA, ECSF, Cyber.org K-12,
-CSTA, CSEC2017, and DigComp 2.2; targeting `cybed:Role` restricts to the
-workforce-framework subset (NICE / DCWF / ECSF); targeting
-`cybed:RoleElement` returns atomic content nodes (parents, Subpoints,
-and Examples).
+parent-level bindings across all eleven frameworks; targeting
+`cybed:Role` restricts to the six that declare roles (NICE, DCWF, ECSF,
+CyQUAL, CCSSF, OTCCF); targeting `cybed:RoleElement` returns atomic
+content nodes (parents, Subpoints, and Examples).
 
 ### What these queries surface
 
 Three findings the package’s analytical layer produces directly from the
-eight-framework graph:
+eleven-framework graph:
 
-- Element density per framework varies by ~12x with Cyber.org K-12 /
-  CSTA pedagogical Examples included (NICE 51.6 elements per work role,
+- Element density per framework varies by ~13x with Cyber.org K-12 /
+  CSTA pedagogical Examples included (DCWF 54.8 elements per work role,
   DigComp 4.2 per competence area). Without Examples the spread widens
-  to ~49x because Cyber.org K-12’s 116 cells contain only 123 numbered
+  to ~38x because Cyber.org K-12’s 116 cells contain only 123 numbered
   standards. Per-unit density is a comparison aid across heterogeneous
   denominators, not a quality claim.
-- Jurisdictional element coverage is dominated by US frameworks (NICE,
-  DCWF, Cyber.org K-12, CSTA) by an order of magnitude over EU
-  frameworks (ECSF, DigComp), reflecting design-philosophy differences
-  (ECSF profile-level by intent, DigComp citizen-self-assessment by
-  intent) rather than corpus completeness.
+- US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) hold about half the
+  corpus by element count, and an order of magnitude more than the two
+  EU-level frameworks (ECSF, DigComp). That gap reflects design
+  philosophy (ECSF is profile-level by intent, DigComp is a citizen
+  self-assessment instrument), and two of the three national frameworks
+  added in 0.3.0 are built on NICE by their own account, so jurisdiction
+  alone understates US-authored content.
 - The five highest-element-load NICE work roles concentrate
   disproportionate competency specification (Security Control Assessment
-  307, Secure Systems Development 232, Cybersecurity Architecture 219,
-  Defensive Cybersecurity 206, Systems Security Management 204).
+  304, Secure Systems Development 237, Cybersecurity Architecture 218,
+  Defensive Cybersecurity 205, Systems Security Management 201).
 
 See the
 [`cross-framework-analysis`](https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.md)
@@ -77,8 +78,8 @@ Domain-level helpers compose these primitives:
   framework, framework_name) for every framework’s top-level enumerated
   unit. The cross-framework cut.
 - `role_framework_bindings(rdf)` returns (role, role_name, framework,
-  framework_name) restricted to workforce frameworks where `cybed:Role`
-  is asserted (NICE / DCWF / ECSF).
+  framework_name) restricted to frameworks where `cybed:Role` is
+  asserted (NICE, DCWF, ECSF, CyQUAL, CCSSF, OTCCF).
 - `element_framework_bindings(rdf)` returns (element, framework,
   framework_name) for every `cybed:RoleElement`, including Subpoints and
   Examples.
@@ -112,11 +113,13 @@ results via dplyr left-joins or semi-joins.
   with
   [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md).
   Surfaces the cross-framework structural-density spread (with-examples
-  count): NICE around 51.6 per work role, DCWF around 39.8 per work
-  role, ECSF around 32.5 per role profile, CSTA around 10.2 per
-  level-x-concept cell, SFIA around 5.6 per skill, CSEC2017 around 5.0
-  per Knowledge Area, Cyber.org K-12 around 4.3 per
-  grade-band-x-sub-concept cell, DigComp around 4.2 per competence area.
+  count): DCWF around 54.8 per work role, NICE around 42.0 per
+  organizing unit (its work roles and competency areas together), ECSF
+  around 32.5 per role profile, OTCCF around 26.4, CCSSF around 22.8,
+  CyQUAL around 20.7, CSTA around 10.3 per level-x-concept cell, SFIA
+  around 5.6 per skill, CSEC2017 around 5.0 per Knowledge Area,
+  Cyber.org K-12 around 4.2 per grade-band-x-sub-concept cell, DigComp
+  around 4.2 per competence area.
 - **A4. Missing required properties.** Quality control. Surface
   RoleElement subjects without `cybed:elementText` (use
   [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)

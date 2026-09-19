@@ -31,7 +31,7 @@ Framework-specific element types become subclasses of cybed:RoleElement."><meta 
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,8 @@ Framework-specific element types become subclasses of <code>cybed:RoleElement</c
 <span>  <span class="va">framework_element_type</span>,</span>
 <span>  <span class="va">element_text</span>,</span>
 <span>  source_section <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
-<span>  framework_id <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span>  framework_id <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  source_category <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,20 @@ framework vocabulary (e.g., <code>"TaskStatement"</code>, <code>"KnowledgeStatem
 <dd><p>Character, framework identifier to populate
 <code>cybed:partOf</code>.</p></dd>
 
+
+<dt id="arg-source-category">source_category<a class="anchor" aria-label="anchor" href="#arg-source-category"></a></dt>
+<dd><p>Character, the source framework's own per-element
+provenance tag, when the publisher labels which upstream body a
+statement was drawn from (e.g., DCWF's Master Task &amp; KSA List tags
+each row <code>"NICE"</code>, <code>"JCT-T"</code>, <code>"JCT-KSA"</code>, <code>"Other-T"</code>, or
+<code>"Other-KSA"</code>). This is a categorical tag as published, not a link to
+a specific element in the named framework – the source data does not
+carry that level of precision. Distinct from <code>source_section</code>, which
+locates content within the SAME document rather than attributing it to
+a different one. 2026-08-14: added after a DCWF-vs-NICE alignment
+query returned an implausibly weak result and traced to this
+provenance column being dropped at ingest.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -128,7 +143,9 @@ framework vocabulary (e.g., <code>"TaskStatement"</code>, <code>"KnowledgeStatem
 <code><a href="build_jsonld_context.html">build_jsonld_context()</a></code>,
 <code><a href="build_multi_framework_context.html">build_multi_framework_context()</a></code>,
 <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>,
-<code><a href="build_role_node.html">build_role_node()</a></code></p></div>
+<code><a href="build_related_unit_metadata.html">build_related_unit_metadata()</a></code>,
+<code><a href="build_role_node.html">build_role_node()</a></code>,
+<code><a href="build_unit_relation_node.html">build_unit_relation_node()</a></code></p></div>
     </div>
 
     <div class="section level2">

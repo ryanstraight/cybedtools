@@ -16,7 +16,8 @@ build_role_element_node(
   framework_element_type,
   element_text,
   source_section = NA_character_,
-  framework_id = NA_character_
+  framework_id = NA_character_,
+  source_category = NA_character_
 )
 ```
 
@@ -48,6 +49,20 @@ build_role_element_node(
 
   Character, framework identifier to populate `cybed:partOf`.
 
+- source_category:
+
+  Character, the source framework's own per-element provenance tag, when
+  the publisher labels which upstream body a statement was drawn from
+  (e.g., DCWF's Master Task & KSA List tags each row `"NICE"`,
+  `"JCT-T"`, `"JCT-KSA"`, `"Other-T"`, or `"Other-KSA"`). This is a
+  categorical tag as published, not a link to a specific element in the
+  named framework – the source data does not carry that level of
+  precision. Distinct from `source_section`, which locates content
+  within the SAME document rather than attributing it to a different
+  one. 2026-08-14: added after a DCWF-vs-NICE alignment query returned
+  an implausibly weak result and traced to this provenance column being
+  dropped at ingest.
+
 ## Value
 
 Named list (JSON-LD node).
@@ -60,7 +75,9 @@ Other JSON-LD construction:
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
 [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
-[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md),
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md),
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
 
 ## Examples
 

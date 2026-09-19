@@ -18,8 +18,8 @@ build_jsonld_context(framework_prefix)
 - framework_prefix:
 
   Character, one of the valid framework prefixes. Workforce: `"nice"`,
-  `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`. Pedagogical: `"cyberorg"`,
-  `"csta"`, `"csec"`, `"digcomp"`.
+  `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`, `"cyqual"`, `"ccssf"`,
+  `"otccf"`. Pedagogical: `"cyberorg"`, `"csta"`, `"csec"`, `"digcomp"`.
 
 ## Value
 
@@ -32,8 +32,10 @@ Other JSON-LD construction:
 [`build_framework_node()`](https://ryanstraight.github.io/cybedtools/reference/build_framework_node.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
 [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md),
-[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md),
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
 
 ## Examples
 

@@ -2,10 +2,10 @@
 
 ## Scope of this vignette
 
-Extending `cybedtools` with a framework beyond the current eight (NICE,
-DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2) is a
-six-step process. This vignette walks through the steps using a
-hypothetical “Framework X” to make the pattern concrete.
+Extending `cybedtools` with a framework beyond the current eleven (NICE,
+DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2, CyQUAL,
+CCSSF, OTCCF) is a six-step process. This vignette walks through the
+steps using a hypothetical “Framework X” to make the pattern concrete.
 
 The six steps:
 
@@ -36,7 +36,7 @@ cybed_namespaces <- list(
 )
 
 valid_framework_prefixes <- c(
-  "nice", "dcwf", "ecf", "sfia", "ecsf",
+  "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf",
   "cyberorg", "csta", "csec", "digcomp",
   "fx"   # new
 )
@@ -62,21 +62,31 @@ frameworkx_config <- list(
   version_date      = "2026-01-01",
   publisher         = "Framework X Authority",
   filename          = "frameworkx-source.json",
-  staging_dir       = here("data", "raw", "frameworkx"),
+  staging_dir       = here::here("data", "raw", "frameworkx"),
   # ...
 )
 
 # Extraction functions producing tidy tibbles
-extract_frameworkx <- function(source_path) { ... }
+extract_frameworkx <- function(source_path) {
+  # your extraction logic here
+  # placeholder: return one tidy tibble per output CSV
+  tibble::tibble(element_id = character(), text = character())
+}
 
 # Provenance manifest writer (use existing frameworks as template)
-write_provenance_manifest <- function(...) { ... }
+write_provenance_manifest <- function(config) {
+  # your manifest-writing logic here (SHA256, retrieval date, licensing)
+  invisible(NULL)  # placeholder
+}
 
 # Main wraps it
-main <- function() {
+main <- function(config = frameworkx_config) {
+  source_path <- file.path(config$staging_dir, config$filename)
+  tables_dir  <- file.path(config$staging_dir, "tables")
+
   data <- extract_frameworkx(source_path)
-  write_csv(data, file.path(tables_dir, "elements.csv"))
-  write_provenance_manifest(...)
+  readr::write_csv(data, file.path(tables_dir, "elements.csv"))
+  write_provenance_manifest(config)
 }
 ```
 
@@ -144,7 +154,7 @@ depending on whether the framework is workforce-shaped:
   CSEC2017, and DigComp 2.2 do this.
 
 Both paths assert `cybed:OrganizingUnit` so cross-framework queries
-reach all eight frameworks via the abstract type. Only
+reach all eleven frameworks via the abstract type. Only
 [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
 additionally asserts `cybed:Role`, restricting workforce-only queries
 appropriately.
@@ -205,8 +215,12 @@ assemble_frameworkx <- function() {
   # The orchestrator collects framework + role + element nodes and the
   # prefix; it then assembles the per-framework JSON-LD document and
   # merges it into the combined graph.
-  list(framework = framework_node, roles = role_nodes, elements = element_nodes,
-       prefix = "fx")
+  list(
+    framework = framework_node,
+    roles = role_nodes,
+    elements = element_nodes,
+    prefix = "fx"
+  )
 }
 
 # Register the assembler so the orchestrator can find it.
@@ -234,7 +248,7 @@ build_organizing_unit_node(
 Pick a `framework_subtype` that names what the unit IS in the
 framework’s own terminology rather than coercing it under “WorkRole.”
 See the
-[namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.md)
+[namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html)
 article for the existing per-framework subtype table; new frameworks
 should follow the same pattern.
 
@@ -263,6 +277,127 @@ they match on `cybed:Framework`, `cybed:OrganizingUnit`, and
 explicitly target `cybed:Role` (workforce-only) include the new
 framework only if its parents assert `cybed:Role` (i.e.,
 `build_role_node` was used). No query rewrites required.
+
+## What if one unit relates to another?
+
+Some frameworks say that one organizing unit stands in a relation to
+another. The OTCCF is the case that prompted the vocabulary: CSA
+publishes which technical skills each job role requires, and at what
+proficiency level. Two helpers cover this, and you usually want both.
+
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md)
+produces the plain edge, a `cybed:relatedUnit` key you fold into the
+`metadata` argument of
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md)
+or
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md).
+It answers “what is this unit connected to” in one hop. Call it **once
+per source unit**, passing every target that unit has in a single call.
+Two calls merged with [`c()`](https://rdrr.io/r/base/c.html) give the
+node two `cybed:relatedUnit` keys, which is not valid JSON-LD. Targets
+in more than one framework go in the same call, with `to_prefix`
+supplied per target.
+
+``` r
+
+rel_meta <- build_related_unit_metadata(
+  to_unit_ids = c("network-security", "incident-response"),
+  to_prefix   = "fx"
+)
+
+build_role_node(
+  role_id             = "ot-security-engineer",
+  role_name           = "OT Security Engineer",
+  framework_prefix    = "fx",
+  framework_role_type = "JobRole",
+  framework_id        = "frameworkx-v1",
+  metadata            = rel_meta
+)
+```
+
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
+produces the qualified statement, a `cybed:UnitRelation` node carrying
+`cybed:fromUnit`, `cybed:toUnit`, `cybed:relationLabel`, and
+`cybed:proficiencyLevel`. Use it when the publisher says more than
+“these two are related”. Levels are stored as character, exactly as
+printed. Do not convert them to numbers and do not normalize them across
+frameworks. One framework’s 4 and another’s Intermediate are not on the
+same scale, and a shared numeric type would assert a comparability the
+sources do not.
+
+``` r
+
+rel <- build_unit_relation_node(
+  from_unit_id      = "ot-security-engineer",
+  to_unit_id        = "network-security",
+  from_prefix       = "fx",
+  relation_label    = "requires",
+  proficiency_level = "4",
+  framework_id      = "frameworkx-v1"
+)
+```
+
+Collect the relation nodes and return them from your assembler in the
+optional `relation_nodes` slot of
+[`assemble_framework_document()`](https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.md).
+Frameworks with no unit-to-unit statements leave it out, and the
+document is unchanged.
+
+``` r
+
+assemble_framework_document(
+  framework_node   = fx_framework,
+  role_nodes       = fx_units,
+  element_nodes    = fx_elements,
+  framework_prefix = "fx",
+  relation_nodes   = fx_relations
+)
+```
+
+## What if the steward asks to be credited, or the text is not in English?
+
+[`build_framework_node()`](https://ryanstraight.github.io/cybedtools/reference/build_framework_node.md)
+takes two optional arguments for this. `attribution` writes
+`schema:creditText` and holds the steward’s wording verbatim. If a
+permission letter gives you a sentence to use, put that sentence here
+without rewording it. `in_language` writes `schema:inLanguage` and takes
+a BCP 47 tag. Set it when the framework’s text is not English, so a
+reader of the graph is not left to guess.
+
+``` r
+
+build_framework_node(
+  framework_id     = "frameworkx-v1",
+  framework_name   = "Framework X",
+  framework_prefix = "fx",
+  version          = "1.0",
+  publisher        = "Example Authority",
+  jurisdiction     = "CZ",
+  sector           = "public",
+  specificity      = "cybersecurity-specific",
+  attribution      = "Framework X, published by the Example Authority. Used with permission.",
+  in_language      = "cs"
+)
+```
+
+## What if the steward limits what may be republished?
+
+Permission to build a graph is not always permission to publish the
+framework’s text. Record what the steward actually granted in the
+framework’s block in `docs/framework-invariants.yml`, under
+`public_redistribution`. Two values are in use. `full_with_attribution`
+means the statement text may be published as long as the attribution
+travels with it, which is where CyQUAL sits. `structure_only` means
+titles, categories, levels, and mappings may be published and the
+statement text may not, which is where CCSSF and OTCCF sit. Put the
+reasoning in a comment beside the value, including the date of the
+written permission, so the next reader does not have to reconstruct it.
+
+Treat the value as binding on anything the package makes public, which
+includes the Concordance site and any data deposit. Analysis on a local
+graph is unaffected. If a steward’s terms do not fit either value, add a
+new one and say so in the comment rather than rounding down to the
+nearest existing label.
 
 ## What if the source is a PDF?
 

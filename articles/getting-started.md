@@ -2,10 +2,12 @@
 
 ## What cybedtools does
 
-Eight cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA,
-ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp
-2.2) expressed in a shared `cybed:` semantic schema. The package adds a
-comparison layer over existing frameworks, not a replacement for them.
+Eleven cybersecurity workforce and learning frameworks (NICE, DCWF,
+SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
+Singapore’s OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017,
+DigComp 2.2) expressed in a shared `cybed:` semantic schema. The package
+adds a comparison layer over existing frameworks, not a replacement for
+them.
 
 This vignette walks through the two ways to use it: install the package
 and run helpers against the small built-in demo graph, or clone the
@@ -17,9 +19,10 @@ Three semantic abstractions carry the work:
 - **`cybed:OrganizingUnit`**: the framework’s top-level enumerated unit
   (work role, work profile, skill, grade-band x sub-concept cell, level
   x concept cell, Knowledge Area, competence area). The cross-framework
-  abstract; queries against it reach all eight frameworks. Workforce
-  frameworks where the unit is genuinely a work role or profile (NICE /
-  DCWF / ENISA ECSF) additionally subclass `cybed:Role`.
+  abstract; queries against it reach all eleven frameworks. Frameworks
+  where the unit is genuinely a work role, job role, or profile (NICE,
+  DCWF, ENISA ECSF, CyQUAL, CCSSF, OTCCF) additionally subclass
+  `cybed:Role`.
 - **`cybed:RoleElement`**: the codable atomic statement attached to an
   organizing unit (task, knowledge statement, skill statement, learning
   standard). Two specialized subtypes for parsed sub-content:
@@ -156,9 +159,9 @@ Rscript scripts/040-run-sparql.R
 Each analysis writes one CSV to `data/processed/query-results/`:
 
 - `q10-organizing-units-per-framework.csv`, cross-framework parent count
-  (all eight frameworks via `cybed:OrganizingUnit`).
-- `q10b-roles-per-framework.csv`, workforce-restricted parent count
-  (NICE / DCWF / ECSF via `cybed:Role`).
+  (all eleven frameworks via `cybed:OrganizingUnit`).
+- `q10b-roles-per-framework.csv`, role-restricted parent count (the six
+  frameworks that assert `cybed:Role`).
 - `q11-elements-per-framework-strict.csv`, strict element count per
   framework (parents + Subpoints, Examples excluded).
 - `q11b-elements-per-framework-with-examples.csv`, inclusive element
@@ -209,9 +212,9 @@ framework_metadata(rdf) |>
 ``` r
 
 # Count how many top-level organizing units each framework declares.
-# organizing_unit_framework_bindings reaches all eight frameworks via the
+# organizing_unit_framework_bindings reaches all eleven frameworks via the
 # cross-framework cybed:OrganizingUnit type. role_framework_bindings
-# would restrict to workforce frameworks (NICE / DCWF / ECSF) only.
+# would restrict to the six frameworks that declare roles.
 organizing_unit_framework_bindings(rdf) |>
   count(framework_name, name = "organizing_unit_count")
 #> # A tibble: 2 × 2
@@ -248,7 +251,7 @@ results <- framework_metadata(rdf) |>
 # 3. Inspect the result. One row per framework, columns for name,
 #    jurisdiction, sector, specificity. This metadata frame is the
 #    foundation for every cross-framework pivot the package supports.
-print(results)
+results
 ```
 
 This returns one row per framework with jurisdiction, sector, and
@@ -256,18 +259,22 @@ specificity, the metadata foundation for cross-framework pivots.
 
 ## Next steps
 
-- See the vignette **“Cross-framework analysis”** for worked examples of
-  structural and analytical queries across frameworks.
-- See the vignette **“Adding a new framework”** for how to extend the
-  package with a framework beyond the current eight.
+- See
+  [`vignette("cross-framework-analysis", package = "cybedtools")`](https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.md)
+  for worked examples of structural and analytical queries across
+  frameworks.
+- See
+  [`vignette("adding-a-framework", package = "cybedtools")`](https://ryanstraight.github.io/cybedtools/articles/adding-a-framework.md)
+  for how to extend the package with a framework beyond the current
+  eleven.
 - See the
-  [namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.md)
+  [namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html)
   article for the two-tier schema design.
 - See the
-  [data-integrity](https://ryanstraight.github.io/cybedtools/articles/data-integrity.md)
+  [data-integrity](https://ryanstraight.github.io/cybedtools/articles/data-integrity.html)
   article for the verification contract.
 - See the
-  [sparql-strategy](https://ryanstraight.github.io/cybedtools/articles/sparql-strategy.md)
+  [sparql-strategy](https://ryanstraight.github.io/cybedtools/articles/sparql-strategy.html)
   article for query design rationale.
 
 ## License

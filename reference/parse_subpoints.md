@@ -70,23 +70,26 @@ parse_subpoints(
   focus on examples such as not using common words; using pass phrases;
   combining letters, numbers, and symbols."
 )
-#> # A tibble: 2 × 3
-#>   ordinal text                   node_type
-#>     <int> <chr>                  <chr>    
-#> 1       1 not using common words Example  
-#> 2       2 using pass phrases     Example  
+#> # A tibble: 3 × 3
+#>   ordinal text                                    node_type
+#>     <int> <chr>                                   <chr>    
+#> 1       1 not using common words                  Example  
+#> 2       2 using pass phrases                      Example  
+#> 3       3 combining letters, numbers, and symbols Example  
 
 # "Such as ..." comma list -> Subpoints. Common in SFIA, NICE, CSEC2017.
 parse_subpoints(
   "Authentication methods such as certificate, token-based, two-factor,
   multifactor, and biometric."
 )
-#> # A tibble: 3 × 3
+#> # A tibble: 5 × 3
 #>   ordinal text        node_type
 #>     <int> <chr>       <chr>    
 #> 1       1 certificate Subpoint 
 #> 2       2 token-based Subpoint 
 #> 3       3 two-factor  Subpoint 
+#> 4       4 multifactor Subpoint 
+#> 5       5 biometric   Subpoint 
 
 # Atomic statement returns an empty tibble.
 parse_subpoints(

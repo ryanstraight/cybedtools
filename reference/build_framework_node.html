@@ -31,7 +31,7 @@ cybed:partOf."><meta property="og:image" content="https://ryanstraight.github.io
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,9 @@ nodes. Downstream Role and RoleElement nodes attach to it via
 <span>  <span class="va">sector</span>,</span>
 <span>  <span class="va">specificity</span>,</span>
 <span>  license <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
-<span>  date_published <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span>  date_published <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  attribution <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  in_language <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,7 +117,9 @@ nodes. Downstream Role and RoleElement nodes attach to it via
 
 
 <dt id="arg-jurisdiction">jurisdiction<a class="anchor" aria-label="anchor" href="#arg-jurisdiction"></a></dt>
-<dd><p>Character, one of <code>"US"</code>, <code>"EU"</code>, <code>"UK"</code>, <code>"global"</code>.</p></dd>
+<dd><p>Character: <code>"US"</code>, <code>"EU"</code>, <code>"UK"</code>, <code>"global"</code>, or an
+ISO 3166-1 alpha-2 country code for a national framework (e.g., <code>"CZ"</code>,
+<code>"CA"</code>, <code>"SG"</code>).</p></dd>
 
 
 <dt id="arg-sector">sector<a class="anchor" aria-label="anchor" href="#arg-sector"></a></dt>
@@ -134,6 +138,18 @@ nodes. Downstream Role and RoleElement nodes attach to it via
 <dt id="arg-date-published">date_published<a class="anchor" aria-label="anchor" href="#arg-date-published"></a></dt>
 <dd><p>Character, ISO-8601 date.</p></dd>
 
+
+<dt id="arg-attribution">attribution<a class="anchor" aria-label="anchor" href="#arg-attribution"></a></dt>
+<dd><p>Character, the attribution statement the framework's
+steward requires, recorded verbatim as <code>schema:creditText</code>. Supply it
+exactly as the steward worded it.</p></dd>
+
+
+<dt id="arg-in-language">in_language<a class="anchor" aria-label="anchor" href="#arg-in-language"></a></dt>
+<dd><p>Character, BCP 47 language tag of the framework's
+statement text (e.g., <code>"cs"</code>), recorded as <code>schema:inLanguage</code>. Omit for
+English-language frameworks.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -146,8 +162,10 @@ nodes. Downstream Role and RoleElement nodes attach to it via
 <code><a href="build_jsonld_context.html">build_jsonld_context()</a></code>,
 <code><a href="build_multi_framework_context.html">build_multi_framework_context()</a></code>,
 <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>,
+<code><a href="build_related_unit_metadata.html">build_related_unit_metadata()</a></code>,
 <code><a href="build_role_element_node.html">build_role_element_node()</a></code>,
-<code><a href="build_role_node.html">build_role_node()</a></code></p></div>
+<code><a href="build_role_node.html">build_role_node()</a></code>,
+<code><a href="build_unit_relation_node.html">build_unit_relation_node()</a></code></p></div>
     </div>
 
     <div class="section level2">

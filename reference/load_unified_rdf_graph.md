@@ -14,7 +14,7 @@ NICE/SFIA/DCWF/ECSF/CSEC/etc. as they revise.
 ``` r
 load_unified_rdf_graph(
   framework_slugs = c("nice", "sfia", "dcwf", "ecsf", "cyberorg-k12", "csta", "csec2017",
-    "digcomp"),
+    "digcomp", "cyqual", "ccssf", "otccf"),
   jsonld_dir = NULL
 )
 ```

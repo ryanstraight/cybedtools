@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,7 @@ knowledge statement, skill statement, competence, learning standard),
 sub-point, example, element text, source reference, and structural
 metadata (jurisdiction, sector, specificity). Per-framework vocabularies
 specialize these via subclassing, so a single SPARQL query targeting
-<code>cybed:OrganizingUnit</code> returns parent units across all eight
+<code>cybed:OrganizingUnit</code> returns parent units across all eleven
 frameworks in one pass.</p>
 <p>Schema.org (<code>schema:</code>) and SKOS (<code>skos:</code>)
 provide the outermost vocabulary layer for generic properties such as
@@ -184,18 +184,23 @@ subclass <code>cybed:OrganizingUnit</code> directly.</p>
   ROLE --&gt; NICE_R["nice:WorkRole"]
   ROLE --&gt; DCWF_R["dcwf:WorkRole"]
   ROLE --&gt; ECSF_R["ecsf:RoleProfile"]
+  ROLE --&gt; CYQ_R["cyqual:WorkRole"]
+  ROLE --&gt; CCS_R["ccssf:WorkRole&lt;br&gt;ccssf:AdjacentRole"]
+  ROLE --&gt; OTC_R["otccf:JobRole"]
   OU --&gt; SFIA_S["sfia:Skill"]
   OU --&gt; CYB_SG["cyberorg:StandardGroup"]
   OU --&gt; CSTA_SG["csta:StandardGroup"]
   OU --&gt; CSEC_KA["csec:KnowledgeArea"]
   OU --&gt; DIG_CA["digcomp:CompetenceArea"]
+  OU --&gt; CYQ_C["cyqual:Competency"]
+  OU --&gt; OTC_S["otccf:TechnicalSkillCompetency&lt;br&gt;otccf:CriticalCoreSkill"]
 
   classDef abs fill:#0F172A,stroke:#38BDF8,color:#E0F2FE,stroke-width:2px
   classDef wfr fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
   classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
   class OU abs
   class ROLE wfr
-  class NICE_R,DCWF_R,ECSF_R,SFIA_S,CYB_SG,CSTA_SG,CSEC_KA,DIG_CA sub</code></pre>
+  class NICE_R,DCWF_R,ECSF_R,CYQ_R,CCS_R,OTC_R,SFIA_S,CYB_SG,CSTA_SG,CSEC_KA,DIG_CA,CYQ_C,OTC_S sub</code></pre>
 <p>Atomic content elements have their own parallel hierarchy under
 <code>cybed:RoleElement</code>, with two specialized child types for
 parsed sub-content (<code>cybed:Subpoint</code> for
@@ -211,6 +216,9 @@ pedagogical-scaffolding fragments).</p>
   RE --&gt; CSTA_S["csta:Standard"]
   RE --&gt; CSEC_E["csec:Essential"]
   RE --&gt; DIG_C["digcomp:Competence"]
+  RE --&gt; CYQ_E["cyqual:Task&lt;br&gt;cyqual:Requirement"]
+  RE --&gt; CCS_E["ccssf:Task&lt;br&gt;ccssf:Competency&lt;br&gt;ccssf:ToolOrTechnology"]
+  RE --&gt; OTC_E["otccf:KeyTask&lt;br&gt;otccf:Knowledge&lt;br&gt;otccf:Ability&lt;br&gt;otccf:ProficiencyDescription"]
   RE --&gt; SP["cybed:Subpoint&lt;br&gt;(parsed enumeration)"]
   RE --&gt; EX["cybed:Example&lt;br&gt;(parsed scaffolding)"]
 
@@ -218,20 +226,20 @@ pedagogical-scaffolding fragments).</p>
   classDef sub fill:#1E293B,stroke:#7DD3FC,color:#E0F2FE
   classDef parsed fill:#1E293B,stroke:#FCD34D,color:#FEF3C7
   class RE base
-  class NICE_T,DCWF_E,SFIA_SL,ECSF_E,CYB_S,CSTA_S,CSEC_E,DIG_C sub
+  class NICE_T,DCWF_E,SFIA_SL,ECSF_E,CYB_S,CSTA_S,CSEC_E,DIG_C,CYQ_E,CCS_E,OTC_E sub
   class SP,EX parsed</code></pre>
 <p>A single SPARQL query against <code>cybed:OrganizingUnit</code>
-returns comparable parent-level bindings across all eight frameworks at
+returns comparable parent-level bindings across all eleven frameworks at
 once. A query against <code>cybed:RoleElement</code> returns every
 atomic content node (parents, Subpoints, and Examples). A query against
 <code>cybed:Role</code> is workforce-restricted to NICE / DCWF / ENISA
-ECSF.</p>
+ECSF / CyQUAL / CCSSF / OTCCF.</p>
 <div class="section level3">
 <h3 id="tier-1-base-vocabulary-cybed">Tier 1: Base vocabulary (<code>cybed:</code>)<a class="anchor" aria-label="anchor" href="#tier-1-base-vocabulary-cybed"></a>
 </h3>
 <p>Framework-agnostic terms. <code>cybed:OrganizingUnit</code> is the
 cross-framework abstract; every framework’s parent type subclasses it,
-and queries against it reach all eight frameworks.
+and queries against it reach all eleven frameworks.
 <code>cybed:Role</code> is reserved for workforce frameworks where the
 unit is genuinely a work role or work profile.</p>
 <ul>
@@ -247,10 +255,11 @@ Area, competence area).</li>
 <li>
 <code>cybed:Role</code>,
 <code>subClassOf cybed:OrganizingUnit</code>. The workforce-specific
-intermediate type. Asserted on NICE work roles, DCWF work roles, and
-ENISA ECSF profiles. Not asserted on SFIA skills, Cyber.org K-12
-grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
-Knowledge Areas, or DigComp competence areas.</li>
+intermediate type. Asserted on NICE work roles, DCWF work roles, ENISA
+ECSF profiles, CyQUAL work roles, CCSSF work and adjacent roles, and
+OTCCF job roles. Not asserted on SFIA skills, Cyber.org K-12 grade-band
+x sub-concept cells, CSTA level x concept cells, CSEC2017 Knowledge
+Areas, or DigComp competence areas.</li>
 <li>
 <code>cybed:RoleElement</code>, an atomic element attached to a
 parent unit (task, competence, skill statement, knowledge statement,
@@ -292,13 +301,37 @@ Subpoint, or Example to its <code>cybed:Framework</code>.</li>
 parent-vs-Subpoint distinction when both appear in the same
 <code>cybed:hasElement</code> collection.</li>
 <li>
+<code>cybed:relatedUnit</code>, object property from one organizing
+unit to another. The plain edge, for a one-hop “what is this connected
+to” query. Built with <code><a href="../reference/build_related_unit_metadata.html">build_related_unit_metadata()</a></code>.</li>
+<li>
+<code>cybed:UnitRelation</code>, a reified relation between two
+organizing units, used when the publisher qualifies the link. Carries
+<code>cybed:fromUnit</code> and <code>cybed:toUnit</code> (object
+properties naming the two units), <code>cybed:relationLabel</code> (the
+publisher’s own word for the relation), and
+<code>cybed:proficiencyLevel</code> (the level as printed, always a
+string, since framework level scales do not compare). Built with
+<code><a href="../reference/build_unit_relation_node.html">build_unit_relation_node()</a></code>.</li>
+<li>
+<code>cybed:niceCrossReference</code>, a literal recording a
+framework’s own citation of a NICE work role, where that citation cannot
+be resolved to a link. A sibling of <code>cybed:ecfCrossReference</code>
+and <code>cybed:cybokCrossReference</code>.</li>
+<li>
 <code>cybed:elementText</code>, literal text of the element.</li>
 <li>
 <code>cybed:sourceSection</code>, where this element appears in the
 source document.</li>
 <li>
-<code>cybed:jurisdiction</code>, e.g., “US”, “EU”, “UK”,
-“global”.</li>
+<code>cybed:jurisdiction</code>, e.g., “US”, “EU”, “UK”, “CZ”, “CA”,
+“SG”, “global”.</li>
+<li>
+<code>schema:creditText</code> on a <code>cybed:Framework</code>
+node, the steward’s attribution wording verbatim.</li>
+<li>
+<code>schema:inLanguage</code> on a <code>cybed:Framework</code>
+node, a BCP 47 tag for frameworks whose text is not English.</li>
 <li>
 <code>cybed:sector</code>, e.g., “civilian”, “defense”, “general”,
 “K-12-education”, “higher-education”, “citizen-education”.</li>
@@ -384,8 +417,60 @@ Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
 <td><code>cybed:OrganizingUnit</code></td>
 <td><code>digcomp:Competence</code></td>
 </tr>
+<tr class="odd">
+<td>CyQUAL 1.2.0</td>
+<td><code>cyqual:WorkRole</code></td>
+<td><code>cybed:Role</code></td>
+<td>
+<code>cyqual:Task</code>, <code>cyqual:Requirement</code>
+</td>
+</tr>
+<tr class="even">
+<td>CyQUAL 1.2.0</td>
+<td><code>cyqual:Competency</code></td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td><code>cyqual:Requirement</code></td>
+</tr>
+<tr class="odd">
+<td>CCSSF 2022</td>
+<td>
+<code>ccssf:WorkRole</code>, <code>ccssf:AdjacentRole</code>
+</td>
+<td><code>cybed:Role</code></td>
+<td>
+<code>ccssf:Task</code>, <code>ccssf:Competency</code>,
+<code>ccssf:ToolOrTechnology</code>
+</td>
+</tr>
+<tr class="even">
+<td>OTCCF v1.1</td>
+<td><code>otccf:JobRole</code></td>
+<td><code>cybed:Role</code></td>
+<td><code>otccf:KeyTask</code></td>
+</tr>
+<tr class="odd">
+<td>OTCCF v1.1</td>
+<td>
+<code>otccf:TechnicalSkillCompetency</code>,
+<code>otccf:CriticalCoreSkill</code>
+</td>
+<td><code>cybed:OrganizingUnit</code></td>
+<td>
+<code>otccf:Knowledge</code>, <code>otccf:Ability</code>,
+<code>otccf:ProficiencyDescription</code>
+</td>
+</tr>
 </tbody>
 </table>
+<p>The three frameworks added in v0.3.0 mint their Tier 2 terms under
+<code>https://w3id.org/cybed/framework/&lt;slug&gt;#</code> rather than
+under the steward’s own domain. The other eight sit under a namespace
+derived from the publisher’s site. The difference is deliberate. A term
+like <code>otccf:JobRole</code> is a type cybedtools coined to describe
+what CSA published, and it is not an identifier CSA issued. Putting it
+under the package’s own namespace keeps that distinction visible in the
+URI itself, so nobody reading the graph mistakes a package-coined
+subtype for the steward’s vocabulary.</p>
 </div>
 </div>
 <div class="section level2">

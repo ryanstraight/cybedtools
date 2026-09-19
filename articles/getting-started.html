@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,8 +98,9 @@
 <div class="section level2">
 <h2 id="what-cybedtools-does">What cybedtools does<a class="anchor" aria-label="anchor" href="#what-cybedtools-does"></a>
 </h2>
-<p>Eight cybersecurity workforce and learning frameworks (NICE, DCWF,
-SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017,
+<p>Eleven cybersecurity workforce and learning frameworks (NICE, DCWF,
+SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
+Singapore’s OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017,
 DigComp 2.2) expressed in a shared <code>cybed:</code> semantic schema.
 The package adds a comparison layer over existing frameworks, not a
 replacement for them.</p>
@@ -116,10 +117,10 @@ learning framework.</li>
 <strong><code>cybed:OrganizingUnit</code></strong>: the framework’s
 top-level enumerated unit (work role, work profile, skill, grade-band x
 sub-concept cell, level x concept cell, Knowledge Area, competence
-area). The cross-framework abstract; queries against it reach all eight
-frameworks. Workforce frameworks where the unit is genuinely a work role
-or profile (NICE / DCWF / ENISA ECSF) additionally subclass
-<code>cybed:Role</code>.</li>
+area). The cross-framework abstract; queries against it reach all eleven
+frameworks. Frameworks where the unit is genuinely a work role, job
+role, or profile (NICE, DCWF, ENISA ECSF, CyQUAL, CCSSF, OTCCF)
+additionally subclass <code>cybed:Role</code>.</li>
 <li>
 <strong><code>cybed:RoleElement</code></strong>: the codable atomic
 statement attached to an organizing unit (task, knowledge statement,
@@ -247,11 +248,11 @@ the full design rationale and the helper functions exposed.</p>
 <ul>
 <li>
 <code>q10-organizing-units-per-framework.csv</code>, cross-framework
-parent count (all eight frameworks via
+parent count (all eleven frameworks via
 <code>cybed:OrganizingUnit</code>).</li>
 <li>
-<code>q10b-roles-per-framework.csv</code>, workforce-restricted
-parent count (NICE / DCWF / ECSF via <code>cybed:Role</code>).</li>
+<code>q10b-roles-per-framework.csv</code>, role-restricted parent
+count (the six frameworks that assert <code>cybed:Role</code>).</li>
 <li>
 <code>q11-elements-per-framework-strict.csv</code>, strict element
 count per framework (parents + Subpoints, Examples excluded).</li>
@@ -305,9 +306,9 @@ helper:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count how many top-level organizing units each framework declares.</span></span>
-<span><span class="co"># organizing_unit_framework_bindings reaches all eight frameworks via the</span></span>
+<span><span class="co"># organizing_unit_framework_bindings reaches all eleven frameworks via the</span></span>
 <span><span class="co"># cross-framework cybed:OrganizingUnit type. role_framework_bindings</span></span>
-<span><span class="co"># would restrict to workforce frameworks (NICE / DCWF / ECSF) only.</span></span>
+<span><span class="co"># would restrict to the six frameworks that declare roles.</span></span>
 <span><span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, name <span class="op">=</span> <span class="st">"organizing_unit_count"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -342,7 +343,7 @@ you assembled from staged sources.</p>
 <span><span class="co"># 3. Inspect the result. One row per framework, columns for name,</span></span>
 <span><span class="co">#    jurisdiction, sector, specificity. This metadata frame is the</span></span>
 <span><span class="co">#    foundation for every cross-framework pivot the package supports.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results</span></span></code></pre></div>
 <p>This returns one row per framework with jurisdiction, sector, and
 specificity, the metadata foundation for cross-framework pivots.</p>
 </div>
@@ -350,17 +351,20 @@ specificity, the metadata foundation for cross-framework pivots.</p>
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h2>
 <ul>
-<li>See the vignette <strong>“Cross-framework analysis”</strong> for
-worked examples of structural and analytical queries across
+<li>See
+<code><a href="../articles/cross-framework-analysis.html">vignette("cross-framework-analysis", package = "cybedtools")</a></code>
+for worked examples of structural and analytical queries across
 frameworks.</li>
-<li>See the vignette <strong>“Adding a new framework”</strong> for how
-to extend the package with a framework beyond the current eight.</li>
-<li>See the <a href="../articles/namespace-architecture.html">namespace-architecture</a>
+<li>See
+<code><a href="../articles/adding-a-framework.html">vignette("adding-a-framework", package = "cybedtools")</a></code> for
+how to extend the package with a framework beyond the current
+eleven.</li>
+<li>See the <a href="https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html">namespace-architecture</a>
 article for the two-tier schema design.</li>
-<li>See the <a href="../articles/data-integrity.html">data-integrity</a>
+<li>See the <a href="https://ryanstraight.github.io/cybedtools/articles/data-integrity.html">data-integrity</a>
 article for the verification contract.</li>
-<li>See the <a href="../articles/sparql-strategy.html">sparql-strategy</a> article for
-query design rationale.</li>
+<li>See the <a href="https://ryanstraight.github.io/cybedtools/articles/sparql-strategy.html">sparql-strategy</a>
+article for query design rationale.</li>
 </ul>
 </div>
 <div class="section level2">

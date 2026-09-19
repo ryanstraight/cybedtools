@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,12 +93,13 @@
 <!-- badges: start -->
 
 <blockquote>
-<p><strong>Looking for the audience-facing surface?</strong> <a href="https://ryanstraight.github.io/cybedtools/concordance/">Concordance</a> renders the framework data, the cross-framework comparisons, and the working scenarios in a form that does not require running R. Cite Concordance for site content; cite cybedtools for the methodology and any element-level analysis.</p>
+<p><a href="https://ryanstraight.github.io/cybedtools/concordance/">Concordance</a> renders the framework data, the cross-framework comparisons, and the working scenarios without requiring R. Cite Concordance for site content, and cybedtools for the methodology and any element-level analysis.</p>
 </blockquote>
 <p>A corpus of cybersecurity workforce and learning frameworks. Each carries a different schema and a different vocabulary. Comparing them (what’s specified where, where they overlap, how their structural commitments differ) has historically meant rebuilding the comparison from scratch every time, in a spreadsheet.</p>
-<p>cybedtools makes the comparison one query.</p>
-<p>The package ingests four workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF) and four pedagogical or learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2), expresses them all in a shared <code>cybed:</code> semantic schema, and exposes a small set of R helpers that let you query across them as if they were one corpus.</p>
+<p>cybedtools makes the comparison one simple query.</p>
+<p>The package ingests seven workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF, the Czech CyQUAL, the Canadian Cyber Security Skills Framework, and Singapore’s OTCCF) and four pedagogical or learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). All eleven are expressed in a shared <code>cybed:</code> semantic schema. A small set of R helpers queries across them as if they were one corpus.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer.</p>
+<p>A native Python package is in development.</p>
 <p>Who it’s for:</p>
 <ul>
 <li>cybersecurity education researchers comparing curricula across frameworks</li>
@@ -130,7 +131,7 @@ License
 <tbody>
 <tr>
 <td>
-NICE v2
+NICE v2.2.0
 </td>
 <td>
 workforce
@@ -139,13 +140,13 @@ workforce
 US
 </td>
 <td>
-41
+53
 </td>
 <td>
-2,115
+2,225
 </td>
 <td>
-public domain
+US public domain (17 U.S.C. 105); foreign rights may be reserved; attribute NIST as source
 </td>
 </tr>
 <tr>
@@ -162,7 +163,7 @@ US
 74
 </td>
 <td>
-2,945
+4,052
 </td>
 <td>
 public domain
@@ -202,7 +203,7 @@ global
 147
 </td>
 <td>
-830
+821
 </td>
 <td>
 SFIA Use Policy
@@ -222,7 +223,7 @@ US
 116
 </td>
 <td>
-500
+492
 </td>
 <td>
 CC BY-NC 4.0
@@ -242,7 +243,7 @@ US
 25
 </td>
 <td>
-254
+258
 </td>
 <td>
 CC BY-NC-SA 4.0
@@ -288,27 +289,210 @@ EU
 EU open re-use
 </td>
 </tr>
+<tr>
+<td>
+CyQUAL 1.2.0
+</td>
+<td>
+workforce
+</td>
+<td>
+CZ
+</td>
+<td>
+161
+</td>
+<td>
+3,340
+</td>
+<td>
+Open data; attribution to CyQUAL and Masaryk University
+</td>
+</tr>
+<tr>
+<td>
+CCSSF 2022
+</td>
+<td>
+workforce
+</td>
+<td>
+CA
+</td>
+<td>
+59
+</td>
+<td>
+1,345
+</td>
+<td>
+Government of Canada copyright; used with permission
+</td>
+</tr>
+<tr>
+<td>
+OTCCF v1.1
+</td>
+<td>
+workforce
+</td>
+<td>
+SG
+</td>
+<td>
+61
+</td>
+<td>
+1,612
+</td>
+<td>
+CSA copyright; permission for non-commercial academic and research use
+</td>
+</tr>
 </tbody>
 </table>
-<p>The “Top-level units” column reports each framework’s top-level enumerated unit. NICE / DCWF / ECSF declare work roles or work profiles; SFIA declares skills; CSEC2017 declares Knowledge Areas; DigComp 2.2 declares competence areas. Cyber.org K-12 and CSTA do not name the cell that groups their numbered standards within their internal axes (grade band x sub-concept for Cyber.org; level x concept for CSTA), so cybedtools labels both <code>StandardGroup</code>. Every framework’s top-level type subclasses <code>cybed:OrganizingUnit</code> so cross-framework queries reach them uniformly; NICE / DCWF / ECSF additionally subclass <code>cybed:Role</code>. The “Elements” column counts parents, parsed Subpoints, and (for Cyber.org K-12 and CSTA) Clarification-statement Examples; <code>framework_summary</code> carries <code>element_count_strict</code> for analyses that need the count without Examples. See <code>docs/framework-data-sources.md</code> for the per-framework structural mapping.</p>
+<p>The “Top-level units” column reports each framework’s own top-level enumerated unit, and those units are not the same kind of thing. NICE, DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles. SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2 declares competence areas, and Cyber.org K-12 and CSTA use unnamed groupings that cybedtools labels <code>StandardGroup</code>. All of them subclass <code>cybed:OrganizingUnit</code>, so cross-framework queries reach them uniformly. How the “Elements” column counts, and how <code>framework_summary</code> reports strict, augmented, and per-role totals, is in <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>.</p>
 <div class="section level2">
-<h2 id="what-you-can-find-with-this">What you can find with this<a class="anchor" aria-label="anchor" href="#what-you-can-find-with-this"></a>
+<h2 id="what-you-could-not-do-before">What you could not do before<a class="anchor" aria-label="anchor" href="#what-you-could-not-do-before"></a>
 </h2>
-<p>The frameworks in the corpus were authored independently, for different audiences, at different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats, under different licenses, with different design philosophies. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings illustrate what that surfaces.</p>
+<p>Counting what is in a framework is easy. Download it and count. The harder questions run across frameworks, and those used to mean parsing a NIST JSON file, a DoD spreadsheet, a SQLite database, an open-data export and two PDFs into one shape before the first comparison. cybedtools does that part. Three examples follow. Each runs in about a second.</p>
 <div class="section level3">
-<h3 id="per-unit-density-varies-by-12x-across-the-corpus">Per-unit density varies by 12x across the corpus<a class="anchor" aria-label="anchor" href="#per-unit-density-varies-by-12x-across-the-corpus"></a>
+<h3 id="which-frameworks-are-made-of-the-same-sentences">Which frameworks are made of the same sentences?<a class="anchor" aria-label="anchor" href="#which-frameworks-are-made-of-the-same-sentences"></a>
 </h3>
-<p>NICE v2 expresses 51.6 elements per its top-level unit; DigComp 2.2 expresses 4.2. The spread reflects framework design philosophy more than relative completeness: NICE / DCWF are granular by intent as the basis for hiring and training pipelines; ENISA’s ECSF and JRC’s DigComp are intentionally high-level as interoperability frames and citizen self-assessment instruments. Treat per-unit density as a comparison aid across heterogeneous denominators, not a quality claim. (<code>framework_summary</code> carries both <code>elements_per_organizing_unit_with_examples</code> used here and a Subpoint-only <code>_strict</code> variant for analyses that prefer to exclude pedagogical scaffolding.)</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools" class="external-link">cybedtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">statements</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu"><a href="reference/subpoint_framework_bindings.html">subpoint_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"element"</span> <span class="op">=</span> <span class="st">"subpoint"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu"><a href="reference/example_framework_bindings.html">example_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"element"</span> <span class="op">=</span> <span class="st">"example"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="fu"><a href="reference/element_text.html">element_text</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"element"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    text <span class="op">=</span> <span class="va">text</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/case.html" class="external-link">str_to_lower</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="st">"^\\s*\\*\\s+"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="st">"[[:punct:]\\s]+$"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_trim.html" class="external-link">str_squish</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">15</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">framework_name</span>, <span class="va">text</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">statements</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">statements</span>, by <span class="op">=</span> <span class="st">"text"</span>, suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"_2"</span><span class="op">)</span>,</span>
+<span>             relationship <span class="op">=</span> <span class="st">"many-to-many"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">framework_name</span> <span class="op">&lt;</span> <span class="va">framework_name_2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, <span class="va">framework_name_2</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span><span class="co">#&gt;   framework_name                                          framework_name_2     n</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                                   &lt;chr&gt;            &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 CyQUAL 1.2.0                                            DCWF v5.1         1400</span></span>
+<span><span class="co">#&gt; 2 CyQUAL 1.2.0                                            ECSF v1            132</span></span>
+<span><span class="co">#&gt; 3 CyQUAL 1.2.0                                            NICE v2.2.0 (NI…   100</span></span>
+<span><span class="co">#&gt; 4 DCWF v5.1                                               NICE v2.2.0 (NI…   100</span></span>
+<span><span class="co">#&gt; 5 Canadian Cyber Security Skills Framework 2022 (ITSM.00… CyQUAL 1.2.0         2</span></span>
+<span><span class="co">#&gt; 6 Canadian Cyber Security Skills Framework 2022 (ITSM.00… DCWF v5.1            2</span></span></code></pre></div>
+<!-- The two percentages in the paragraph below are fixed, not computed at render time: the August 2017 NICE Framework is not in the corpus graph. They were measured on 2026-09-19 against the NIST SP 800-181 supplemental task and KSA workbook, normalised the same way as the chunk above and on the same parents-only basis. -->
+<p>The largest block of shared text in the corpus is between CyQUAL, the Czech national framework, and DCWF, the US Department of Defense framework: 1,400 statements, word for word. Neither names the other as a source. Each shares only 100 statements with the current NICE Framework. What they have in common is the 2017 NICE Framework. Checked against NIST’s 2017 release, nearly all of what the two share is 2017 NICE text, and under 5 percent of that 2017 text survives in NICE v2.2.0. The 2017 edition is better preserved in Prague and at the Pentagon than at NIST. Canada’s framework describes itself as an adaptation of NICE and shares under 1 percent of its statements with anything.</p>
 </div>
 <div class="section level3">
-<h3 id="jurisdictional-element-volume-skews-us-heavy-14-to-1">Jurisdictional element volume skews US-heavy 14 to 1<a class="anchor" aria-label="anchor" href="#jurisdictional-element-volume-skews-us-heavy-14-to-1"></a>
+<h3 id="which-frameworks-have-nothing-to-say-about-a-topic">Which frameworks have nothing to say about a topic?<a class="anchor" aria-label="anchor" href="#which-frameworks-have-nothing-to-say-about-a-topic"></a>
 </h3>
-<p>US frameworks (NICE v2, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)) contribute 5,814 elements; EU frameworks (ECSF v1 + DigComp 2.2) contribute 411. The ratio reflects design intent: ECSF profiles embed e-CF 4.0 cross-references that cybedtools does not currently materialize, and DigComp 2.2’s annexes carry examples-per-competence that the package does not yet extract. Researchers using element counts as a coverage metric should attribute the asymmetry to design philosophy (and incomplete extraction on the EU side), not to relative effort.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">topics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  ai           <span class="op">=</span> <span class="st">"machine learning|artificial intelligence|neural network"</span>,</span>
+<span>  ethics       <span class="op">=</span> <span class="st">"ethic|moral"</span>,</span>
+<span>  cryptography <span class="op">=</span> <span class="st">"cryptograph|encrypt"</span>,</span>
+<span>  supply_chain <span class="op">=</span> <span class="st">"supply chain|third.party"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="fu"><a href="reference/element_text.html">element_text</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"element"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap</a></span><span class="op">(</span><span class="va">topics</span>, \<span class="op">(</span><span class="va">pattern</span>, <span class="va">topic</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">all_text</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
+<span>      <span class="st">"{topic}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></span><span class="op">(</span><span class="va">text</span>, <span class="fu"><a href="https://stringr.tidyverse.org/reference/modifiers.html" class="external-link">regex</a></span><span class="op">(</span><span class="va">pattern</span>, ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      .by <span class="op">=</span> <span class="va">framework_name</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/reduce.html" class="external-link">reduce</a></span><span class="op">(</span><span class="va">left_join</span>, by <span class="op">=</span> <span class="st">"framework_name"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">all_text</span>, <span class="va">framework_name</span>, name <span class="op">=</span> <span class="st">"statements"</span><span class="op">)</span>,</span>
+<span>    by <span class="op">=</span> <span class="st">"framework_name"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">statements</span>, .after <span class="op">=</span> <span class="va">framework_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">statements</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 6</span></span>
+<span><span class="co">#&gt;    framework_name              statements    ai ethics cryptography supply_chain</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                            &lt;int&gt; &lt;int&gt;  &lt;int&gt;        &lt;int&gt;        &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 DCWF v5.1                         4052    24     12           52           18</span></span>
+<span><span class="co">#&gt;  2 CyQUAL 1.2.0                      3340     1      9           29           18</span></span>
+<span><span class="co">#&gt;  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22</span></span>
+<span><span class="co">#&gt;  4 Operational Technology Cyb…       1612     1      6           31           12</span></span>
+<span><span class="co">#&gt;  5 Canadian Cyber Security Sk…       1345     0      5           36           29</span></span>
+<span><span class="co">#&gt;  6 SFIA 9                             821     6     15            0           11</span></span>
+<span><span class="co">#&gt;  7 Cyber.org K-12 Learning St…        492     0      8           10            0</span></span>
+<span><span class="co">#&gt;  8 ECSF v1                            390     0      4            0            1</span></span>
+<span><span class="co">#&gt;  9 CSTA K-12 Computer Science…        258     2      8            3            0</span></span>
+<span><span class="co">#&gt; 10 CSEC2017 Curricular Guidel…         40     0      3            1            1</span></span>
+<span><span class="co">#&gt; 11 DigComp 2.2                         21     0      0            0            0</span></span></code></pre></div>
+<p>Five of the eleven frameworks contain no statement that mentions artificial intelligence or machine learning. DCWF has 24 such statements, more than the other ten frameworks combined. NICE has three statements that mention ethics, out of 2,225. SFIA, ECSF and DigComp have none that mention cryptography.</p>
+<p>This measures the words a framework uses. It does not measure what a framework covers. OTCCF is a framework about operational technology and scores zero on the phrase “operational technology”, because CSA writes “OT”. A zero in this table is a reason to go and read the framework.</p>
 </div>
 <div class="section level3">
-<h3 id="the-five-highest-element-load-nice-work-roles-concentrate-disproportionate-specification">The five highest-element-load NICE work roles concentrate disproportionate specification<a class="anchor" aria-label="anchor" href="#the-five-highest-element-load-nice-work-roles-concentrate-disproportionate-specification"></a>
+<h3 id="which-frameworks-reuse-statements-across-roles">Which frameworks reuse statements across roles?<a class="anchor" aria-label="anchor" href="#which-frameworks-reuse-statements-across-roles"></a>
 </h3>
-<p>Security Control Assessment (307 elements), Secure Systems Development (232), Cybersecurity Architecture (219), Defensive Cybersecurity (206), Systems Security Management (204). Curricula that “cover NICE” by surveying these five look thorough. Curricula that cover the long tail of 41 work roles look thin by element count alone. This is a property of NICE’s internal weighting, not a finding about the broader corpus.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/role_element_bindings.html">role_element_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">semi_join</a></span><span class="op">(</span><span class="fu"><a href="reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"role"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">element</span>, name <span class="op">=</span> <span class="st">"n_roles"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="fu"><a href="reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"element"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
+<span>    statements    <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    mean_roles    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">n_roles</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    max_roles     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">n_roles</span><span class="op">)</span>,</span>
+<span>    used_once_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">n_roles</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">framework_name</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean_roles</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt;   framework_name                   statements mean_roles max_roles used_once_pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                 &lt;int&gt;      &lt;dbl&gt;     &lt;int&gt;         &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 CyQUAL 1.2.0                           3151        5          50            33</span></span>
+<span><span class="co">#&gt; 2 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51</span></span>
+<span><span class="co">#&gt; 3 DCWF v5.1                              4052        2.4        74            55</span></span>
+<span><span class="co">#&gt; 4 ECSF v1                                 390        1           1           100</span></span>
+<span><span class="co">#&gt; 5 Canadian Cyber Security Skills …       1345        1           1           100</span></span>
+<span><span class="co">#&gt; 6 Operational Technology Cybersec…        270        1           1           100</span></span></code></pre></div>
+<p>Three of the role-based frameworks attach one statement to many roles. Three never do. In DCWF, 8 statements are attached to all 74 work roles, which makes them a common core the framework does not name. In CyQUAL the most widely shared statement reaches 50 of 102 roles. In ECSF, CCSSF and OTCCF every statement belongs to exactly one role, so “how many roles need this skill” cannot be answered from those frameworks’ own data, and an element count does not show the difference. OTCCF’s row counts the key tasks attached to its job roles. Its skill statements attach to skills.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="finding-things-with-cybedtools">Finding things with <code>cybedtools</code>
+<a class="anchor" aria-label="anchor" href="#finding-things-with-cybedtools"></a>
+</h2>
+<p>The frameworks in the corpus were authored independently, for different audiences, at different times and with different units of analysis (work role, skill level, competence, learning standard, Knowledge Area, competence area). They specify in different formats and under different licenses. They do not agree on what to count. cybedtools makes them queryable in one graph anyway. Three findings follow.</p>
+<div class="section level3">
+<h3 id="per-unit-density-varies-by-13x-across-the-corpus">Per-unit density varies by 13x across the corpus<a class="anchor" aria-label="anchor" href="#per-unit-density-varies-by-13x-across-the-corpus"></a>
+</h3>
+<p>DCWF v5.1 expresses 54.8 elements per top-level unit. Cyber.org K-12 v1.0 expresses 4.2. The spread reflects design philosophy more than completeness. NICE and DCWF are granular by intent, as the basis for hiring and training pipelines. ENISA’s ECSF and JRC’s DigComp are high-level by intent, as an interoperability frame and a citizen self-assessment instrument. Per-unit density is a comparison aid across unlike denominators. It is not a quality claim. <code>framework_summary</code> also carries a <code>_strict</code> variant for analyses that prefer each framework’s own count.</p>
+</div>
+<div class="section level3">
+<h3 id="us-frameworks-are-about-48-percent-of-the-corpus-and-nices-reach-is-wider-than-that">US frameworks are about 48 percent of the corpus, and NICE’s reach is wider than that<a class="anchor" aria-label="anchor" href="#us-frameworks-are-about-48-percent-of-the-corpus-and-nices-reach-is-wider-than-that"></a>
+</h3>
+<p>The corpus spans 6 jurisdictions and 14,596 elements, counted with parsed examples included. US frameworks (NICE v2.2.0, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)) contribute 7,027 of them. The two EU-level frameworks (ECSF v1 and DigComp 2.2) contribute 411, which reflects design intent: ECSF profiles point to e-CF 4.0 competences instead of restating them, and DigComp 2.2’s annex examples are not yet extracted. Counting by jurisdiction understates how far one framework travels. Canada’s framework describes itself as an adaptation of NICE for the Canadian labour market and cites NICE work roles throughout. CyQUAL says its structure and elements were adopted from NICE, and its task list carries the 2017 NICE task codes. Both describe the borrowing openly. The graph makes it countable. Element counts used as a coverage metric are evidence of lineage and design, and they do not measure how much work a framework represents.</p>
+</div>
+<div class="section level3">
+<h3 id="five-nice-work-roles-carry-a-disproportionate-share-of-the-specification">Five NICE work roles carry a disproportionate share of the specification<a class="anchor" aria-label="anchor" href="#five-nice-work-roles-carry-a-disproportionate-share-of-the-specification"></a>
+</h3>
+<p>Security Control Assessment (304 elements), Secure Systems Development (237), Cybersecurity Architecture (218), Defensive Cybersecurity (205), Systems Security Management (201). Curricula that “cover NICE” by surveying these five look thorough. Curricula that cover the long tail of 42 work roles look thin by element count alone. This describes NICE’s internal weighting and says nothing about the rest of the corpus.</p>
 <p>Each finding is one query and a few lines of dplyr. See below.</p>
 </div>
 </div>
@@ -316,7 +500,7 @@ EU open re-use
 <h2 id="quick-check-after-install">Quick check after install<a class="anchor" aria-label="anchor" href="#quick-check-after-install"></a>
 </h2>
 <p><code><a href="reference/make_demo_graph.html">make_demo_graph()</a></code> returns an in-memory two-framework synthetic graph that exercises every domain helper without staged data. If this runs cleanly, your install is sound:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools" class="external-link">cybedtools</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -336,7 +520,7 @@ EU open re-use
 <h2 id="a-query-against-the-framework-corpus">A query against the framework corpus<a class="anchor" aria-label="anchor" href="#a-query-against-the-framework-corpus"></a>
 </h2>
 <p>Once the combined graph is staged (see <a href="#getting-started">Getting started</a>), one expression returns per-unit density per framework, sorted descending:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_combined_ntriples_graph.html">load_combined_ntriples_graph</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -348,42 +532,49 @@ EU open re-use
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>elements_per_unit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">element_count</span> <span class="op">/</span> <span class="va">top_level_unit_count</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">elements_per_unit</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 4</span></span>
 <span><span class="co">#&gt;   framework_name            top_level_unit_count element_count elements_per_unit</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                                    &lt;int&gt;         &lt;int&gt;             &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 NICE v2 (NIST SP 800-181…                   41          2115              51.6</span></span>
-<span><span class="co">#&gt; 2 DCWF v5.1                                   74          2945              39.8</span></span>
+<span><span class="co">#&gt; 1 DCWF v5.1                                   74          4052              54.8</span></span>
+<span><span class="co">#&gt; 2 NICE v2.2.0 (NIST SP 800…                   53          2225              42  </span></span>
 <span><span class="co">#&gt; 3 ECSF v1                                     12           390              32.5</span></span>
-<span><span class="co">#&gt; 4 CSTA K-12 Computer Scien…                   25           254              10.2</span></span>
-<span><span class="co">#&gt; 5 SFIA 9                                     147           830               5.6</span></span>
-<span><span class="co">#&gt; 6 CSEC2017 Curricular Guid…                    8            40               5  </span></span>
-<span><span class="co">#&gt; 7 Cyber.org K-12 Learning …                  116           500               4.3</span></span>
-<span><span class="co">#&gt; 8 DigComp 2.2                                  5            21               4.2</span></span></code></pre></div>
+<span><span class="co">#&gt; 4 Operational Technology C…                   61          1612              26.4</span></span>
+<span><span class="co">#&gt; 5 Canadian Cyber Security …                   59          1345              22.8</span></span>
+<span><span class="co">#&gt; 6 CyQUAL 1.2.0                               161          3340              20.7</span></span>
+<span><span class="co">#&gt; 7 CSTA K-12 Computer Scien…                   25           258              10.3</span></span>
+<span><span class="co">#&gt; 8 SFIA 9                                     147           821               5.6</span></span>
+<span><span class="co">#&gt; # ℹ 3 more rows</span></span></code></pre></div>
 <p>Jurisdiction pivots, top-load NICE roles, pairwise framework comparisons, and the librdf single-BGP discipline are covered in the <a href="https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.html"><code>cross-framework-analysis</code></a> vignette. Extending the schema to a new framework is covered in <a href="https://ryanstraight.github.io/cybedtools/articles/adding-a-framework.html"><code>adding-a-framework</code></a>.</p>
 </div>
 <div class="section level2">
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div>
-<p>The package does not redistribute upstream framework text. To run the pipeline end-to-end, clone the repository and stage each framework’s source file at <code>data/raw/&lt;framework&gt;/</code> per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ryanstraight/cybedtools</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="bu">cd</span> cybedtools</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Stage source files, then:</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-build.R   <span class="co"># ingestion + verification + assembly + export</span></span></code></pre></div>
+<p>The package <strong>does not</strong> redistribute source framework text. To run the pipeline end-to-end, clone the repository and stage each framework’s source file at <code>data/raw/&lt;framework&gt;/</code> per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ryanstraight/cybedtools</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">cd</span> cybedtools</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Stage source files, then:</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-build.R   <span class="co"># ingestion + verification + assembly + export</span></span></code></pre></div>
 <p>The <a href="https://ryanstraight.github.io/cybedtools/articles/getting-started.html"><code>getting-started</code></a> vignette walks through each stage, and the <a href="https://ryanstraight.github.io/cybedtools/reference/">function reference</a> indexes the public API.</p>
 </div>
 <div class="section level2">
 <h2 id="citing">Citing<a class="anchor" aria-label="anchor" href="#citing"></a>
 </h2>
-<p>If you use cybedtools in published work, see <a href="CITATION.cff"><code>CITATION.cff</code></a> or run <code>citation("cybedtools")</code> for the canonical citation.</p>
+<p>If you use cybedtools in published work, see <a href="CITATION.cff"><code>CITATION.cff</code></a> or run <code>citation("cybedtools")</code> for the canonical citation. Dropping me a line would also be appreciated!</p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>Package code is MIT (see <a href="LICENSE.html"><code>LICENSE.md</code></a>). Each framework retains its upstream license; source text is not bundled. Users stage source files locally per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>, and each ingestion script writes a per-framework <code>provenance.yml</code>. See <a href="LICENSING.html"><code>LICENSING.md</code></a> for layered guidance on academic vs. commercial use.</p>
+<p>Package code is MIT (see <a href="LICENSE.html"><code>LICENSE.md</code></a>). Each framework retains its upstream license, and source text is not bundled. Users stage source files locally per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>, and each ingestion script writes a per-framework <code>provenance.yml</code>. See <a href="LICENSING.html"><code>LICENSING.md</code></a> for layered guidance on academic vs. commercial use.</p>
+<p>Three frameworks are represented here by written permission of their stewards, on terms narrower than MIT. Their permission was given to cybedtools and does not pass to you.</p>
+<ul>
+<li>Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <a href="https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/" class="external-link uri">https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/</a> CSA’s permission covers the framework’s structure, for non-commercial, academic and research use.</li>
+<li>Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission.</li>
+<li>CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, <a href="https://platform.cyqual.cz/" class="external-link uri">https://platform.cyqual.cz/</a>.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>

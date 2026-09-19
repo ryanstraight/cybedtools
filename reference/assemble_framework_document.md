@@ -13,7 +13,8 @@ assemble_framework_document(
   framework_node,
   role_nodes,
   element_nodes,
-  framework_prefix
+  framework_prefix,
+  relation_nodes = list()
 )
 ```
 
@@ -38,6 +39,13 @@ assemble_framework_document(
 
   Character, the Tier 2 prefix.
 
+- relation_nodes:
+
+  List of named lists produced by
+  [`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md).
+  Optional: frameworks that publish no qualified unit-to-unit statements
+  pass nothing and the `@graph` is unchanged.
+
 ## Value
 
 Top-level JSON-LD document with `@context` and `@graph`.
@@ -49,8 +57,10 @@ Other JSON-LD construction:
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
 [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md),
-[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md),
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
 
 ## Examples
 

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,9 +60,60 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="cybedtools-development-version">cybedtools (development version)<a class="anchor" aria-label="anchor" href="#cybedtools-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="cybedtools-030">cybedtools 0.3.0<a class="anchor" aria-label="anchor" href="#cybedtools-030"></a></h2>
+<p>Eleven frameworks, up from eight. Three national frameworks join by written permission of their stewards, and the vocabulary gains a way to say that one organizing unit relates to another.</p>
 <div class="section level3">
-<h3 id="documentation-fixes-development-version">Documentation fixes<a class="anchor" aria-label="anchor" href="#documentation-fixes-development-version"></a></h3>
+<h3 id="new-frameworks-0-3-0">New frameworks<a class="anchor" aria-label="anchor" href="#new-frameworks-0-3-0"></a></h3>
+<ul><li>
+<strong>CyQUAL</strong> (Czech Republic, Masaryk University), open data version 1.2.0: 102 work roles, 1,168 tasks, 1,320 requirements, 59 competencies. Ingested from the English export, with the Czech export supported as a fallback. Attribution to CyQUAL and Masaryk University.</li>
+<li>
+<strong>CCSSF</strong>, the Canadian Cyber Security Skills Framework (ITSM.00.039, 2022 edition), Canadian Centre for Cyber Security: 22 core work roles and 37 cyber adjacent roles, with tasks, competencies, and tools. Copyright Government of Canada, used with permission. The framework’s citations of 2017-era NICE work roles are recorded as <code>cybed:niceCrossReference</code> literals.</li>
+<li>
+<strong>OTCCF</strong>, the Operational Technology Cybersecurity Competency Framework version 1.1, Cyber Security Agency of Singapore: 15 job roles with key tasks, 30 technical skills with level statements, and the 310 role-to-skill requirements that join them. CSA’s permission covers the framework’s structure, for non-commercial, academic and research use. See <code>LICENSING.md</code>.</li>
+<li>Terms, attribution wording, and staging instructions for all three are in <code>docs/framework-data-sources.md</code>. As before, the package ships ingestion code and no framework text.</li>
+<li>Statement codes are unique only within a framework. CyQUAL reuses 2017 NICE task codes and shares the <code>T1xxx</code> range with current NICE for unrelated statements. Never join frameworks on a bare code. Graph identifiers are namespaced per framework and are safe.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="vocabulary-additive-nothing-renamed-0-3-0">Vocabulary (additive, nothing renamed)<a class="anchor" aria-label="anchor" href="#vocabulary-additive-nothing-renamed-0-3-0"></a></h3>
+<ul><li>
+<code>cybed:relatedUnit</code> and <code>cybed:UnitRelation</code> (with <code>cybed:fromUnit</code>, <code>cybed:toUnit</code>, <code>cybed:relationLabel</code>, <code>cybed:proficiencyLevel</code>): a relation between two organizing units, plain or qualified. Levels are stored as printed and are never numeric, since frameworks use scales that do not compare. New helpers <code><a href="../reference/build_related_unit_metadata.html">build_related_unit_metadata()</a></code> and <code><a href="../reference/build_unit_relation_node.html">build_unit_relation_node()</a></code>, both experimental. <code><a href="../reference/assemble_framework_document.html">assemble_framework_document()</a></code> accepts optional <code>relation_nodes</code>.</li>
+<li>
+<code><a href="../reference/build_framework_node.html">build_framework_node()</a></code> gains <code>attribution</code> (<code>schema:creditText</code>, the steward’s wording verbatim) and <code>in_language</code> (<code>schema:inLanguage</code>, for frameworks whose text is not English).</li>
+<li>
+<code>cybed:niceCrossReference</code>, a sibling of <code>cybed:ecfCrossReference</code> and <code>cybed:cybokCrossReference</code>.</li>
+<li>
+<code>cybed:jurisdiction</code> now also takes <code>"CZ"</code>, <code>"CA"</code>, and <code>"SG"</code>.</li>
+<li>The three new frameworks’ subtypes are minted under <code>https://w3id.org/cybed/framework/&lt;slug&gt;#</code>, not under the steward’s domain, so a package-coined type is never mistaken for an identifier the steward issued.</li>
+<li>New exported helper <code><a href="../reference/element_text.html">element_text()</a></code> returns the <code>cybed:elementText</code> statement text keyed by element IRI, one row per literal the graph holds. Sub-points and examples carry text too; anti-join <code><a href="../reference/subpoint_framework_bindings.html">subpoint_framework_bindings()</a></code> and <code><a href="../reference/example_framework_bindings.html">example_framework_bindings()</a></code> for parent statements only.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="framework_summary-0-3-0"><code>framework_summary</code><a class="anchor" aria-label="anchor" href="#framework_summary-0-3-0"></a></h3>
+<ul><li>Now 11 rows and 16 columns. Every existing column keeps its definition, and values for the original eight frameworks are unchanged.</li>
+<li>New <code>role_count</code>, <code>elements_per_role_strict</code>, and <code>elements_per_role_with_examples</code>. NICE, CyQUAL, and OTCCF each contribute more than one kind of organizing unit, so elements per organizing unit is not a per-role figure for them. The per-role columns are. They are <code>NA</code> for frameworks that assert no roles. OTCCF’s per-role figure counts key tasks only, because its competency statements belong to its skill units.</li>
+<li>New <code>unit_relation_count</code>.</li>
+<li>The build now stops, naming the framework, if the graph and the display table disagree about which frameworks exist. Before, a framework missing from the table was dropped without a message.</li>
+<li>Documentation now says exactly what <code>element_count_strict</code> counts (parent elements only) and notes that <code>docs/framework-invariants.yml</code> uses “strict” differently.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="framework-data-0-3-0">Framework data<a class="anchor" aria-label="anchor" href="#framework-data-0-3-0"></a></h3>
+<ul><li>NICE upgraded to Framework Components v2.2.0 (NIST release 2026-04-28), replacing the v2.0.0-era data in place: 42 work roles (adds OG-WRL-017 Cybersecurity Supply Chain Risk Management), 962 tasks, 693 knowledge, 556 skills, 5,410 role-TKS associations. T1648 and K0908 were removed upstream. The skill S0768 ships in NIST’s JSON/CSV with zero role memberships but is absent from the companion XLSX (a contradiction internal to NIST’s release); it is retained per the orphan-retention policy, so the skills count is 556 rather than the XLSX’s 555.</li>
+<li>NICE competency areas (11) now enter the graph as <code>nice:CompetencyArea</code> / <code>cybed:OrganizingUnit</code> nodes with <code>cybed:hasElement</code> links to their 412 member knowledge/skill statements. Previously the competency-areas table was staged but never assembled.</li>
+<li>New <code>cybed:opmCode</code> multi-valued literal property on NICE work-role nodes carrying the v2.2.0 Federal-use OPM occupational-series codes (one role carries two codes; three roles carry none). Exposed through a new <code>opm_codes</code> parameter on <code><a href="../reference/build_role_node.html">build_role_node()</a></code>.</li>
+<li>NICE ingestion applies a declared erratum: the v2.2.0 source publishes a wrong description for the Investigation (IN) category (foreign-intelligence text, an upstream NIST regression). The correction is applied deterministically at ingest and recorded in a machine-readable errata table, with a hard stop if the upstream text changes.</li>
+<li>NICE licensing wording tightened from “public domain, safe to redistribute” to “US public domain (17 U.S.C. 105); foreign rights may be reserved; attribute NIST as source”.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="internal-0-3-0">Internal<a class="anchor" aria-label="anchor" href="#internal-0-3-0"></a></h3>
+<ul><li>Now requires dplyr 1.1.0 or later. Building the vignettes requires knitr 1.35 or later.</li>
+<li>
+<code><a href="../reference/parse_subpoints.html">parse_subpoints()</a></code> input contract hardened: <code>character(0)</code> now returns the empty tibble (previously crashed at the <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> guard) and length &gt; 1 input signals a classed error (<code>cybedtools_scalar_input</code>) instead of a bare condition error.</li>
+<li>New internal text-similarity layer (<code>R/similarity-helpers.R</code>): canonical <code>tokenize()</code>, <code>jaccard()</code>, <code>similarity_stopwords()</code> (both the k12 and workforce profiles), <code>top_n_matches()</code>, and <code>similarity_strength()</code>, promoted from the script-local copies triplicated across <code>concordance/_data-prep-*.R</code>. The package versions harden the input contracts (<code>character(0)</code>-safe, classed errors on vector input), drop <code>NA</code> tokens in <code>jaccard()</code>, break ranking ties deterministically by candidate id, and flag zero-similarity “best matches”. The concordance scripts still run their local copies; drift-tripwire tests pin those copies against each other and against the package profiles until the scripts are refactored.</li>
+<li>Test additions from the 2026-08-20 coverage audit: <code>parse_subpoints</code> semicolon fallback / last-introducer / connective filtering, <code>build_role_element_node</code> provenance fields (the 2026-08-14 DCWF <code>sourceCategory</code> regression), <code>build_organizing_unit_node</code> element wiring and metadata-collision characterization, JSON-LD write/read round trip, <code>expand_with_subpoints</code> structural edge cases, <code>validate_jsonld_node</code> positive paths, and script-helper tests for NICE relationship direction, ECSF slugging/flattening, and DCWF sheet identification.</li>
+<li>
+<code>scripts/010-ingest-nice.R</code>: <code>extract_elements_of_type()</code> now returns a schema-stable 5-column empty tibble on zero matches (previously a 0-column tibble from <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr()</a></code> over an empty list).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-fixes-0-3-0">Documentation fixes<a class="anchor" aria-label="anchor" href="#documentation-fixes-0-3-0"></a></h3>
 <ul><li>
 <code>framework_summary</code> documentation attributed the README headline density figure to the strict element count. The README uses the with-examples count; the strict count is the supplementary figure.</li>
 <li>Regenerated <code>man/cybedtools-package.Rd</code> to include the Concordance site URL in Useful links.</li>

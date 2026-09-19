@@ -3,23 +3,25 @@
 One row per (role, framework) pair where the role is typed
 cybed:Role and its partOf target is typed cybed:Framework. As of
 v0.2.0, cybed:Role is reserved for workforce frameworks (NICE work
-roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+roles, DCWF work roles, ENISA ECSF profiles, CyQUAL work roles, CCSSF
+work roles, OTCCF job roles); SFIA skills, Cyber.org
 K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use organizing_unit_framework_bindings()
 for the cross-framework "top-level enumerated unit" cut that includes
-all eight frameworks.
+all eleven frameworks.
 Roles without a cybed:partOf triple, or whose partOf target is not
 typed cybed:Framework, are excluded.'><meta property="og:description" content='
 One row per (role, framework) pair where the role is typed
 cybed:Role and its partOf target is typed cybed:Framework. As of
 v0.2.0, cybed:Role is reserved for workforce frameworks (NICE work
-roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+roles, DCWF work roles, ENISA ECSF profiles, CyQUAL work roles, CCSSF
+work roles, OTCCF job roles); SFIA skills, Cyber.org
 K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use organizing_unit_framework_bindings()
 for the cross-framework "top-level enumerated unit" cut that includes
-all eight frameworks.
+all eleven frameworks.
 Roles without a cybed:partOf triple, or whose partOf target is not
 typed cybed:Framework, are excluded.'><meta property="og:image" content="https://ryanstraight.github.io/cybedtools/logo.png"><script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -47,7 +49,7 @@ typed cybed:Framework, are excluded.'><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,12 +89,13 @@ typed cybed:Framework, are excluded.'><meta property="og:image" content="https:/
 <p>One row per (role, framework) pair where the role is typed
 <code>cybed:Role</code> and its <code>partOf</code> target is typed <code>cybed:Framework</code>. As of
 v0.2.0, <code>cybed:Role</code> is reserved for workforce frameworks (NICE work
-roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+roles, DCWF work roles, ENISA ECSF profiles, CyQUAL work roles, CCSSF
+work roles, OTCCF job roles); SFIA skills, Cyber.org
 K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>
 for the cross-framework "top-level enumerated unit" cut that includes
-all eight frameworks.</p>
+all eleven frameworks.</p>
 <p>Roles without a <code>cybed:partOf</code> triple, or whose partOf target is not
 typed <code>cybed:Framework</code>, are excluded.</p>
     </div>
@@ -116,15 +119,26 @@ typed <code>cybed:Framework</code>, are excluded.</p>
 <code>framework_name</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>The <code>framework</code> column holds the framework's full URI. Avoid
+naming a local variable or function parameter <code>framework</code> in code
+that filters or mutates this tibble – dplyr's data masking silently
+resolves a bare <code>framework</code> reference inside <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>/<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>
+to this COLUMN rather than your same-named variable, with no error
+and no warning, only a wrong (often zero-row) result surfacing later.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other SPARQL helpers:
 <code><a href="element_framework_bindings.html">element_framework_bindings()</a></code>,
+<code><a href="element_text.html">element_text()</a></code>,
 <code><a href="example_framework_bindings.html">example_framework_bindings()</a></code>,
 <code><a href="framework_metadata.html">framework_metadata()</a></code>,
 <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>,
 <code><a href="role_element_bindings.html">role_element_bindings()</a></code>,
 <code><a href="sparql_pairs.html">sparql_pairs()</a></code>,
-<code><a href="sparql_subjects.html">sparql_subjects()</a></code></p></div>
+<code><a href="sparql_subjects.html">sparql_subjects()</a></code>,
+<code><a href="subpoint_framework_bindings.html">subpoint_framework_bindings()</a></code></p></div>
     </div>
 
     <div class="section level2">

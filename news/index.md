@@ -1,6 +1,156 @@
 # Changelog
 
-## cybedtools (development version)
+## cybedtools 0.3.0
+
+Eleven frameworks, up from eight. Three national frameworks join by
+written permission of their stewards, and the vocabulary gains a way to
+say that one organizing unit relates to another.
+
+### New frameworks
+
+- **CyQUAL** (Czech Republic, Masaryk University), open data version
+  1.2.0: 102 work roles, 1,168 tasks, 1,320 requirements, 59
+  competencies. Ingested from the English export, with the Czech export
+  supported as a fallback. Attribution to CyQUAL and Masaryk University.
+- **CCSSF**, the Canadian Cyber Security Skills Framework (ITSM.00.039,
+  2022 edition), Canadian Centre for Cyber Security: 22 core work roles
+  and 37 cyber adjacent roles, with tasks, competencies, and tools.
+  Copyright Government of Canada, used with permission. The framework’s
+  citations of 2017-era NICE work roles are recorded as
+  `cybed:niceCrossReference` literals.
+- **OTCCF**, the Operational Technology Cybersecurity Competency
+  Framework version 1.1, Cyber Security Agency of Singapore: 15 job
+  roles with key tasks, 30 technical skills with level statements, and
+  the 310 role-to-skill requirements that join them. CSA’s permission
+  covers the framework’s structure, for non-commercial, academic and
+  research use. See `LICENSING.md`.
+- Terms, attribution wording, and staging instructions for all three are
+  in `docs/framework-data-sources.md`. As before, the package ships
+  ingestion code and no framework text.
+- Statement codes are unique only within a framework. CyQUAL reuses 2017
+  NICE task codes and shares the `T1xxx` range with current NICE for
+  unrelated statements. Never join frameworks on a bare code. Graph
+  identifiers are namespaced per framework and are safe.
+
+### Vocabulary (additive, nothing renamed)
+
+- `cybed:relatedUnit` and `cybed:UnitRelation` (with `cybed:fromUnit`,
+  `cybed:toUnit`, `cybed:relationLabel`, `cybed:proficiencyLevel`): a
+  relation between two organizing units, plain or qualified. Levels are
+  stored as printed and are never numeric, since frameworks use scales
+  that do not compare. New helpers
+  [`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md)
+  and
+  [`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md),
+  both experimental.
+  [`assemble_framework_document()`](https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.md)
+  accepts optional `relation_nodes`.
+- [`build_framework_node()`](https://ryanstraight.github.io/cybedtools/reference/build_framework_node.md)
+  gains `attribution` (`schema:creditText`, the steward’s wording
+  verbatim) and `in_language` (`schema:inLanguage`, for frameworks whose
+  text is not English).
+- `cybed:niceCrossReference`, a sibling of `cybed:ecfCrossReference` and
+  `cybed:cybokCrossReference`.
+- `cybed:jurisdiction` now also takes `"CZ"`, `"CA"`, and `"SG"`.
+- The three new frameworks’ subtypes are minted under
+  `https://w3id.org/cybed/framework/<slug>#`, not under the steward’s
+  domain, so a package-coined type is never mistaken for an identifier
+  the steward issued.
+- New exported helper
+  [`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
+  returns the `cybed:elementText` statement text keyed by element IRI,
+  one row per literal the graph holds. Sub-points and examples carry
+  text too; anti-join
+  [`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+  and
+  [`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md)
+  for parent statements only.
+
+### `framework_summary`
+
+- Now 11 rows and 16 columns. Every existing column keeps its
+  definition, and values for the original eight frameworks are
+  unchanged.
+- New `role_count`, `elements_per_role_strict`, and
+  `elements_per_role_with_examples`. NICE, CyQUAL, and OTCCF each
+  contribute more than one kind of organizing unit, so elements per
+  organizing unit is not a per-role figure for them. The per-role
+  columns are. They are `NA` for frameworks that assert no roles.
+  OTCCF’s per-role figure counts key tasks only, because its competency
+  statements belong to its skill units.
+- New `unit_relation_count`.
+- The build now stops, naming the framework, if the graph and the
+  display table disagree about which frameworks exist. Before, a
+  framework missing from the table was dropped without a message.
+- Documentation now says exactly what `element_count_strict` counts
+  (parent elements only) and notes that `docs/framework-invariants.yml`
+  uses “strict” differently.
+
+### Framework data
+
+- NICE upgraded to Framework Components v2.2.0 (NIST release
+  2026-04-28), replacing the v2.0.0-era data in place: 42 work roles
+  (adds OG-WRL-017 Cybersecurity Supply Chain Risk Management), 962
+  tasks, 693 knowledge, 556 skills, 5,410 role-TKS associations. T1648
+  and K0908 were removed upstream. The skill S0768 ships in NIST’s
+  JSON/CSV with zero role memberships but is absent from the companion
+  XLSX (a contradiction internal to NIST’s release); it is retained per
+  the orphan-retention policy, so the skills count is 556 rather than
+  the XLSX’s 555.
+- NICE competency areas (11) now enter the graph as
+  `nice:CompetencyArea` / `cybed:OrganizingUnit` nodes with
+  `cybed:hasElement` links to their 412 member knowledge/skill
+  statements. Previously the competency-areas table was staged but never
+  assembled.
+- New `cybed:opmCode` multi-valued literal property on NICE work-role
+  nodes carrying the v2.2.0 Federal-use OPM occupational-series codes
+  (one role carries two codes; three roles carry none). Exposed through
+  a new `opm_codes` parameter on
+  [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md).
+- NICE ingestion applies a declared erratum: the v2.2.0 source publishes
+  a wrong description for the Investigation (IN) category
+  (foreign-intelligence text, an upstream NIST regression). The
+  correction is applied deterministically at ingest and recorded in a
+  machine-readable errata table, with a hard stop if the upstream text
+  changes.
+- NICE licensing wording tightened from “public domain, safe to
+  redistribute” to “US public domain (17 U.S.C. 105); foreign rights may
+  be reserved; attribute NIST as source”.
+
+### Internal
+
+- Now requires dplyr 1.1.0 or later. Building the vignettes requires
+  knitr 1.35 or later.
+- [`parse_subpoints()`](https://ryanstraight.github.io/cybedtools/reference/parse_subpoints.md)
+  input contract hardened: `character(0)` now returns the empty tibble
+  (previously crashed at the [`is.na()`](https://rdrr.io/r/base/NA.html)
+  guard) and length \> 1 input signals a classed error
+  (`cybedtools_scalar_input`) instead of a bare condition error.
+- New internal text-similarity layer (`R/similarity-helpers.R`):
+  canonical `tokenize()`, `jaccard()`, `similarity_stopwords()` (both
+  the k12 and workforce profiles), `top_n_matches()`, and
+  `similarity_strength()`, promoted from the script-local copies
+  triplicated across `concordance/_data-prep-*.R`. The package versions
+  harden the input contracts (`character(0)`-safe, classed errors on
+  vector input), drop `NA` tokens in `jaccard()`, break ranking ties
+  deterministically by candidate id, and flag zero-similarity “best
+  matches”. The concordance scripts still run their local copies;
+  drift-tripwire tests pin those copies against each other and against
+  the package profiles until the scripts are refactored.
+- Test additions from the 2026-08-20 coverage audit: `parse_subpoints`
+  semicolon fallback / last-introducer / connective filtering,
+  `build_role_element_node` provenance fields (the 2026-08-14 DCWF
+  `sourceCategory` regression), `build_organizing_unit_node` element
+  wiring and metadata-collision characterization, JSON-LD write/read
+  round trip, `expand_with_subpoints` structural edge cases,
+  `validate_jsonld_node` positive paths, and script-helper tests for
+  NICE relationship direction, ECSF slugging/flattening, and DCWF sheet
+  identification.
+- `scripts/010-ingest-nice.R`: `extract_elements_of_type()` now returns
+  a schema-stable 5-column empty tibble on zero matches (previously a
+  0-column tibble from
+  [`map_dfr()`](https://purrr.tidyverse.org/reference/map_dfr.html) over
+  an empty list).
 
 ### Documentation fixes
 

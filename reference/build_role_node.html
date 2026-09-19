@@ -35,7 +35,7 @@ build_organizing_unit_node() directly with is_role = FALSE."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +89,7 @@ frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
 <span>  description <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  element_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  framework_id <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  opm_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -128,6 +129,21 @@ populate <code>cybed:partOf</code>. Enables SPARQL queries that traverse role to
 framework. Recommended. Defaults to <code>NA</code> for backward compatibility.</p></dd>
 
 
+<dt id="arg-opm-codes">opm_codes<a class="anchor" aria-label="anchor" href="#arg-opm-codes"></a></dt>
+<dd><p>Character vector of OPM occupational-series codes to
+attach as the multi-valued literal property <code>cybed:opmCode</code>. NICE
+v2.2.0 publishes Federal-use OPM cybersecurity data standard codes per
+work role; a role may carry zero, one, or several codes (e.g., NICE
+<code>DD-WRL-004</code> carries two). The codes are modeled as literals, not
+nodes: the published <code>opm_code</code> elements have no descriptive payload
+(title/text are empty; the code is the identifier). Empty vector (the
+default) and <code>NA</code> entries omit the property. Merged via the same
+metadata-merge path used for <code>cybed:ecfCrossReference</code>,
+<code>cybed:cybokCrossReference</code>, and <code>cybed:niceCrossReference</code> (the
+framework's own cited NICE work-role ids, recorded as literals where the
+cited ids do not resolve to elements in this graph).</p></dd>
+
+
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
 <dd><p>Named list, optional additional fields to include.</p></dd>
 
@@ -144,7 +160,9 @@ framework. Recommended. Defaults to <code>NA</code> for backward compatibility.<
 <code><a href="build_jsonld_context.html">build_jsonld_context()</a></code>,
 <code><a href="build_multi_framework_context.html">build_multi_framework_context()</a></code>,
 <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>,
-<code><a href="build_role_element_node.html">build_role_element_node()</a></code></p></div>
+<code><a href="build_related_unit_metadata.html">build_related_unit_metadata()</a></code>,
+<code><a href="build_role_element_node.html">build_role_element_node()</a></code>,
+<code><a href="build_unit_relation_node.html">build_unit_relation_node()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -161,6 +179,18 @@ framework. Recommended. Defaults to <code>NA</code> for backward compatibility.<
 <span class="r-in"><span><span class="va">role</span><span class="op">[[</span><span class="st">"@type"</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nice:WorkRole"        "cybed:Role"           "cybed:OrganizingUnit"</span>
 <span class="r-in"><span><span class="co"># c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multi-valued OPM codes (NICE v2.2.0 Federal-use annotation).</span></span></span>
+<span class="r-in"><span><span class="va">role_opm</span> <span class="op">&lt;-</span> <span class="fu">build_role_node</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  role_id              <span class="op">=</span> <span class="st">"DD-WRL-004"</span>,</span></span>
+<span class="r-in"><span>  role_name            <span class="op">=</span> <span class="st">"Enterprise Architecture"</span>,</span></span>
+<span class="r-in"><span>  framework_prefix     <span class="op">=</span> <span class="st">"nice"</span>,</span></span>
+<span class="r-in"><span>  framework_role_type  <span class="op">=</span> <span class="st">"WorkRole"</span>,</span></span>
+<span class="r-in"><span>  framework_id         <span class="op">=</span> <span class="st">"nice-v2"</span>,</span></span>
+<span class="r-in"><span>  opm_codes            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"631"</span>, <span class="st">"632"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">role_opm</span><span class="op">[[</span><span class="st">"cybed:opmCode"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "631" "632"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

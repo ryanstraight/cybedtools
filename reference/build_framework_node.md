@@ -19,7 +19,9 @@ build_framework_node(
   sector,
   specificity,
   license = NA_character_,
-  date_published = NA_character_
+  date_published = NA_character_,
+  attribution = NA_character_,
+  in_language = NA_character_
 )
 ```
 
@@ -48,7 +50,9 @@ build_framework_node(
 
 - jurisdiction:
 
-  Character, one of `"US"`, `"EU"`, `"UK"`, `"global"`.
+  Character: `"US"`, `"EU"`, `"UK"`, `"global"`, or an ISO 3166-1
+  alpha-2 country code for a national framework (e.g., `"CZ"`, `"CA"`,
+  `"SG"`).
 
 - sector:
 
@@ -66,6 +70,18 @@ build_framework_node(
 
   Character, ISO-8601 date.
 
+- attribution:
+
+  Character, the attribution statement the framework's steward requires,
+  recorded verbatim as `schema:creditText`. Supply it exactly as the
+  steward worded it.
+
+- in_language:
+
+  Character, BCP 47 language tag of the framework's statement text
+  (e.g., `"cs"`), recorded as `schema:inLanguage`. Omit for
+  English-language frameworks.
+
 ## Value
 
 Named list (JSON-LD node) describing the framework.
@@ -77,8 +93,10 @@ Other JSON-LD construction:
 [`build_jsonld_context()`](https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.md),
 [`build_multi_framework_context()`](https://ryanstraight.github.io/cybedtools/reference/build_multi_framework_context.md),
 [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md),
+[`build_related_unit_metadata()`](https://ryanstraight.github.io/cybedtools/reference/build_related_unit_metadata.md),
 [`build_role_element_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_element_node.md),
-[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md),
+[`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)
 
 ## Examples
 
