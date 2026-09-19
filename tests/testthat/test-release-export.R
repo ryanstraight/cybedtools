@@ -261,6 +261,232 @@ test_that("release scope follows the policy value", {
                class = "cybedtools_release_policy_refusal")
 })
 
+test_that("the scope vocabulary carries every value a manifest may hold", {
+  env <- source_release_common()
+  expect_setequal(env$release_scope_values(),
+                  c("full", "structure_only", "full_with_exclusions"))
+  for (scope in env$release_scope_values()) {
+    expect_silent(env$assert_release_scope(scope, slug = "fixture"))
+  }
+  expect_error(env$assert_release_scope("partial", slug = "fixture"),
+               class = "cybedtools_release_config")
+})
+
+test_that("an excluded full file takes the full_with_exclusions scope", {
+  env <- source_release_common()
+  expect_identical(env$release_scope_with_exclusions("full", slug = "fixture"),
+                   "full_with_exclusions")
+  # Two cuts described by one word would leave a reader unable to say which of
+  # them accounts for a missing triple.
+  expect_error(
+    env$release_scope_with_exclusions("structure_only", slug = "fixture"),
+    class = "cybedtools_release_exclusion_config"
+  )
+})
+
+# ---------------------------------------------------------------------------
+# Exclusions inside a shipped file
+# ---------------------------------------------------------------------------
+
+# Two units, `keep` and `cut`, sharing element `shared`. `cut` alone holds
+# `only`, which carries a sub-point of its own. `cut` is also the object of a
+# link from `keep`, which is what a framework that reuses one source identifier
+# for a unit and for a statement looks like: one IRI, a unit in one triple and
+# an element in another.
+fx <- function(term) paste0("https://example.org/terms#", term)
+rdf_type <- "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+iri <- function(term) paste0("<", fx(term), ">")
+
+exclusion_lines <- function() {
+  c(
+    triple(fx("keep"), rdf_type, paste0("<", cybed("OrganizingUnit"), ">")),
+    triple(fx("cut"), rdf_type, paste0("<", cybed("OrganizingUnit"), ">")),
+    triple(fx("cut"), rdf_type, paste0("<", cybed("RoleElement"), ">")),
+    triple(fx("keep"), schema("name"), literal("Kept Role")),
+    triple(fx("cut"), schema("name"), literal("Cut Role")),
+    triple(fx("cut"), cybed("partOf"), iri("framework")),
+    triple(fx("shared"), rdf_type, paste0("<", cybed("RoleElement"), ">")),
+    triple(fx("shared"), cybed("elementText"), literal("A shared statement.")),
+    triple(fx("shared"), cybed("partOf"), iri("framework")),
+    triple(fx("only"), rdf_type, paste0("<", cybed("RoleElement"), ">")),
+    triple(fx("only"), cybed("elementText"), literal("An exclusive statement.")),
+    triple(fx("only.sub.1"), rdf_type, paste0("<", cybed("Subpoint"), ">")),
+    triple(fx("only.sub.1"), rdf_type, paste0("<", cybed("RoleElement"), ">")),
+    triple(fx("only.sub.1"), cybed("elementText"), literal("a detail")),
+    triple(fx("only.sub.1"), cybed("elaborates"), iri("only")),
+    triple(fx("keep"), cybed("hasElement"), iri("shared")),
+    triple(fx("keep"), cybed("hasElement"), iri("cut")),
+    triple(fx("cut"), cybed("hasElement"), iri("shared")),
+    triple(fx("cut"), cybed("hasElement"), iri("only")),
+    triple(fx("cut"), cybed("hasElement"), iri("only.sub.1"))
+  )
+}
+
+test_that("a unit id resolves on the exact local part of its IRI", {
+  env <- source_release_common()
+  expect_identical(
+    env$resolve_exclusion_units(exclusion_lines(), "cut", slug = "fixture"),
+    fx("cut")
+  )
+})
+
+test_that("an exclusion naming a unit the file does not carry aborts", {
+  env <- source_release_common()
+  expect_error(
+    env$resolve_exclusion_units(exclusion_lines(), c("cut", "absent"),
+                                slug = "fixture"),
+    class = "cybedtools_release_exclusion_unit"
+  )
+  # A name is not an identifier, an element is not a unit, and a substring of
+  # a local part is not a local part.
+  expect_error(
+    env$resolve_exclusion_units(exclusion_lines(), "Cut Role", slug = "fixture"),
+    class = "cybedtools_release_exclusion_unit"
+  )
+  expect_error(
+    env$resolve_exclusion_units(exclusion_lines(), "shared", slug = "fixture"),
+    class = "cybedtools_release_exclusion_unit"
+  )
+  expect_error(
+    env$resolve_exclusion_units(exclusion_lines(), "cu", slug = "fixture"),
+    class = "cybedtools_release_exclusion_unit"
+  )
+})
+
+test_that("an exclusion removes the excluded unit's links to its elements", {
+  env <- source_release_common()
+  result <- env$exclude_unit_element_links(exclusion_lines(), fx("cut"),
+                                           slug = "fixture")
+  kept <- result$lines
+
+  # Every link whose unit side is the excluded unit is gone.
+  expect_false(any(startsWith(kept, paste0("<", fx("cut"), "> <",
+                                           cybed("hasElement"), "> "))))
+  expect_identical(result$link_triples_dropped, 3L)
+
+  # The declared side is what decides. `keep` links to the same IRI acting as
+  # an element, and that link belongs to a unit nobody excluded.
+  expect_true(triple(fx("keep"), cybed("hasElement"), iri("cut")) %in% kept)
+
+  # The unit node itself stays, with its identity and its membership.
+  expect_true(triple(fx("cut"), schema("name"), literal("Cut Role")) %in% kept)
+  expect_true(triple(fx("cut"), cybed("partOf"), iri("framework")) %in% kept)
+  expect_true(
+    triple(fx("cut"), rdf_type, paste0("<", cybed("OrganizingUnit"), ">")) %in% kept
+  )
+})
+
+test_that("a link predicate declared the other way round cuts the other way", {
+  env <- source_release_common()
+  specs <- list(list(predicate = cybed("hasElement"), unit_side = "object"))
+  kept <- env$exclude_unit_element_links(exclusion_lines(), fx("cut"),
+                                         specs = specs, slug = "fixture")$lines
+
+  # Under this declaration `cut` is the element and `keep` is the unit, so the
+  # one link into `cut` goes and the three out of it stay.
+  expect_false(triple(fx("keep"), cybed("hasElement"), iri("cut")) %in% kept)
+  expect_true(triple(fx("cut"), cybed("hasElement"), iri("only")) %in% kept)
+})
+
+test_that("an element shared with another unit survives with its other links", {
+  env <- source_release_common()
+  kept <- env$exclude_unit_element_links(exclusion_lines(), fx("cut"),
+                                         slug = "fixture")$lines
+
+  expect_true(triple(fx("keep"), cybed("hasElement"), iri("shared")) %in% kept)
+  expect_true(
+    triple(fx("shared"), cybed("elementText"),
+           literal("A shared statement.")) %in% kept
+  )
+  expect_true(triple(fx("shared"), cybed("partOf"), iri("framework")) %in% kept)
+})
+
+test_that("an element left attached to no unit is removed with its sub-points", {
+  env <- source_release_common()
+  result <- env$exclude_unit_element_links(exclusion_lines(), fx("cut"),
+                                           slug = "fixture")
+  kept <- result$lines
+
+  expect_false(any(grepl(fx("only"), kept, fixed = TRUE)))
+  expect_identical(result$elements_dropped, 2L)
+  expect_identical(result$subpoints_dropped, 1L)
+  expect_identical(result$element_triples_dropped, 6L)
+
+  # The whole file is accounted for: before, less both counts, is after.
+  expect_identical(
+    length(kept),
+    length(exclusion_lines()) - result$link_triples_dropped -
+      result$element_triples_dropped
+  )
+})
+
+test_that("the backstop passes a clean cut and fires on a surviving link", {
+  env <- source_release_common()
+  kept <- env$exclude_unit_element_links(exclusion_lines(), fx("cut"),
+                                         slug = "fixture")$lines
+  expect_silent(
+    env$assert_no_unit_element_links(kept, fx("cut"), slug = "fixture")
+  )
+  expect_error(
+    env$assert_no_unit_element_links(exclusion_lines(), fx("cut"),
+                                     slug = "fixture"),
+    class = "cybedtools_release_exclusion_verification"
+  )
+})
+
+exclusion_config <- function(framework = "alpha",
+                             kind = "unit_element_links",
+                             units = list("cut"),
+                             reason = "A published sentence.") {
+  config <- config_fixture()
+  config$exclusions <- list(
+    list(framework = framework, kind = kind, units = units,
+         reason = reason, since = "2026.09.1")
+  )
+  config
+}
+
+test_that("a compliant exclusion list passes", {
+  env <- source_release_common()
+  expect_silent(env$assert_release_exclusions(exclusion_config()))
+  expect_silent(env$assert_release_exclusions(config_fixture()))
+})
+
+test_that("an exclusion for a framework off the allowlist aborts", {
+  env <- source_release_common()
+  # Refused by policy, so never shipped, so nothing to exclude from.
+  expect_error(
+    env$assert_release_exclusions(exclusion_config(framework = "gamma")),
+    class = "cybedtools_release_exclusion_config"
+  )
+  # Declared nowhere at all.
+  expect_error(
+    env$assert_release_exclusions(exclusion_config(framework = "delta")),
+    class = "cybedtools_release_exclusion_config"
+  )
+})
+
+test_that("an exclusion with no kind, no units or no reason aborts", {
+  env <- source_release_common()
+  for (broken in list(
+    exclusion_config(kind = "unit_element_text"),
+    exclusion_config(units = list()),
+    exclusion_config(reason = "")
+  )) {
+    expect_error(env$assert_release_exclusions(broken),
+                 class = "cybedtools_release_exclusion_config")
+  }
+})
+
+test_that("the real exclusion list names only frameworks the release ships", {
+  env <- source_release_common()
+  config_path <- testthat::test_path("..", "..", "docs", "data-release.yml")
+  skip_if(!file.exists(config_path), "Release config not available.")
+
+  config <- yaml::read_yaml(config_path)
+  expect_silent(env$assert_release_exclusions(config))
+})
+
 # ---------------------------------------------------------------------------
 # Licence lookup
 # ---------------------------------------------------------------------------
@@ -342,6 +568,87 @@ test_that("a built release folder matches its own manifest hashes", {
       digest::digest(payload, algo = "sha256", serialize = FALSE),
       entry$sha256_uncompressed
     )
+  }
+})
+
+test_that("a built release is byte-reproducible from the file it shipped", {
+  env <- source_release_common()
+  release_root <- testthat::test_path("..", "..", "data", "processed", "release")
+  skip_if(!dir.exists(release_root), "No release has been built.")
+
+  versions <- list.dirs(release_root, recursive = FALSE)
+  skip_if(!length(versions), "No release has been built.")
+
+  out_dir <- versions[[length(versions)]]
+  manifest_path <- file.path(out_dir, "manifest.json")
+  skip_if(!file.exists(manifest_path), "No manifest in the release folder.")
+
+  manifest <- jsonlite::fromJSON(manifest_path, simplifyDataFrame = FALSE)
+  for (entry in manifest$files) {
+    connection <- gzfile(file.path(out_dir, entry$file), "rt")
+    lines <- readLines(connection, warn = FALSE)
+    close(connection)
+
+    # Re-canonicalising and re-compressing the shipped lines reproduces the
+    # shipped bytes, which is what makes a second run byte-identical.
+    rebuilt <- env$gzip_bytes(env$canonical_payload(env$canonical_lines(lines)))
+    expect_identical(
+      digest::digest(rebuilt, algo = "sha256", serialize = FALSE),
+      entry$sha256
+    )
+  }
+})
+
+test_that("a shipped file with exclusions records and honours them", {
+  env <- source_release_common()
+  release_root <- testthat::test_path("..", "..", "data", "processed", "release")
+  skip_if(!dir.exists(release_root), "No release has been built.")
+
+  versions <- list.dirs(release_root, recursive = FALSE)
+  skip_if(!length(versions), "No release has been built.")
+
+  out_dir <- versions[[length(versions)]]
+  manifest_path <- file.path(out_dir, "manifest.json")
+  skip_if(!file.exists(manifest_path), "No manifest in the release folder.")
+
+  manifest <- jsonlite::fromJSON(manifest_path, simplifyDataFrame = FALSE)
+  for (entry in manifest$files) {
+    expect_true(entry$scope %in% env$release_scope_values())
+  }
+
+  excluded <- Filter(function(e) length(e$exclusions), manifest$files)
+  skip_if(!length(excluded), "No exclusions in this release.")
+
+  for (entry in excluded) {
+    expect_identical(entry$scope, "full_with_exclusions")
+
+    connection <- gzfile(file.path(out_dir, entry$file), "rt")
+    lines <- readLines(connection, warn = FALSE)
+    close(connection)
+
+    for (record in entry$exclusions) {
+      expect_true(record$kind %in% env$release_exclusion_kinds())
+      expect_true(nzchar(record$reason))
+      expect_gt(record$link_triples_dropped, 0)
+      expect_gte(record$elements_dropped, 0)
+
+      units <- unique(env$nt_subjects_of_type(lines,
+                                              env$cybed_organizing_unit_iri))
+      locals <- env$iri_local_part(units)
+      for (unit in record$units) {
+        expect_true(nzchar(unit$name))
+        # The unit node stays, and nothing links it to an element any more.
+        expect_true(unit$id %in% locals)
+        iri <- units[locals == unit$id]
+        expect_identical(
+          env$nt_literal_of(lines, iri, "http://schema.org/name"),
+          unit$name
+        )
+        expect_silent(
+          env$assert_no_unit_element_links(lines, iri, slug = entry$slug)
+        )
+      }
+    }
   }
 })
 

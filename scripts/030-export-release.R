@@ -100,6 +100,12 @@ read_framework_lines <- function(slug) {
 # Reconciliation
 # ---------------------------------------------------------------------------
 
+# Exclusions are applied per file, after this check has run, so the partition
+# is reconciled against the graph as it stands rather than against the graph
+# minus whatever a config happens to withhold. A triple absent from a shipped
+# file because an exclusion removed it is accounted for separately, by
+# report_exclusion_counts(), which reconciles each file's own before and after.
+#
 # The eleven per-framework documents partition the combined graph. The
 # assembler builds the combined document by concatenating the same node lists
 # it wrote per framework, so the union of the eleven files should equal the
@@ -181,6 +187,49 @@ write_release_file <- function(lines, slug, out_dir) {
   )
 }
 
+#' Apply every exclusion configured for one framework.
+#'
+#' Exclusions run after partitioning and after structure-only stripping, on the
+#' lines the file would otherwise have carried, so the counts a manifest
+#' reports are counts against that file rather than against the whole graph.
+apply_exclusions <- function(lines, slug, config, scope) {
+  entries <- release_exclusions_for(config, slug)
+  if (!length(entries)) {
+    return(list(lines = lines, scope = scope, records = list()))
+  }
+
+  records <- list()
+  for (entry in entries) {
+    unit_iris <- resolve_exclusion_units(lines, entry$units, slug = slug)
+    unit_names <- vapply(
+      unit_iris,
+      function(iri) nt_literal_of(lines, iri, "http://schema.org/name"),
+      character(1)
+    )
+
+    result <- exclude_unit_element_links(lines, unit_iris, slug = slug)
+    lines <- result$lines
+    assert_no_unit_element_links(lines, unit_iris, slug = slug)
+
+    records[[length(records) + 1L]] <- list(
+      kind = as.character(entry$kind),
+      units = unname(Map(
+        function(id, name) list(id = as.character(id), name = unname(name)),
+        iri_local_part(unit_iris),
+        unit_names
+      )),
+      link_triples_dropped = as.integer(result$link_triples_dropped),
+      elements_dropped = as.integer(result$elements_dropped),
+      element_triples_dropped = as.integer(result$element_triples_dropped),
+      reason = as.character(entry$reason),
+      since = as.character(entry$since)
+    )
+    scope <- release_scope_with_exclusions(scope, slug = slug)
+  }
+
+  list(lines = lines, scope = scope, records = records)
+}
+
 framework_entry <- function(slug, lines, config, policy, licenses, out_dir) {
   policy_value <- policy$policy[match(slug, policy$framework_slug)]
   scope <- release_scope(policy_value)
@@ -211,6 +260,12 @@ framework_entry <- function(slug, lines, config, policy, licenses, out_dir) {
     )
   }
 
+  triples_before_exclusions <- length(canonical_lines(lines))
+  excluded <- apply_exclusions(lines, slug, config, scope)
+  lines <- excluded$lines
+  scope <- excluded$scope
+  assert_release_scope(scope, slug = slug)
+
   written <- write_release_file(lines, slug, out_dir)
 
   attribution <- license_row$attribution[[1L]]
@@ -231,12 +286,82 @@ framework_entry <- function(slug, lines, config, policy, licenses, out_dir) {
     licence_short = license_row$license_short[[1L]],
     licence = license_row$license[[1L]],
     attribution = if (is.na(attribution)) NULL else attribution,
-    terms_url = license_row$terms_url[[1L]]
+    terms_url = license_row$terms_url[[1L]],
+    exclusions = excluded$records
   )
   if (length(omitted)) {
     entry$omitted_predicates <- omitted
   }
-  entry
+
+  list(
+    entry = entry,
+    triples_before_exclusions = as.integer(triples_before_exclusions),
+    triples_after_exclusions = as.integer(written$triples)
+  )
+}
+
+# ---------------------------------------------------------------------------
+# Exclusion arithmetic
+# ---------------------------------------------------------------------------
+
+# The partition check above runs on the pre-exclusion sets and so says nothing
+# about what an exclusion removed. This is the second check, and it is the one
+# that ties a file's shipped triple count to the counts its manifest publishes:
+# before minus the links dropped minus the element triples dropped must equal
+# after, exactly, for every file. A mismatch means the file lost or kept
+# triples the manifest does not account for.
+report_exclusion_counts <- function(built) {
+  message("\n-- Exclusions --")
+
+  excluded <- Filter(function(x) length(x$entry$exclusions), built)
+  if (!length(excluded)) {
+    message("  no exclusions configured, every shipped file is whole")
+    return(invisible(TRUE))
+  }
+
+  for (item in excluded) {
+    entry <- item$entry
+    dropped <- sum(vapply(
+      entry$exclusions,
+      function(record) record$link_triples_dropped + record$element_triples_dropped,
+      numeric(1)
+    ))
+    expected <- item$triples_before_exclusions - dropped
+
+    message(sprintf(
+      "  %-14s %6d before  %6d dropped  %6d after",
+      entry$slug, item$triples_before_exclusions, dropped,
+      item$triples_after_exclusions
+    ))
+    for (record in entry$exclusions) {
+      message(sprintf(
+        "      %s: %d unit(s), %d link triple(s), %d element(s), %d element triple(s)",
+        record$kind, length(record$units), record$link_triples_dropped,
+        record$elements_dropped, record$element_triples_dropped
+      ))
+    }
+
+    if (!identical(as.integer(expected), item$triples_after_exclusions)) {
+      abort(
+        c(
+          "A file's triple count does not differ from its pre-exclusion count by the triples dropped.",
+          "x" = paste0("Slug: ", entry$slug, "."),
+          "x" = paste0("Before: ", item$triples_before_exclusions,
+                       ", dropped: ", dropped,
+                       ", after: ", item$triples_after_exclusions,
+                       ", expected: ", expected, "."),
+          "i" = paste0(
+            "The manifest would misstate what the file holds. Refusing to ",
+            "complete the release."
+          )
+        ),
+        class = "cybedtools_release_exclusion_verification",
+        framework_slug = entry$slug
+      )
+    }
+  }
+
+  invisible(TRUE)
 }
 
 # ---------------------------------------------------------------------------
@@ -284,15 +409,21 @@ build_manifest <- function(config, files, vocabulary) {
 
 build_readme <- function(config, files) {
   scope_sentence <- function(entry) {
-    if (identical(entry$scope, "structure_only")) {
-      paste(
+    switch(
+      entry$scope,
+      structure_only = paste(
         "Structure only. Names, titles, categories, levels, section headings",
         "and mappings are present. The framework's own statement text and",
         "descriptions are not."
-      )
-    } else {
-      "Full. Every triple the harmonised graph holds for this framework."
-    }
+      ),
+      full_with_exclusions = paste(
+        "Full, less the exclusions below. Every triple the harmonised graph",
+        "holds for this framework except those withheld under the heading",
+        "\"What is left out of a shipped file\"."
+      ),
+      full = "Full. Every triple the harmonised graph holds for this framework.",
+      paste0("Unknown scope: ", entry$scope, ".")
+    )
   }
 
   sections <- vapply(files, function(entry) {
@@ -322,6 +453,55 @@ build_readme <- function(config, files) {
       sep = "\n"
     )
   }, character(1))
+
+  # Generated from the same records the manifest publishes, so the prose and
+  # the counts cannot drift apart. Plain short declaratives: a reader deciding
+  # whether this file suits their work should not have to parse a sentence
+  # twice to find out what is missing from it.
+  exclusions_section <- function(files) {
+    excluded <- Filter(function(entry) length(entry$exclusions), files)
+    if (!length(excluded)) {
+      return(NULL)
+    }
+
+    blocks <- unlist(lapply(excluded, function(entry) {
+      lapply(entry$exclusions, function(record) {
+        units <- vapply(record$units, function(unit) {
+          paste0("- ", unit$name, " (", unit$id, ")")
+        }, character(1))
+        paste(
+          paste0("File: `", entry$file, "`. The following ",
+                 length(record$units),
+                 " entries in that framework are affected."),
+          "",
+          paste(units, collapse = "\n"),
+          "",
+          record$reason,
+          "",
+          paste("The entries themselves stay in the file. Each keeps its",
+                "identifier, its name and its membership in the framework.",
+                "What is gone is the mapping from each entry to the",
+                "framework's statements. A statement attached only to these",
+                "entries is gone with them. A statement that any other entry",
+                "also uses is untouched and keeps all of its other links."),
+          sep = "\n"
+        )
+      })
+    }), use.names = FALSE)
+
+    paste(
+      "## What is left out of a shipped file",
+      "",
+      paste("Most files in this release carry every triple the harmonised",
+            "graph holds for their framework. The files named below do not.",
+            "Each of them ships with a named part withheld. This section says",
+            "which part, and why."),
+      "",
+      paste(unlist(blocks, use.names = FALSE), collapse = "\n\n"),
+      "",
+      sep = "\n"
+    )
+  }
 
   held <- config$held %||% list()
   refused <- config$refused %||% list()
@@ -385,6 +565,7 @@ build_readme <- function(config, files) {
     "",
     paste(sections, collapse = "\n\n"),
     "",
+    exclusions_section(files),
     "## Frameworks not in this release",
     "",
     paste(withheld_lines, collapse = "\n"),
@@ -458,6 +639,7 @@ main <- function() {
 
   policy <- publication_policy()
   assert_release_allowlist(config, policy)
+  assert_release_exclusions(config)
   licenses <- cybedtools::framework_licenses
 
   per_framework <- lapply(release_config$frameworks, function(slug) {
@@ -475,13 +657,17 @@ main <- function() {
   vocabulary <- write_vocabulary_file(vocabulary_lines, out_dir)
 
   shipped <- as.character(config$shipped)
-  files <- lapply(shipped, function(slug) {
-    entry <- framework_entry(slug, per_framework[[slug]], config, policy,
+  built <- lapply(shipped, function(slug) {
+    built <- framework_entry(slug, per_framework[[slug]], config, policy,
                              licenses, out_dir)
     message(sprintf("  %-14s %6d triples  %8d bytes  %s",
-                    entry$slug, entry$triples, entry$bytes, entry$scope))
-    entry
+                    built$entry$slug, built$entry$triples, built$entry$bytes,
+                    built$entry$scope))
+    built
   })
+  files <- lapply(built, function(x) x$entry)
+
+  report_exclusion_counts(built)
 
   manifest <- build_manifest(config, files, vocabulary)
   writeBin(

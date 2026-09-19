@@ -84,3 +84,43 @@ held:
 # under shipped.
 refused:
   sfia: "The publisher's terms cover the framework's structure as well as its text. A licence is available from the publisher."
+
+# Exclusions are a third gate, and unlike the first two they act inside a file
+# rather than on the file as a whole. A framework still ships; a named part of
+# it does not.
+#
+# An exclusion of kind `unit_element_links` removes the mappings from the named
+# organizing units to the framework's statements. It is the narrowest cut the
+# graph allows, and it is deliberately narrow:
+#
+#   What it removes. Every triple on a unit-to-element link predicate whose
+#   unit side is one of the named units. Then, as a consequence, every element
+#   that is left attached to no unit at all in that file, together with that
+#   element's own triples and the sub-points and examples that elaborate it. An
+#   element reachable only from an excluded unit would otherwise ship as a
+#   free-floating statement whose only provenance was an excluded unit, which
+#   is the opposite of what an exclusion is for.
+#
+#   What it does NOT remove. The unit nodes themselves. Their identifiers,
+#   their types, their names and their membership in the framework all stay, so
+#   a reader can see that the unit exists and that its mappings are absent
+#   rather than being left to wonder whether the unit exists at all. It also
+#   does not remove any element that any other unit in the same framework also
+#   draws on. A shared statement belongs to the framework's own master list and
+#   keeps every one of its other links.
+#
+# `units` are matched on the exact local part of the unit's IRI, the text after
+# the last `#` or `/`. The match is never on a name or a substring of one. A
+# unit id that resolves to no unit in that framework's file stops the export,
+# so a typo cannot quietly exclude nothing. A framework named here that is not
+# on the `shipped` allowlist also stops the export.
+#
+# `reason` is published verbatim in the manifest and in the release README, so
+# it is written for a reader outside the project. `since` records the release
+# in which the exclusion first applied.
+exclusions:
+  - framework: dcwf
+    kind: unit_element_links
+    units: ["121", "122", "132", "133", "321", "322", "442", "443", "463"]
+    reason: "The source workbook labels these nine work roles (CUI) in its index without any control marking or explanation. Their role-to-statement mappings are omitted pending clarification from the DoD CIO."
+    since: "2026.09.1"
