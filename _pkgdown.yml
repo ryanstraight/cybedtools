@@ -147,6 +147,20 @@ reference:
     contents:
       - validate_jsonld_node
 
+  - title: Graph invariants
+    desc: >-
+      Checks that only an assembled graph can answer: that no IRI stands
+      for both an organizing unit and a statement, that no
+      cybed:hasElement link points at its own subject, and that the
+      assembled counts sit inside the bands docs/framework-invariants.yml
+      declares. Run as a pipeline stage between the N-Triples export and
+      the data release, and re-run by the release export itself.
+    contents:
+      - graph_identity_violations
+      - assert_graph_identity
+      - graph_invariant_counts
+      - assert_graph_invariants
+
   - title: Licensing
     desc: Licence facts for the package code and every framework, with one owner.
     contents:

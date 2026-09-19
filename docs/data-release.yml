@@ -110,7 +110,12 @@ refused:
 #   keeps every one of its other links.
 #
 # `units` are matched on the exact local part of the unit's IRI, the text after
-# the last `#` or `/`. The match is never on a name or a substring of one. A
+# the last `#` or `/`. That local part is not always the framework's own
+# printed code: a framework whose units and statements share one id space
+# mints its unit IRIs with the `unit_iri_prefix` declared for it in
+# docs/framework-invariants.yml, and the printed code is carried as a
+# schema:identifier literal instead. DCWF's work role 121 is the unit
+# `role-121`. The match is never on a name or a substring of one. A
 # unit id that resolves to no unit in that framework's file stops the export,
 # so a typo cannot quietly exclude nothing. A framework named here that is not
 # on the `shipped` allowlist also stops the export.
@@ -121,6 +126,6 @@ refused:
 exclusions:
   - framework: dcwf
     kind: unit_element_links
-    units: ["121", "122", "132", "133", "321", "322", "442", "443", "463"]
+    units: ["role-121", "role-122", "role-132", "role-133", "role-321", "role-322", "role-442", "role-443", "role-463"]
     reason: "The source workbook labels these nine work roles (CUI) in its index without any control marking or explanation. Their role-to-statement mappings are omitted pending clarification from the DoD CIO."
     since: "2026.09.1"

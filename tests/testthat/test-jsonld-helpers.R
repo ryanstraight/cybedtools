@@ -94,6 +94,101 @@ test_that("build_role_node delegates correctly: identical output to is_role = TR
   expect_identical(via_wrapper, via_canonical)
 })
 
+# unit_iri_prefix. Two frameworks number their organizing units and their
+# statements out of one id space, so a bare unit IRI collides with a statement
+# IRI and the two nodes fuse. The discriminator separates them. Everything
+# below is about keeping that change confined to the frameworks that need it.
+
+test_that("no unit_iri_prefix leaves the IRI bare and adds no identifier", {
+  node <- build_organizing_unit_node(
+    unit_id           = "462",
+    unit_name         = "Bare Unit",
+    framework_prefix  = "dcwf",
+    framework_subtype = "WorkRole"
+  )
+  expect_equal(as.character(node[["@id"]]), "dcwf:462")
+  expect_null(node[["schema:identifier"]])
+
+  explicit_null <- build_organizing_unit_node(
+    unit_id           = "462",
+    unit_name         = "Bare Unit",
+    framework_prefix  = "dcwf",
+    framework_subtype = "WorkRole",
+    unit_iri_prefix   = NULL
+  )
+  expect_identical(explicit_null, node)
+
+  empty_string <- build_organizing_unit_node(
+    unit_id           = "462",
+    unit_name         = "Bare Unit",
+    framework_prefix  = "dcwf",
+    framework_subtype = "WorkRole",
+    unit_iri_prefix   = ""
+  )
+  expect_identical(empty_string, node)
+})
+
+test_that("a unit_iri_prefix moves the code out of the IRI and into a literal", {
+  node <- build_organizing_unit_node(
+    unit_id           = "K-2.SEC.AUTH",
+    unit_name         = "K-2 / Security / Authentication",
+    framework_prefix  = "cyberorg",
+    framework_subtype = "StandardGroup",
+    element_ids       = c("K-2.SEC.AUTH"),
+    framework_id      = "cyberorg-k12-v1.0",
+    unit_iri_prefix   = "cell-"
+  )
+  expect_equal(as.character(node[["@id"]]), "cyberorg:cell-K-2.SEC.AUTH")
+  expect_equal(node[["schema:identifier"]], "K-2.SEC.AUTH")
+  # The element the unit points at keeps the id it has always had, so the
+  # link that used to be a self-loop now runs between two distinct nodes.
+  expect_equal(as.character(node[["cybed:hasElement"]][[1]][["@id"]]),
+               "cyberorg:K-2.SEC.AUTH")
+  expect_true(validate_jsonld_node(node)$valid)
+})
+
+test_that("build_role_node passes unit_iri_prefix through", {
+  via_wrapper <- build_role_node(
+    role_id             = "462",
+    role_name           = "Systems Security Analyst",
+    framework_prefix    = "dcwf",
+    framework_role_type = "WorkRole",
+    framework_id        = "dcwf-v5.1",
+    unit_iri_prefix     = "role-"
+  )
+  via_canonical <- build_organizing_unit_node(
+    unit_id           = "462",
+    unit_name         = "Systems Security Analyst",
+    framework_prefix  = "dcwf",
+    framework_subtype = "WorkRole",
+    is_role           = TRUE,
+    framework_id      = "dcwf-v5.1",
+    unit_iri_prefix   = "role-"
+  )
+  expect_identical(via_wrapper, via_canonical)
+  expect_equal(as.character(via_wrapper[["@id"]]), "dcwf:role-462")
+  expect_equal(via_wrapper[["schema:identifier"]], "462")
+  expect_true("cybed:Role" %in% via_wrapper[["@type"]])
+})
+
+test_that("a discriminated unit IRI no longer equals the statement IRI", {
+  unit <- build_role_node(
+    role_id             = "462",
+    role_name           = "Systems Security Analyst",
+    framework_prefix    = "dcwf",
+    framework_role_type = "WorkRole",
+    unit_iri_prefix     = "role-"
+  )
+  statement <- build_role_element_node(
+    element_id             = "462",
+    framework_prefix       = "dcwf",
+    framework_element_type = "TaskOrKSA",
+    element_text           = "A task that happens to carry the number 462."
+  )
+  expect_false(identical(as.character(unit[["@id"]]),
+                         as.character(statement[["@id"]])))
+})
+
 test_that("build_role_element_node omits cybed:partOf when framework_id is NA", {
   node <- build_role_element_node(
     element_id             = "E0001",

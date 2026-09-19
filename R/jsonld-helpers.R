@@ -235,6 +235,19 @@ build_framework_node <- function(framework_id,
 #' @param framework_id Character, framework identifier (e.g., `"nice-v2"`)
 #'   to populate `cybed:partOf`.
 #' @param metadata Named list, optional additional fields to include.
+#' @param unit_iri_prefix Character, optional discriminator inserted in front
+#'   of `unit_id` in the minted IRI, so the unit becomes
+#'   `{framework_prefix}:{unit_iri_prefix}{unit_id}` instead of
+#'   `{framework_prefix}:{unit_id}`. Use it when a framework numbers its
+#'   units and its statements out of one id space, which makes a unit IRI and
+#'   a statement IRI collide and fuses two nodes into one. DCWF numbers work
+#'   roles and task/KSA statements from the same range, and Cyber.org K-12
+#'   names a grade-band cell after the standard it holds; both are minted
+#'   with a prefix for that reason. When a prefix is supplied the unit's own
+#'   printed code is retained as a `schema:identifier` literal, so nothing
+#'   the IRI used to carry is lost. Defaults to `NULL`, which mints the bare
+#'   IRI and adds no literal: existing behaviour for every other framework
+#'   and for a user's own.
 #' @return Named list (JSON-LD node).
 #' @family JSON-LD construction
 #' @export
@@ -264,6 +277,17 @@ build_framework_node <- function(framework_id,
 #' )
 #' bucket[["@type"]]
 #' # c("csta:StandardGroup", "cybed:OrganizingUnit")
+#'
+#' # A framework whose unit ids and statement ids share one space.
+#' cell <- build_organizing_unit_node(
+#'   unit_id           = "K-2.SEC.AUTH",
+#'   unit_name         = "K-2 / Security / Authentication",
+#'   framework_prefix  = "cyberorg",
+#'   framework_subtype = "StandardGroup",
+#'   unit_iri_prefix   = "cell-"
+#' )
+#' cell[["@id"]]
+#' cell[["schema:identifier"]]
 build_organizing_unit_node <- function(unit_id,
                                         unit_name,
                                         framework_prefix,
@@ -272,7 +296,8 @@ build_organizing_unit_node <- function(unit_id,
                                         description = NA_character_,
                                         element_ids = character(0),
                                         framework_id = NA_character_,
-                                        metadata = list()) {
+                                        metadata = list(),
+                                        unit_iri_prefix = NULL) {
   type_set <- c(glue::glue("{framework_prefix}:{framework_subtype}"))
   if (isTRUE(is_role)) {
     type_set <- c(type_set, "cybed:Role")
@@ -282,11 +307,25 @@ build_organizing_unit_node <- function(unit_id,
   # abstract type require the triple to be present in the graph.
   type_set <- c(type_set, "cybed:OrganizingUnit")
 
+  # A discriminator is only ever prepended to the IRI. The element ids below
+  # are untouched, because the collision is between a unit and a statement,
+  # not between two statements, and statement IRIs are the codes people cite.
+  discriminator <- if (is.null(unit_iri_prefix)) "" else as.character(unit_iri_prefix)
+  if (length(discriminator) != 1L || is.na(discriminator)) discriminator <- ""
+
   node <- list(
-    `@id`            = glue::glue("{framework_prefix}:{unit_id}"),
+    `@id`            = glue::glue("{framework_prefix}:{discriminator}{unit_id}"),
     `@type`          = type_set,
     `schema:name`    = unit_name
   )
+
+  # The printed code left the IRI, so it is asserted as data instead. Emitted
+  # only under a discriminator: the frameworks that mint bare IRIs already
+  # carry their code in the IRI, and adding a literal there would change
+  # graphs that have no defect to fix.
+  if (nzchar(discriminator)) {
+    node[["schema:identifier"]] <- unit_id
+  }
 
   if (!is.na(description)) {
     node[["schema:description"]] <- description
@@ -340,6 +379,12 @@ build_organizing_unit_node <- function(unit_id,
 #'   framework's own cited NICE work-role ids, recorded as literals where the
 #'   cited ids do not resolve to elements in this graph).
 #' @param metadata Named list, optional additional fields to include.
+#' @param unit_iri_prefix Character, optional discriminator for the minted
+#'   role IRI, passed through to [build_organizing_unit_node()]. Supply it for
+#'   a framework that numbers its roles and its statements out of one id
+#'   space, such as DCWF, where a work-role code and a task/KSA number can be
+#'   the same number. The role's printed code is then kept as a
+#'   `schema:identifier` literal. Defaults to `NULL`, the bare IRI.
 #' @return Named list (JSON-LD node).
 #' @family JSON-LD construction
 #' @export
@@ -366,6 +411,19 @@ build_organizing_unit_node <- function(unit_id,
 #'   opm_codes            = c("631", "632")
 #' )
 #' role_opm[["cybed:opmCode"]]
+#'
+#' # DCWF numbers work roles and task/KSA statements from one range, so its
+#' # role IRIs carry a discriminator and the printed code becomes a literal.
+#' dcwf_role <- build_role_node(
+#'   role_id             = "462",
+#'   role_name           = "Systems Security Analyst",
+#'   framework_prefix    = "dcwf",
+#'   framework_role_type = "WorkRole",
+#'   framework_id        = "dcwf-v5.1",
+#'   unit_iri_prefix     = "role-"
+#' )
+#' dcwf_role[["@id"]]
+#' dcwf_role[["schema:identifier"]]
 build_role_node <- function(role_id,
                             role_name,
                             framework_prefix,
@@ -374,7 +432,8 @@ build_role_node <- function(role_id,
                             element_ids = character(0),
                             framework_id = NA_character_,
                             opm_codes = character(0),
-                            metadata = list()) {
+                            metadata = list(),
+                            unit_iri_prefix = NULL) {
   opm_codes <- as.character(opm_codes)
   opm_codes <- opm_codes[!is.na(opm_codes) & nzchar(opm_codes)]
   if (length(opm_codes) > 0) {
@@ -390,7 +449,8 @@ build_role_node <- function(role_id,
     description       = description,
     element_ids       = element_ids,
     framework_id      = framework_id,
-    metadata          = metadata
+    metadata          = metadata,
+    unit_iri_prefix   = unit_iri_prefix
   )
 }
 

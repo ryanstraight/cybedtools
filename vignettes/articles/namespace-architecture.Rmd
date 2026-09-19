@@ -113,6 +113,7 @@ Framework-agnostic terms. `cybed:OrganizingUnit` is the cross-framework abstract
 - `cybed:UnitRelation`, a reified relation between two organizing units, used when the publisher qualifies the link. Carries `cybed:fromUnit` and `cybed:toUnit` (object properties naming the two units), `cybed:relationLabel` (the publisher's own word for the relation), and `cybed:proficiencyLevel` (the level as printed, always a string, since framework level scales do not compare). Built with `build_unit_relation_node()`.
 - `cybed:niceCrossReference`, a literal recording a framework's own citation of a NICE work role, where that citation cannot be resolved to a link. A sibling of `cybed:ecfCrossReference` and `cybed:cybokCrossReference`.
 - `cybed:elementText`, literal text of the element.
+- `schema:identifier` on an organizing unit, the framework's own printed code for that unit. Present only where the unit IRI carries a discriminator (see below), so the code the framework prints is still in the graph as data.
 - `cybed:sourceSection`, where this element appears in the source document.
 - `cybed:jurisdiction`, e.g., "US", "EU", "UK", "CZ", "CA", "SG", "global".
 - `schema:creditText` on a `cybed:Framework` node, the steward's attribution wording verbatim.
@@ -139,6 +140,27 @@ Each framework has its own prefix. The per-framework parent type subclasses `cyb
 | CCSSF 2022        | `ccssf:WorkRole`, `ccssf:AdjacentRole` | `cybed:Role`   | `ccssf:Task`, `ccssf:Competency`, `ccssf:ToolOrTechnology` |
 | OTCCF v1.1        | `otccf:JobRole`                | `cybed:Role`           | `otccf:KeyTask`                                  |
 | OTCCF v1.1        | `otccf:TechnicalSkillCompetency`, `otccf:CriticalCoreSkill` | `cybed:OrganizingUnit` | `otccf:Knowledge`, `otccf:Ability`, `otccf:ProficiencyDescription` |
+
+### Unit IRIs: when a local id is not enough
+
+A node's IRI is its prefix plus its framework-local id. That works as long as a framework numbers its organizing units and its statements out of separate id spaces, because then no unit id can equal a statement id and no two nodes can land on the same IRI. Nine of the eleven frameworks are like that.
+
+Two are not. DCWF draws work-role codes and task/KSA numbers from one numeric range, so work role 462 and statement 462 both wanted `dcwf:462`. Cyber.org K-12 names a grade-band x sub-concept cell after its axes and names the standards inside it the same way, so a cell holding exactly one standard wanted that standard's IRI. Where that happened the two nodes did not conflict, they merged: one IRI carrying a unit's types and a statement's types at once, and a `cybed:hasElement` edge running from the node to itself.
+
+The fix is a discriminator on the unit side only. A framework may declare a `unit_iri_prefix` in `docs/framework-invariants.yml`; the assembler prepends it to the unit's local id when minting the IRI, and the unit's printed code is kept as a `schema:identifier` literal so nothing the IRI used to carry is lost. DCWF declares `role-`, Cyber.org K-12 declares `cell-`.
+
+| Framework | Unit IRI | Statement IRI |
+|-----------|----------|---------------|
+| DCWF v5.1 | `dcwf:role-462` | `dcwf:462` |
+| Cyber.org K-12 | `cyberorg:cell-K-2.SEC.AUTH` | `cyberorg:K-2.SEC.AUTH` |
+
+Three properties of the rule matter more than the rule itself.
+
+It is one-sided. Statement IRIs do not move. They are the codes people cite, there are about 4,500 of them, and a framework's own numbering is what a reader looks up.
+
+It is declared, not inferred. A framework with no `unit_iri_prefix` mints the IRIs it has always minted, so the other nine frameworks' graphs are byte-identical to what they were before the rule existed. `build_organizing_unit_node()` and `build_role_node()` take `unit_iri_prefix` as an optional argument that defaults to no discriminator, so a framework of your own is unaffected unless you ask for it.
+
+It is enforced. `assert_graph_identity()` fails the build if any IRI is typed both `cybed:OrganizingUnit` and `cybed:RoleElement`, or if any `cybed:hasElement` triple points at its own subject. There is no exemption list. A framework that would need one needs a `unit_iri_prefix` instead.
 
 The three frameworks added in v0.3.0 mint their Tier 2 terms under `https://w3id.org/cybed/framework/<slug>#` rather than under the steward's own domain. The other eight sit under a namespace derived from the publisher's site. The difference is deliberate. A term like `otccf:JobRole` is a type cybedtools coined to describe what CSA published, and it is not an identifier CSA issued. Putting it under the package's own namespace keeps that distinction visible in the URI itself, so nobody reading the graph mistakes a package-coined subtype for the steward's vocabulary.
 
@@ -173,7 +195,7 @@ A workforce framework parent (NICE work role) carries `cybed:Role` and `cybed:Or
 }
 ```
 
-A non-workforce framework parent (Cyber.org K-12 grade-band x sub-concept cell) carries `cybed:OrganizingUnit` only, and its standard's Clarification examples are typed `cybed:Example` linked via `cybed:hasExample`:
+A non-workforce framework parent (Cyber.org K-12 grade-band x sub-concept cell) carries `cybed:OrganizingUnit` only, and its standard's Clarification examples are typed `cybed:Example` linked via `cybed:hasExample`. This is also a framework that declares a `unit_iri_prefix`, so the cell's IRI carries `cell-` and its printed code sits on `schema:identifier`:
 
 ```json
 {
@@ -184,9 +206,10 @@ A non-workforce framework parent (Cyber.org K-12 grade-band x sub-concept cell) 
   },
   "@graph": [
     {
-      "@id": "cyberorg:K-2.SEC.AUTH",
+      "@id": "cyberorg:cell-K-2.SEC.AUTH",
       "@type": ["cyberorg:StandardGroup", "cybed:OrganizingUnit"],
       "schema:name": "K-2 / Secure Computing / Authentication",
+      "schema:identifier": "K-2.SEC.AUTH",
       "cybed:hasElement": [{ "@id": "cyberorg:K-2.SEC.AUTH.1" }]
     },
     {

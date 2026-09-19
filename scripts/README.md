@@ -42,12 +42,23 @@ See `docs/framework-data-sources.md` for canonical source URLs and ingestion not
 016-summarize-ingestion.R    # Generates docs/ingestion-summary.md
 020-assemble-jsonld.R        # Builds JSON-LD from tidy CSVs
 025-export-ntriples.R        # Derives N-Triples for SPARQL backend
+026-verify-graph.R           # Graph-level gate: identity + declared counts
 030-export-release.R         # Builds the public per-framework data release
 040-run-sparql.R             # SPARQL query runner
 _ingest-common.R             # Shared helpers for the ingesters
 _release-common.R            # Pure helpers for the release export
 utils/jsonld-helpers.R       # Mirror of R/jsonld-helpers.R for script use
 ```
+
+## The graph gate
+
+`015-verify-ingestion.R` runs over the staged CSVs, before any IRI exists, so there are two things it cannot check. `026-verify-graph.R` runs over the assembled graph and checks both, with no soft flags.
+
+The first is identity. No IRI may be typed both `cybed:OrganizingUnit` and `cybed:RoleElement`, and no `cybed:hasElement` triple may point at its own subject. Both mean a framework numbered its units and its statements out of one id space and two different things fused into one node. The remedy is a `unit_iri_prefix` for that framework in `docs/framework-invariants.yml`; there is no exemption list.
+
+The second is the `graph_invariants` block of `docs/framework-invariants.yml`, which declares what the assembled graph should hold per framework and in total. Those are outputs of the pipeline, so no earlier stage can enforce them. A measured value outside its declared band is a human-review event: find out what moved before editing the number.
+
+`030-export-release.R` re-runs both checks itself before it writes anything, because a directory of N-Triples files does not record whether a stage ran over it, and a release cannot be withdrawn.
 
 ## The public data release
 

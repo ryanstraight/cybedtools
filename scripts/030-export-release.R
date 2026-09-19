@@ -11,7 +11,11 @@
 # combined graph merges the files locally, where each file's own terms still
 # apply to its own triples.
 #
-# Two independent gates govern every file, and both fail closed:
+# The stage refuses to start until the assembled graph passes the identity and
+# count checks that scripts/026-verify-graph.R runs. Those checks are re-run
+# here rather than assumed to have run.
+#
+# Two independent gates then govern every file, and both fail closed:
 #
 #   Policy. public_redistribution in docs/framework-invariants.yml, read
 #   through the table concordance/_publication-guard.R already declares. An
@@ -94,6 +98,30 @@ read_framework_lines <- function(slug) {
     )
   }
   readLines(path, warn = FALSE)
+}
+
+# ---------------------------------------------------------------------------
+# Graph gate
+# ---------------------------------------------------------------------------
+
+# scripts/026-verify-graph.R runs the same two checks as its own pipeline
+# stage. They are re-run here rather than assumed, because a release is not
+# retractable and nothing in a directory of N-Triples files records whether a
+# stage ran over them. Running the check is cheaper than the class of mistake
+# it prevents: a graph in which one IRI stands for both an organizing unit
+# and a statement would ship that conflation to every reader.
+assert_graph_gate <- function() {
+  message("\n-- Graph gate --")
+  rdf <- load_combined_ntriples_graph(
+    file.path(release_config$nt_dir, "_combined.nt")
+  )
+  assert_graph_identity(rdf)
+  assert_graph_invariants(
+    rdf,
+    invariants_path = here("docs", "framework-invariants.yml")
+  )
+  message("  identity clean, declared counts within band")
+  invisible(TRUE)
 }
 
 # ---------------------------------------------------------------------------
@@ -636,6 +664,8 @@ main <- function() {
   out_dir <- resolve_out_dir(config)
   message("Release version: ", config$release_version)
   message("Output: ", out_dir)
+
+  assert_graph_gate()
 
   policy <- publication_policy()
   assert_release_allowlist(config, policy)
