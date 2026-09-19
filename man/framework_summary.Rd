@@ -69,8 +69,13 @@ the per-organizing-unit columns.}
 every element type, so parents plus Subpoints plus Examples reachable
 from role-typed units, divided by \code{role_count}. \code{NA} where
 \code{role_count} is \code{NA}.}
-\item{license}{Character. Distribution license as published by the
-framework owner.}
+\item{license}{Character. Short licence label, \strong{derived}: taken by
+slug from \link{framework_licenses}\verb{$license_short} when this tibble is
+built, never hand-typed here. \link{framework_licenses} owns the detail,
+including what the source's own document says, the prescribed
+attribution wording, the public-redistribution class, the terms URL,
+and the date the terms were last read. Use \code{\link[=cybed_license]{cybed_license()}} to reach
+it. Do not treat this column as a statement of terms; it is a label.}
 }
 }
 \source{
@@ -123,11 +128,9 @@ puts in front of a teacher, trainee, or curriculum designer. The strict
 count is the supplementary figure, reported in the
 cross-framework-analysis vignette.
 
-Note that \code{docs/framework-invariants.yml} uses the word "strict" in a
-different sense: its \code{total_elements_strict} is parents plus Subpoints
-excluding Examples, whereas this tibble's \code{element_count_strict} is
-parents only, so the two figures will not match for any framework with
-Subpoints.
+The related count in \code{docs/framework-invariants.yml},
+\code{total_elements_with_subpoints}, is parents plus Subpoints excluding
+Examples. This tibble's \code{element_count_strict} is parents only.
 }
 
 \section{Units, roles, and density}{

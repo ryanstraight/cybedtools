@@ -44,11 +44,9 @@
 #' count is the supplementary figure, reported in the
 #' cross-framework-analysis vignette.
 #'
-#' Note that `docs/framework-invariants.yml` uses the word "strict" in a
-#' different sense: its `total_elements_strict` is parents plus Subpoints
-#' excluding Examples, whereas this tibble's `element_count_strict` is
-#' parents only, so the two figures will not match for any framework with
-#' Subpoints.
+#' The related count in `docs/framework-invariants.yml`,
+#' `total_elements_with_subpoints`, is parents plus Subpoints excluding
+#' Examples. This tibble's `element_count_strict` is parents only.
 #'
 #' @section Units, roles, and density:
 #' `organizing_unit_count` counts every `cybed:OrganizingUnit`, which for
@@ -135,8 +133,13 @@
 #'     every element type, so parents plus Subpoints plus Examples reachable
 #'     from role-typed units, divided by `role_count`. `NA` where
 #'     `role_count` is `NA`.}
-#'   \item{license}{Character. Distribution license as published by the
-#'     framework owner.}
+#'   \item{license}{Character. Short licence label, **derived**: taken by
+#'     slug from [framework_licenses]`$license_short` when this tibble is
+#'     built, never hand-typed here. [framework_licenses] owns the detail,
+#'     including what the source's own document says, the prescribed
+#'     attribution wording, the public-redistribution class, the terms URL,
+#'     and the date the terms were last read. Use [cybed_license()] to reach
+#'     it. Do not treat this column as a statement of terms; it is a label.}
 #' }
 #'
 #' @source Computed from the eleven-framework combined graph produced by
@@ -147,3 +150,86 @@
 #' subset(framework_summary, framework_type == "workforce")
 #' subset(framework_summary, !is.na(role_count))
 "framework_summary"
+
+#' Licence facts for the package code and every framework
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' The single owner of licence facts in cybedtools. One row for the
+#' package's own code (MIT) and one row per framework, built by
+#' `data-raw/build-framework-licenses.R` from each source's own document,
+#' licence file, or published terms page. [framework_summary]`$license` is
+#' derived from this tibble's `license_short` column, so the short label and
+#' the detail can never disagree. Reach a single row with [cybed_license()].
+#'
+#' Nothing here is legal advice. The `license` column records what a source
+#' says; deciding what that permits in your situation is your call, and for
+#' several frameworks the honest answer is that the source says nothing and
+#' the position is inferred.
+#'
+#' @section What the redistribution classes mean:
+#' `public_redistribution` is the package's own operating rule for what it
+#' will publish from a framework, and it agrees by construction with
+#' `docs/framework-invariants.yml`, where a framework carrying no
+#' `public_redistribution` key means `"unrestricted"`.
+#' \describe{
+#'   \item{`"unrestricted"`}{Structure and statement text may both be
+#'     published, subject to the source's own attribution and
+#'     non-commercial or share-alike terms where it has them. The class
+#'     speaks to redistribution, not to commercial reuse: CSTA and
+#'     Cyber.org K-12 are `"unrestricted"` here and still carry NC and
+#'     NC-SA obligations recorded in `license`.}
+#'   \item{`"full_with_attribution"`}{As above, with attribution the
+#'     steward asked for explicitly.}
+#'   \item{`"structure_only"`}{Titles, categories, levels, codes, counts
+#'     and mappings may be published. Statement text may not.}
+#'   \item{`"local_only"`}{Nothing beyond aggregate counts is published.
+#'     Analysis happens on the user's own machine, where no distribution
+#'     occurs.}
+#' }
+#'
+#' @format A tibble with 12 rows and 10 columns.
+#' \describe{
+#'   \item{layer}{Character. `"code"` for the package's own code, or
+#'     `"framework"` for a framework's source content. Exactly one `"code"`
+#'     row exists.}
+#'   \item{slug}{Character. `"cybedtools"` for the code row; otherwise the
+#'     framework slug, equal to [framework_summary]`$framework_slug`.
+#'     Unique.}
+#'   \item{framework_name}{Character. Short display name, matching
+#'     [framework_summary]`$framework_name` for framework rows.}
+#'   \item{license_short}{Character. A short honest label, under 40
+#'     characters. The value [framework_summary]`$license` carries.}
+#'   \item{license}{Character. What the source's own document, licence file,
+#'     or published terms page says, verbatim or as a faithful close
+#'     quotation, naming the document or page it was read from. Where a
+#'     source states nothing, the row says so rather than filling the gap.}
+#'   \item{attribution}{Character. The attribution string to use, verbatim
+#'     where the steward prescribed one. `NA` where none is prescribed; the
+#'     package does not invent citation wording and attribute it to a
+#'     steward. This is the only column that may be `NA`.}
+#'   \item{public_redistribution}{Character. One of `"unrestricted"`,
+#'     `"full_with_attribution"`, `"structure_only"`, or `"local_only"`, as
+#'     described above.}
+#'   \item{terms_url}{Character. A public URL for the terms or the source
+#'     document. Always `https`. Where a source publishes no
+#'     framework-specific terms page, this is the publisher's own page for
+#'     the document.}
+#'   \item{granted}{Logical. `TRUE` only where a steward gave cybedtools
+#'     specific written permission. An open licence anyone may rely on is
+#'     not a grant to cybedtools and is `FALSE`.}
+#'   \item{verified}{Date. When the terms were last read from the source.}
+#' }
+#'
+#' @source Each framework's own published document or terms page, cited in
+#'   the `license` and `terms_url` columns. See
+#'   `data-raw/build-framework-licenses.R`, `LICENSING.md`, and
+#'   `docs/framework-data-sources.md`.
+#' @family licensing
+#' @examples
+#' framework_licenses
+#' subset(framework_licenses, granted)
+#' subset(framework_licenses, public_redistribution != "unrestricted",
+#'        select = c("slug", "license_short", "public_redistribution"))
+"framework_licenses"

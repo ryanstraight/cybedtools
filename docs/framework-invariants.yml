@@ -109,6 +109,7 @@ frameworks:
     sector: "citizen-education"
     specificity: "general-digital-competence"  # cybersec is the Safety area subset
     framework_type: "pedagogical"
+    public_redistribution: full_with_attribution
     expected:
       competence_areas: [5, 5]
       competences: [21, 21]
@@ -128,6 +129,8 @@ frameworks:
     sector: "K-12 education"
     specificity: "cybersecurity-specific"
     framework_type: "pedagogical"
+    # Non-commercial conditions also apply; see framework_licenses.
+    public_redistribution: full_with_attribution
     expected:
       # 4 grade bands (K-2, 3-5, 6-8, 9-12) x 29 sub-concepts, each cell
       # has 1-3 standards. Extraction yielded 123 standards on 2026-04-23.
@@ -153,6 +156,8 @@ frameworks:
     sector: "K-12 education"
     specificity: "general-computing"  # cybersec coverage is a subset, not the whole
     framework_type: "pedagogical"
+    # Non-commercial and share-alike conditions also apply; see framework_licenses.
+    public_redistribution: full_with_attribution
     expected:
       # Measured 2026-04-23 from the CSTA Foundation XLSX:
       # 120 standards across 5 levels (1A, 1B, 2, 3A, 3B) and 5 concepts.
@@ -174,6 +179,7 @@ frameworks:
     jurisdiction: "EU"
     sector: "civilian"
     specificity: "cybersecurity-specific"
+    public_redistribution: full_with_attribution
     expected:
       # ENISA ECSF defines exactly 12 role profiles. Element counts vary
       # by profile. Totals measured empirically from ENISA JSON.
@@ -432,18 +438,19 @@ frameworks:
 #                          from "Clarification statement:" sources). Carry
 #                          no framework-native subtype. Reachable only via
 #                          the parent element's cybed:hasExample.
-#   total_elements_strict  parent_elements + subpoint_elements
+#   total_elements_with_subpoints
+#                          parent_elements + subpoint_elements
 #                          (framework-as-specified content; the headline
 #                          density-comparison count).
 #   total_elements_full    parent_elements + subpoint_elements + example_elements
 #                          (inclusive count for granular search-index work).
 #
-# Strict-inflation factor is total_elements_strict / parent_elements and
+# Strict-inflation factor is total_elements_with_subpoints / parent_elements and
 # captures how much each framework's framework-as-specified prose
 # surfaces when run through parse_subpoints(). Frameworks near 1.00x have
 # no meaningful enumerations to lift. SFIA is the only framework with
 # meaningful Subpoint inflation; Cyber.org K-12 and CSTA route their
-# parsed content to Examples (not counted in strict).
+# parsed content to Examples (not counted in total_elements_with_subpoints).
 
 # Re-measured 2026-08-21 from the rebuilt combined graph. Two changes since
 # the previous measurement: (1) the 2026-08-14 DCWF fixes (parseable
@@ -470,7 +477,7 @@ graph_invariants:
   combined:
     organizing_unit_count: [719, 723]   # all 11 frameworks' parents (+61 from OTCCF)
     role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
-    total_elements_strict: [14096, 14131] # parents + Subpoints across all 11
+    total_elements_with_subpoints: [14096, 14131] # parents + Subpoints across all 11
     total_elements_full:   [14582, 14617] # adds Examples (Cyber.org K-12 ~369 + CSTA ~114)
     example_count:         [478, 492]   # ~369 Cyber.org K-12 + ~114 CSTA
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
@@ -489,111 +496,111 @@ graph_invariants:
     nice-v2:
       # v2.2.0 (2026-08-21): 2,211 parents (962 T + 693 K + 556 S incl.
       # the S0768 orphan) + 14 Subpoints from the revised statement text.
-      parent_elements:        [2209, 2213]
-      subpoint_elements:      [12, 16]
-      example_elements:       [0, 0]
-      total_elements_strict:  [2221, 2229]
-      total_elements_full:    [2221, 2229]
-      strict_inflation:       [0.99, 1.01]
-      parser_enabled:         true
+      parent_elements:               [2209, 2213]
+      subpoint_elements:             [12, 16]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [2221, 2229]
+      total_elements_full:           [2221, 2229]
+      strict_inflation:              [0.99, 1.01]
+      parser_enabled:                true
     dcwf-v5.1:
       # Subpoints re-measured 2026-08-21: the 2026-08-14 text-column and
       # "(e.g., ...)" introducer fixes made DCWF prose parseable, lifting
       # Subpoints from 0 to ~1,100.
-      parent_elements:        [2900, 3000]
-      subpoint_elements:      [1095, 1120]
-      example_elements:       [0, 0]
-      total_elements_strict:  [4000, 4110]
-      total_elements_full:    [4000, 4110]
-      strict_inflation:       [1.30, 1.45]
-      parser_enabled:         true
+      parent_elements:               [2900, 3000]
+      subpoint_elements:             [1095, 1120]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [4000, 4110]
+      total_elements_full:           [4000, 4110]
+      strict_inflation:              [1.30, 1.45]
+      parser_enabled:                true
     ecsf-v1:
-      parent_elements:        [360, 390]
-      subpoint_elements:      [14, 18]
-      example_elements:       [0, 0]
-      total_elements_strict:  [385, 395]
-      total_elements_full:    [385, 395]
-      strict_inflation:       [1.00, 1.10]
-      parser_enabled:         true
+      parent_elements:               [360, 390]
+      subpoint_elements:             [14, 18]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [385, 395]
+      total_elements_full:           [385, 395]
+      strict_inflation:              [1.00, 1.10]
+      parser_enabled:                true
     sfia-9:
       # Subpoint band widened downward 2026-08-21: measured 149 after the
       # 2026-08-14 parser refinements (previously 150-165).
-      parent_elements:        [670, 675]
-      subpoint_elements:      [145, 165]
-      example_elements:       [0, 0]
-      total_elements_strict:  [820, 840]
-      total_elements_full:    [820, 840]
-      strict_inflation:       [1.20, 1.30]
-      parser_enabled:         true
+      parent_elements:               [670, 675]
+      subpoint_elements:             [145, 165]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [820, 840]
+      total_elements_full:           [820, 840]
+      strict_inflation:              [1.20, 1.30]
+      parser_enabled:                true
     cyberorg-k12-v1.0:
       # Example band widened downward 2026-08-21: measured 369 after the
       # 2026-08-14 parser refinements (previously 375-380).
-      parent_elements:        [118, 128]
-      subpoint_elements:      [0, 0]
-      example_elements:       [365, 380]
-      total_elements_strict:  [118, 128]
-      total_elements_full:    [488, 510]
-      strict_inflation:       [0.99, 1.01]
-      parser_enabled:         true
+      parent_elements:               [118, 128]
+      subpoint_elements:             [0, 0]
+      example_elements:              [365, 380]
+      total_elements_with_subpoints: [118, 128]
+      total_elements_full:           [488, 510]
+      strict_inflation:              [0.99, 1.01]
+      parser_enabled:                true
     csta-2017:
-      parent_elements:        [118, 122]
-      subpoint_elements:      [18, 26]   # from "such as" patterns in standard column; measured 24 on 2026-08-21
-      example_elements:       [110, 118] # from clarification column extraction
-      total_elements_strict:  [136, 144]
-      total_elements_full:    [246, 262]
-      strict_inflation:       [1.10, 1.25]
-      parser_enabled:         true
+      parent_elements:               [118, 122]
+      subpoint_elements:             [18, 26]   # from "such as" patterns in standard column; measured 24 on 2026-08-21
+      example_elements:              [110, 118] # from clarification column extraction
+      total_elements_with_subpoints: [136, 144]
+      total_elements_full:           [246, 262]
+      strict_inflation:              [1.10, 1.25]
+      parser_enabled:                true
     csec2017-v1:
-      parent_elements:        [35, 42]
-      subpoint_elements:      [2, 4]
-      example_elements:       [0, 0]
-      total_elements_strict:  [38, 45]
-      total_elements_full:    [38, 45]
-      strict_inflation:       [1.00, 1.15]
-      parser_enabled:         true
+      parent_elements:               [35, 42]
+      subpoint_elements:             [2, 4]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [38, 45]
+      total_elements_full:           [38, 45]
+      strict_inflation:              [1.00, 1.15]
+      parser_enabled:                true
     cyqual-v1.2.0:
       # Parents are 1,168 tasks + 1,320 requirements, each emitted once and
       # referenced by every role that uses it. The parser runs on the English
       # export (measured 852 Subpoints over 245 parents, 2026-09-18); the
       # subpoints attach to the shared parent, not per role.
-      parent_elements:        [2488, 2488]
-      subpoint_elements:      [840, 865]
-      example_elements:       [0, 0]
-      total_elements_strict:  [3328, 3353]
-      total_elements_full:    [3328, 3353]
-      strict_inflation:       [1.33, 1.35]
-      parser_enabled:         true
+      parent_elements:               [2488, 2488]
+      subpoint_elements:             [840, 865]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [3328, 3353]
+      total_elements_full:           [3328, 3353]
+      strict_inflation:              [1.33, 1.35]
+      parser_enabled:                true
     ccssf-2022:
       # Parents are exact: 293 tasks + 466 competencies (510 staged rows less
       # the 44 lead-in headings the assembler folds into cybed:sourceSection)
       # + 154 tools and technology + 265 Annex E competencies = 1,178, less
       # the 30 source-printed sub-bullets that became Subpoints = 1,148.
-      parent_elements:        [1148, 1148]
+      parent_elements:               [1148, 1148]
       # 30 source-printed Subpoints plus the parser's output. The parser is
       # withheld from the 8 parents that carry source-printed children, which
       # removed 8 parser Subpoints it used to split off those same stems.
-      subpoint_elements:      [190, 200]
-      example_elements:       [0, 0]
-      total_elements_strict:  [1338, 1348]
-      total_elements_full:    [1338, 1348]
-      strict_inflation:       [1.13, 1.19]
-      parser_enabled:         true
+      subpoint_elements:             [190, 200]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [1338, 1348]
+      total_elements_full:           [1338, 1348]
+      strict_inflation:              [1.13, 1.19]
+      parser_enabled:                true
     otccf-v1.1:
       # Parser disabled for OTCCF, so parents are the whole element
       # population: 270 key tasks + 1,319 TSC level statements + 23 Range of
       # Application statements.
-      parent_elements:        [1612, 1612]
-      subpoint_elements:      [0, 0]
-      example_elements:       [0, 0]
-      total_elements_strict:  [1612, 1612]
-      total_elements_full:    [1612, 1612]
-      strict_inflation:       [1.00, 1.00]
-      parser_enabled:         false
+      parent_elements:               [1612, 1612]
+      subpoint_elements:             [0, 0]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [1612, 1612]
+      total_elements_full:           [1612, 1612]
+      strict_inflation:              [1.00, 1.00]
+      parser_enabled:                false
     digcomp-2.2:
-      parent_elements:        [18, 21]
-      subpoint_elements:      [0, 0]
-      example_elements:       [0, 0]
-      total_elements_strict:  [18, 21]
-      total_elements_full:    [18, 21]
-      strict_inflation:       [0.99, 1.01]
-      parser_enabled:         true
+      parent_elements:               [18, 21]
+      subpoint_elements:             [0, 0]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [18, 21]
+      total_elements_full:           [18, 21]
+      strict_inflation:              [0.99, 1.01]
+      parser_enabled:                true

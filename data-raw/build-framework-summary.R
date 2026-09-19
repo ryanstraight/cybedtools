@@ -136,8 +136,8 @@ role_element_counts <- role_elements |>
     .groups = "drop"
   )
 
-# Display + classification metadata not present in the JSON-LD. License,
-# the workforce/pedagogy content classification, display name, and ordering
+# Display + classification metadata not present in the JSON-LD. The
+# workforce/pedagogy content classification, display name, and ordering
 # originate outside the JSON-LD graph and rarely change. Slug-keyed for
 # stability across revisions. The framework_type column denotes content
 # focus (workforce competencies vs educational standards), not the
@@ -152,20 +152,51 @@ role_element_counts <- role_elements |>
 # literal: the graph carries the full published title (e.g. "Cyber.org K-12
 # Learning Standards v1.0"), which is too long for a table column. New rows
 # follow the existing short-name convention.
+#
+# The `license` column is NOT in this table any more. As of v0.3.1 it is
+# DERIVED from framework_licenses$license_short, joined by slug below, so
+# that licence facts have one owner. The hand-typed labels here had gone
+# stale (SFIA read "SFIA Use Policy" when SFIA requires a licence for all
+# use; NICE read as public domain alone when NIST also grants a worldwide
+# royalty-free right). Edit data-raw/build-framework-licenses.R instead.
 display <- tibble::tribble(
-  ~framework,                                                    ~display_order, ~display_name,             ~framework_type, ~license,
-  "https://w3id.org/cybed/ontology#framework/nice-v2",           1L,             "NICE v2.2.0",             "workforce",     "US public domain (17 U.S.C. 105); foreign rights may be reserved; attribute NIST as source",
-  "https://w3id.org/cybed/ontology#framework/dcwf-v5.1",         2L,             "DCWF v5.1",               "workforce",     "public domain",
-  "https://w3id.org/cybed/ontology#framework/ecsf-v1",           3L,             "ECSF v1",                 "workforce",     "ENISA re-use notice",
-  "https://w3id.org/cybed/ontology#framework/sfia-9",            4L,             "SFIA 9",                  "workforce",     "SFIA Use Policy",
-  "https://w3id.org/cybed/ontology#framework/cyberorg-k12-v1.0", 5L,             "Cyber.org K-12 v1.0",     "pedagogy",      "CC BY-NC 4.0",
-  "https://w3id.org/cybed/ontology#framework/csta-2017",         6L,             "CSTA K-12 CS (Rev 2017)", "pedagogy",      "CC BY-NC-SA 4.0",
-  "https://w3id.org/cybed/ontology#framework/csec2017-v1",       7L,             "ACM/IEEE CSEC2017",       "pedagogy",      "ACM/IEEE educational-use",
-  "https://w3id.org/cybed/ontology#framework/digcomp-2.2",       8L,             "DigComp 2.2",             "pedagogy",      "EU open re-use",
-  "https://w3id.org/cybed/ontology#framework/cyqual-v1.2.0",     9L,             "CyQUAL 1.2.0",            "workforce",     "Open data; attribution to CyQUAL and Masaryk University",
-  "https://w3id.org/cybed/ontology#framework/ccssf-2022",        10L,            "CCSSF 2022",              "workforce",     "Government of Canada copyright; used with permission",
-  "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce",     "CSA copyright; permission for non-commercial academic and research use"
+  ~framework,                                                    ~display_order, ~display_name,             ~framework_type,
+  "https://w3id.org/cybed/ontology#framework/nice-v2",           1L,             "NICE v2.2.0",             "workforce",
+  "https://w3id.org/cybed/ontology#framework/dcwf-v5.1",         2L,             "DCWF v5.1",               "workforce",
+  "https://w3id.org/cybed/ontology#framework/ecsf-v1",           3L,             "ECSF v1",                 "workforce",
+  "https://w3id.org/cybed/ontology#framework/sfia-9",            4L,             "SFIA 9",                  "workforce",
+  "https://w3id.org/cybed/ontology#framework/cyberorg-k12-v1.0", 5L,             "Cyber.org K-12 v1.0",     "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/csta-2017",         6L,             "CSTA K-12 CS (Rev 2017)", "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/csec2017-v1",       7L,             "ACM/IEEE CSEC2017",       "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/digcomp-2.2",       8L,             "DigComp 2.2",             "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/cyqual-v1.2.0",     9L,             "CyQUAL 1.2.0",            "workforce",
+  "https://w3id.org/cybed/ontology#framework/ccssf-2022",        10L,            "CCSSF 2022",              "workforce",
+  "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce"
 )
+
+# Licence labels, derived. framework_licenses is the single owner of licence
+# facts; this build reads only its short label. Fail loudly if a framework
+# has no licence row rather than shipping an NA licence.
+if (!exists("framework_licenses")) {
+  stop("framework_licenses is not available. Run ",
+       "data-raw/build-framework-licenses.R first, then reload the package.",
+       call. = FALSE)
+}
+
+license_lookup <- framework_licenses[framework_licenses$layer == "framework", ]
+display$license <- license_lookup$license_short[
+  match(sub("^.*/", "", display$framework), license_lookup$slug)
+]
+
+if (any(is.na(display$license))) {
+  stop(
+    "No framework_licenses row for framework(s): ",
+    paste(sub("^.*/", "", display$framework[is.na(display$license)]),
+          collapse = ", "),
+    ". Add a row in data-raw/build-framework-licenses.R and rebuild it.",
+    call. = FALSE
+  )
+}
 
 # Fail loudly in BOTH directions before any join can hide the problem.
 #
@@ -307,8 +338,23 @@ if (!is.null(previous_summary)) {
     framework_summary[match(old_slugs, framework_summary$framework_slug), ]
   )
 
+  # The ONE narrow relaxation, added v0.3.1. The `license` column is now
+  # derived from framework_licenses$license_short instead of being typed by
+  # hand in this script, and that change is intended to move several labels:
+  # SFIA's, NICE's, DCWF's, ECSF's, DigComp's and CCSSF's were stale or
+  # understated against what their sources actually say. Holding `license`
+  # to byte-identity would block the very correction this release makes.
+  #
+  # Nothing else is relaxed. Every other pre-existing column, for every
+  # pre-existing framework, is still held to byte-identity, because the
+  # published numbers are quoted in the README, the cross-framework-analysis
+  # vignette, and the Concordance manuscript. If a future change needs
+  # another column exempted, exempt it here explicitly and say why. Do not
+  # widen this vector to a pattern, and do not remove the guard.
+  guard_exempt <- "license"
+
   drifted <- character(0)
-  for (cl in old_cols) {
+  for (cl in setdiff(old_cols, guard_exempt)) {
     ov <- old_df[[cl]]
     nv <- new_df[[cl]]
     bad <- which(!mapply(identical, as.list(ov), as.list(nv)))
@@ -331,7 +377,20 @@ if (!is.null(previous_summary)) {
       call. = FALSE
     )
   }
-  cat("Regression guard passed: all pre-existing columns unchanged for the original eight frameworks.\n")
+  cat("Regression guard passed: all pre-existing columns unchanged for the original eight frameworks",
+      if (length(guard_exempt)) paste0(" (exempt: ", paste(guard_exempt, collapse = ", "), ")"),
+      ".\n", sep = "")
+
+  # Report the licence-label moves the exemption allowed, so the relaxation
+  # never hides a change silently.
+  lic_moved <- which(!mapply(identical,
+                             as.list(old_df$license), as.list(new_df$license)))
+  if (length(lic_moved) > 0L) {
+    cat("Licence labels changed (derived from framework_licenses):\n")
+    cat(sprintf("  %s: %s -> %s\n", old_slugs[lic_moved],
+                old_df$license[lic_moved], new_df$license[lic_moved]),
+        sep = "")
+  }
 }
 
 if (!dir.exists("data")) dir.create("data")

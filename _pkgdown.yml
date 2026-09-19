@@ -147,10 +147,16 @@ reference:
     contents:
       - validate_jsonld_node
 
+  - title: Licensing
+    desc: Licence facts for the package code and every framework, with one owner.
+    contents:
+      - cybed_license
+
   - title: Datasets
     desc: Pre-computed summary tibbles shipped with the package.
     contents:
       - framework_summary
+      - framework_licenses
 
 articles:
   - title: Getting started
@@ -168,3 +174,4 @@ articles:
       - articles/namespace-architecture
       - articles/sparql-strategy
       - articles/data-integrity
+      - articles/ai-assistants

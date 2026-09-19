@@ -115,7 +115,7 @@ The Investigation category description in the v2.2.0 release is a NIST-side regr
 
 ## DCWF (US, DoD)
 
-**Source.** <https://dodcio.defense.gov/Cyber-Workforce/DCWF/>. The DoD CIO Work Role Tool publishes the framework as XLSX, with a download link from the DCWF program page.
+**Source.** <https://dodcio.defense.gov/Cyber-Workforce/DCWF/>. The DoD CIO Work Role Tool publishes the framework as XLSX, with a download link from the DCWF program page. The DCWF programme page is now at <https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/>.
 
 **License.** A work of the US Government prepared by DoD personnel, so not subject to copyright in the United States under 17 U.S.C. 105. Three qualifications belong with that. The v5.1 workbook carries no distribution statement at all, across all 79 sheets, so nothing in the artifact either grants or restricts distribution. The DoD download pages now sit behind authentication (`public.cyber.mil/dcwf/` redirects to `www.cyber.mil/dcwf/`, which redirects into a SAML flow, and `dodcio.defense.gov/Cyber-Workforce/DCWF/` returns HTTP 403), so no download-page statement could be read as of 2026-09-18. Nine work roles carry a "(CUI)" tag in the hyperlink text of the DCWF Roles index sheet: Exploitation Analyst (CE-121), Digital Network Exploitation Analyst (CE-122), Target Digital Network Analyst (CE-132), Target Analyst Reporter (CE-133), Access Network Operator (CE-321), Cyberspace Operator (CE-322), Network Technician (CE-442), Network Analyst (CE-443) and Host Analyst (CE-463). CUI is Controlled Unclassified Information. Review those sheets before any public deposit of DCWF-derived content.
 

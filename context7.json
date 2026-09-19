@@ -30,6 +30,8 @@
     "Errors raised by cybedtools use rlang::abort() with classed conditions: cybedtools_unknown_prefix, cybedtools_file_not_found, cybedtools_framework_not_found. Branch on class via tryCatch, not regex matching of the error message.",
     "make_demo_graph() returns a small in-memory two-framework synthetic graph that exercises every domain helper. Use it for quick sanity checks before running the full pipeline against staged framework data.",
     "The package does not redistribute upstream framework text. Real-data pipelines require staging source files under data/raw/<slug>/ per docs/framework-data-sources.md.",
-    "Pipeline scripts under scripts/ are not part of the installed package (excluded via .Rbuildignore). They run from a clone of the repository, not from an installed package."
+    "Pipeline scripts under scripts/ are not part of the installed package (excluded via .Rbuildignore). They run from a clone of the repository, not from an installed package.",
+    "element_text(rdf) returns the cybed:elementText literals as a tibble with columns element and text. Parsed sub-points and examples are elements and carry text, so anti-join subpoint_framework_bindings() and example_framework_bindings() when the analysis is about parent statements only.",
+    "role_element_bindings() returns cybed:hasElement bindings for every organizing unit, not only roles. Restrict with semi_join(role_framework_bindings(rdf), by = \"role\") before any per-role aggregate, or the count silently includes skills and competence areas."
   ]
 }

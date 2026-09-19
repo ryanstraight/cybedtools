@@ -1,3 +1,17 @@
+# cybedtools (development version)
+
+## Licensing
+
+- New dataset `framework_licenses` and accessor `cybed_license()`: one row for the package's own code and one per framework, with what each source's own document says, the attribution wording a steward prescribed where there is one, the public-redistribution class, the terms URL, and the date the terms were last read. It is the single owner of licence facts.
+- `framework_summary$license` is now derived from `framework_licenses$license_short`, so the label and the detail cannot disagree. Nine labels change. SFIA read "SFIA Use Policy"; SFIA requires a licence for all use and its terms cover structure as well as text. NICE read as public domain alone; NIST also grants a worldwide royalty-free right that includes derivative works. ECSF read "ENISA re-use notice"; the report PDF is CC BY 4.0 and the ingested data files carry no notice. DigComp read "EU open re-use"; its imprint page states CC BY 4.0. CCSSF no longer says "used with permission"; the Centre asked that its material be referenced when used. Every other column of `framework_summary` is unchanged for all eleven frameworks.
+- `docs/framework-invariants.yml` now marks DigComp 2.2, ECSF, Cyber.org K-12 and CSTA as `full_with_attribution`. They were unmarked, which read as unrestricted.
+
+## Documentation
+
+- New article `ai-assistants`: the rules an AI assistant needs to write cybedtools code that runs. `AGENTS.md` and `context7.json` gain the `element_text()` and `role_element_bindings()` caveats.
+- The README links each framework to its steward's page and notes that the documentation is indexed in Context7 and published as `llms.txt`.
+- The invariants key `total_elements_strict` is renamed `total_elements_with_subpoints`. It counted parents plus sub-points, which is not what "strict" means in `framework_summary`.
+
 # cybedtools 0.3.0
 
 Eleven frameworks, up from eight. Two national frameworks join by written permission of their stewards, a third is referenced as its steward asked, and the vocabulary gains a way to say that one organizing unit relates to another.

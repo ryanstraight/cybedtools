@@ -58,7 +58,7 @@ repo. Stage them under `data/raw/<slug>/` per
 ## Test, document, build
 
 ```sh
-# Run the test suite (53+ tests, ~7 seconds)
+# Run the test suite (roughly 550 tests)
 Rscript -e "devtools::test()"
 
 # Regenerate man/ + NAMESPACE after roxygen comment changes
@@ -99,14 +99,22 @@ The package's design discipline is therefore:
 
 This is implemented by `R/sparql-helpers.R`. The two primitives
 (`sparql_pairs`, `sparql_subjects`) issue exactly one triple match;
-the domain helpers (`framework_metadata`, `role_framework_bindings`,
-`element_framework_bindings`, `role_element_bindings`, `element_text`)
-compose one or more single-BGP calls and join in R.
+the domain helpers (`framework_metadata`,
+`organizing_unit_framework_bindings`, `role_framework_bindings`,
+`element_framework_bindings`, `role_element_bindings`,
+`subpoint_framework_bindings`, `example_framework_bindings`,
+`element_text`) compose one or more single-BGP calls and join in R.
 
 **If you, the agent, are asked to write a multi-pattern SPARQL query
 against this package's graphs: don't. Decompose into single-BGP calls
-and join in dplyr.** A future v0.2+ release may add an Apache Jena
-Fuseki backend that lifts this constraint.
+and join in dplyr.** A future release may add an Apache Jena Fuseki
+backend that lifts this constraint.
+
+**`role_element_bindings()` is not role-restricted.** It returns
+`cybed:hasElement` bindings for every organizing unit, so restrict it
+with `semi_join(role_framework_bindings(rdf), by = "role")` before any
+per-role aggregate. Without that, a role-level count silently includes
+skills and competence areas.
 
 ## Error handling
 
@@ -163,6 +171,10 @@ Where to look for what:
 - `vignettes/cross-framework-analysis.Rmd`: worked analytical examples
   plus librdf gotchas.
 - `vignettes/adding-a-framework.Rmd`: six-step extension guide.
+- `vignettes/articles/ai-assistants.Rmd`: the same rules as this file,
+  written for an assistant working from the published site.
+- `python/`: a placeholder Python package that reserves the name on
+  PyPI. It installs and reports its version. It queries nothing yet.
 
 ## Common tasks
 
@@ -262,12 +274,17 @@ publisher's spelling.
 ## Licensing for data redistribution
 
 The package code is MIT. Framework source text is **not** redistributed
-in the repo because licenses differ per framework (SFIA Use Policy,
-Cyber.org K-12 CC BY-NC, CSTA CC BY-NC-SA, etc.). If you are an agent
-generating example outputs from staged framework data, derivative
-analytical outputs (counts, mappings, structural comparisons) are
-generally publishable with attribution. Raw source-text excerpts may
-not be.
+in the repo because the terms differ per framework. Read
+`LICENSING.md` and `docs/framework-data-sources.md` for the per-framework
+terms rather than assuming any of them from the framework's name. One
+worth stating here: SFIA's terms protect concept, content and structure,
+and all use of SFIA is under licence from the SFIA Foundation.
+
+`docs/framework-invariants.yml` records a `public_redistribution` value
+per framework. If you are an agent generating example outputs from
+staged framework data, derivative analytical outputs (counts, mappings,
+structural comparisons) are generally publishable with attribution. Raw
+source-text excerpts may not be.
 
 ## What this package is NOT
 
