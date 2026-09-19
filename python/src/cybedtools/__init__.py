@@ -10,11 +10,12 @@ __version__ : str
     The installed distribution version, read from package metadata.
 """
 
-from importlib.metadata import PackageNotFoundError, version as _version
+from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
+from importlib.metadata import version as _version
 
 __all__ = ["__version__"]
 
 try:
     __version__ = _version("cybedtools")
-except PackageNotFoundError:  # pragma: no cover - only when running from a source tree
+except _PackageNotFoundError:  # pragma: no cover - only when running from a source tree
     __version__ = "0.0.0"
