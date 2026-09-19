@@ -91,7 +91,8 @@ frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
 <span>  element_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  framework_id <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  opm_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  unit_iri_prefix <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -148,6 +149,15 @@ cited ids do not resolve to elements in this graph).</p></dd>
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
 <dd><p>Named list, optional additional fields to include.</p></dd>
 
+
+<dt id="arg-unit-iri-prefix">unit_iri_prefix<a class="anchor" aria-label="anchor" href="#arg-unit-iri-prefix"></a></dt>
+<dd><p>Character, optional discriminator for the minted
+role IRI, passed through to <code><a href="build_organizing_unit_node.html">build_organizing_unit_node()</a></code>. Supply it for
+a framework that numbers its roles and its statements out of one id
+space, such as DCWF, where a work-role code and a task/KSA number can be
+the same number. The role's printed code is then kept as a
+<code>schema:identifier</code> literal. Defaults to <code>NULL</code>, the bare IRI.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -192,6 +202,21 @@ cited ids do not resolve to elements in this graph).</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">role_opm</span><span class="op">[[</span><span class="st">"cybed:opmCode"</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "631" "632"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># DCWF numbers work roles and task/KSA statements from one range, so its</span></span></span>
+<span class="r-in"><span><span class="co"># role IRIs carry a discriminator and the printed code becomes a literal.</span></span></span>
+<span class="r-in"><span><span class="va">dcwf_role</span> <span class="op">&lt;-</span> <span class="fu">build_role_node</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  role_id             <span class="op">=</span> <span class="st">"462"</span>,</span></span>
+<span class="r-in"><span>  role_name           <span class="op">=</span> <span class="st">"Systems Security Analyst"</span>,</span></span>
+<span class="r-in"><span>  framework_prefix    <span class="op">=</span> <span class="st">"dcwf"</span>,</span></span>
+<span class="r-in"><span>  framework_role_type <span class="op">=</span> <span class="st">"WorkRole"</span>,</span></span>
+<span class="r-in"><span>  framework_id        <span class="op">=</span> <span class="st">"dcwf-v5.1"</span>,</span></span>
+<span class="r-in"><span>  unit_iri_prefix     <span class="op">=</span> <span class="st">"role-"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dcwf_role</span><span class="op">[[</span><span class="st">"@id"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dcwf:role-462</span>
+<span class="r-in"><span><span class="va">dcwf_role</span><span class="op">[[</span><span class="st">"schema:identifier"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "462"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

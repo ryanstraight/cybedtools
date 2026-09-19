@@ -17,6 +17,8 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/news/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/assemble_framework_document.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/assert_graph_identity.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/assert_graph_invariants.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/build_example_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/build_framework_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/build_jsonld_context.html</loc></url>
@@ -37,6 +39,8 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/framework_licenses.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/framework_metadata.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/framework_summary.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/graph_identity_violations.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/graph_invariant_counts.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/load_combined_ntriples_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/dev/reference/load_combined_rdf_graph.html</loc></url>

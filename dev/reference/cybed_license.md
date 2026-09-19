@@ -12,8 +12,12 @@ The `license_short` column is the short label that
 [framework_summary](https://ryanstraight.github.io/cybedtools/dev/reference/framework_summary.md)`$license`
 is derived from. The `license` column holds what the source's own
 document or terms page says, quoted and attributed to the document it
-was read from, and the `attribution` column holds the wording a steward
-prescribed, or `NA` where none is prescribed.
+was read from. The `attribution` column holds the wording to reproduce
+when the framework's content is used: the steward's own wording verbatim
+where one is prescribed, a minimal attribution composed by the package
+where the licence requires credit but the steward prescribes no wording,
+and `NA` where neither applies. The `license` cell says which of the two
+a given row carries.
 
 ## Usage
 
@@ -51,7 +55,7 @@ cybed_license()
 #>  1 code      cybedtools        cybedtools (R … MIT           "LICEN… Copyright …
 #>  2 framework nice-v2           NICE v2.2.0     US public do… "The i… NA         
 #>  3 framework dcwf-v5.1         DCWF v5.1       US Governmen… "The D… NA         
-#>  4 framework ecsf-v1           ECSF v1         CC BY 4.0 (r… "Two t… NA         
+#>  4 framework ecsf-v1           ECSF v1         CC BY 4.0 (r… "Two t… European U…
 #>  5 framework sfia-9            SFIA 9          SFIA Foundat… "SFIA … NA         
 #>  6 framework cyberorg-k12-v1.0 Cyber.org K-12… CC BY-NC 4.0  "From … K-12 Cyber…
 #>  7 framework csta-2017         CSTA K-12 CS (… CC BY-NC-SA … "The i… Computer S…

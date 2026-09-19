@@ -7,8 +7,12 @@ slug it returns that one row.
 The license_short column is the short label that
 framework_summary$license is derived from. The license column holds
 what the source's own document or terms page says, quoted and attributed
-to the document it was read from, and the attribution column holds the
-wording a steward prescribed, or NA where none is prescribed."><meta property="og:description" content="
+to the document it was read from. The attribution column holds the
+wording to reproduce when the framework's content is used: the steward's
+own wording verbatim where one is prescribed, a minimal attribution
+composed by the package where the licence requires credit but the steward
+prescribes no wording, and NA where neither applies. The license cell
+says which of the two a given row carries."><meta property="og:description" content="
 Returns rows of framework_licenses, the package's single owner of
 licence facts. Called with no argument it returns the whole tibble: one
 row for the package's own code and one row per framework. Called with a
@@ -16,8 +20,12 @@ slug it returns that one row.
 The license_short column is the short label that
 framework_summary$license is derived from. The license column holds
 what the source's own document or terms page says, quoted and attributed
-to the document it was read from, and the attribution column holds the
-wording a steward prescribed, or NA where none is prescribed."><meta property="og:image" content="https://ryanstraight.github.io/cybedtools/logo.png"><meta name="robots" content="noindex"><script type="module">
+to the document it was read from. The attribution column holds the
+wording to reproduce when the framework's content is used: the steward's
+own wording verbatim where one is prescribed, a minimal attribution
+composed by the package where the licence requires credit but the steward
+prescribes no wording, and NA where neither applies. The license cell
+says which of the two a given row carries."><meta property="og:image" content="https://ryanstraight.github.io/cybedtools/logo.png"><meta name="robots" content="noindex"><script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
   // Normalize every mermaid block (whether pkgdown emitted
   // <pre class="mermaid"><code>...</code></pre> or pandoc emitted
@@ -88,8 +96,12 @@ slug it returns that one row.</p>
 <p>The <code>license_short</code> column is the short label that
 <a href="framework_summary.html">framework_summary</a><code>$license</code> is derived from. The <code>license</code> column holds
 what the source's own document or terms page says, quoted and attributed
-to the document it was read from, and the <code>attribution</code> column holds the
-wording a steward prescribed, or <code>NA</code> where none is prescribed.</p>
+to the document it was read from. The <code>attribution</code> column holds the
+wording to reproduce when the framework's content is used: the steward's
+own wording verbatim where one is prescribed, a minimal attribution
+composed by the package where the licence requires credit but the steward
+prescribes no wording, and <code>NA</code> where neither applies. The <code>license</code> cell
+says which of the two a given row carries.</p>
     </div>
 
     <div class="section level2">
@@ -128,7 +140,7 @@ single-row tibble otherwise.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> code      cybedtools        cybedtools (R … MIT           <span style="color: #949494;">"</span>LICEN… Copyright …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> framework nice-v2           NICE v2.2.0     US public do… <span style="color: #949494;">"</span>The i… <span style="color: #BB0000;">NA</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> framework dcwf-v5.1         DCWF v5.1       US Governmen… <span style="color: #949494;">"</span>The D… <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> framework ecsf-v1           ECSF v1         CC BY 4.0 (r… <span style="color: #949494;">"</span>Two t… <span style="color: #BB0000;">NA</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> framework ecsf-v1           ECSF v1         CC BY 4.0 (r… <span style="color: #949494;">"</span>Two t… European U…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> framework sfia-9            SFIA 9          SFIA Foundat… <span style="color: #949494;">"</span>SFIA … <span style="color: #BB0000;">NA</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> framework cyberorg-k12-v1.0 Cyber.org K-12… CC BY-NC 4.0  <span style="color: #949494;">"</span>From … K-12 Cyber…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> framework csta-2017         CSTA K-12 CS (… CC BY-NC-SA … <span style="color: #949494;">"</span>The i… Computer S…</span>

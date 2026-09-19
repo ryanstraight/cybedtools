@@ -110,6 +110,42 @@ frameworkx:
     reminders.
 ```
 
+### Can a unit id equal a statement id?
+
+Answer this before you go further, because getting it wrong is silent. A
+node’s IRI is the framework prefix plus the node’s local id, so if
+Framework X can give an organizing unit and a statement the same id,
+both get the same IRI and the two nodes merge into one. Every count
+still adds up. What you get instead is a unit that is its own element
+and a `cybed:hasElement` edge that points at itself.
+
+Check it directly. Intersect the set of unit ids with the set of
+statement ids in your staged tables. If the intersection is empty, and
+the two id spaces are structurally incapable of overlapping, there is
+nothing to do. If it is not empty, declare a discriminator for the unit
+side:
+
+``` yaml
+frameworkx:
+  unit_iri_prefix: "unit-"
+```
+
+The assembler passes it to
+[`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/dev/reference/build_organizing_unit_node.md)
+or
+[`build_role_node()`](https://ryanstraight.github.io/cybedtools/dev/reference/build_role_node.md),
+which mint `frameworkx:unit-<id>` and keep the framework’s printed code
+as a `schema:identifier` literal. Statement IRIs are untouched, because
+those are the codes a reader looks up. Two frameworks in this package
+declare one: DCWF numbers work roles and task/KSA statements from a
+single range, and Cyber.org K-12 names a grade-band cell after the
+standard inside it.
+
+You do not have to catch this by inspection.
+`scripts/026-verify-graph.R` fails the build on any fused IRI and names
+the framework. But it fails after assembly, and it is cheaper to answer
+the question while you are writing the ingester.
+
 ## Step 4: verification field mappings
 
 In `scripts/015-verify-ingestion.R`, add two branches, one for count
@@ -266,6 +302,10 @@ Rscript scripts/015-verify-ingestion.R
 
 # Assemble
 Rscript scripts/020-assemble-jsonld.R
+Rscript scripts/025-export-ntriples.R
+
+# Check the assembled graph: no fused IRIs, declared counts in band
+Rscript scripts/026-verify-graph.R
 
 # Query (existing queries will now return rows for Framework X)
 Rscript scripts/040-run-sparql.R

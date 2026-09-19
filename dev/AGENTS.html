@@ -132,6 +132,12 @@
 </tr><tr><td><code>cybedtools_framework_not_found</code></td>
 <td>
 <code><a href="reference/load_single_framework_graph.html">load_single_framework_graph()</a></code> on an unknown slug</td>
+</tr><tr><td><code>cybedtools_graph_identity</code></td>
+<td>
+<code><a href="reference/assert_graph_identity.html">assert_graph_identity()</a></code> when one IRI is both a unit and a statement</td>
+</tr><tr><td><code>cybedtools_graph_invariant</code></td>
+<td>
+<code><a href="reference/assert_graph_invariants.html">assert_graph_invariants()</a></code> on a count outside its declared band</td>
 </tr></tbody></table><p>Recovery pattern:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
@@ -152,6 +158,8 @@
 <li>
 <code>R/rdf-graph.R</code>: graph loaders for staged data (<code>load_*_graph</code>).</li>
 <li>
+<code>R/graph-invariants.R</code>: the checks only an assembled graph can answer. Identity (no IRI is both an organizing unit and a statement, no <code>cybed:hasElement</code> self-loops) and the declared <code>graph_invariants</code> counts. Run as <code>scripts/026-verify-graph.R</code> and re-run by <code>scripts/030-export-release.R</code>.</li>
+<li>
 <code>R/demo-graph.R</code>: <code><a href="reference/make_demo_graph.html">make_demo_graph()</a></code> synthetic two-framework fixture for sanity checks.</li>
 <li>
 <code>R/cybedtools-package.R</code>: <code><a href="reference/cybedtools-package.html">?cybedtools</a></code> package-level help.</li>
@@ -164,7 +172,7 @@
 <li>
 <code>docs/framework-data-sources.md</code>: per-framework source URLs, licensing, staging path.</li>
 <li>
-<code>docs/framework-invariants.yml</code>: declared count bounds per framework (used by <code>scripts/015-verify-ingestion.R</code>).</li>
+<code>docs/framework-invariants.yml</code>: declared count bounds per framework (used by <code>scripts/015-verify-ingestion.R</code>), the post-assembly <code>graph_invariants</code> bands (used by <code>scripts/026-verify-graph.R</code>), and each framework’s optional <code>unit_iri_prefix</code>.</li>
 <li>
 <code>vignettes/articles/data-integrity.Rmd</code>: the six-invariant verification contract (rendered as a pkgdown article).</li>
 <li>
@@ -194,7 +202,7 @@
 <p>Six steps. Full walkthrough in <code>vignettes/adding-a-framework.Rmd</code>. Summary:</p>
 <ol style="list-style-type: decimal"><li>Pick a slug (filesystem) and prefix (JSON-LD namespace). Add the prefix to <code>cybed_namespaces</code> and <code>valid_framework_prefixes</code> in <code>R/jsonld-helpers.R</code>.</li>
 <li>Stage the source under <code>data/raw/&lt;slug&gt;/</code> and write <code>scripts/010-ingest-&lt;slug&gt;.R</code> producing tidy CSVs and <code>provenance.yml</code>.</li>
-<li>Add an entry to <code>docs/framework-invariants.yml</code> with expected role and element count bounds.</li>
+<li>Add an entry to <code>docs/framework-invariants.yml</code> with expected role and element count bounds. Check there whether the framework can give an organizing unit and a statement the same id; if it can, declare a <code>unit_iri_prefix</code> for it, or the two nodes mint one IRI and fuse.</li>
 <li>Add verification field mappings in <code>scripts/015-verify-ingestion.R</code>.</li>
 <li>Add a JSON-LD assembly adapter in <code>scripts/020-assemble-jsonld.R</code>.</li>
 <li>Run <code>scripts/000-build.R</code>. Existing SPARQL queries automatically include the new framework because they target framework-agnostic types (<code>cybed:Framework</code>, <code>cybed:OrganizingUnit</code>, <code>cybed:RoleElement</code>). Queries that target the workforce-restricted <code>cybed:Role</code> subtype pick up the new framework only when <code><a href="reference/build_role_node.html">build_role_node()</a></code> was used (workforce-shaped frameworks).</li>
