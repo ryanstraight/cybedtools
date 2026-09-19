@@ -1,0 +1,86 @@
+# Public data release manifest configuration.
+#
+# scripts/030-export-release.R reads this file to decide what ships. It is the
+# allowlist, and it is deliberately separate from the redistribution policy in
+# docs/framework-invariants.yml. The two gates are independent and a file is
+# written only when both allow it:
+#
+#   1. Policy gate. public_redistribution in docs/framework-invariants.yml,
+#      read through the same table concordance/_publication-guard.R uses. An
+#      unrecognised or unmapped value stops the export. local_only is never
+#      written in any form.
+#   2. Release gate. The `shipped` list below. A framework whose policy would
+#      permit a file still does not get one until its slug appears here.
+#
+# Every framework declared in docs/framework-invariants.yml must appear exactly
+# once across `shipped`, `held` and `refused`. A framework that appears nowhere
+# stops the export rather than being quietly omitted.
+#
+# The reasons under `held` and `refused` are published verbatim in the release
+# manifest and in the release README, so they are written for a reader outside
+# the project.
+
+release_version: "2026.09.1"
+
+# The release date is recorded here rather than stamped at build time. A
+# generation timestamp inside the manifest would change the manifest's bytes on
+# every run and destroy the reproducibility the hashes exist to demonstrate.
+release_date: "2026-09-19"
+
+graph_schema_version: "0.3.0"
+vocabulary_iri: "https://w3id.org/cybed/ontology#"
+
+# Concept DOI of the software record. The data deposit carries its own DOI.
+concept_doi: "10.5281/zenodo.20076116"
+
+# Predicates whose objects carry framework statement text. A structure_only
+# file drops every triple on these predicates. Derived from a predicate census
+# of all eleven per-framework N-Triples files: these two are the only
+# predicates in the graph whose literals are the frameworks' own statements and
+# descriptions. Titles, categories, levels, sections and mappings sit on other
+# predicates and stay.
+structure_only_omit_predicates:
+  - "https://w3id.org/cybed/ontology#elementText"
+  - "http://schema.org/description"
+
+# Backstop check on a structure_only file: after the omit list is applied, no
+# surviving literal may exceed this many characters except under an allow-listed
+# predicate. This is a tripwire against a bulk leak, not a text classifier: it
+# catches a whole predicate escaping the filter, and it cannot catch one short
+# statement. The bound is set from measurement. The longest non-allow-listed
+# literal surviving in a structure_only file is a 134-character OT Cybersecurity
+# Competency Framework Critical Work Function heading on
+# cybed:sourceSection, so 200 clears every observed structural literal with
+# headroom while sitting well below the bulk of statement text.
+long_literal_threshold: 200
+
+# Predicates exempt from the backstop. Both carry the licensor's own terms and
+# credit wording, both are required in the file, and both are a single triple
+# per framework.
+long_literal_allow_predicates:
+  - "http://schema.org/license"
+  - "http://schema.org/creditText"
+
+# Release 1. One gzip-compressed N-Triples file per slug, named by slug.
+shipped:
+  - nice
+  - dcwf
+  - ecsf
+  - digcomp
+  - cyqual
+  - cyberorg-k12
+  - csta
+  - otccf
+
+# Cleared by policy for a structure-only file, withheld from this release
+# anyway. A deposit cannot be withdrawn, so a framework ships only once its
+# steward has confirmed in writing.
+held:
+  ccssf: "Steward confirmation pending."
+  csec2017: "Steward confirmation pending."
+
+# Refused by policy, in every release. The export stops if a slug listed here
+# has any policy other than local_only, and stops if a local_only slug appears
+# under shipped.
+refused:
+  sfia: "The publisher's terms cover the framework's structure as well as its text. A licence is available from the publisher."
