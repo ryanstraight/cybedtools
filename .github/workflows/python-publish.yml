@@ -1,0 +1,74 @@
+# Publishes the Python package in python/ to PyPI via trusted publishing (OIDC).
+# This filename is named in the PyPI trusted publisher configuration and the
+# publish job's environment must stay `pypi`, so neither may be renamed.
+# The build job runs project code and must never hold id-token: write.
+on:
+  push:
+    tags: ['py-v*']
+  workflow_dispatch:
+
+name: python-publish
+
+permissions: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade build twine
+
+      - name: Build sdist and wheel
+        run: python -m build
+        working-directory: python
+
+      - name: Check tag version matches pyproject version
+        if: github.event_name == 'push'
+        run: |
+          tag_version="${GITHUB_REF_NAME#py-v}"
+          project_version="$(python -c 'import tomllib,pathlib; print(tomllib.loads(pathlib.Path("pyproject.toml").read_text())["project"]["version"])')"
+          echo "tag version: ${tag_version}"
+          echo "pyproject version: ${project_version}"
+          if [ "${tag_version}" != "${project_version}" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match pyproject version ${project_version}"
+            exit 1
+          fi
+        working-directory: python
+
+      - name: Check artifacts
+        run: python -m twine check dist/*
+        working-directory: python
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: dist
+          path: python/dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment: pypi
+
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        with:
+          name: dist
+          path: python/dist/
+
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33  # v1.14.2
+        with:
+          packages-dir: python/dist
