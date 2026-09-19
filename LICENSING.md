@@ -26,10 +26,11 @@ If you are integrating cybedtools into a commercial product:
 - The MIT license on the code accommodates this.
 - Framework content is mixed. Some frameworks (NICE, DCWF) are public
   domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE, OTCCF) impose
-  non-commercial or attribution constraints. Three (CyQUAL, CCSSF,
-  OTCCF) are included by written permission of their stewards, and the
-  permission given to cybedtools does not pass to you. Read the
-  per-framework licenses in
+  non-commercial or attribution constraints. Two (CyQUAL, OTCCF) are
+  included by written permission of their stewards, and CCSSF is
+  referenced as the Canadian Centre for Cyber Security asked. The terms
+  given to cybedtools do not pass to you. Read the per-framework
+  licenses in
   [`docs/framework-data-sources.md`](https://ryanstraight.github.io/cybedtools/docs/framework-data-sources.md)
   before redistributing framework text. **It is incumbent upon you to
   obtain proper licensing**.
@@ -106,8 +107,9 @@ framework licenses in addition to the MIT license on the code.
 
 ## Frameworks included by steward permission
 
-Three frameworks are in cybedtools because their stewards said yes in
-writing. The terms differ, and none of them is as broad as MIT. Full
+Two frameworks are in cybedtools because their stewards said yes in
+writing, and the Canadian framework is here referenced as its steward
+asked. The terms differ, and none of them is as broad as MIT. Full
 detail, including how to obtain each source, is in
 [`docs/framework-data-sources.md`](https://ryanstraight.github.io/cybedtools/docs/framework-data-sources.md).
 
@@ -134,8 +136,9 @@ OTCCF portion is outside what CSA granted.
 
 **CCSSF, Canadian Centre for Cyber Security.** Canadian Centre for Cyber
 Security, The Canadian Cyber Security Skills Framework (ITSM.00.039),
-2022 edition. Copyright Government of Canada. Used with permission. The
-Centre asks that its material be referenced when used.
+2022 edition. Copyright Government of Canada. Referenced as the Canadian
+Centre for Cyber Security asked. The Centre asks that its material be
+referenced when used.
 
 **CyQUAL, Masaryk University.** CyQUAL, the Czech national cybersecurity
 qualifications framework, developed at Masaryk University. Open data,

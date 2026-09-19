@@ -2,9 +2,10 @@
 
 ## cybedtools 0.3.0
 
-Eleven frameworks, up from eight. Three national frameworks join by
-written permission of their stewards, and the vocabulary gains a way to
-say that one organizing unit relates to another.
+Eleven frameworks, up from eight. Two national frameworks join by
+written permission of their stewards, a third is referenced as its
+steward asked, and the vocabulary gains a way to say that one organizing
+unit relates to another.
 
 ### New frameworks
 
@@ -15,9 +16,9 @@ say that one organizing unit relates to another.
 - **CCSSF**, the Canadian Cyber Security Skills Framework (ITSM.00.039,
   2022 edition), Canadian Centre for Cyber Security: 22 core work roles
   and 37 cyber adjacent roles, with tasks, competencies, and tools.
-  Copyright Government of Canada, used with permission. The framework’s
-  citations of 2017-era NICE work roles are recorded as
-  `cybed:niceCrossReference` literals.
+  Copyright Government of Canada. Referenced as the Canadian Centre for
+  Cyber Security asked. The framework’s citations of 2017-era NICE work
+  roles are recorded as `cybed:niceCrossReference` literals.
 - **OTCCF**, the Operational Technology Cybersecurity Competency
   Framework version 1.1, Cyber Security Agency of Singapore: 15 job
   roles with key tasks, 30 technical skills with level statements, and
