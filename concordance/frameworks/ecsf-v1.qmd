@@ -19,7 +19,7 @@ categories: [workforce, eu]
 | Version | 1 |
 | Released | 2022-09-19 |
 | Source format | PDF report with companion JSON and XLSX |
-| License | Subject to ENISA's re-use notice. Verify against the source artefact |
+| License | The Role Profiles report PDF is CC BY 4.0 by its own notice. The ingested JSON and XLSX carry no notice, and rest on ENISA's site-wide notice authorising reproduction with acknowledgement |
 | `framework_summary` slug | `ecsf-v1` |
 
 ## Structure in cybed: terms
@@ -78,9 +78,11 @@ categories: [workforce, eu]
 | Measure | Value |
 |---|---|
 | Profiles | 12 |
-| Strict elements | 390 |
+| Strict elements | 374 |
+| Subpoints (parsed enumeration lists) | 16 |
 | With-examples elements | 390 |
-| Elements per profile | 32.5 |
+| Elements per profile, strict | 31.2 |
+| Elements per profile, with-examples | 32.5 |
 
 ## Provenance
 
@@ -107,7 +109,7 @@ ENISA's ECSF reference document.
 
 **License**
 
-ENISA's re-use notice governs redistribution. The package does not bundle ECSF source text. Users stage it locally.
+The Role Profiles report PDF is CC BY 4.0 by its own copyright notice. The JSON and XLSX that cybedtools ingests carry no notice of any kind, and rest instead on ENISA's site-wide notice, which authorises reproduction of ENISA material provided the source is acknowledged. The package does not bundle ECSF source text. Users stage it locally.
 :::
 
 :::

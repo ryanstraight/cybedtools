@@ -15,6 +15,15 @@ library(stringr)
 best  <- readRDS(here("_data", "nice_csec2017_best.rds")) |>
   mutate(pct = round(similarity * 100, 1))
 top3  <- readRDS(here("_data", "nice_csec2017_alignment.rds"))
+
+fs <- cybedtools::framework_summary
+n_nice <- nrow(best)
+n_ka <- fs$organizing_unit_count[fs$framework_slug == "csec2017-v1"]
+ka_counts <- best |> count(csec_name, sort = TRUE)
+comp_n <- ka_counts$n[ka_counts$csec_name == "Component Security"]
+n_zero_ka <- n_ka - nrow(ka_counts)
+max_pct <- round(max(best$pct))
+med_pct <- round(median(best$pct))
 ```
 
 ## Marcus's situation
@@ -24,13 +33,13 @@ Marcus runs the cybersecurity AAS at a community college near a DoD installation
 His program's course outcomes were originally mapped to NIST's NICE Framework work-role tasks. NICE was the default cyber-workforce reference when the program was built. The articulation agreement with the regional state university's BS-Cybersecurity program references CSEC2017 Knowledge Areas instead. That program adopted CSEC2017 as its internal curriculum-mapping framework when it pursued ABET cybersecurity accreditation. When Marcus's curriculum committee asked whether his NICE-aligned AAS course outcomes implicitly cover the CSEC2017 KAs the receiving institution maps against, he pulled cybedtools to sanity-check the question before committing to a manual crosswalk.
 
 ::: {.column-margin}
-This page uses real data computed against cybedtools v0.2.0. The
+This page uses real data computed against cybedtools v0.3.0. The
 persona is composite. The question, the code, and the result are not.
 :::
 
 ## The question, formally stated
 
-For each of the 41 NICE work roles, what's the closest CSEC2017 Knowledge Area by full-document text similarity?
+For each of the `r n_nice` NICE work roles, what is the closest CSEC2017 Knowledge Area by full-document text similarity?
 
 ::: {.column-margin}
 **Vocabulary overlap** is the percentage of unique words two units share, after dropping common words ("the," "and," "of") and short tokens. 0% means no shared vocabulary, 100% means identical wording. The underlying metric and the methodology choices live on the [analytic query page](../queries/nice-csec2017-alignment.qmd).
@@ -40,7 +49,7 @@ For each of the 41 NICE work roles, what's the closest CSEC2017 Knowledge Area b
 
 ```{r}
 #| label: tbl-similarity-summary
-#| tbl-cap: "Best-match vocabulary overlap across all 41 NICE work roles"
+#| tbl-cap: !expr paste("Best-match vocabulary overlap across all", n_nice, "NICE work roles")
 tibble::tibble(
   Statistic = c("Minimum", "Median", "Mean", "Maximum"),
   `Vocabulary overlap` = c(
@@ -62,15 +71,15 @@ best |>
   knitr::kable()
 ```
 
-The first thing the data tells Marcus: every best-match overlap is below 10%. The strongest pairing in the entire set lands at roughly 7% vocabulary overlap. The median is 4%. Across all 41 NICE work roles, none has a CSEC2017 Knowledge Area whose vocabulary substantially matches its own.
+The first thing the data tells Marcus: every best-match overlap is below 10%. The strongest pairing in the entire set lands at roughly `r max_pct`% vocabulary overlap. The median is `r med_pct`%. Across all `r n_nice` NICE work roles, none has a CSEC2017 Knowledge Area whose vocabulary substantially matches its own.
 
-The second thing: 27 of 41 NICE roles are pulled toward the same KA, Component Security. Three of the eight KAs (Data Security, Human Security, Societal Security) never appear as any NICE role's best match.
+The second thing: `r comp_n` of `r n_nice` NICE roles are pulled toward the same KA, Component Security. `r n_zero_ka` of the `r n_ka` KAs (Data Security, Human Security, Societal Security) never appear as any NICE role's best match.
 
 ## What this means for Marcus
 
 The crosswalk he was about to build does not exist at the vocabulary level. NICE describes positions, the work a person in this role performs. CSEC2017 describes curricular knowledge areas, the body of material a cyber program teaches. They speak different languages on purpose, and the data reflects that.
 
-The dominance of Component Security as top match is a tell, not a finding. Component Security has the most general-purpose vocabulary of the eight KAs. Anything about hardware, firmware, integrated systems, or technology components falls in scope, so it sweeps up vocabulary-similar NICE roles for a structural reason, not a substantive one. Marcus should not read "27 NICE roles map to Component Security" as a curriculum-coverage claim.
+The dominance of Component Security as top match is a tell, not a finding. Component Security has the most general-purpose vocabulary of the `r n_ka` KAs. Anything about hardware, firmware, integrated systems, or technology components falls in scope, so it sweeps up vocabulary-similar NICE roles for a structural reason, not a substantive one. Marcus should not read "`r comp_n` NICE roles map to Component Security" as a curriculum-coverage claim.
 
 ### The committee gets a defensible answer
 

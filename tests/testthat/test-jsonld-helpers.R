@@ -203,6 +203,44 @@ test_that("parse_subpoints distinguishes Clarification-statement vs enumeration 
   expect_true(all(r_enum$node_type == "Subpoint"))
 })
 
+test_that("parse_subpoints recognizes 'e.g.' as an introducer", {
+  # 2026-08-14 regression: \b(...|e\\.g\\.|...)\b never matched the e.g.
+  # alternative because \b cannot find a word/non-word transition after a
+  # period that is itself followed by a non-word character (comma/space).
+  # Traced against real DCWF data: ~9% of DCWF elements whose only
+  # enumeration cue was "(e.g., ...)" produced zero Subpoints as a result.
+  text <- "Reviews cloud service models (e.g., SaaS, IaaS, and PaaS) for compliance."
+  result <- parse_subpoints(text)
+  expect_equal(nrow(result), 3L)
+  expect_setequal(result$text, c("SaaS", "IaaS", "PaaS"))
+})
+
+test_that("parse_subpoints does not truncate a list at a mid-item soft-wrap newline", {
+  # 2026-08-14 regression: the sentence-break regex treated a bare "\n" as
+  # an unconditional list terminator, not just a real sentence boundary.
+  # Real ingested text (Excel-cell-wrapped DCWF prose) legitimately
+  # contains soft-wrap newlines mid-list; the old behavior silently
+  # dropped every item after the wrap with no warning.
+  text <- "Authentication methods such as certificate, token-based, two-factor,\n  multifactor, and biometric"
+  result <- parse_subpoints(text)
+  expect_equal(nrow(result), 5L)
+  expect_setequal(
+    result$text,
+    c("certificate", "token-based", "two-factor", "multifactor", "biometric")
+  )
+})
+
+test_that("parse_subpoints still truncates at a genuine sentence boundary that happens to fall on a newline", {
+  # The fix for the soft-wrap regression must not regress the original
+  # multi-sentence-prose fix ("data collection. Tests disaster
+  # recovery..." bleeding into one sub-point) when the period is
+  # immediately followed by a newline instead of a space.
+  text <- "Methods such as foo, bar, and baz.\nNext sentence should not appear."
+  result <- parse_subpoints(text)
+  expect_equal(nrow(result), 3L)
+  expect_setequal(result$text, c("foo", "bar", "baz"))
+})
+
 # ---------------------------------------------------------------------------
 # build_subpoint_node
 # ---------------------------------------------------------------------------
@@ -470,4 +508,447 @@ test_that("build_example_node attaches cybed:partOf to the framework but no cybe
   # Examples deliberately do not carry cybed:elaborates; the parent owns
   # the example via cybed:hasExample, not the converse.
   expect_null(ex[["cybed:elaborates"]])
+})
+
+# ---------------------------------------------------------------------------
+# parse_subpoints: semicolon fallback, introducer selection, item filtering
+# (2026-08-20 coverage audit)
+# ---------------------------------------------------------------------------
+
+test_that("parse_subpoints falls back to semicolon splitting with no introducer", {
+  result <- parse_subpoints("Develop plans; coordinate response; brief leadership.")
+  expect_equal(nrow(result), 3L)
+  expect_true(all(result$node_type == "Subpoint"))
+  expect_equal(result$ordinal, 1:3)
+  expect_match(result$text[[1]], "Develop plans")
+  expect_match(result$text[[2]], "coordinate response")
+})
+
+test_that("parse_subpoints does not treat a single semicolon as a list", {
+  # The fallback requires >= 2 semicolons; one semicolon in ordinary prose
+  # is not an enumeration.
+  result <- parse_subpoints("Develop plans; coordinate response.")
+  expect_equal(nrow(result), 0L)
+})
+
+test_that("parse_subpoints tags Clarification + semicolons-only (no introducer) as Example", {
+  result <- parse_subpoints(
+    "Do X. Clarification statement: alpha item; beta item; gamma item"
+  )
+  expect_equal(nrow(result), 3L)
+  expect_true(all(result$node_type == "Example"))
+  expect_setequal(result$text, c("alpha item", "beta item", "gamma item"))
+})
+
+test_that("parse_subpoints uses the LAST introducer when several are present", {
+  # "including" appears before "such as"; only the list after the last
+  # introducer must be captured, nothing from between the two.
+  result <- parse_subpoints(
+    "Tasks including planning and review, such as alpha, beta, and gamma"
+  )
+  expect_setequal(result$text, c("alpha", "beta", "gamma"))
+  expect_false(any(grepl("planning|review", result$text)))
+})
+
+test_that("parse_subpoints drops pure-connective items and keeps ordinals dense", {
+  result <- parse_subpoints("Methods such as alpha, and, beta, or, gamma")
+  expect_equal(nrow(result), 3L)
+  expect_setequal(result$text, c("alpha", "beta", "gamma"))
+  expect_false(any(tolower(result$text) %in% c("and", "or")))
+  # Ordinals are re-derived after filtering: dense 1..n, no gaps where the
+  # connectives were removed.
+  expect_equal(result$ordinal, 1:3)
+})
+
+test_that("parse_subpoints returns empty when filtering leaves fewer than two items", {
+  # All items are shorter than the 3-character floor.
+  result <- parse_subpoints("Methods such as ab, cd")
+  expect_equal(nrow(result), 0L)
+  expect_named(result, c("ordinal", "text", "node_type"))
+})
+
+test_that("parse_subpoints handles character(0) and vector input per the scalar contract", {
+  # Pre-fix, character(0) crashed at the is.na() guard ("argument is of
+  # length zero") -- a role element column sliced to zero rows produces
+  # exactly this value. Zero-length now returns the empty tibble.
+  result <- parse_subpoints(character(0))
+  expect_equal(nrow(result), 0L)
+  expect_named(result, c("ordinal", "text", "node_type"))
+
+  # Length > 1 signals a classed error rather than silently parsing only
+  # the first element (or crashing, pre-fix).
+  expect_error(
+    parse_subpoints(c("a", "b")),
+    class = "cybedtools_scalar_input"
+  )
+})
+
+# ---------------------------------------------------------------------------
+# build_role_element_node: provenance fields
+# ---------------------------------------------------------------------------
+
+test_that("build_role_element_node carries source_section and source_category when supplied", {
+  # cybed:sourceCategory was added 2026-08-14 after a DCWF-vs-NICE
+  # alignment query returned an implausibly weak result, traced to DCWF's
+  # per-element provenance tag (NICE / JCT-T / JCT-KSA / ...) being
+  # dropped at ingest. This is that regression's test.
+  node <- build_role_element_node(
+    element_id             = "T0001",
+    framework_prefix       = "dcwf",
+    framework_element_type = "TaskStatement",
+    element_text           = "Sample task.",
+    source_section         = "Section 3",
+    framework_id           = "dcwf-2024",
+    source_category        = "JCT-T"
+  )
+  expect_equal(node[["cybed:sourceSection"]], "Section 3")
+  expect_equal(node[["cybed:sourceCategory"]], "JCT-T")
+})
+
+test_that("build_role_element_node omits provenance keys when both are NA", {
+  node <- build_role_element_node(
+    element_id             = "T0001",
+    framework_prefix       = "dcwf",
+    framework_element_type = "TaskStatement",
+    element_text           = "Sample task."
+  )
+  expect_false("cybed:sourceSection"  %in% names(node))
+  expect_false("cybed:sourceCategory" %in% names(node))
+})
+
+# ---------------------------------------------------------------------------
+# build_organizing_unit_node: element_ids wiring and metadata merge
+# ---------------------------------------------------------------------------
+
+test_that("build_organizing_unit_node wires cybed:hasElement as a list of @id objects", {
+  node <- build_organizing_unit_node(
+    unit_id           = "WRL-001",
+    unit_name         = "Test Role",
+    framework_prefix  = "nice",
+    framework_subtype = "WorkRole",
+    is_role           = TRUE,
+    element_ids       = c("T1", "K1"),
+    framework_id      = "nice-v2"
+  )
+  has_el <- node[["cybed:hasElement"]]
+  expect_length(has_el, 2L)
+  expect_equal(as.character(has_el[[1]][["@id"]]), "nice:T1")
+  expect_equal(as.character(has_el[[2]][["@id"]]), "nice:K1")
+})
+
+test_that("build_organizing_unit_node omits cybed:hasElement for empty element_ids", {
+  node <- build_organizing_unit_node(
+    unit_id           = "WRL-001",
+    unit_name         = "Test Role",
+    framework_prefix  = "nice",
+    framework_subtype = "WorkRole",
+    element_ids       = character(0)
+  )
+  expect_false("cybed:hasElement" %in% names(node))
+})
+
+test_that("build_organizing_unit_node appends non-colliding metadata keys", {
+  node <- build_organizing_unit_node(
+    unit_id           = "PROG",
+    unit_name         = "Programming",
+    framework_prefix  = "sfia",
+    framework_subtype = "Skill",
+    metadata          = list(`sfia:levelRange` = "1-6")
+  )
+  expect_equal(node[["sfia:levelRange"]], "1-6")
+})
+
+test_that("build_organizing_unit_node metadata colliding with an existing key duplicates the name (characterization)", {
+  # CHARACTERIZATION, not endorsement: c(node, metadata) concatenates, so
+  # a metadata key that collides with a built-in key (here schema:name)
+  # produces a list with TWO entries of the same name -- a JSON-LD hazard
+  # (duplicate keys are unspecified behavior in JSON). [[ ]] returns the
+  # first (the built-in value). If this is ever fixed to last-wins or an
+  # error, update this test to the new contract.
+  node <- build_organizing_unit_node(
+    unit_id           = "PROG",
+    unit_name         = "Canonical Name",
+    framework_prefix  = "sfia",
+    framework_subtype = "Skill",
+    metadata          = list(`schema:name` = "Colliding Name")
+  )
+  expect_equal(sum(names(node) == "schema:name"), 2L)
+  expect_equal(node[["schema:name"]], "Canonical Name")
+})
+
+# ---------------------------------------------------------------------------
+# build_role_node: cybed:opmCode (multi-valued literal, NICE v2.2.0)
+# ---------------------------------------------------------------------------
+
+test_that("build_role_node attaches a single OPM code as cybed:opmCode", {
+  node <- build_role_node(
+    role_id             = "DD-WRL-001",
+    role_name           = "Secure Software Development",
+    framework_prefix    = "nice",
+    framework_role_type = "WorkRole",
+    framework_id        = "nice-v2",
+    opm_codes           = "652"
+  )
+  expect_equal(node[["cybed:opmCode"]], "652")
+})
+
+test_that("build_role_node keeps cybed:opmCode multi-valued", {
+  # DD-WRL-004 carries TWO OPM codes in the NICE v2.2.0 release; the
+  # property must carry both values, not collapse to one.
+  node <- build_role_node(
+    role_id             = "DD-WRL-004",
+    role_name           = "Enterprise Architecture",
+    framework_prefix    = "nice",
+    framework_role_type = "WorkRole",
+    framework_id        = "nice-v2",
+    opm_codes           = c("631", "632")
+  )
+  expect_equal(node[["cybed:opmCode"]], c("631", "632"))
+  expect_length(node[["cybed:opmCode"]], 2L)
+})
+
+test_that("build_role_node omits cybed:opmCode when empty, NA, or blank", {
+  # DD-WRL-009, OG-WRL-017, and PD-WRL-005 carry no OPM code in the NICE
+  # v2.2.0 release; those roles must not carry the property at all.
+  for (codes in list(character(0), NA_character_, "")) {
+    node <- build_role_node(
+      role_id             = "OG-WRL-017",
+      role_name           = "Product Support Management",
+      framework_prefix    = "nice",
+      framework_role_type = "WorkRole",
+      framework_id        = "nice-v2",
+      opm_codes           = codes
+    )
+    expect_false("cybed:opmCode" %in% names(node))
+  }
+})
+
+test_that("build_role_node opm_codes coexist with caller-supplied metadata", {
+  # Same merge path as cybed:ecfCrossReference / cybed:cybokCrossReference:
+  # opm_codes append to metadata, they do not replace it.
+  node <- build_role_node(
+    role_id             = "DD-WRL-004",
+    role_name           = "Enterprise Architecture",
+    framework_prefix    = "nice",
+    framework_role_type = "WorkRole",
+    framework_id        = "nice-v2",
+    opm_codes           = c("631", "632"),
+    metadata            = list(`cybed:ecfCrossReference` = "A.5 Architecture Design (4)")
+  )
+  expect_equal(node[["cybed:ecfCrossReference"]], "A.5 Architecture Design (4)")
+  expect_equal(node[["cybed:opmCode"]], c("631", "632"))
+})
+
+# ---------------------------------------------------------------------------
+# build_framework_node: optional fields
+# ---------------------------------------------------------------------------
+
+test_that("build_framework_node includes license and date_published when supplied", {
+  node <- build_framework_node(
+    framework_id     = "test-v1",
+    framework_name   = "Test Framework",
+    framework_prefix = "nice",
+    version          = "1.0",
+    publisher        = "Test Publisher",
+    jurisdiction     = "US",
+    sector           = "civilian",
+    specificity      = "cybersecurity-specific",
+    license          = "CC-BY-4.0",
+    date_published   = "2024-01-01"
+  )
+  expect_equal(node[["schema:license"]], "CC-BY-4.0")
+  expect_equal(node[["schema:datePublished"]], "2024-01-01")
+})
+
+test_that("build_framework_node omits license and date_published at NA defaults", {
+  node <- build_framework_node(
+    framework_id     = "test-v1",
+    framework_name   = "Test Framework",
+    framework_prefix = "nice",
+    version          = "1.0",
+    publisher        = "Test Publisher",
+    jurisdiction     = "US",
+    sector           = "civilian",
+    specificity      = "cybersecurity-specific"
+  )
+  expect_false("schema:license"       %in% names(node))
+  expect_false("schema:datePublished" %in% names(node))
+})
+
+# ---------------------------------------------------------------------------
+# validate_jsonld_node: positive path and @context requirement
+# ---------------------------------------------------------------------------
+
+test_that("validate_jsonld_node passes a complete node", {
+  result <- validate_jsonld_node(list(`@id` = "x", `@type` = "Y"))
+  expect_true(result$valid)
+  expect_length(result$missing_fields, 0L)
+})
+
+test_that("validate_jsonld_node with require_context = TRUE demands @context", {
+  no_ctx <- list(`@id` = "x", `@type` = "Y")
+  result <- validate_jsonld_node(no_ctx, require_context = TRUE)
+  expect_false(result$valid)
+  expect_true("@context" %in% result$missing_fields)
+
+  with_ctx <- c(
+    list(`@context` = list(cybed = "https://w3id.org/cybed/ontology#")),
+    no_ctx
+  )
+  expect_true(validate_jsonld_node(with_ctx, require_context = TRUE)$valid)
+})
+
+# ---------------------------------------------------------------------------
+# write/read JSON-LD round trip
+# ---------------------------------------------------------------------------
+
+test_that("JSON-LD documents round-trip through write/read, creating parent dirs", {
+  fw <- build_framework_node(
+    framework_id     = "rt-v1",
+    framework_name   = "Round Trip",
+    framework_prefix = "nice",
+    version          = "1.0",
+    publisher        = "Test",
+    jurisdiction     = "US",
+    sector           = "civilian",
+    specificity      = "cybersecurity-specific"
+  )
+  role <- build_role_node(
+    role_id             = "WRL-001",
+    role_name           = "Test Role",
+    framework_prefix    = "nice",
+    framework_role_type = "WorkRole",
+    element_ids         = "T1",
+    framework_id        = "rt-v1"
+  )
+  el <- build_role_element_node(
+    element_id             = "T1",
+    framework_prefix       = "nice",
+    framework_element_type = "TaskStatement",
+    element_text           = "Sample task.",
+    framework_id           = "rt-v1"
+  )
+  doc <- assemble_framework_document(fw, list(role), list(el), "nice")
+
+  # Deliberately nested non-existent subdirectory: exercises the
+  # dir.create(recursive = TRUE) branch of write_jsonld_document.
+  out_path <- file.path(
+    tempdir(), "cybedtools-rt-test", "nested", "doc.jsonld"
+  )
+  on.exit(unlink(file.path(tempdir(), "cybedtools-rt-test"), recursive = TRUE),
+          add = TRUE)
+  suppressMessages(write_jsonld_document(doc, out_path))
+  expect_true(file.exists(out_path))
+
+  back <- read_jsonld_document(out_path)
+  expect_true(all(c("schema", "skos", "rdfs", "cybed", "nice")
+                  %in% names(back[["@context"]])))
+  expect_length(back[["@graph"]], 3L)
+  # Guards glue-classed @id x auto_unbox serialization: the @id must come
+  # back as a length-1 character scalar, not a length-1 list/array.
+  fw_id <- back[["@graph"]][[1]][["@id"]]
+  expect_true(is.character(fw_id))
+  expect_length(fw_id, 1L)
+  expect_equal(fw_id, "cybed:framework/rt-v1")
+})
+
+# ---------------------------------------------------------------------------
+# expand_with_subpoints: structural edge cases
+# ---------------------------------------------------------------------------
+
+test_that("expand_with_subpoints drops NULL entries and interleaves children after their own parent", {
+  p1 <- build_role_element_node(
+    element_id             = "T1",
+    framework_prefix       = "nice",
+    framework_element_type = "TaskStatement",
+    element_text           = "Methods such as alpha, beta cases",
+    framework_id           = "nice-v2"
+  )
+  p2 <- build_role_element_node(
+    element_id             = "T2",
+    framework_prefix       = "nice",
+    framework_element_type = "TaskStatement",
+    element_text           = "Atomic statement with no list.",
+    framework_id           = "nice-v2"
+  )
+  result <- expand_with_subpoints(
+    list(p1, NULL, p2),
+    framework_prefix = "nice",
+    framework_id     = "nice-v2"
+  )
+  ids <- vapply(result$nodes, \(n) as.character(n[["@id"]]), character(1))
+  expect_equal(ids, c("nice:T1", "nice:T1.sub.1", "nice:T1.sub.2", "nice:T2"))
+})
+
+test_that("expand_with_subpoints on an empty list returns empty nodes and a typed zero-row index", {
+  result <- expand_with_subpoints(
+    list(),
+    framework_prefix = "nice",
+    framework_id     = "nice-v2"
+  )
+  expect_length(result$nodes, 0L)
+  expect_equal(nrow(result$subnode_index), 0L)
+  expect_named(result$subnode_index,
+               c("parent_id", "subnode_id", "ordinal", "node_type"))
+})
+
+test_that("expand_with_subpoints passes through a parent with no cybed:elementText", {
+  bare <- list(
+    `@id`   = "nice:T9",
+    `@type` = c("nice:TaskStatement", "cybed:RoleElement")
+  )
+  result <- expand_with_subpoints(
+    list(bare),
+    framework_prefix = "nice",
+    framework_id     = "nice-v2"
+  )
+  expect_length(result$nodes, 1L)
+  expect_identical(result$nodes[[1]], bare)
+  expect_equal(nrow(result$subnode_index), 0L)
+})
+
+test_that("expand_with_subpoints falls back to RoleElement subtype when parent has no framework-prefixed type", {
+  odd_parent <- list(
+    `@id`               = "nice:T7",
+    `@type`             = c("cybed:RoleElement"),
+    `cybed:elementText` = "Methods such as alpha, beta cases"
+  )
+  result <- expand_with_subpoints(
+    list(odd_parent),
+    framework_prefix = "nice",
+    framework_id     = "nice-v2"
+  )
+  sp_types <- result$nodes[[2]][["@type"]]
+  expect_true("nice:RoleElement" %in% sp_types)
+})
+
+test_that("expand_with_subpoints honors an explicit parent_subtype override", {
+  parent <- build_role_element_node(
+    element_id             = "T8",
+    framework_prefix       = "nice",
+    framework_element_type = "TaskStatement",
+    element_text           = "Methods such as alpha, beta cases",
+    framework_id           = "nice-v2"
+  )
+  result <- expand_with_subpoints(
+    list(parent),
+    framework_prefix = "nice",
+    framework_id     = "nice-v2",
+    parent_subtype   = "Standard"
+  )
+  sp_types <- result$nodes[[2]][["@type"]]
+  expect_true("nice:Standard" %in% sp_types)
+  expect_false("nice:TaskStatement" %in% sp_types)
+})
+
+test_that("extend_role_element_ids with empty parents and non-empty index returns character(0)", {
+  # No orphan Subpoint leakage: an empty parent list must not pull in any
+  # Subpoints even when the index is populated.
+  index <- tibble::tibble(
+    parent_id  = "E1",
+    subnode_id = "E1.sub.1",
+    ordinal    = 1L,
+    node_type  = "Subpoint"
+  )
+  expect_identical(extend_role_element_ids(character(0), index), character(0))
 })

@@ -1,7 +1,32 @@
 # rdf-graph.R
 #
-# RDF graph loading helpers. Package-exported versions of the functions
-# that also live in scripts/030-load-rdf-graph.R as pipeline conveniences.
+# RDF graph loading helpers. These are the only versions; the pipeline
+# scripts call them through the package.
+
+#' Build the "wrong working directory" hint for a file-not-found error
+#'
+#' @description
+#' The default path for every loader below resolves via `here::here()`,
+#' which walks UP from the current working directory looking for a
+#' project-root marker -- it has nothing to do with where the package is
+#' installed. Confirmed 2026-08-14 stress test: a user with a full
+#' checkout on disk who runs R from anywhere other than inside that
+#' checkout gets exactly the same "file not found" error as someone who
+#' never staged the data at all, and the original hint text ("run
+#' scripts/NNN-....R first") actively misdirects that user toward
+#' re-running a pipeline stage that already succeeded. This is the more
+#' likely cause for anyone who has the source repository at all, so it is
+#' surfaced first.
+#' @noRd
+wrong_directory_hint <- function() {
+  paste0(
+    "If you have the cybedtools source checkout on disk, this path is ",
+    "probably wrong because your R working directory (or here::here() ",
+    "project root) is not inside it -- run `here::here()` to see what ",
+    "root it resolved to, or pass an explicit `file_path`/`jsonld_dir` ",
+    "argument to this function instead of relying on the default."
+  )
+}
 
 #' Load the pre-assembled combined multi-framework JSON-LD into an rdflib graph
 #'
@@ -31,7 +56,8 @@ load_combined_rdf_graph <- function(file_path = NULL) {
       c(
         "Combined JSON-LD not found.",
         "x" = paste0("Expected at: ", file_path, "."),
-        "i" = "Run `scripts/020-assemble-jsonld.R` first to assemble the graph."
+        "i" = wrong_directory_hint(),
+        "i" = "If you genuinely haven't built it yet, run `scripts/020-assemble-jsonld.R` first."
       ),
       class = "cybedtools_file_not_found"
     )
@@ -48,7 +74,8 @@ load_combined_rdf_graph <- function(file_path = NULL) {
 #' isolated SPARQL queries are needed.
 #'
 #' @param framework_slug Character, one of `"nice"`, `"sfia"`, `"dcwf"`,
-#'   `"ecsf"`, `"cyberorg-k12"`, `"csta"`, `"csec2017"`, or `"digcomp"`.
+#'   `"ecsf"`, `"cyberorg-k12"`, `"csta"`, `"csec2017"`, `"digcomp"`, or
+#'   `"cyqual"`, `"ccssf"`, or `"otccf"`.
 #' @param jsonld_dir Character path to the directory containing per-framework
 #'   JSON-LD files. Defaults to `data/processed/jsonld/`.
 #' @return An rdf object.
@@ -69,7 +96,8 @@ load_single_framework_graph <- function(framework_slug, jsonld_dir = NULL) {
         "JSON-LD not found for framework.",
         "x" = paste0("Slug: '", framework_slug, "'."),
         "x" = paste0("Expected at: ", file_path, "."),
-        "i" = paste0("Confirm the slug is correct and that ",
+        "i" = wrong_directory_hint(),
+        "i" = paste0("If the directory is right, confirm the slug is correct and that ",
                      "`scripts/020-assemble-jsonld.R` has run.")
       ),
       class = "cybedtools_framework_not_found",
@@ -106,7 +134,8 @@ load_combined_ntriples_graph <- function(file_path = NULL) {
       c(
         "Combined N-Triples not found.",
         "x" = paste0("Expected at: ", file_path, "."),
-        "i" = "Run `scripts/025-export-ntriples.R` first to export N-Triples."
+        "i" = wrong_directory_hint(),
+        "i" = "If you genuinely haven't built it yet, run `scripts/025-export-ntriples.R` first."
       ),
       class = "cybedtools_file_not_found"
     )
@@ -137,7 +166,8 @@ load_combined_ntriples_graph <- function(file_path = NULL) {
 load_unified_rdf_graph <- function(framework_slugs = c("nice", "sfia", "dcwf",
                                                         "ecsf", "cyberorg-k12",
                                                         "csta", "csec2017",
-                                                        "digcomp"),
+                                                        "digcomp", "cyqual",
+                                                        "ccssf", "otccf"),
                                    jsonld_dir = NULL) {
   if (is.null(jsonld_dir)) {
     jsonld_dir <- here::here("data", "processed", "jsonld")

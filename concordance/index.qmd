@@ -12,9 +12,72 @@ page-layout: article
 
 # Many cybersecurity frameworks. One queryable graph. {.visually-hidden}
 
+```{r}
+#| label: setup
+#| include: false
+suppressPackageStartupMessages(library(dplyr))
+
+fs <- cybedtools::framework_summary |>
+  arrange(desc(elements_per_organizing_unit_with_examples))
+
+# Per-framework presentation facts the data does not carry: the page each
+# framework links to, and the short name used in the chart and the cards.
+# The three v0.3.0 frameworks have no page of their own yet, so they link
+# to their section of the package's data-sources documentation.
+docs_url <- "https://github.com/ryanstraight/cybedtools/blob/main/docs/framework-data-sources.md"
+page <- c(
+  "nice-v2"           = "frameworks/nice-v2.html",
+  "dcwf-v5.1"         = "frameworks/dcwf-v51.html",
+  "ecsf-v1"           = "frameworks/ecsf-v1.html",
+  "sfia-9"            = "frameworks/sfia-9.html",
+  "cyberorg-k12-v1.0" = "frameworks/cyberorg-k12.html",
+  "csta-2017"         = "frameworks/csta-2017.html",
+  "csec2017-v1"       = "frameworks/csec2017.html",
+  "digcomp-2.2"       = "frameworks/digcomp-22.html",
+  "cyqual-v1.2.0"     = paste0(docs_url, "#cyqual-czech-republic-national-cybersecurity-qualifications-framework"),
+  "ccssf-2022"        = paste0(docs_url, "#ccssf-canada-canadian-cyber-security-skills-framework"),
+  "otccf-v1.1"        = paste0(docs_url, "#otccf-singapore-operational-technology-cybersecurity-competency-framework")
+)
+short <- c(
+  "nice-v2"           = "NICE Framework v2.2.0",
+  "dcwf-v5.1"         = "DCWF v5.1",
+  "ecsf-v1"           = "ENISA ECSF",
+  "sfia-9"            = "SFIA 9",
+  "cyberorg-k12-v1.0" = "Cyber.org K-12",
+  "csta-2017"         = "CSTA K-12 CS",
+  "csec2017-v1"       = "ACM/IEEE CSEC2017",
+  "digcomp-2.2"       = "DigComp 2.2",
+  "cyqual-v1.2.0"     = "CyQUAL 1.2.0",
+  "ccssf-2022"        = "CCSSF 2022",
+  "otccf-v1.1"        = "OTCCF v1.1"
+)
+# Editorial flag, not a property of the data. It marks the one bar whose
+# strict-to-with-examples jump the chart annotates as an outlier.
+outlier <- c("csta-2017")
+
+juris_label <- c(US = "US", EU = "EU", global = "Global",
+                 CZ = "CZ", CA = "CA", SG = "SG")
+juris_icon <- c(US = "icon-us", EU = "icon-eu", global = "icon-global",
+                CZ = "icon-cz", CA = "icon-ca", SG = "icon-sg")
+
+fs <- fs |>
+  mutate(
+    href      = unname(page[framework_slug]),
+    label     = unname(short[framework_slug]),
+    j_label   = unname(juris_label[jurisdiction]),
+    j_icon    = unname(juris_icon[jurisdiction]),
+    t_label   = tools::toTitleCase(framework_type),
+    t_icon    = paste0("icon-", framework_type),
+    is_outlier = framework_slug %in% outlier
+  )
+
+denom <- max(fs$elements_per_organizing_unit_with_examples)
+denom_name <- fs$label[which.max(fs$elements_per_organizing_unit_with_examples)]
+lede_names <- paste(fs$label[order(match(fs$framework_slug, names(short)))], collapse = ", ")
+```
+
 ::: {.lede}
-Compare structure, density, and coverage across NICE, DCWF, ECSF, SFIA,
-Cyber.org K-12, CSTA, CSEC2017, and DigComp 2.2. The differences each
+Compare structure, density, and coverage across `r lede_names`. The differences each
 framework was authored to express stay intact.
 :::
 
@@ -29,124 +92,41 @@ framework was authored to express stay intact.
 
 ::: {.chart-subtitle}
 Granularity per organizing unit, by design. The spread runs roughly
-twelvefold across the corpus. It tracks what each framework was
+`r round(denom / min(fs$elements_per_organizing_unit_with_examples))` to one across the corpus. It tracks what each framework was
 authored to specify, not relative quality.
 :::
 
-```{=html}
-<div class="density-legend">
-  <span class="legend-item"><span class="swatch swatch-workforce"></span>Workforce</span>
-  <span class="legend-item"><span class="swatch swatch-pedagogy"></span>Pedagogy</span>
-</div>
-<figure class="density-figure">
-  <div class="density-chart">
-    <div class="bar-row" data-type="workforce">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/nice-v2.html">NICE Framework v2</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 100%;"></div>
-        <span class="bar-value">51.6</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="workforce">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/dcwf-v51.html">DCWF v5.1</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 77.1%;"></div>
-        <span class="bar-value">39.8</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="workforce">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="EU"><use href="#icon-eu"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/ecsf-v1.html">ENISA ECSF</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 63.0%;"></div>
-        <span class="bar-value">32.5</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="pedagogy" data-outlier>
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/csta-2017.html">CSTA K-12 CS</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 19.8%;"></div>
-        <span class="bar-value">10.2</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="workforce">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="Global"><use href="#icon-global"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Workforce"><use href="#icon-workforce"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/sfia-9.html">SFIA 9</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 10.9%;"></div>
-        <span class="bar-value">5.6</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="pedagogy">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="Global"><use href="#icon-global"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/csec2017.html">ACM/IEEE CSEC2017</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 9.7%;"></div>
-        <span class="bar-value">5.0</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="pedagogy">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="US"><use href="#icon-us"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/cyberorg-k12.html">Cyber.org K-12</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 8.3%;"></div>
-        <span class="bar-value">4.3</span>
-      </div>
-    </div>
-    <div class="bar-row" data-type="pedagogy">
-      <div class="bar-meta">
-        <span class="bar-pictograms">
-          <svg class="bar-icon" role="img" aria-label="EU"><use href="#icon-eu"/></svg>
-          <svg class="bar-icon" role="img" aria-label="Pedagogy"><use href="#icon-pedagogy"/></svg>
-        </span>
-        <a class="bar-name" href="frameworks/digcomp-22.html">DigComp 2.2</a>
-      </div>
-      <div class="bar-visual">
-        <div class="bar-fill" style="width: 8.1%;"></div>
-        <span class="bar-value">4.2</span>
-      </div>
-    </div>
-  </div>
-  <figcaption>Elements per top-level organizing unit, with examples included. Bar widths are scaled to the highest value (NICE, 51.6).</figcaption>
-</figure>
+```{r}
+#| label: fig-density
+#| results: asis
+cat('<div class="density-legend">\n',
+    '  <span class="legend-item"><span class="swatch swatch-workforce"></span>Workforce</span>\n',
+    '  <span class="legend-item"><span class="swatch swatch-pedagogy"></span>Pedagogy</span>\n',
+    '</div>\n', sep = "")
+cat('<figure class="density-figure">\n  <div class="density-chart">\n')
+for (i in seq_len(nrow(fs))) {
+  r <- fs[i, ]
+  v <- r$elements_per_organizing_unit_with_examples
+  cat(sprintf('    <div class="bar-row" data-type="%s"%s>\n',
+              r$framework_type, if (r$is_outlier) " data-outlier" else ""))
+  cat('      <div class="bar-meta">\n        <span class="bar-pictograms">\n')
+  cat(sprintf('          <svg class="bar-icon" role="img" aria-label="%s"><use href="#%s"/></svg>\n',
+              r$j_label, r$j_icon))
+  cat(sprintf('          <svg class="bar-icon" role="img" aria-label="%s"><use href="#%s"/></svg>\n',
+              r$t_label, r$t_icon))
+  cat('        </span>\n')
+  cat(sprintf('        <a class="bar-name" href="%s">%s</a>\n', r$href, r$label))
+  cat('      </div>\n      <div class="bar-visual">\n')
+  cat(sprintf('        <div class="bar-fill" style="width: %s%%;"></div>\n',
+              format(round(v / denom * 100, 1), nsmall = 1, trim = TRUE)))
+  cat(sprintf('        <span class="bar-value">%s</span>\n',
+              format(round(v, 1), nsmall = 1, trim = TRUE)))
+  cat('      </div>\n    </div>\n')
+}
+cat('  </div>\n')
+cat(sprintf('  <figcaption>Elements per top-level organizing unit, with examples included. Bar widths are scaled to the highest value (%s, %s).</figcaption>\n',
+            denom_name, format(round(denom, 1), nsmall = 1, trim = TRUE)))
+cat('</figure>\n')
 ```
 
 ::: {.column-margin}
@@ -159,121 +139,28 @@ self-assessment. Different questions, different shapes.
 
 ## The frameworks at a glance
 
-```{=html}
-<div class="framework-grid">
-  <a class="framework-card" href="frameworks/nice-v2.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
-        <span class="pictogram-label">US</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
-        <span class="pictogram-label">Workforce</span>
-      </span>
-    </span>
-    <span class="name">NICE Framework v2</span>
-    <span class="stats"><span class="label">Units</span> 41 · <span class="label">Elements</span> 2,115</span>
-  </a>
-  <a class="framework-card" href="frameworks/dcwf-v51.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
-        <span class="pictogram-label">US</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
-        <span class="pictogram-label">Workforce</span>
-      </span>
-    </span>
-    <span class="name">DCWF v5.1</span>
-    <span class="stats"><span class="label">Units</span> 74 · <span class="label">Elements</span> 2,945</span>
-  </a>
-  <a class="framework-card" href="frameworks/ecsf-v1.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-eu"/></svg></span>
-        <span class="pictogram-label">EU</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
-        <span class="pictogram-label">Workforce</span>
-      </span>
-    </span>
-    <span class="name">ENISA ECSF</span>
-    <span class="stats"><span class="label">Units</span> 12 · <span class="label">Elements</span> 390</span>
-  </a>
-  <a class="framework-card" href="frameworks/sfia-9.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-global"/></svg></span>
-        <span class="pictogram-label">Global</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-workforce"/></svg></span>
-        <span class="pictogram-label">Workforce</span>
-      </span>
-    </span>
-    <span class="name">SFIA 9</span>
-    <span class="stats"><span class="label">Units</span> 147 · <span class="label">Elements</span> 830</span>
-  </a>
-  <a class="framework-card" href="frameworks/cyberorg-k12.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
-        <span class="pictogram-label">US</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
-        <span class="pictogram-label">Pedagogy</span>
-      </span>
-    </span>
-    <span class="name">Cyber.org K-12</span>
-    <span class="stats"><span class="label">Units</span> 116 · <span class="label">Elements</span> 500</span>
-  </a>
-  <a class="framework-card" href="frameworks/csta-2017.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-us"/></svg></span>
-        <span class="pictogram-label">US</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
-        <span class="pictogram-label">Pedagogy</span>
-      </span>
-    </span>
-    <span class="name">CSTA K-12 CS</span>
-    <span class="stats"><span class="label">Units</span> 25 · <span class="label">Elements</span> 254</span>
-  </a>
-  <a class="framework-card" href="frameworks/csec2017.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-global"/></svg></span>
-        <span class="pictogram-label">Global</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
-        <span class="pictogram-label">Pedagogy</span>
-      </span>
-    </span>
-    <span class="name">ACM/IEEE CSEC2017</span>
-    <span class="stats"><span class="label">Units</span> 8 · <span class="label">Elements</span> 40</span>
-  </a>
-  <a class="framework-card" href="frameworks/digcomp-22.html">
-    <span class="pictograms">
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-eu"/></svg></span>
-        <span class="pictogram-label">EU</span>
-      </span>
-      <span class="pictogram">
-        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#icon-pedagogy"/></svg></span>
-        <span class="pictogram-label">Pedagogy</span>
-      </span>
-    </span>
-    <span class="name">DigComp 2.2</span>
-    <span class="stats"><span class="label">Units</span> 5 · <span class="label">Elements</span> 21</span>
-  </a>
-</div>
+```{r}
+#| label: framework-cards
+#| results: asis
+cat('<div class="framework-grid">\n')
+for (i in seq_len(nrow(fs))) {
+  r <- fs[i, ]
+  cat(sprintf('  <a class="framework-card" href="%s">\n', r$href))
+  cat('    <span class="pictograms">\n')
+  for (p in list(c(r$j_icon, r$j_label), c(r$t_icon, r$t_label))) {
+    cat('      <span class="pictogram">\n')
+    cat(sprintf('        <span class="pictogram-circle"><svg class="pictogram-icon" aria-hidden="true"><use href="#%s"/></svg></span>\n', p[1]))
+    cat(sprintf('        <span class="pictogram-label">%s</span>\n', p[2]))
+    cat('      </span>\n')
+  }
+  cat('    </span>\n')
+  cat(sprintf('    <span class="name">%s</span>\n', r$label))
+  cat(sprintf('    <span class="stats"><span class="label">Units</span> %s \u00b7 <span class="label">Elements</span> %s</span>\n',
+              format(r$organizing_unit_count, big.mark = ",", trim = TRUE),
+              format(r$element_count_with_examples, big.mark = ",", trim = TRUE)))
+  cat('  </a>\n')
+}
+cat('</div>\n')
 ```
 
 ## What this is and isn't

@@ -22,6 +22,14 @@ framework URI. The set of frameworks is anchored by the \code{rdf:type} triple
 (\verb{?s a cybed:Framework}), so frameworks missing any property still appear
 in the output (with \code{NA} in the missing column) thanks to \code{left_join}.
 }
+\note{
+The \code{framework} column holds the framework's full URI. Avoid
+naming a local variable or function parameter \code{framework} in code
+that filters or mutates this tibble -- dplyr's data masking silently
+resolves a bare \code{framework} reference inside \code{filter()}/\code{mutate()}
+to this COLUMN rather than your same-named variable, with no error
+and no warning, only a wrong (often zero-row) result surfacing later.
+}
 \examples{
 \dontrun{
 rdf <- load_combined_ntriples_graph()
@@ -31,11 +39,13 @@ framework_metadata(rdf)
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=element_text]{element_text()}},
 \code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
-\code{\link[=sparql_subjects]{sparql_subjects()}}
+\code{\link[=sparql_subjects]{sparql_subjects()}},
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
 }
 \concept{SPARQL helpers}

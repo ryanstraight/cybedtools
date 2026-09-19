@@ -1,7 +1,7 @@
 ---
 title: "How does element density vary across frameworks?"
 subtitle: "Per-unit density, strict and with examples"
-description: "Per-unit element density across the framework corpus, strict and with examples. The twelvefold-spread finding, reframed as a comparison of design philosophy rather than a quality ranking."
+description: "Per-unit element density across the framework corpus, strict and with examples. The density-spread finding, read as a comparison of design philosophy rather than a quality ranking."
 categories: [Cross-framework]
 ---
 
@@ -13,27 +13,39 @@ library(ggplot2)
 library(forcats)
 library(here)
 
-data_path <- here("_data", "density_spread.rds")
-if (file.exists(data_path)) {
-  density_spread <- readRDS(data_path)
-} else {
-  # Fallback: pull straight from the lazy-loaded package tibble so the
-  # site renders even if the data-prep script has not been run.
-  density_spread <- cybedtools::framework_summary |>
-    arrange(desc(elements_per_organizing_unit_with_examples)) |>
-    select(
-      framework_name,
-      framework_slug,
-      framework_type,
-      jurisdiction,
-      organizing_unit_count,
-      element_count_strict,
-      element_count_with_examples,
-      elements_per_organizing_unit_strict,
-      elements_per_organizing_unit_with_examples,
-      license
-    )
-}
+# One source, deterministically. framework_summary ships with the package,
+# so it cannot go stale relative to the installed cybedtools. The cached
+# _data/density_spread.rds is deliberately not read here: a stale cache
+# silently winning over the package tibble is the failure this page had.
+density_spread <- cybedtools::framework_summary |>
+  arrange(desc(elements_per_organizing_unit_with_examples)) |>
+  select(
+    framework_name,
+    framework_slug,
+    framework_type,
+    jurisdiction,
+    organizing_unit_count,
+    element_count_strict,
+    element_count_with_examples,
+    elements_per_organizing_unit_strict,
+    elements_per_organizing_unit_with_examples,
+    license
+  )
+
+n_frameworks <- nrow(density_spread)
+dens_max <- density_spread |> slice_max(elements_per_organizing_unit_with_examples, n = 1)
+dens_min <- density_spread |> slice_min(elements_per_organizing_unit_with_examples, n = 1) |> slice_head(n = 1)
+strict_max <- density_spread |> slice_max(elements_per_organizing_unit_strict, n = 1)
+strict_min <- density_spread |> slice_min(elements_per_organizing_unit_strict, n = 1) |> slice_head(n = 1)
+withex_ratio <- round(dens_max$elements_per_organizing_unit_with_examples /
+                        dens_min$elements_per_organizing_unit_with_examples)
+strict_ratio <- round(strict_max$elements_per_organizing_unit_strict /
+                        strict_min$elements_per_organizing_unit_strict)
+subpoints <- cybedtools::framework_summary |>
+  select(framework_slug, framework_name, framework_type, subpoint_count)
+wf_no_subpoints <- subpoints |> filter(framework_type == "workforce", subpoint_count == 0)
+n_workforce <- sum(cybedtools::framework_summary$framework_type == "workforce")
+sp <- function(slug) format(subpoints$subpoint_count[subpoints$framework_slug == slug], big.mark = ",")
 ```
 
 ## The question
@@ -48,7 +60,7 @@ Per-unit density is easy to mis-read as a quality ranking. It isn't one. What th
 
 ```{r}
 #| label: tbl-density
-#| tbl-cap: "Eight frameworks, ranked by elements per organizing unit (with examples)"
+#| tbl-cap: !expr paste(nrow(density_spread), "frameworks, ranked by elements per organizing unit (with examples)")
 density_spread |>
   transmute(
     Framework = framework_name,
@@ -87,7 +99,8 @@ density_spread |>
   ) +
   coord_flip() +
   scale_fill_manual(
-    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC")
+    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC",
+               CZ = "#0369A1", CA = "#38BDF8", SG = "#075985")
   ) +
   labs(
     x = NULL,
@@ -111,15 +124,17 @@ Three observations carry weight.
 
 ### The spread is real and large
 
-The headline figure is roughly twelvefold (NICE 51.6 against DigComp 4.2, examples included). The strict-count spread is forty-sevenfold (NICE 51.6 against Cyber.org K-12 1.1, examples excluded). Either way, the gap merits an explanation.
+With examples included, the spread runs at roughly `r withex_ratio` to one (`r dens_max$framework_name` at `r format(dens_max$elements_per_organizing_unit_with_examples, nsmall = 1)` against `r dens_min$framework_name` at `r format(dens_min$elements_per_organizing_unit_with_examples, nsmall = 1)`). With examples excluded, the strict-count spread runs at roughly `r strict_ratio` to one (`r strict_max$framework_name` at `r format(strict_max$elements_per_organizing_unit_strict, nsmall = 1)` against `r strict_min$framework_name` at `r format(strict_min$elements_per_organizing_unit_strict, nsmall = 1)`). Either way, the gap merits an explanation.
+
+The strict figure moved for a structural reason worth naming. NICE's element counts did not change. Its per-unit denominator did, because the 11 competency areas added in v2.2.0 count as organizing units alongside the 42 work roles.
 
 ### The spread reflects design philosophy
 
-NICE was built to be operationally specific. It supports workforce planning at the position-description level for the United States federal government, and the granularity is the point. DigComp was built for citizen self-assessment, so the unit of specification is necessarily coarser. SFIA sits in the middle on purpose, the legacy of its history as a global IT-skills catalog. Not as fine-grained as NICE. Not as coarse as DigComp.
+NICE was built to be operationally specific. It supports workforce planning at the position-description level for the United States federal government, and the granularity is the point. DigComp was built for citizen self-assessment, so the unit of specification is necessarily coarser. SFIA at `r format(density_spread$elements_per_organizing_unit_with_examples[density_spread$framework_slug == "sfia-9"], nsmall = 1)` sits near the low end of this ranking, which follows from counting per skill rather than per role. The middle of the distribution is held by the three national workforce frameworks added in v0.3.0: `r paste(sprintf("%s at %.1f", density_spread$framework_name[density_spread$framework_slug %in% c("otccf-v1.1", "ccssf-2022", "cyqual-v1.2.0")], density_spread$elements_per_organizing_unit_with_examples[density_spread$framework_slug %in% c("otccf-v1.1", "ccssf-2022", "cyqual-v1.2.0")]), collapse = ", ")`.
 
 ### The strict-vs-with-examples gap is informative on its own
 
-Frameworks that encode pedagogical detail in prose clarification statements (Cyber.org K-12, CSTA) widen substantially when those examples are folded in. Workforce frameworks (NICE, DCWF, ECSF, SFIA) don't move, because every bit of detail they ship is already in a numbered statement. Read the gap as a proxy for how much pedagogical scaffolding lives outside the numbered taxonomy.
+Frameworks that encode pedagogical detail in prose clarification statements (Cyber.org K-12, CSTA) widen when those Examples are folded in. The `r n_workforce` workforce frameworks move too, through a different mechanism. None of them carry Cyber.org/CSTA-style Clarification-statement Examples. All of them except `r paste(wf_no_subpoints$framework_name, collapse = " and ")` carry Subpoints, enumeration lists ("including X and Y") parsed out of a single numbered statement's own text, and the gap that produces varies enormously by framework, from NICE's negligible `r sp("nice-v2")` through CCSSF's `r sp("ccssf-2022")` and CyQUAL's `r sp("cyqual-v1.2.0")` to DCWF's `r sp("dcwf-v5.1")`. DCWF alone now carries the corpus's largest strict-to-with-examples gap of any kind, a fact only visible after a same-day parser fix (2026-08-14) corrected a dead introducer pattern that had been silently invisible to most of DCWF's "(e.g., ...)"-style enumerations. Read the gap as a proxy for how much of a framework's real content sits inside prose rather than at the level of its numbered structure -- pedagogical scaffolding for Cyber.org/CSTA, embedded enumeration for the workforce frameworks.
 
 ## What this doesn't tell us
 
@@ -129,7 +144,7 @@ A framework with high per-unit density isn't better-specified than one with low 
 
 ### Strict counts undercount frameworks that encode detail in prose
 
-The 47x strict spread overstates the specificity gap because it ignores the prose-encoded detail in the pedagogy frameworks. Use the with-examples figure when the comparison crosses the workforce-pedagogy boundary.
+The roughly `r strict_ratio` to one strict spread overstates the specificity gap because it ignores the prose-encoded detail in the pedagogy frameworks. Use the with-examples figure when the comparison crosses the workforce-pedagogy boundary.
 
 ### Cross-framework comparisons require shared denominators
 
@@ -157,7 +172,7 @@ The `framework_summary` tibble ships with the package as a lazy-loaded data obje
 
 ## Related queries
 
-- [How is element coverage distributed across US and EU frameworks?](us-eu-asymmetry.qmd), the 14:1 ratio and what it reframes.
+- [How is element coverage distributed across US and EU frameworks?](us-eu-asymmetry.qmd), the jurisdictional distribution and what it reframes.
 - [Which NICE work roles concentrate the most element coverage?](top-work-roles.qmd), power-law shape inside NICE.
 - [How does the four-framework K-12 alignment compare?](k12-alignment.qmd), pedagogy lens.
 - [The vocabulary](../concepts/vocabulary.qmd), why `cybed:OrganizingUnit` is the right denominator.

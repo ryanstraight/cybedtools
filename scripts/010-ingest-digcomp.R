@@ -46,6 +46,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 digcomp_config <- list(
   framework_version = "DigComp 2.2",
   version_date      = "2022-03-17",
@@ -55,7 +57,7 @@ digcomp_config <- list(
   staging_dir       = here("data", "raw", "digcomp"),
   tables_subdir     = "tables",
   manifest_filename = "provenance.yml",
-  license           = "EU open re-use (verify specific terms before redistribution)"
+  license           = "CC BY 4.0 (European Union, 2022; Commission Decision 2011/833/EU)"
 )
 
 # Closed vocabulary of 5 competence areas and 21 competences.
@@ -153,6 +155,16 @@ extract_competence_descriptions <- function(text_file_path) {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(pdf_path, text_path, areas, competences, descriptions) {
+  manifest_path <- file.path(digcomp_config$staging_dir, digcomp_config$manifest_filename)
+  pdf_sha256 <- if (file.exists(pdf_path)) {
+    digest(file = pdf_path, algo = "sha256")
+  } else {
+    NA_character_
+  }
+  text_sha256 <- digest(file = text_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(
+    manifest_path, c(pdf_sha256 = pdf_sha256, text_sha256 = text_sha256))
+
   manifest <- list(
     framework         = "DigComp",
     framework_version = digcomp_config$framework_version,
@@ -166,11 +178,11 @@ write_provenance_manifest <- function(pdf_path, text_path, areas, competences, d
       conversion_tool = "markitdown MCP (PDF -> markdown)"
     ),
     retrieval = list(
-      retrieved_date  = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date  = retrieved_date,
       retrieved_by    = "scripts/010-ingest-digcomp.R",
       pdf_size_bytes  = if (file.exists(pdf_path)) file.info(pdf_path)$size else NA_integer_,
-      pdf_sha256      = if (file.exists(pdf_path)) digest(file = pdf_path, algo = "sha256") else NA_character_,
-      text_sha256     = digest(file = text_path, algo = "sha256")
+      pdf_sha256      = pdf_sha256,
+      text_sha256     = text_sha256
     ),
     extraction = list(
       competence_areas    = nrow(areas),
@@ -180,11 +192,17 @@ write_provenance_manifest <- function(pdf_path, text_path, areas, competences, d
     ),
     licensing = list(
       source_license = digcomp_config$license,
+      citation = paste(
+        "Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital",
+        "Competence Framework for Citizens, EUR 31006 EN, Publications Office",
+        "of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8,",
+        "doi:10.2760/115376, JRC128415."
+      ),
       redistribution_note = paste(
-        "JRC publications are generally open. Verify specific terms at the",
-        "JRC Publications Repository (publications.jrc.ec.europa.eu) before",
-        "redistributing framework text in toolkit releases. Analytical",
-        "derivatives publishable with attribution."
+        "CC BY 4.0 by the source PDF's own imprint page: reuse is allowed",
+        "provided appropriate credit is given and any changes are indicated.",
+        "The 'except otherwise noted' qualifier and the photo carve-out do not",
+        "reach anything this script ingests. Use the prescribed citation above."
       )
     ),
     notes = list(
@@ -207,7 +225,6 @@ write_provenance_manifest <- function(pdf_path, text_path, areas, competences, d
     )
   )
 
-  manifest_path <- file.path(digcomp_config$staging_dir, digcomp_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

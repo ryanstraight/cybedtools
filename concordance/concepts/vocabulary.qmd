@@ -3,16 +3,29 @@ title: "The two-tier vocabulary"
 subtitle: "How cybedtools represents heterogeneous frameworks in a single graph"
 ---
 
+```{r}
+#| label: setup
+#| include: false
+fs <- cybedtools::framework_summary
+n_fw <- nrow(fs)
+role_slugs <- c("nice-v2", "dcwf-v5.1", "ecsf-v1", "cyqual-v1.2.0", "ccssf-2022", "otccf-v1.1")
+n_role_fw <- sum(fs$framework_slug %in% role_slugs)
+n_nonrole_fw <- n_fw - n_role_fw
+```
+
 ## The design problem
 
-Eight frameworks. Each one was authored against a different theory of
+`r n_fw` frameworks. Each one was authored against a different theory of
 what counts as a structural element. NICE has work roles, tasks,
-knowledge statements, and skill statements. DigComp has competence
+knowledge statements, and skill statements, plus competency areas as a
+second grouping axis. DigComp has competence
 areas and proficiency levels. SFIA has skills and seven levels of
 responsibility. Cyber.org K-12 has grade-band-by-sub-concept cells
 plus prose clarification statements. CSTA has level-by-concept cells
 plus practices. CSEC2017 has eight knowledge areas. ECSF has twelve
-profiles. DCWF aligns to NICE work roles with overlap.
+profiles. DCWF aligns to NICE work roles with overlap. CyQUAL has
+qualification units and proficiency levels. CCSSF has work roles and
+skills. OTCCF has job roles, skills, and role-to-role relations.
 
 A single shared vocabulary that flattens these into one type hierarchy
 would erase the differences each framework was designed to express. A
@@ -65,8 +78,8 @@ need to know RDF or SPARQL to follow the structure.
     <text class="lt" x="360" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cybed:Role</text>
     <text class="lp" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">a kind of organizing unit · workforce frameworks only</text>
     <text class="lt" x="360" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">subClassOf · workforce frameworks only</text>
-    <text class="lp" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
-    <text class="lt" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF)</text>
+    <text class="lp" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF, CyQUAL, CCSSF, OTCCF)</text>
+    <text class="lt" x="360" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="currentColor" opacity="0.7">(NICE, DCWF, ECSF, CyQUAL, CCSSF, OTCCF)</text>
   </g>
 
   <g class="cyb-node" aria-label="Element">
@@ -136,7 +149,7 @@ ability to ask framework-specific questions through Tier 2 subtypes.
 |---|---|---|
 | `cybed:Framework` | Class | The framework as a whole |
 | `cybed:OrganizingUnit` | Class (subClassOf `skos:Concept`) | Any top-level enumerated unit. All frameworks in the corpus assert this on their parents. |
-| `cybed:Role` | Class (subClassOf `cybed:OrganizingUnit`) | Workforce-restricted. NICE work roles, DCWF work roles, ECSF profiles only. |
+| `cybed:Role` | Class (subClassOf `cybed:OrganizingUnit`) | Workforce-restricted. NICE, DCWF, CyQUAL, and CCSSF work roles, ECSF profiles, and OTCCF job roles. |
 | `cybed:RoleElement` | Class | Anything attached to an organizing unit via `cybed:hasElement` |
 | `cybed:Subpoint` | Class (subClassOf `cybed:RoleElement`) | Bullet points and enumerations embedded inside an element's text |
 | `cybed:Example` | Class (subClassOf `cybed:RoleElement`) | Pedagogical scaffolding (such as clarification statements). Reachable only via `cybed:hasExample` |
@@ -145,6 +158,17 @@ ability to ask framework-specific questions through Tier 2 subtypes.
 | `cybed:hasElement` | Property | Organizing unit → RoleElement (excluding Examples by default) |
 | `cybed:hasExample` | Property | Organizing unit → Example (separate predicate) |
 | `cybed:elaborates` | Property | Subpoint → parent (back-edge) |
+| `cybed:relatedUnit` | Property | Organizing unit → `cybed:UnitRelation`, the reified edge between two units |
+| `cybed:UnitRelation` | Class | A reified relation between two organizing units, so the edge can carry its own label and level |
+| `cybed:fromUnit` | Property | Unit relation → the source organizing unit |
+| `cybed:toUnit` | Property | Unit relation → the target organizing unit |
+| `cybed:relationLabel` | Property | The steward's own wording for what the relation means |
+| `cybed:proficiencyLevel` | Property | The level as the steward printed it, always a literal string |
+| `cybed:niceCrossReference` | Property | A framework's own declared pointer at a NICE identifier |
+| `schema:creditText` | Property | The attribution wording a steward asked to be reproduced |
+| `schema:inLanguage` | Property | The BCP 47 language tag of an element's statement text. Supported by the ingestion helpers, not asserted by any framework in the current corpus. |
+
+Proficiency levels are stored as printed and are never coerced to numbers. A CyQUAL level and an SFIA level are both called a level and are not the same scale, so arithmetic across them would invent a comparison the stewards never made.
 
 ## Tier 2 vocabulary (per-framework subtypes)
 
@@ -161,6 +185,11 @@ the Tier 1 abstracts:
 | CSTA | `csta:` | `csta:Framework`, `csta:StandardGroup`, `csta:Standard` |
 | CSEC2017 | `csec:` | `csec:Framework`, `csec:KnowledgeArea`, `csec:Topic` |
 | DigComp | `digcomp:` | `digcomp:Framework`, `digcomp:CompetenceArea`, `digcomp:Competence`, `digcomp:ProficiencyDescriptor` |
+| CyQUAL | `cyqual:` | `cyqual:Framework`, `cyqual:WorkRole`, `cyqual:Competency`, `cyqual:Requirement`, `cyqual:Task` |
+| CCSSF | `ccssf:` | `ccssf:Framework`, `ccssf:WorkRole`, `ccssf:Competency`, `ccssf:Task`, `ccssf:ToolOrTechnology`, `ccssf:AdjacentRole` |
+| OTCCF | `otccf:` | `otccf:Framework`, `otccf:JobRole`, `otccf:KeyTask`, `otccf:TechnicalSkillCompetency`, `otccf:CriticalCoreSkill`, `otccf:Knowledge`, `otccf:Ability` |
+
+The first eight prefixes resolve under a steward's own domain. The last three do not. CyQUAL, CCSSF, and OTCCF are minted by the package under `https://w3id.org/cybed/framework/<slug>#`, because those stewards publish no term namespace of their own. Putting a package-coined type under the package's namespace is the point: a reader who resolves the URI lands on cybedtools documentation and can see that cybedtools coined the type, so a package-coined type is never mistaken for an identifier the steward issued.
 
 A `nice:WorkRole` is also a `cybed:Role`, which is also a
 `cybed:OrganizingUnit`, which is also a `skos:Concept`. The chain runs
@@ -192,12 +221,25 @@ exactly this.
 
 The `cybed:OrganizingUnit` abstraction lets a single SPARQL query
 return organizing units across the entire corpus. The `cybed:Role`
-abstraction restricts that query to the three workforce frameworks
-(NICE, DCWF, ECSF). The `cybed:hasElement` predicate returns the
+abstraction restricts that query to the `r n_role_fw` workforce
+frameworks whose top-level unit is genuinely a role (NICE, DCWF, ECSF,
+CyQUAL, CCSSF, OTCCF). The `cybed:hasElement` predicate returns the
 strict numbered-element traversal across every framework that uses
 it. The `cybed:hasExample` predicate exposes the pedagogical
 scaffolding layer separately, where it exists at all (currently
 Cyber.org K-12 and CSTA only).
+
+That split is worth stating as an argument, because the count behind it
+has moved. `cybed:Role` now covers `r n_role_fw` of the `r n_fw`
+frameworks, so it is the majority type, not a minority carve-out. The
+reason to keep it separate is unchanged and now easier to see. A NICE
+work role and a DigComp competence area are both organizing units and
+only one of them is a job. Collapsing the two would make every
+role-scoped query silently include competence areas, grade-band cells,
+and knowledge areas. `cybed:OrganizingUnit` is what makes the
+`r n_nonrole_fw` non-role frameworks reachable in the same query as the
+rest. `cybed:Role` is what keeps them out when the question is about
+jobs.
 
 The two-tier shape is what makes the [density spread
 query](../queries/density-spread.qmd) work across every framework

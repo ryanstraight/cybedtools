@@ -31,10 +31,14 @@ system.file("doc", "framework-data-sources.md", package = "cybedtools") |>
   readLines() |> head(40)
 ```
 
-For NICE and DCWF (US Government works, public domain), the package
+For NICE and DCWF (US Government works, not subject to US
+copyright under 17 U.S.C. 105), the package
 ships pointers to the canonical NIST CPRT and DoD CIO downloads. For
 SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the
-steward's redistribution policy as documented per framework.
+steward's redistribution policy as documented per framework. CyQUAL,
+CCSSF, and OTCCF are in the corpus by written steward permission, and
+each permission carries its own terms. Read the per-framework entries
+before staging those three.
 
 ## Run the pipeline
 
@@ -72,17 +76,20 @@ framework_summary |>
 Output:
 
 ```
-# A tibble: 8 × 3
-  framework_name              organizing_unit_count elements_per_organizing_unit_with_examples
-  <chr>                                       <int>                                      <dbl>
-1 NICE Workforce Framework v2                    41                                       51.6
-2 DCWF v5.1                                      74                                       39.8
-3 ENISA ECSF v1                                  12                                       32.5
-4 CSTA K-12 CS Rev 2017                          25                                       10.2
-5 SFIA 9                                        147                                        5.6
-6 ACM/IEEE CSEC2017                               8                                        5.0
-7 Cyber.org K-12 v1.0                           116                                        4.3
-8 DigComp 2.2                                     5                                        4.2
+# A tibble: 11 × 3
+   framework_name          organizing_unit_count elements_per_organizing_unit_with_examples
+   <chr>                                   <int>                                      <dbl>
+ 1 DCWF v5.1                                  74                                       54.8
+ 2 NICE v2.2.0                                53                                       42
+ 3 ECSF v1                                    12                                       32.5
+ 4 OTCCF v1.1                                 61                                       26.4
+ 5 CCSSF 2022                                 59                                       22.8
+ 6 CyQUAL 1.2.0                              161                                       20.7
+ 7 CSTA K-12 CS (Rev 2017)                    25                                       10.3
+ 8 SFIA 9                                    147                                        5.6
+ 9 ACM/IEEE CSEC2017                           8                                        5
+10 Cyber.org K-12 v1.0                       116                                        4.2
+11 DigComp 2.2                                 5                                        4.2
 ```
 
 ## Next steps

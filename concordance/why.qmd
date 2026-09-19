@@ -3,6 +3,24 @@ title: "Why this exists"
 subtitle: "What cybedtools does, who it's for, and what it deliberately doesn't try to do"
 ---
 
+```{r}
+#| label: setup
+#| include: false
+fs <- cybedtools::framework_summary
+n_fw <- nrow(fs)
+n_licenses <- length(unique(fs$license))
+n_role_fw <- sum(fs$framework_slug %in%
+  c("nice-v2", "dcwf-v5.1", "ecsf-v1", "cyqual-v1.2.0", "ccssf-2022", "otccf-v1.1"))
+nice_per_role <- round(fs$elements_per_role_with_examples[fs$framework_slug == "nice-v2"])
+digcomp_per_unit <- round(fs$elements_per_organizing_unit_with_examples[fs$framework_slug == "digcomp-2.2"])
+juris <- fs |>
+  dplyr::group_by(jurisdiction) |>
+  dplyr::summarise(n = sum(element_count_with_examples), .groups = "drop") |>
+  dplyr::arrange(dplyr::desc(n))
+juris_text <- paste(sprintf("%s at %s", juris$jurisdiction, format(juris$n, big.mark = ",", trim = TRUE)),
+                    collapse = ", ")
+```
+
 ## The problem
 
 Cybersecurity workforce and learning frameworks proliferated through
@@ -14,14 +32,19 @@ Defense's cyber workforce against NICE. ENISA's ECSF sketches twelve
 professional profiles for the European Union. SFIA catalogs skills
 across the global IT profession. Cyber.org and CSTA specify K-12
 teaching standards. CSEC2017 frames undergraduate curricula. DigComp
-2.2 specifies citizen-level digital competence.
+2.2 specifies citizen-level digital competence. CyQUAL specifies the
+Czech Republic's national cybersecurity qualifications. CCSSF specifies
+Canada's cyber security skills for federal and adjacent employers.
+OTCCF specifies Singapore's operational-technology cybersecurity job
+roles and skills.
 
 A researcher who wants to compare any two of these is, at minimum,
 working across two different file formats, two licensing regimes, two
 authorial communities, and two distinct theoretical commitments about
-what counts as a structural element. Comparing them all means nine
-file formats, eight licenses, eight steward communities, and several
-deeply non-overlapping ideas about what an "element" even is.
+what counts as a structural element. Comparing them all means four
+source file formats (JSON, XLSX, SQLite, and PDF), `r n_licenses`
+licenses, `r n_fw` steward communities, and several deeply
+non-overlapping ideas about what an "element" even is.
 
 `cybedtools` makes that comparison structurally tractable. The
 differences that make each framework what it is stay intact.
@@ -38,11 +61,11 @@ Three findings ride out of that infrastructure cleanly.
 
 ### Per-unit element density spans roughly an order of magnitude
 
-NICE specifies about 52 elements per work role. DigComp specifies about 4 elements per competence area. The spread is real. It is a difference in design philosophy, not a quality claim.
+NICE specifies about `r nice_per_role` elements per work role. DigComp specifies about `r digcomp_per_unit` elements per competence area. The spread is real. It is a difference in design philosophy, not a quality claim.
 
-### US/EU coverage runs about 14 to 1 by raw element count
+### Element volume is unevenly distributed across `r nrow(juris)` jurisdictions
 
-ECSF was designed to be profile-level by intent. DigComp was designed for citizen self-assessment. The ratio reflects authorial intent, not framework completeness.
+By with-examples element count, the totals run `r juris_text`. ECSF was designed to be profile-level by intent. DigComp was designed for citizen self-assessment. The distribution reflects authorial intent, not framework completeness.
 
 ### NICE work-role concentration is uneven
 
@@ -93,9 +116,9 @@ European Commission for ECSF and DigComp, and so on. Cross-framework
 comparative work in the literature, when it appears, is typically
 hand-coded across two or three frameworks at a time.
 
-`cybedtools` extends this landscape. Eight-framework analysis is
-tractable in a single R session, with provenance preserved back to
-each framework's source export.
+`cybedtools` extends this landscape. Analysis across all `r n_fw`
+frameworks is tractable in a single R session, with provenance
+preserved back to each framework's source export.
 
 [Read the concepts](concepts/vocabulary.qmd) ·
 [Browse the frameworks](frameworks/index.qmd) ·

@@ -14,7 +14,9 @@ build_framework_node(
   sector,
   specificity,
   license = NA_character_,
-  date_published = NA_character_
+  date_published = NA_character_,
+  attribution = NA_character_,
+  in_language = NA_character_
 )
 }
 \arguments{
@@ -29,7 +31,9 @@ build_framework_node(
 
 \item{publisher}{Character, publisher name.}
 
-\item{jurisdiction}{Character, one of \code{"US"}, \code{"EU"}, \code{"UK"}, \code{"global"}.}
+\item{jurisdiction}{Character: \code{"US"}, \code{"EU"}, \code{"UK"}, \code{"global"}, or an
+ISO 3166-1 alpha-2 country code for a national framework (e.g., \code{"CZ"},
+\code{"CA"}, \code{"SG"}).}
 
 \item{sector}{Character, one of \code{"civilian"}, \code{"defense"}, \code{"general"}.}
 
@@ -39,6 +43,14 @@ build_framework_node(
 \item{license}{Character, license URI or SPDX identifier.}
 
 \item{date_published}{Character, ISO-8601 date.}
+
+\item{attribution}{Character, the attribution statement the framework's
+steward requires, recorded verbatim as \code{schema:creditText}. Supply it
+exactly as the steward worded it.}
+
+\item{in_language}{Character, BCP 47 language tag of the framework's
+statement text (e.g., \code{"cs"}), recorded as \code{schema:inLanguage}. Omit for
+English-language frameworks.}
 }
 \value{
 Named list (JSON-LD node) describing the framework.
@@ -70,7 +82,9 @@ Other JSON-LD construction:
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}},
-\code{\link[=build_role_node]{build_role_node()}}
+\code{\link[=build_role_node]{build_role_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

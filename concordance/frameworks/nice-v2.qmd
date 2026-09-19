@@ -3,8 +3,8 @@ title: "NICE Framework v2"
 subtitle: "Workforce Framework for Cybersecurity (NIST SP 800-181r1)"
 jurisdiction: "US"
 framework-type: "Workforce"
-organizing-units: 41
-elements: 2115
+organizing-units: 53
+elements: 2225
 license: "Public domain"
 date: 2026-05-08
 date-modified: 2026-05-08
@@ -17,10 +17,10 @@ categories: [workforce, us]
 |---|---|
 | Steward | NIST (National Initiative for Cybersecurity Careers and Studies) |
 | Canonical page | [NICE Framework Resource Center](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center) |
-| Version | 2.0.0 |
-| Released | 2024-03 |
+| Version | 2.2.0 |
+| Released | 2026-04-28 |
 | Source format | NIST Cybersecurity and Privacy Reference Tool (CPRT) JSON export |
-| License | Public domain (works of the United States Government) |
+| License | A US Government work, not subject to copyright in the United States under 17 U.S.C. 105. NIST reserves foreign rights and grants them back royalty-free worldwide, including derivative works |
 | `framework_summary` slug | `nice-v2` |
 
 ## Structure in cybed: terms
@@ -92,13 +92,49 @@ categories: [workforce, us]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Work roles (organizing units) | 41 |
-| Strict elements (numbered statements) | 2,115 |
-| With-examples elements | 2,115 |
-| Examples (separate from elements) | 0 |
-| Elements per work role (strict and with-examples) | 51.6 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "nice-v2", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (work roles plus competency areas)",
+    "Work roles",
+    "Competency areas (second grouping axis, v2.2.0)",
+    "Strict elements (numbered statements)",
+    "Subpoints (parsed enumeration lists)",
+    "Examples (Clarification-statement scaffolding)",
+    "With-examples elements",
+    "Elements per organizing unit, strict",
+    "Elements per organizing unit, with-examples",
+    "Elements per work role, strict",
+    "Elements per work role, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$organizing_unit_count - n$role_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$example_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples),
+    d1(n$elements_per_role_strict),
+    d1(n$elements_per_role_with_examples)
+  )
+) |>
+  knitr::kable()
+```
+
+Two denominators sit in that table and they answer different questions. The cross-framework density chart uses organizing units, which for NICE v2.2.0 means the `r n$role_count` work roles plus the `r n$organizing_unit_count - n$role_count` competency areas. The per-role figures hold the competency areas out of both numerator and denominator. Competency areas are a second grouping axis over the same knowledge and skill catalog rather than an additional set of roles.
 
 NICE's strict and with-examples counts are identical. The framework
 encodes detail entirely in numbered statements, so the ingestion has
@@ -130,7 +166,7 @@ NIST's CPRT JSON export. Retrieval URL and reference checksum live in the packag
 
 **License**
 
-NIST CPRT data is in the US public domain. The package does not bundle the source JSON. Users stage it locally.
+A work of the United States Government, not subject to copyright in the United States under 17 U.S.C. 105. NIST reserves foreign rights and grants them back, giving the public a non-exclusive, perpetual, paid-up, royalty-free, worldwide right to reprint the work in all formats and in derivative works. Attribute NIST as the source and do not imply NIST endorsement. The package does not bundle the source JSON. Users stage it locally.
 :::
 
 :::
@@ -147,6 +183,6 @@ NIST CPRT data is in the US public domain. The package does not bundle the sourc
 - [Cross-framework density spread](../queries/density-spread.qmd),
   where NICE sits in the corpus ranking.
 - [Top NICE work roles](../queries/top-work-roles.qmd), the power-law
-  distribution across the 41 roles.
+  distribution across the `r n$role_count` work roles.
 - [The vocabulary](../concepts/vocabulary.qmd), on how `nice:WorkRole`
   relates to `cybed:Role` and `cybed:OrganizingUnit`.

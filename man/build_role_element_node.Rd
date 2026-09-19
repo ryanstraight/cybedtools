@@ -10,7 +10,8 @@ build_role_element_node(
   framework_element_type,
   element_text,
   source_section = NA_character_,
-  framework_id = NA_character_
+  framework_id = NA_character_,
+  source_category = NA_character_
 )
 }
 \arguments{
@@ -28,6 +29,18 @@ framework vocabulary (e.g., \code{"TaskStatement"}, \code{"KnowledgeStatement"},
 
 \item{framework_id}{Character, framework identifier to populate
 \code{cybed:partOf}.}
+
+\item{source_category}{Character, the source framework's own per-element
+provenance tag, when the publisher labels which upstream body a
+statement was drawn from (e.g., DCWF's Master Task & KSA List tags
+each row \code{"NICE"}, \code{"JCT-T"}, \code{"JCT-KSA"}, \code{"Other-T"}, or
+\code{"Other-KSA"}). This is a categorical tag as published, not a link to
+a specific element in the named framework -- the source data does not
+carry that level of precision. Distinct from \code{source_section}, which
+locates content within the SAME document rather than attributing it to
+a different one. 2026-08-14: added after a DCWF-vs-NICE alignment
+query returned an implausibly weak result and traced to this
+provenance column being dropped at ingest.}
 }
 \value{
 Named list (JSON-LD node).
@@ -57,6 +70,8 @@ Other JSON-LD construction:
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
-\code{\link[=build_role_node]{build_role_node()}}
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
+\code{\link[=build_role_node]{build_role_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

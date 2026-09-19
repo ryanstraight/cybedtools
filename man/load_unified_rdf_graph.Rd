@@ -6,7 +6,7 @@
 \usage{
 load_unified_rdf_graph(
   framework_slugs = c("nice", "sfia", "dcwf", "ecsf", "cyberorg-k12", "csta", "csec2017",
-    "digcomp"),
+    "digcomp", "cyqual", "ccssf", "otccf"),
   jsonld_dir = NULL
 )
 }

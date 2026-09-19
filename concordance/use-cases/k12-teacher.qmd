@@ -18,6 +18,10 @@ alignment <- readRDS(here("_data", "k12_alignment.rds"))
 alignment <- alignment |>
   mutate(parent_pct = round(parent_sim * 100, 1),
          full_pct   = round(full_sim   * 100, 1))
+
+n_cyberorg <- nrow(alignment)
+n_hit <- sum(alignment$full_pct >= 10)
+n_nomatch <- n_cyberorg - n_hit
 ```
 
 ## Tasha's situation
@@ -29,7 +33,7 @@ Her state has recently adopted a CS framework drawn from the CSTA K-12 CS Standa
 Her question is concrete. Where does her existing Cyber.org-aligned work already cover the state-adopted framework, and where will she have to add something new?
 
 ::: {.column-margin}
-This page uses real data computed against cybedtools v0.2.0. The
+This page uses real data computed against cybedtools v0.3.0. The
 persona is composite. The question, the code, and the result are not.
 :::
 
@@ -66,7 +70,7 @@ tibble::tibble(
   knitr::kable()
 ```
 
-Of 123 Cyber.org standards, 21 share enough vocabulary with a CSTA standard to be worth a closer look (at least 10% overlap). None overlap heavily. That tracks. Cyber.org covers cybersecurity-specific territory that CSTA's general CS scope was never designed to address.
+Of `r n_cyberorg` Cyber.org standards, `r n_hit` share enough vocabulary with a CSTA standard to be worth a closer look (at least 10% overlap). None overlap heavily. That tracks. Cyber.org covers cybersecurity-specific territory that CSTA's general CS scope was never designed to address.
 
 ```{r}
 #| label: tbl-top-matches
@@ -105,9 +109,9 @@ If Tasha's principal asks why a specific lesson is tagged to a specific CSTA sta
 
 Social engineering, threat actors, and physical security are precisely the topics some districts have explicit board policies about and that some parents push back on. The defense for those lessons is not CSTA-alignment evidence. The defense is curricular. The lessons implement standards from a CISA-funded K-12 cybersecurity curriculum (Cyber.org). Tasha may need to present that distinction explicitly to her principal, and to her school board if it surfaces there.
 
-### What Tasha tells her principal about the 102 unmatched Cyber.org standards
+### What Tasha tells her principal about the `r n_nomatch` unmatched Cyber.org standards
 
-The 123 Cyber.org standards span the full K-12 corpus. Tasha's four-week 7th-grade unit covers only a subset of those, and for most of the standards her lessons do cover, no CSTA equivalent exists. Her honest reporting answer is "covers Cyber.org standard X, no CSTA equivalent." Whether her district's reporting form lets her record that, or whether she has to negotiate an "alternate framework" tag with her principal, is a local question for her CS coordinator. cybedtools surfaces the gap. The reporting workaround is a district-policy conversation.
+The `r n_cyberorg` Cyber.org standards span the full K-12 corpus. Tasha's four-week 7th-grade unit covers only a subset of those, and for most of the standards her lessons do cover, no CSTA equivalent exists. Her honest reporting answer is "covers Cyber.org standard X, no CSTA equivalent." Whether her district's reporting form lets her record that, or whether she has to negotiate an "alternate framework" tag with her principal, is a local question for her CS coordinator. cybedtools surfaces the gap. The reporting workaround is a district-policy conversation.
 
 ### The lesson-by-lesson move
 

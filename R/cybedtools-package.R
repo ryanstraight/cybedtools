@@ -3,9 +3,10 @@
 #' @description
 #' \if{html}{\figure{logo.png}{options: style="float: right; margin-left: 10px; margin-bottom: 10px;" alt="cybedtools logo" width="120"}}
 #'
-#' Eight cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA,
-#' ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2)
-#' expressed in a shared `cybed:` semantic schema, with R helpers that query
+#' Eleven cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA,
+#' ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2,
+#' CyQUAL, CCSSF, OTCCF) expressed in a shared `cybed:` semantic schema,
+#' with R helpers that query
 #' across them as if they were one corpus. The package adds a comparison
 #' layer over existing frameworks rather than proposing a replacement.
 #'
@@ -23,7 +24,7 @@
 #' - The `getting-started` vignette walks through loading a graph and running
 #'   the domain helpers.
 #' - The `cross-framework-analysis` vignette shows worked findings across the
-#'   full eight-framework graph.
+#'   full eleven-framework graph.
 #' - The `adding-a-framework` vignette covers extending the package with a
 #'   new framework.
 #' - Function reference is grouped by family (JSON-LD construction, File I/O,
@@ -31,4 +32,5 @@
 #'
 #' @keywords internal
 #' @importFrom lifecycle deprecated
+#' @importFrom rlang .data
 "_PACKAGE"

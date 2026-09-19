@@ -4,8 +4,8 @@ subtitle: "Skills Framework for the Information Age"
 jurisdiction: "Global"
 framework-type: "Workforce"
 organizing-units: 147
-elements: 830
-license: "SFIA Use Policy"
+elements: 821
+license: "SFIA license"
 date: 2026-05-08
 categories: [workforce, global]
 ---
@@ -18,8 +18,8 @@ categories: [workforce, global]
 | Canonical page | [SFIA Foundation](https://sfia-online.org/en) |
 | Version | 9 |
 | Released | 2024-10 |
-| Source format | PDF, XLSX, JSON, and RDF distributions. cybedtools reads a third-party SQLite structural extract, and full skill text is fetched separately under the SFIA Use Policy |
-| License | SFIA Use Policy. Free for individuals, small employers, and accredited training providers, paid for commercial consultancies and large employers, with full skill text redistribution restricted at every tier |
+| Source format | PDF, XLSX, JSON, and RDF distributions. cybedtools reads a third-party SQLite extract of SFIA 9, which carries full skill descriptions, guidance notes, and per-level descriptors alongside the structure |
+| License | All use of SFIA is under license from the SFIA Foundation, and the protected material is the concept, content, and structure of SFIA. Free tiers cover personal use and single-country corporate internal use. Redistribution and sub-licensing are prohibited at every tier |
 | `framework_summary` slug | `sfia-9` |
 
 ## Structure in cybed: terms
@@ -79,9 +79,11 @@ categories: [workforce, global]
 | Measure | Value |
 |---|---|
 | Skills | 147 |
-| Strict elements | 830 |
-| With-examples elements | 830 |
-| Elements per skill | 5.6 |
+| Strict elements | 672 |
+| Subpoints (parsed enumeration lists) | 149 |
+| With-examples elements | 821 |
+| Elements per skill, strict | 4.6 |
+| Elements per skill, with-examples | 5.6 |
 
 The elements counted here are level descriptors (one per skill-level
 pairing where the skill is defined at that level). SFIA's seven
@@ -98,7 +100,7 @@ counted as per-skill elements.
 
 **Source**
 
-SFIA Foundation's published distribution. cybedtools reads a third-party SQLite structural extract for the skill and level scaffolding. Full skill text is fetched separately under the SFIA Use Policy.
+cybedtools does not read the SFIA Foundation's published files. It reads a third-party SQLite extract of SFIA 9, and that extract is not structure only. It carries full skill descriptions, guidance notes, and per-level descriptors, and that text reaches the local graph. None of it is published here.
 :::
 
 ::: {.provenance-card}
@@ -114,7 +116,7 @@ SFIA Foundation's published distribution. cybedtools reads a third-party SQLite 
 
 **License**
 
-Subject to the SFIA Use Policy. The package stores only structural metadata locally and does not redistribute full skill text.
+All use of SFIA is under license from the SFIA Foundation, and that license reaches structure as well as text. SFIA use in cybedtools is local analysis only. This site shows SFIA skill names and aggregate counts, and nothing more. A permission request to the SFIA Foundation is being prepared.
 :::
 
 :::
@@ -123,7 +125,7 @@ Subject to the SFIA Use Policy. The package stores only structural metadata loca
 
 - SFIA enumerates **skills and proficiency levels, not roles**. Cross-framework analyses should not equate `sfia:Skill` with `nice:WorkRole` or `dcwf:WorkRole` without explicit justification.
 - Level descriptors **only make sense relative to SFIA's seven-point level scale**. Cross-framework comparisons of "elements per organizing unit" reflect that scale, not absolute specificity.
-- The SFIA Use Policy's **licensing tier matters for redistribution**. Free for individuals, small employers, and accredited training providers. Paid licensing for commercial consultancies and large employers. Redistribution of full skill text is restricted at every tier. Researchers extending cybedtools with downstream publications should verify their use case against the current policy.
+- The SFIA license **covers structure as well as text**. The SFIA Foundation's terms define the protected material as the concept, content, and structure of SFIA, and they name a skills database containing SFIA information as a royalty-bearing product. There is no structure-versus-text carve-out. Free tiers cover personal use and single-country corporate internal use. Redistribution and sub-licensing are prohibited at every tier. Anyone staging SFIA to run this pipeline needs a license of their own, and researchers extending cybedtools with downstream publications should verify their use case against the current terms.
 
 ## Related
 

@@ -27,6 +27,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -150,6 +152,11 @@ flatten_ecompetences <- function(profiles) {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(json_path, profile_catalog, elements_long, ecompetences_long) {
+  manifest_path <- file.path(ecsf_config$staging_dir, ecsf_config$manifest_filename)
+  file_sha256 <- digest(file = json_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(manifest_path,
+                                           c(file_sha256 = file_sha256))
+
   manifest <- list(
     framework         = "ECSF",
     framework_version = ecsf_config$framework_version,
@@ -162,10 +169,10 @@ write_provenance_manifest <- function(json_path, profile_catalog, elements_long,
       xlsx_companion = ecsf_config$xlsx_filename
     ),
     retrieval = list(
-      retrieved_date = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date = retrieved_date,
       retrieved_by   = "scripts/010-ingest-ecsf.R",
       file_size_bytes = file.info(json_path)$size,
-      file_sha256    = digest(file = json_path, algo = "sha256")
+      file_sha256    = file_sha256
     ),
     extraction = list(
       profile_count          = nrow(profile_catalog),
@@ -177,8 +184,27 @@ write_provenance_manifest <- function(json_path, profile_catalog, elements_long,
         as.list()
     ),
     licensing = list(
-      source_license = "ENISA publications are typically CC BY 4.0. Verify for this artifact before toolkit release.",
-      redistribution = "Analytical derivatives safe. Source-text redistribution pending license verification."
+      source_license = paste(
+        "Report PDF: CC BY 4.0 (ENISA, 2022, ISBN 978-92-9204-584-5,",
+        "DOI 10.2824/859537). Ingested JSON and XLSX: no notice stated;",
+        "ENISA's site-wide notice authorises reproduction with acknowledgement."
+      ),
+      attribution = paste(
+        "European Union Agency for Cybersecurity (ENISA), European",
+        "Cybersecurity Skills Framework (ECSF) Role Profiles, September 2022,",
+        "ISBN 978-92-9204-584-5, DOI 10.2824/859537. (c) ENISA 2022, CC BY 4.0."
+      ),
+      redistribution = paste(
+        "The Role Profiles report PDF carries its own CC BY 4.0 notice, so",
+        "content traceable to it may be reused with credit to ENISA and an",
+        "indication of changes. The JSON and XLSX files this script reads",
+        "carry no copyright, licence or rights statement of any kind, and rest",
+        "instead on ENISA's site-wide notice: 'Reproduction of ENISA material",
+        "published on this website is authorized, provided the source is",
+        "acknowledged, unless it is stated otherwise.' ENISA's legal notice",
+        "adds that all references to the publication must contain ENISA as",
+        "its source."
+      )
     ),
     notes = list(
       ecf_cross_references = paste(
@@ -189,7 +215,6 @@ write_provenance_manifest <- function(json_path, profile_catalog, elements_long,
     )
   )
 
-  manifest_path <- file.path(ecsf_config$staging_dir, ecsf_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)
@@ -247,7 +272,7 @@ main <- function() {
   ))
 }
 
-# `%||%` fallback if dplyr/rlang isn't providing it
+# `%||%` is in base R from 4.4.0; this defines it only for older R.
 if (!exists("%||%")) {
   `%||%` <- function(a, b) if (is.null(a)) b else a
 }

@@ -1,4 +1,3 @@
-# Declare bare column-name variables used inside dplyr verbs so R CMD check
-# does not flag them as undefined globals. These are dplyr data-mask names,
-# not values from the package's namespace.
-utils::globalVariables(c("s", "o"))
+# No utils::globalVariables() allow-list: package code reaches data-mask
+# columns through the rlang `.data` pronoun, so a bare-symbol NOTE from
+# R CMD check is always a real finding.

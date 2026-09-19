@@ -25,6 +25,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -190,6 +192,11 @@ extract_all_role_sheets <- function(xlsx_path, role_sheets) {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(xlsx_path, roles_df, master_df, role_sheets) {
+  manifest_path <- file.path(dcwf_config$staging_dir, dcwf_config$manifest_filename)
+  file_sha256 <- digest(file = xlsx_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(manifest_path,
+                                           c(file_sha256 = file_sha256))
+
   manifest <- list(
     framework         = "DCWF",
     framework_version = dcwf_config$framework_version,
@@ -201,10 +208,10 @@ write_provenance_manifest <- function(xlsx_path, roles_df, master_df, role_sheet
       acquisition_note  = dcwf_config$source_note
     ),
     retrieval = list(
-      retrieved_date = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date = retrieved_date,
       retrieved_by   = "scripts/010-ingest-dcwf.R",
       file_size_bytes = file.info(xlsx_path)$size,
-      file_sha256    = digest(file = xlsx_path, algo = "sha256")
+      file_sha256    = file_sha256
     ),
     extraction = list(
       roles_count             = nrow(roles_df),
@@ -212,12 +219,20 @@ write_provenance_manifest <- function(xlsx_path, roles_df, master_df, role_sheet
       per_role_sheet_count    = length(role_sheets)
     ),
     licensing = list(
-      source_license = "US Government work, public domain",
-      redistribution = "Safe to redistribute DCWF text and derivative analysis"
+      source_license = "US Government work, not subject to US copyright (17 U.S.C. 105); no distribution statement found on the artifact",
+      redistribution = paste(
+        "A work of the US Government prepared by DoD personnel, so not",
+        "subject to copyright in the United States. The v5.1 workbook carries",
+        "no distribution statement across any of its 79 sheets, and the DoD",
+        "download pages now sit behind authentication, so no download-page",
+        "statement could be read (checked 2026-09-18). Nine work roles are",
+        "tagged '(CUI)' in the hyperlink text of the DCWF Roles index sheet;",
+        "review those sheets before any public deposit of DCWF-derived",
+        "content, and do not imply DoD endorsement."
+      )
     )
   )
 
-  manifest_path <- file.path(dcwf_config$staging_dir, dcwf_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

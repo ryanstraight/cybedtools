@@ -11,30 +11,40 @@
 frameworks:
 
   nice:
-    version: "v2 (NIST SP 800-181 Rev 1 components)"
-    version_date: "2024"
+    version: "v2.2.0 (NIST SP 800-181 Rev 1 components)"
+    version_date: "2026-04-28"
     structural_type: "role-first"
     jurisdiction: "US"
     sector: "civilian"
     specificity: "cybersecurity-specific"
     expected:
-      # Measured 2026-04-23 from the NIST CPRT v2 export:
-      # 41 work_role + 2,111 unique TKS (942 task + 631 knowledge + 538
-      # skill) + 5 category + 11 competency_area + 5,336 role-TKS
-      # associations. The "2,111" figure tracks unique statements, not
-      # the 5,336 per-role rows.
-      work_roles: [41, 41]
-      tasks: [940, 945]
-      knowledge: [629, 633]
-      skills: [536, 540]
-      unique_tks: [2109, 2113]
-      role_tks_associations: [5334, 5338]
+      # Measured 2026-08-21 from the NIST CPRT v2.2.0 export:
+      # 42 work_role + 2,211 unique TKS (962 task + 693 knowledge + 556
+      # skill) + 5 category + 11 competency_area + 5,410 role-TKS
+      # associations. The "2,211" figure tracks unique statements, not
+      # the 5,410 per-role rows. Skills = 556 includes S0768, which the
+      # JSON/CSV distribution carries with zero role memberships but the
+      # companion XLSX omits (NIST-internal contradiction); retained per
+      # the orphan-retention policy.
+      work_roles: [42, 42]
+      tasks: [960, 964]
+      knowledge: [691, 695]
+      skills: [554, 558]
+      unique_tks: [2209, 2213]
+      role_tks_associations: [5408, 5412]
       categories: [5, 5]
       competency_areas: [11, 11]
     notes: |
-      v2 CPRT export used. Earlier docs referenced "52 work roles, 2,280
-      statements". That was NICE v1. v2 consolidated to 41 work roles
-      with 2,111 unique TKS elements.
+      v2.2.0 CPRT export used (replaced the v2.0.0-era data in place,
+      2026-08; superseded raw data archived at data/raw/nice/v2.0.0/).
+      v2.2.0 added one work role (OG-WRL-017 Cybersecurity Supply Chain
+      Risk Management),
+      competency-area K/S membership relationships, and Federal-use OPM
+      codes; it removed T1648 and K0908. The Investigation (IN) category
+      description is patched at ingest via data/raw/nice/errata.csv (the
+      published v2.2.0 text is an upstream regression). Earlier docs
+      referenced "52 work roles, 2,280 statements" (NICE v1) and 41
+      roles / 2,111 TKS (v2.0.0).
 
   sfia:
     version: "SFIA 9"
@@ -44,6 +54,10 @@ frameworks:
     sector: "general-IT"
     specificity: "general-IT"
     source_extract: "jankudev/sfia-tools v0.0.1 (2025-02-05)"
+    # SFIA's terms cover the concept, content and structure of SFIA, so there is
+    # no structure-versus-text carve-out: nothing SFIA beyond aggregate counts
+    # is published.
+    public_redistribution: local_only
     expected:
       # jankudev extract as of 2025-02-05 yielded these counts.
       skills: [145, 149]
@@ -74,6 +88,10 @@ frameworks:
     sector: "higher-education"
     specificity: "cybersecurity-specific"
     framework_type: "pedagogical"
+    # All rights reserved, with permission only for development of educational
+    # materials and programs: names, counts and alignment scores are published,
+    # statement text is not.
+    public_redistribution: structure_only
     expected:
       knowledge_areas: [8, 8]
       essentials_total: [35, 42]
@@ -164,6 +182,241 @@ frameworks:
       ecf_cross_references: [50, 60]
     notes: "12 role profiles with embedded e-CF 4.0 cross-references."
 
+  cyqual:
+    version: "CyQUAL 1.2.0"
+    version_date: "2026-09-16"
+    structural_type: "role-first"
+    jurisdiction: "CZ"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    # Open data. Statement text may be published with attribution to CyQUAL
+    # and Masaryk University.
+    public_redistribution: full_with_attribution
+    expected:
+      # Exact bounds: the source is a versioned JSON open-data export whose
+      # top-level array lengths the ingestion script already asserts against
+      # the published 1.2.0 counts. Any drift means a different export, which
+      # is a human-review event, not a tolerance to absorb.
+      roles_count:                 [102, 102]
+      elements_count:              [2488, 2488]  # 1,168 tasks + 1,320 requirements
+      tasks:                       [1168, 1168]
+      requirements:                [1320, 1320]
+      competencies:                [59, 59]
+      competency_groups:           [4, 4]
+      specialization_areas:        [37, 37]
+      categories:                  [7, 7]
+      work_role_task_edges:        [1889, 1889]
+      work_role_requirement_edges: [8838, 8838]
+    notes: |
+      Czech national cybersecurity qualifications framework, published by
+      Masaryk University. Data version 1.2.0, retrieved 2026-09-16.
+      Elements are shared across work roles (as NICE TKS statements are), so
+      element nodes are built once per task/requirement and roles reference
+      them by id; the 10,727 association edges are memberships, not distinct
+      elements.
+      Orphans: 107 tasks and 50 requirements are attached to no work role.
+      They are part of the published framework and are emitted as element
+      nodes, per the orphan-retention policy applied to NICE.
+      WR091 carries zero tasks and WR092 carries zero requirements. Both are
+      published work roles imported from ECSF with malformed associations
+      upstream; both are retained as published.
+      Sub-point parsing runs when the English export is the one staged, and is
+      withheld when the Czech one is: the parser's introducer patterns are
+      English-only. On the English 1.2.0 export it yields 852 cybed:Subpoint
+      nodes over 245 of the 2,488 parents. Elements are shared, so subpoints
+      attach to the shared parent once and every role and competency that
+      references that parent extends its own element-id list from the same
+      index, as NICE does.
+      Language follows whichever export is staged (English preferred, Czech
+      fallback) and is recorded in data/raw/cyqual/provenance.yml, which also
+      lists the other staged edition with its hash. Both editions carry the
+      same nine arrays and the same codes; only the text differs, and
+      schema:inLanguage is asserted only when the staged text is not English.
+      WR092's English title is "Chief Information Security Officer (ECSF)";
+      the Czech export carried a placeholder in its place. WR091 and WR092
+      both still carry an unparsed multi-section ECSF description blob, in
+      both languages.
+      Licensing: open data, derived RDF/JSON-LD permitted by written
+      confirmation from the CyQUAL team, 2026-09-16; attribution to CyQUAL
+      and Masaryk University required.
+
+  ccssf:
+    version: "CCSSF 2022 (ITSM.00.039, Revision 1)"
+    version_date: "2023-04-19"
+    structural_type: "role-first"
+    jurisdiction: "CA"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    # Consent is implied, not affirmative, so statement text is withheld from
+    # publication: pending written confirmation from the Canadian Centre for
+    # Cyber Security; revisit when received. Structure (role titles,
+    # activity areas, competency titles, mappings) may be published.
+    public_redistribution: structure_only
+    expected:
+      # Exact bounds: the source is a fixed PDF edition whose annex structure
+      # the ingester asserts against the document's own declared counts. Any
+      # drift means a different edition, which is a human-review event, not a
+      # tolerance to absorb. Measured 2026-09-16 from ITSM.00.039 Revision 1.
+      activity_areas:             [4, 4]      # Annexes A-D
+      core_roles:                 [22, 22]    # A.1 through D.7
+      adjacent_roles:             [37, 37]    # Annex E
+      roles_count:                [59, 59]    # 22 core + 37 adjacent, both Roles
+      core_role_elements:         [1368, 1368]
+      adjacent_role_competencies: [265, 265]
+      element_node_rows:          [1222, 1222]  # 293 tasks + 510 competencies + 154 tools + 265 adjacent competencies
+      # Source-printed sub-bullets, nested under 8 colon-terminated parent
+      # bullets in the Competencies field of roles A.2, A.3, B.2, D.1 and D.7.
+      # They become cybed:Subpoint of their parent, so they leave the parent
+      # population rather than adding to it.
+      source_printed_subpoints:   [30, 30]
+      nice_crosswalk_rows:        [59, 59]
+      nice_crosswalk_ids:         [39, 39]
+      nice_crosswalk_malformed_ids: [2, 2]
+    notes: |
+      Canadian national cyber security skills framework, published by the
+      Canadian Centre for Cyber Security as ITSM.00.039. An explicit
+      adaptation of the U.S. NICE Workforce Framework for the Canadian
+      labour market. Supplied as an official PDF by the publisher's Cyber
+      Skills Development Team, 2026-09-16.
+      Two role populations, both emitted as cybed:Role: the 22 core work
+      roles detailed in Annexes A through D (identified by the document's own
+      section numbers, A.1 through D.7) and the 37 cyber adjacent roles
+      tabulated in Annex E (no source identifier; stable slugs generated from
+      the printed titles).
+      Elements are per-role, not shared: only tasks, competencies, and tools
+      and technology become element nodes. The other ten staged element types
+      (consequence of error, development pathway, other titles, related NOCs,
+      required qualifications/training/experience, future trends, functional
+      description, NICE framework reference) are role-level attributes and
+      stay in the staged tables.
+      The source prints basic/intermediate/advanced lead-in lines inside the
+      Competencies field; the ingester kept them as their own rows. The
+      assembler treats the 44 matching a fixed lead-in set as headings rather
+      than elements and carries their text as cybed:sourceSection on the rows
+      they govern, restoring the nesting the source printed.
+      A second kind of source-printed nesting: 30 Competencies rows sit under
+      8 colon-terminated parent bullets, recorded at ingest as parent_index.
+      They become cybed:Subpoint of that parent, typed and linked exactly as
+      parser-made sub-points, and the role reaches them the same way. The
+      sub-point parser is withheld from those 8 parents so it cannot split the
+      same stem a second time into fragments that duplicate what the source
+      already enumerates.
+      NICE cross-references are cited at work-role granularity only, in the
+      framework's own old-style NICE ids (OV-EXL-001), which do not match the
+      NICE v2.2.0 ids in this graph. They are attached as
+      cybed:niceCrossReference literals, never as links. 39 of the 59 roles
+      cite an id; the rest print "None". The literal carries the normalized
+      id. Two roles (B.1 "SP-ARC 002", B.3 "SP Dev-001") print a malformed id;
+      for those the literal appends " [printed as: <as printed>]" so the
+      source's typo stays visible rather than being corrected away silently.
+      Text-length soft flags are expected on element-text and adjacent-comp:
+      the source genuinely prints short runs ("None.", "VA tools",
+      "BCP/DRP").
+      Licensing: Copyright Government of Canada, used with written permission
+      of the Canadian Centre for Cyber Security, 2026-09-16, on condition
+      that ITSM.00.039 is referenced wherever the material is used.
+
+  otccf:
+    version: "OTCCF version 1.1"
+    version_date: "2021-10-08"
+    structural_type: "role-first"
+    jurisdiction: "SG"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    # Statement text (key tasks, level statements, role and TSC descriptions)
+    # may be analysed locally but must not be published on the Concordance
+    # site or in any data deposit without further permission from CSA; titles,
+    # categories, levels, and mappings may.
+    public_redistribution: structure_only
+    expected:
+      # Exact bounds: the source is a fixed versioned PDF parsed
+      # deterministically from word coordinates. Any drift means a different
+      # edition or a parser change, which is a human-review event, not a
+      # tolerance to absorb. Measured 2026-09-19 from
+      # OT-Cybersecurity-Competency-Framework_V5.pdf.
+      tracks:                   [5, 5]
+      job_roles:                [15, 15]
+      role_tracks:              [20, 20]     # many-to-many; two roles sit on two tracks
+      critical_work_functions:  [62, 62]
+      key_tasks:                [270, 270]
+      tscs:                     [30, 30]
+      skillsfuture_derived_tscs: [8, 8]
+      tsc_level_statements:     [1319, 1319]
+      range_of_application:     [23, 23]
+      element_node_rows:        [1612, 1612]  # 270 key tasks + 1,319 level statements + 23 range of application
+      role_tsc_map_rows:        [190, 190]
+      role_tsc_map_unresolved:  [0, 0]
+      role_tsc_map_variant_titles: [29, 29]   # 5 TSC titles, 29 map rows
+      role_tsc_related_pairs:   [175, 175]    # 15 pairs carry two levels
+      role_critical_core_skills_rows: [139, 139]
+      role_critical_core_skills_unresolved: [0, 0]
+      critical_core_skills:     [16, 16]      # distinct titles -> 16 units
+      role_critical_core_skill_pairs: [100, 100]
+      role_critical_core_skills_duplicate_rows: [19, 19]  # statements the source prints twice
+      # Distinct published statements, one cybed:UnitRelation node each. The
+      # staged row counts above (190, 139) are checked separately.
+      unit_relations:           [310, 310]    # 190 TSC + 120 core (139 rows less 19 repeats)
+    notes: |
+      Singapore's Operational Technology Cybersecurity Competency Framework,
+      published by the Cyber Security Agency of Singapore. The document
+      describes itself as version 1.1, effective 8 October 2021, on every page
+      footer, while the published filename carries the label V5; V5 is treated
+      as a publisher-side file revision label, not the framework version. CSA
+      has stated the OTCCF is currently being updated, so these tables should
+      be re-cut when a successor is published.
+      Two roots. The 15 job roles are cybed:Role (otccf:JobRole) and own the
+      270 key tasks. The 30 Technical Skills and Competencies are a second
+      organizing axis, not roles, and own the 1,319 level statements plus the
+      23 Range of Application statements.
+      The career map on page 4 draws 16 boxes; CISO appears in the map with no
+      skills map, so 15 of the 16 carry content.
+      Key-task-to-Critical-Work-Function nesting is derived from the
+      document's layout rather than from published identifiers: CSA prints the
+      CWF as a merged cell vertically centred over its block of tasks, and the
+      per-role centring residual is recorded in job-roles.csv as
+      max_centring_residual_pt. The CWF title is carried on each task as
+      cybed:sourceSection; no node type is invented for it.
+      8 of the 30 TSCs are marked "#Extracted from SkillsFuture ICT
+      Framework", covering 365 of the 1,319 level statements and 48 of the 190
+      role-to-TSC map edges. Those elements and unit nodes carry
+      cybed:sourceCategory = "SkillsFuture ICT Framework".
+      TSC categories are carried verbatim, including the two variant labels
+      "Analyse and Detect" and "Organisational Management"; merging them would
+      alter the published categorisation.
+      Sub-point parsing is disabled. CSA's permission is conditional on not
+      altering the intent of the published job roles, skills, and competency
+      mappings, and parser-split fragments of CSA's statements would be units
+      the package invented rather than units CSA published.
+      A text-length soft flag is expected on range-of-application: the page-57
+      cell prints three sub-lists side by side, and flattening it yields two
+      genuinely short rows.
+      Both skills maps are in the graph as of v0.3.0. The 190-row role-to-TSC
+      map and the 139 role-to-Critical-Core-Skills rows emit one
+      cybed:UnitRelation node per distinct statement, carrying the level as
+      printed, and each role carries one cybed:relatedUnit vector over both
+      maps' targets: 275 distinct role-to-target pairs. The 16 distinct Critical Core Skill
+      titles become non-role organizing units (otccf:CriticalCoreSkill) with
+      no elements. The skills themselves are SkillsFuture's, not CSA's; the
+      OTCCF prints the titles and points to SkillsFuture for the definitions,
+      so the units carry cybed:sourceCategory = "SkillsFuture Critical Core
+      Skills" and nothing more.
+      19 of the 139 Critical Core Skills rows repeat a (role, skill, level)
+      statement the source prints twice. Relation rows are deduplicated on
+      (role, target, level, label) before nodes are built, so the graph carries
+      310 relation nodes with 310 distinct IRIs: 190 from the role-to-TSC map,
+      120 from the Critical Core Skills map.
+      Five TSC titles are spelled differently in the skills maps than in the
+      TSC catalogue, across 29 of the 190 map rows. The variant spelling stays
+      in role-tsc-map.csv$tsc_title_as_listed; the relation resolves on the
+      slug, so no variant is lost and none reaches the graph as a second
+      title.
+      Licensing: Copyright Cyber Security Agency of Singapore. CSA granted
+      written permission 2026-09-15 to reference and integrate the OTCCF's
+      structure for non-commercial academic and research use, on condition of
+      a verbatim attribution string and that ingestion scripts and structural
+      mappings do not misrepresent or alter the intent of the framework as
+      published.
+
 # Graph invariants describe the post-expansion counts after the v0.1.1
 # sub-point parser runs over each framework's elementText literals. These
 # differ from the per-framework source-data invariants above, which
@@ -192,16 +445,41 @@ frameworks:
 # meaningful Subpoint inflation; Cyber.org K-12 and CSTA route their
 # parsed content to Examples (not counted in strict).
 
+# Re-measured 2026-08-21 from the rebuilt combined graph. Two changes since
+# the previous measurement: (1) the 2026-08-14 DCWF fixes (parseable
+# statement text + the "(e.g., ...)" introducer fix) lifted DCWF's Subpoint
+# count from 0 to ~1,100, which the previous combined totals predated; and
+# (2) NICE v2.2.0 added one work role and 11 competency-area OrganizingUnits
+# (role_count 127 -> 128, and +100 NICE parent elements).
+# CyQUAL joined the pipeline 2026-09-18, adding 161 organizing units (102
+# Role-typed work roles + 59 competencies), 102 roles, and 3,340 elements
+# (2,488 parents + 852 Subpoints; the parser was enabled once the English
+# export was staged).
+# CCSSF joined 2026-09-18, adding 59 organizing units (all Role-typed: 22 core
+# work roles + 37 Annex E adjacent roles) and 1,353 elements (1,178 parents +
+# 175 Subpoints).
+# OTCCF joined 2026-09-19, adding 61 organizing units (15 Role-typed job roles +
+# 30 non-role Technical Skills and Competencies + 16 non-role Critical Core
+# Skills) and 1,612 elements, all parents: the sub-point parser is disabled for
+# OTCCF on fidelity grounds. OTCCF also contributes the graph's first 310
+# cybed:UnitRelation nodes.
+# CCSSF's 30 source-printed sub-bullets moved from the parent population to
+# cybed:Subpoint in the same pass, which is why its parent count drops by 30
+# and its strict total by 8.
 graph_invariants:
   combined:
-    organizing_unit_count: [428, 432]   # all 8 frameworks' parents
-    role_count:            [127, 127]   # NICE 41 + DCWF 74 + ECSF 12 (workforce only)
-    total_elements_strict: [6500, 6550] # parents + Subpoints across all 8
-    total_elements_full:   [7000, 7080] # adds Examples (Cyber.org K-12 ~377 + CSTA ~114)
-    example_count:         [485, 500]   # ~377 Cyber.org K-12 + ~114 CSTA
-    framework_count:       [8, 8]
+    organizing_unit_count: [719, 723]   # all 11 frameworks' parents (+61 from OTCCF)
+    role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
+    total_elements_strict: [14096, 14131] # parents + Subpoints across all 11
+    total_elements_full:   [14582, 14617] # adds Examples (Cyber.org K-12 ~369 + CSTA ~114)
+    example_count:         [478, 492]   # ~369 Cyber.org K-12 + ~114 CSTA
+    # cybed:UnitRelation nodes. OTCCF is the only framework publishing
+    # qualified unit-to-unit statements so far.
+    unit_relation_count:   [310, 310]   # OTCCF 190 TSC + 120 distinct core-skill statements
+    framework_count:       [11, 11]
   per_framework:
-    # All eight frameworks run with the parser enabled. The 2026-05-08
+    # Ten of the eleven frameworks run with the parser enabled; OTCCF runs
+    # with it off (see its parser_enabled: false below). The 2026-05-08
     # parser refinement (sentence-boundary stop + connective filter)
     # brought SFIA and CSEC2017 from initial 30%+ false-positive rates to
     # 0%. The v0.2.0 vocabulary additionally splits parsed content into
@@ -209,20 +487,25 @@ graph_invariants:
     # (pedagogical scaffolding). Cyber.org K-12 and CSTA Clarification
     # statements route to Example; everywhere else routes to Subpoint.
     nice-v2:
-      parent_elements:        [2109, 2113]
-      subpoint_elements:      [3, 6]
+      # v2.2.0 (2026-08-21): 2,211 parents (962 T + 693 K + 556 S incl.
+      # the S0768 orphan) + 14 Subpoints from the revised statement text.
+      parent_elements:        [2209, 2213]
+      subpoint_elements:      [12, 16]
       example_elements:       [0, 0]
-      total_elements_strict:  [2113, 2117]
-      total_elements_full:    [2113, 2117]
+      total_elements_strict:  [2221, 2229]
+      total_elements_full:    [2221, 2229]
       strict_inflation:       [0.99, 1.01]
       parser_enabled:         true
     dcwf-v5.1:
+      # Subpoints re-measured 2026-08-21: the 2026-08-14 text-column and
+      # "(e.g., ...)" introducer fixes made DCWF prose parseable, lifting
+      # Subpoints from 0 to ~1,100.
       parent_elements:        [2900, 3000]
-      subpoint_elements:      [0, 0]
+      subpoint_elements:      [1095, 1120]
       example_elements:       [0, 0]
-      total_elements_strict:  [2900, 3000]
-      total_elements_full:    [2900, 3000]
-      strict_inflation:       [0.99, 1.01]
+      total_elements_strict:  [4000, 4110]
+      total_elements_full:    [4000, 4110]
+      strict_inflation:       [1.30, 1.45]
       parser_enabled:         true
     ecsf-v1:
       parent_elements:        [360, 390]
@@ -233,24 +516,28 @@ graph_invariants:
       strict_inflation:       [1.00, 1.10]
       parser_enabled:         true
     sfia-9:
+      # Subpoint band widened downward 2026-08-21: measured 149 after the
+      # 2026-08-14 parser refinements (previously 150-165).
       parent_elements:        [670, 675]
-      subpoint_elements:      [150, 165]
+      subpoint_elements:      [145, 165]
       example_elements:       [0, 0]
       total_elements_strict:  [820, 840]
       total_elements_full:    [820, 840]
       strict_inflation:       [1.20, 1.30]
       parser_enabled:         true
     cyberorg-k12-v1.0:
+      # Example band widened downward 2026-08-21: measured 369 after the
+      # 2026-08-14 parser refinements (previously 375-380).
       parent_elements:        [118, 128]
       subpoint_elements:      [0, 0]
-      example_elements:       [375, 380]
+      example_elements:       [365, 380]
       total_elements_strict:  [118, 128]
-      total_elements_full:    [495, 510]
+      total_elements_full:    [488, 510]
       strict_inflation:       [0.99, 1.01]
       parser_enabled:         true
     csta-2017:
       parent_elements:        [118, 122]
-      subpoint_elements:      [18, 22]   # from "such as" patterns in standard column
+      subpoint_elements:      [18, 26]   # from "such as" patterns in standard column; measured 24 on 2026-08-21
       example_elements:       [110, 118] # from clarification column extraction
       total_elements_strict:  [136, 144]
       total_elements_full:    [246, 262]
@@ -264,6 +551,44 @@ graph_invariants:
       total_elements_full:    [38, 45]
       strict_inflation:       [1.00, 1.15]
       parser_enabled:         true
+    cyqual-v1.2.0:
+      # Parents are 1,168 tasks + 1,320 requirements, each emitted once and
+      # referenced by every role that uses it. The parser runs on the English
+      # export (measured 852 Subpoints over 245 parents, 2026-09-18); the
+      # subpoints attach to the shared parent, not per role.
+      parent_elements:        [2488, 2488]
+      subpoint_elements:      [840, 865]
+      example_elements:       [0, 0]
+      total_elements_strict:  [3328, 3353]
+      total_elements_full:    [3328, 3353]
+      strict_inflation:       [1.33, 1.35]
+      parser_enabled:         true
+    ccssf-2022:
+      # Parents are exact: 293 tasks + 466 competencies (510 staged rows less
+      # the 44 lead-in headings the assembler folds into cybed:sourceSection)
+      # + 154 tools and technology + 265 Annex E competencies = 1,178, less
+      # the 30 source-printed sub-bullets that became Subpoints = 1,148.
+      parent_elements:        [1148, 1148]
+      # 30 source-printed Subpoints plus the parser's output. The parser is
+      # withheld from the 8 parents that carry source-printed children, which
+      # removed 8 parser Subpoints it used to split off those same stems.
+      subpoint_elements:      [190, 200]
+      example_elements:       [0, 0]
+      total_elements_strict:  [1338, 1348]
+      total_elements_full:    [1338, 1348]
+      strict_inflation:       [1.13, 1.19]
+      parser_enabled:         true
+    otccf-v1.1:
+      # Parser disabled for OTCCF, so parents are the whole element
+      # population: 270 key tasks + 1,319 TSC level statements + 23 Range of
+      # Application statements.
+      parent_elements:        [1612, 1612]
+      subpoint_elements:      [0, 0]
+      example_elements:       [0, 0]
+      total_elements_strict:  [1612, 1612]
+      total_elements_full:    [1612, 1612]
+      strict_inflation:       [1.00, 1.00]
+      parser_enabled:         false
     digcomp-2.2:
       parent_elements:        [18, 21]
       subpoint_elements:      [0, 0]

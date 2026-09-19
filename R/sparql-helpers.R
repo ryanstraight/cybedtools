@@ -13,6 +13,18 @@
 # Functions in this file implement that discipline. Domain-level helpers
 # (framework_metadata, role_framework_bindings, element_framework_bindings)
 # call multiple single-BGP queries and stitch the results in R.
+#
+# JOIN HAZARD, confirmed 2026-08-14 stress test: every domain helper below
+# shares the `framework` and/or `framework_name` columns. An unqualified
+# dplyr::inner_join() between any two of them (no `by =` argument) silently
+# joins on those shared columns instead of erroring -- dplyr does emit a
+# message + "many-to-many relationship" warning, not an error, so a script
+# that doesn't inspect stderr gets a plausible-looking but massively
+# inflated garbage result (confirmed: joining organizing_unit_framework_
+# bindings() [428 rows] to element_framework_bindings() [7,435 rows]
+# without an explicit `by =` produces 521,270 rows, ~36x the correct
+# 14,583-row parent-child join). Always pass an explicit `by =` when
+# joining two of these tibbles together.
 
 #' Default PREFIX declarations used by every helper query
 #'
@@ -109,6 +121,12 @@ sparql_subjects <- function(rdf, predicate, object) {
 #' @return A tibble with columns `framework`, `name`, `jurisdiction`,
 #'   `sector`, `specificity`. One row per framework typed as
 #'   `cybed:Framework`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -124,11 +142,23 @@ framework_metadata <- function(rdf) {
   specs   <- sparql_pairs(rdf, "cybed:specificity")
 
   fw |>
-    dplyr::transmute(framework = s) |>
-    dplyr::left_join(dplyr::rename(names_,  name         = o), by = c("framework" = "s")) |>
-    dplyr::left_join(dplyr::rename(juris,   jurisdiction = o), by = c("framework" = "s")) |>
-    dplyr::left_join(dplyr::rename(sectors, sector       = o), by = c("framework" = "s")) |>
-    dplyr::left_join(dplyr::rename(specs,   specificity  = o), by = c("framework" = "s"))
+    dplyr::transmute(framework = .data$s) |>
+    dplyr::left_join(
+      dplyr::rename(names_, name = "o"),
+      by = c("framework" = "s")
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(juris, jurisdiction = "o"),
+      by = c("framework" = "s")
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(sectors, sector = "o"),
+      by = c("framework" = "s")
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(specs, specificity = "o"),
+      by = c("framework" = "s")
+    )
 }
 
 #' Domain helper: role-to-framework bindings with framework name attached
@@ -139,12 +169,13 @@ framework_metadata <- function(rdf) {
 #' One row per (role, framework) pair where the role is typed
 #' `cybed:Role` and its `partOf` target is typed `cybed:Framework`. As of
 #' v0.2.0, `cybed:Role` is reserved for workforce frameworks (NICE work
-#' roles, DCWF work roles, ENISA ECSF profiles); SFIA skills, Cyber.org
+#' roles, DCWF work roles, ENISA ECSF profiles, CyQUAL work roles, CCSSF
+#' work roles, OTCCF job roles); SFIA skills, Cyber.org
 #' K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 #' Knowledge Areas, and DigComp competence areas are not roles and are
 #' not returned by this helper. Use [organizing_unit_framework_bindings()]
 #' for the cross-framework "top-level enumerated unit" cut that includes
-#' all eight frameworks.
+#' all eleven frameworks.
 #'
 #' Roles without a `cybed:partOf` triple, or whose partOf target is not
 #' typed `cybed:Framework`, are excluded.
@@ -152,6 +183,12 @@ framework_metadata <- function(rdf) {
 #' @param rdf An rdf object.
 #' @return A tibble with columns `role`, `role_name`, `framework`,
 #'   `framework_name`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -162,16 +199,29 @@ framework_metadata <- function(rdf) {
 role_framework_bindings <- function(rdf) {
   roles      <- sparql_subjects(rdf, "a", "cybed:Role")
   fws        <- sparql_subjects(rdf, "a", "cybed:Framework")
+  # One schema:name scan serves both the role and the framework labels.
   role_names <- sparql_pairs(rdf, "schema:name")
   partof     <- sparql_pairs(rdf, "cybed:partOf")
-  fw_names   <- sparql_pairs(rdf, "schema:name")
+  fw_names   <- role_names
 
   roles |>
-    dplyr::transmute(role = s) |>
-    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("role" = "s")) |>
-    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
-    dplyr::left_join(dplyr::rename(role_names, role_name = o),     by = c("role" = "s")) |>
-    dplyr::left_join(dplyr::rename(fw_names,   framework_name = o), by = c("framework" = "s"))
+    dplyr::transmute(role = .data$s) |>
+    dplyr::inner_join(
+      dplyr::rename(partof, framework = "o"),
+      by = c("role" = "s")
+    ) |>
+    dplyr::semi_join(
+      dplyr::rename(fws, framework = "s"),
+      by = "framework"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(role_names, role_name = "o"),
+      by = c("role" = "s")
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(fw_names, framework_name = "o"),
+      by = c("framework" = "s")
+    )
 }
 
 #' Domain helper: organizing-unit-to-framework bindings with framework name attached
@@ -179,7 +229,7 @@ role_framework_bindings <- function(rdf) {
 #' @description
 #' `r lifecycle::badge("stable")`
 #'
-#' One row per (organizing unit, framework) pair across all eight
+#' One row per (organizing unit, framework) pair across all eleven
 #' frameworks. Queries on the cross-framework abstract type
 #' `cybed:OrganizingUnit`, which every framework's top-level enumerated
 #' unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
@@ -194,6 +244,15 @@ role_framework_bindings <- function(rdf) {
 #' @param rdf An rdf object.
 #' @return A tibble with columns `unit`, `unit_name`, `framework`,
 #'   `framework_name`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
+#'   Confirmed 2026-08-14: a helper written as `function(framework, ...)
+#'   filter(units, str_detect(framework_name, framework))` silently
+#'   returned zero rows every time.
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -204,16 +263,29 @@ role_framework_bindings <- function(rdf) {
 organizing_unit_framework_bindings <- function(rdf) {
   units      <- sparql_subjects(rdf, "a", "cybed:OrganizingUnit")
   fws        <- sparql_subjects(rdf, "a", "cybed:Framework")
+  # One schema:name scan serves both the unit and the framework labels.
   unit_names <- sparql_pairs(rdf, "schema:name")
   partof     <- sparql_pairs(rdf, "cybed:partOf")
-  fw_names   <- sparql_pairs(rdf, "schema:name")
+  fw_names   <- unit_names
 
   units |>
-    dplyr::transmute(unit = s) |>
-    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("unit" = "s")) |>
-    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
-    dplyr::left_join(dplyr::rename(unit_names, unit_name = o),       by = c("unit" = "s")) |>
-    dplyr::left_join(dplyr::rename(fw_names,   framework_name = o),  by = c("framework" = "s"))
+    dplyr::transmute(unit = .data$s) |>
+    dplyr::inner_join(
+      dplyr::rename(partof, framework = "o"),
+      by = c("unit" = "s")
+    ) |>
+    dplyr::semi_join(
+      dplyr::rename(fws, framework = "s"),
+      by = "framework"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(unit_names, unit_name = "o"),
+      by = c("unit" = "s")
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(fw_names, framework_name = "o"),
+      by = c("framework" = "s")
+    )
 }
 
 #' Domain helper: element-to-framework bindings with framework name attached
@@ -233,6 +305,12 @@ organizing_unit_framework_bindings <- function(rdf) {
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `element`, `framework`, `framework_name`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -247,10 +325,19 @@ element_framework_bindings <- function(rdf) {
   fw_names <- sparql_pairs(rdf, "schema:name")
 
   elements |>
-    dplyr::transmute(element = s) |>
-    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("element" = "s")) |>
-    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
-    dplyr::left_join(dplyr::rename(fw_names, framework_name = o), by = c("framework" = "s"))
+    dplyr::transmute(element = .data$s) |>
+    dplyr::inner_join(
+      dplyr::rename(partof, framework = "o"),
+      by = c("element" = "s")
+    ) |>
+    dplyr::semi_join(
+      dplyr::rename(fws, framework = "s"),
+      by = "framework"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(fw_names, framework_name = "o"),
+      by = c("framework" = "s")
+    )
 }
 
 #' Domain helper: example-to-framework bindings with framework name attached
@@ -267,11 +354,18 @@ element_framework_bindings <- function(rdf) {
 #' Examples are a strict subset of the elements returned by
 #' [element_framework_bindings()]. Use this helper when reporting on the
 #' Subpoint-vs-Example split for a framework, or when constructing a
-#' "strict" element count (parent + Subpoint, no Example) by subtracting
-#' Example counts from total element counts.
+#' "strict" native element count by subtracting both Example counts (this
+#' helper) and Subpoint counts ([subpoint_framework_bindings()]) from the
+#' total element count.
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `example`, `framework`, `framework_name`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -286,18 +380,163 @@ example_framework_bindings <- function(rdf) {
   fw_names <- sparql_pairs(rdf, "schema:name")
 
   examples |>
-    dplyr::transmute(example = s) |>
-    dplyr::inner_join(dplyr::rename(partof, framework = o), by = c("example" = "s")) |>
-    dplyr::semi_join(dplyr::rename(fws, framework = s), by = "framework") |>
-    dplyr::left_join(dplyr::rename(fw_names, framework_name = o), by = c("framework" = "s"))
+    dplyr::transmute(example = .data$s) |>
+    dplyr::inner_join(
+      dplyr::rename(partof, framework = "o"),
+      by = c("example" = "s")
+    ) |>
+    dplyr::semi_join(
+      dplyr::rename(fws, framework = "s"),
+      by = "framework"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(fw_names, framework_name = "o"),
+      by = c("framework" = "s")
+    )
 }
 
-#' Domain helper: role-to-element bindings
+#' Domain helper: subpoint-to-framework bindings with framework name attached
 #'
 #' @description
 #' `r lifecycle::badge("stable")`
 #'
-#' One row per (role, element) pair derived from `cybed:hasElement` triples.
+#' One row per (subpoint, framework) pair where the subpoint is typed
+#' `cybed:Subpoint` (the generic enumeration-list-splitting subtype --
+#' "such as X, Y, and Z" / "including A and B" -- parsed out of a single
+#' native unit's text at JSON-LD assembly time, applied uniformly across
+#' all eleven frameworks) and its `partOf` target is typed
+#' `cybed:Framework`. Subpoints without a valid framework partOf are
+#' excluded.
+#'
+#' Subpoints are a strict subset of the elements returned by
+#' [element_framework_bindings()], and a distinct subtype from
+#' [example_framework_bindings()]'s `cybed:Example` (the Cyber.org K-12 /
+#' CSTA Clarification-statement pedagogical-scaffolding subtype
+#' specifically). Use this helper together with
+#' [example_framework_bindings()] when constructing a "strict" native
+#' element count by subtracting both Subpoint and Example counts from the
+#' total element count -- see `framework_summary`'s `element_count_strict`
+#' column, which does exactly this.
+#'
+#' @param rdf An rdf object.
+#' @return A tibble with columns `subpoint`, `framework`, `framework_name`.
+#' @note The `framework` column holds the framework's full URI. Avoid
+#'   naming a local variable or function parameter `framework` in code
+#'   that filters or mutates this tibble -- dplyr's data masking silently
+#'   resolves a bare `framework` reference inside `filter()`/`mutate()`
+#'   to this COLUMN rather than your same-named variable, with no error
+#'   and no warning, only a wrong (often zero-row) result surfacing later.
+#' @family SPARQL helpers
+#' @export
+#' @examples
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' subpoint_framework_bindings(rdf)
+#' }
+subpoint_framework_bindings <- function(rdf) {
+  subpoints <- sparql_subjects(rdf, "a", "cybed:Subpoint")
+  fws       <- sparql_subjects(rdf, "a", "cybed:Framework")
+  partof    <- sparql_pairs(rdf, "cybed:partOf")
+  fw_names  <- sparql_pairs(rdf, "schema:name")
+
+  subpoints |>
+    dplyr::transmute(subpoint = .data$s) |>
+    dplyr::inner_join(
+      dplyr::rename(partof, framework = "o"),
+      by = c("subpoint" = "s")
+    ) |>
+    dplyr::semi_join(
+      dplyr::rename(fws, framework = "s"),
+      by = "framework"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(fw_names, framework_name = "o"),
+      by = c("framework" = "s")
+    )
+}
+
+#' Domain helper: statement text keyed by element
+#'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
+#' One row per element that carries a `cybed:elementText` literal, from
+#' the single basic graph pattern `sparql_pairs(rdf, "cybed:elementText")`
+#' renamed from `s`/`o`. This is the statement text itself -- the task,
+#' knowledge, skill, competency, or standard wording as the framework
+#' publishes it.
+#'
+#' @details
+#' Nothing is filtered, normalised, or de-duplicated beyond what the graph
+#' holds. Elements without a `cybed:elementText` triple simply do not
+#' appear, and an element carrying more than one `cybed:elementText`
+#' literal yields one row per literal, so `element` is not guaranteed
+#' unique. A graph with no `cybed:elementText` triples at all returns a
+#' zero-row tibble with the same two columns.
+#'
+#' Sub-points and examples are elements too, and they carry their own
+#' text: a `cybed:Subpoint` holds the enumerated fragment lifted out of
+#' its parent's wording, and a `cybed:Example` holds the pedagogical
+#' "Clarification statement:" content. A caller who wants parent
+#' statements only should anti-join both child sets away, matching each
+#' helper's own identifier column against `element`:
+#' [subpoint_framework_bindings()] returns `subpoint`, and
+#' [example_framework_bindings()] returns `example`.
+#'
+#' @param rdf An rdf object.
+#' @return A tibble with columns `element` (character, the element's full
+#'   URI) and `text` (character, the statement literal).
+#' @family SPARQL helpers
+#' @seealso [element_framework_bindings()] to attach framework
+#'   attribution, [subpoint_framework_bindings()] and
+#'   [example_framework_bindings()] to separate child elements from
+#'   parent statements.
+#' @export
+#' @examples
+#' rdf <- make_demo_graph()
+#' # The demo graph carries no cybed:elementText, so this is a zero-row
+#' # tibble with the columns `element` and `text`.
+#' element_text(rdf)
+#'
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' texts <- element_text(rdf)
+#'
+#' # Parent statements only: drop sub-points and examples.
+#' texts |>
+#'   dplyr::anti_join(
+#'     dplyr::rename(subpoint_framework_bindings(rdf), element = "subpoint"),
+#'     by = "element"
+#'   ) |>
+#'   dplyr::anti_join(
+#'     dplyr::rename(example_framework_bindings(rdf), element = "example"),
+#'     by = "element"
+#'   )
+#' }
+element_text <- function(rdf) {
+  texts <- sparql_pairs(rdf, "cybed:elementText")
+  dplyr::transmute(texts, element = .data$s, text = .data$o)
+}
+
+#' Domain helper: organizing-unit-to-element bindings
+#'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
+#' One row per (parent, element) pair derived from `cybed:hasElement`
+#' triples. Despite the "role" naming, the `role` column is NOT restricted
+#' to `cybed:Role` subjects -- `cybed:hasElement` is the universal parent-
+#' child link used across all eleven frameworks, so this returns element
+#' bindings for every `cybed:OrganizingUnit` (SFIA skills, Cyber.org K-12
+#' and CSTA standards, etc.), not just NICE/DCWF/ECSF work roles. Confirmed
+#' 2026-08-14 stress test: of 428 distinct values in the `role` column,
+#' only 127 (30%) are actual `cybed:Role` subjects. Low practical risk when
+#' immediately joined against [role_framework_bindings()] or
+#' [organizing_unit_framework_bindings()] (the mismatches drop out), but a
+#' standalone aggregate over this tibble's `role` column (e.g. "average
+#' elements per role") will silently include non-role parents. Filter to
+#' `cybed:Role` first via [role_framework_bindings()] if that distinction
+#' matters for your analysis.
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `role`, `element`.
@@ -310,5 +549,5 @@ example_framework_bindings <- function(rdf) {
 #' }
 role_element_bindings <- function(rdf) {
   has_element <- sparql_pairs(rdf, "cybed:hasElement")
-  dplyr::transmute(has_element, role = s, element = o)
+  dplyr::transmute(has_element, role = .data$s, element = .data$o)
 }

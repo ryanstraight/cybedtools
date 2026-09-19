@@ -22,15 +22,26 @@ The R scripts, Quarto configurations, SCSS, JavaScript, and SVG assets that buil
 
 ## Framework source data (per-framework upstream terms)
 
-The cybersecurity workforce and learning frameworks displayed on this site retain their upstream licenses:
+The cybersecurity workforce and learning frameworks displayed on this site retain their upstream licenses. Full detail, including every quoted grant, is in the package's [LICENSING.md](https://github.com/ryanstraight/cybedtools/blob/main/LICENSING.md).
 
-- **NICE Framework v2** and **DCWF v5.1**: US public domain (works of the United States Government)
-- **ENISA ECSF v1**: ENISA's re-use notice
-- **SFIA 9**: SFIA Use Policy (free for individuals, small employers, and accredited training providers; paid for commercial consultancies and large employers; full skill text restricted at every tier)
-- **Cyber.org K-12 v1.0**: Creative Commons BY-NC 4.0
-- **CSTA K-12 CS Standards (Rev 2017)**: Creative Commons BY-NC-SA 4.0
-- **ACM/IEEE CSEC2017**: ACM/IEEE educational-use terms
-- **DigComp 2.2**: European Commission re-use terms
+- **NICE Framework v2**: a work of the United States Government, not subject to copyright in the United States under 17 U.S.C. 105. NIST reserves foreign rights and grants them back, giving the public a non-exclusive, perpetual, paid-up, royalty-free, worldwide right to reprint the work in all formats and in derivative works.
+- **DCWF v5.1**: a work of the United States Government prepared by DoD personnel, so not subject to copyright in the United States under 17 U.S.C. 105. The v5.1 workbook carries no distribution statement, so nothing in the artifact either grants or restricts distribution.
+- **ENISA ECSF v1**: the Role Profiles report PDF is CC BY 4.0 by its own notice. The JSON and XLSX that cybedtools ingests carry no notice of any kind, and rest instead on ENISA's site-wide notice, which authorises reproduction of ENISA material provided the source is acknowledged.
+- **SFIA 9**: all use of SFIA is under licence from the SFIA Foundation, and the protected material is the concept, content and structure of SFIA. Redistribution and sub-licensing are prohibited at every tier. cybedtools uses SFIA for local analysis only, and this site shows SFIA skill names and aggregate counts and nothing more. A permission request to the SFIA Foundation is being prepared.
+- **Cyber.org K-12 v1.0**: Creative Commons BY-NC 4.0, attribution and non-commercial use.
+- **CSTA K-12 CS Standards (Rev 2017)**: Creative Commons BY-NC-SA 4.0, attribution, non-commercial use and share-alike. The ingested workbook carries no licence statement, so the label is read from CSTA's publication page for the 2017 edition.
+- **DigComp 2.2**: Creative Commons BY 4.0, by the source PDF's own imprint page. The prescribed citation is: Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415.
+- **ACM/IEEE CSEC2017**: copyright 2017 by ACM, IEEE, AIS, IFIP, all rights reserved, with permission granted only "to use these curricular guidelines for the development of educational materials and programs". This site shows Knowledge Area names, counts and alignment scores, and no statement text. A permission request to ACM is being prepared.
+
+## Frameworks included by steward permission
+
+Three frameworks are here because their stewards gave written permission. That permission was given to cybedtools and does not pass to you.
+
+- **CyQUAL 1.2.0**: CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, https://platform.cyqual.cz/.
+- **CCSSF 2022**: Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission.
+- **OTCCF v1.1**: Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/>
+
+CSA's permission covers the OTCCF's structure for non-commercial, academic and research use, and this site does not reproduce OTCCF statement text.
 
 Each framework's per-page provenance section names its license. Truncated text fragments shown in the searchable lookup widgets fall within each framework's terms as academic illustration; this site does not redistribute full framework source text.
 

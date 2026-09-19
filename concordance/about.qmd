@@ -50,11 +50,11 @@ The package depends on `rdflib`, `jsonlite`, `dplyr`, `purrr`, and `tibble`. See
 ![](assets/branding/cybedtools-hex-slate.svg){width=80 fig-alt="cybedtools R package hex sticker" .cite-mark}
 :::
 
-If your work references the methodology, the R package, or any element-level analysis behind the figures on this site, cite the package. The 0.2.0 version, for example:
+If your work references the methodology, the R package, or any element-level analysis behind the figures on this site, cite the package. The 0.3.0 version, for example:
 
 ```
 Straight, R. (2026). cybedtools: Comparison and querying of cybersecurity
-workforce and learning frameworks. R package version 0.2.0.
+workforce and learning frameworks. R package version 0.3.0.
 https://doi.org/10.5281/zenodo.20076116
 ```
 
@@ -87,6 +87,14 @@ The frameworks displayed on this site are the work of their respective authoring
 - The Computer Science Teachers Association for the K-12 CS Standards (Rev 2017).
 - The ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8 Joint Task Force for CSEC2017.
 - Vuorikari, Kluzer, and Punie (Joint Research Centre, European Commission) for DigComp 2.2.
+
+Three frameworks are here because their stewards gave written permission, and each asked to be credited in a particular way.
+
+- CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, <https://platform.cyqual.cz/>. Thanks to the CyQUAL team for confirming the open-data terms and for repairing the export so it could be used.
+- Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission. Thanks to the Centre's Cyber Skills Development Team for supplying the full framework with its annexes.
+- Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/
+
+CSA's permission covers the OTCCF's structure, for non-commercial, academic and research use. This site shows OTCCF roles, skills, levels, and mappings, and does not reproduce its statement text. Terms for all three are in the package's [LICENSING](https://github.com/ryanstraight/cybedtools/blob/main/LICENSING.md) file.
 
 ## AI disclosure
 

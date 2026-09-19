@@ -42,6 +42,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 csec_config <- list(
   framework_version = "CSEC2017 Curricular Guidelines v1.0",
   version_date      = "2017-12-31",
@@ -51,7 +53,7 @@ csec_config <- list(
   staging_dir       = here("data", "raw", "csec2017"),
   tables_subdir     = "tables",
   manifest_filename = "provenance.yml",
-  license           = "Copyright 2017 ACM/IEEE/AIS/IFIP. Permission granted for educational development."
+  license           = "Copyright 2017 ACM/IEEE/AIS/IFIP, all rights reserved; permission granted only to use these curricular guidelines for the development of educational materials and programs; other use requires specific permission"
 )
 
 # The 8 Knowledge Areas are a closed vocabulary. Confirmed against PDF.
@@ -147,6 +149,16 @@ extract_essentials <- function(text_file_path) {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(pdf_path, text_path, kas, essentials) {
+  manifest_path <- file.path(csec_config$staging_dir, csec_config$manifest_filename)
+  pdf_sha256 <- if (file.exists(pdf_path)) {
+    digest(file = pdf_path, algo = "sha256")
+  } else {
+    NA_character_
+  }
+  text_sha256 <- digest(file = text_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(
+    manifest_path, c(pdf_sha256 = pdf_sha256, text_sha256 = text_sha256))
+
   manifest <- list(
     framework         = "CSEC2017",
     framework_version = csec_config$framework_version,
@@ -159,11 +171,11 @@ write_provenance_manifest <- function(pdf_path, text_path, kas, essentials) {
       conversion_tool = "markitdown MCP (PDF -> markdown)"
     ),
     retrieval = list(
-      retrieved_date  = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date  = retrieved_date,
       retrieved_by    = "scripts/010-ingest-csec2017.R",
       pdf_size_bytes  = if (file.exists(pdf_path)) file.info(pdf_path)$size else NA_integer_,
-      pdf_sha256      = if (file.exists(pdf_path)) digest(file = pdf_path, algo = "sha256") else NA_character_,
-      text_sha256     = digest(file = text_path, algo = "sha256")
+      pdf_sha256      = pdf_sha256,
+      text_sha256     = text_sha256
     ),
     extraction = list(
       knowledge_areas     = nrow(kas),
@@ -174,10 +186,15 @@ write_provenance_manifest <- function(pdf_path, text_path, kas, essentials) {
     licensing = list(
       source_license = csec_config$license,
       redistribution_note = paste(
-        "ACM/IEEE/AIS/IFIP copyright. Permission granted for educational",
-        "development. Analytical derivatives generally publishable with",
-        "attribution. Request permission before redistributing source text",
-        "in a commercial offering."
+        "The source PDF's copyright page reads 'Copyright (c) 2017 by ACM,",
+        "IEEE, AIS, IFIP / ALL RIGHTS RESERVED' and grants permission only",
+        "'to use these curricular guidelines for the development of",
+        "educational materials and programs. Other use requires specific",
+        "permission.' cybedtools publishes CSEC2017 knowledge-area names,",
+        "counts and alignment scores, and no statement text. A permission",
+        "request to ACM (permissions@acm.org) covering machine-readable",
+        "derivatives is being prepared. ISBN 978-1-4503-5278-9,",
+        "DOI 10.1145/3184594."
       )
     ),
     notes = list(
@@ -191,7 +208,6 @@ write_provenance_manifest <- function(pdf_path, text_path, kas, essentials) {
     )
   )
 
-  manifest_path <- file.path(csec_config$staging_dir, csec_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

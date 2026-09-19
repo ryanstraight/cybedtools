@@ -44,7 +44,7 @@ runner_config <- list(
 # and adding an entry below.
 #
 # Under v0.2.0 the cross-framework cuts (q10, q11, q15) target
-# cybed:OrganizingUnit so all eight frameworks contribute. The
+# cybed:OrganizingUnit so every framework contributes. The
 # workforce-restricted variants (q10b) target cybed:Role and return only
 # NICE / DCWF / ECSF. The strict element count (q11) excludes
 # cybed:Example instances; the inclusive variant (q11b) includes them.
@@ -133,7 +133,7 @@ analyses <- list(
   ),
   list(
     query_id    = "q15-largest-organizing-units",
-    description = "Top 20 organizing units by element count across all eight frameworks (cross-framework).",
+    description = "Top 20 organizing units by element count across all frameworks (cross-framework).",
     fn = function(rdf) {
       reb <- role_element_bindings(rdf)
       ofb <- organizing_unit_framework_bindings(rdf)

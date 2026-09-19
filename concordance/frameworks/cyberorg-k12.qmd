@@ -4,7 +4,7 @@ subtitle: "K-12 Cybersecurity Learning Standards"
 jurisdiction: "US"
 framework-type: "Pedagogy"
 organizing-units: 116
-elements: 500
+elements: 492
 license: "CC BY-NC 4.0"
 date: 2026-05-08
 categories: [pedagogy, us]
@@ -93,10 +93,10 @@ categories: [pedagogy, us]
 |---|---|
 | Standard groups | 116 |
 | Strict elements (numbered standards) | 123 |
-| With-examples elements | 500 |
-| Examples (clarification statements) | 377 |
+| With-examples elements | 492 |
+| Examples (clarification statements) | 369 |
 | Elements per standard group (strict) | 1.1 |
-| Elements per standard group (with examples) | 4.3 |
+| Elements per standard group (with examples) | 4.2 |
 
 The strict count reflects only numbered standards. The
 with-examples count promotes each Clarification statement to a

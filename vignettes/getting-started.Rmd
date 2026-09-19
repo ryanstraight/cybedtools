@@ -7,7 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -19,21 +20,22 @@ knitr::opts_chunk$set(
 
 ## What cybedtools does
 
-Eight cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2) expressed in a shared `cybed:` semantic schema. The package adds a comparison layer over existing frameworks, not a replacement for them.
+Eleven cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore's OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2) expressed in a shared `cybed:` semantic schema. The package adds a comparison layer over existing frameworks, not a replacement for them.
 
 This vignette walks through the two ways to use it: install the package and run helpers against the small built-in demo graph, or clone the repository and run the full pipeline against staged framework sources.
 
 Three semantic abstractions carry the work:
 
 - **`cybed:Framework`**: a competency or learning framework.
-- **`cybed:OrganizingUnit`**: the framework's top-level enumerated unit (work role, work profile, skill, grade-band x sub-concept cell, level x concept cell, Knowledge Area, competence area). The cross-framework abstract; queries against it reach all eight frameworks. Workforce frameworks where the unit is genuinely a work role or profile (NICE / DCWF / ENISA ECSF) additionally subclass `cybed:Role`.
+- **`cybed:OrganizingUnit`**: the framework's top-level enumerated unit (work role, work profile, skill, grade-band x sub-concept cell, level x concept cell, Knowledge Area, competence area). The cross-framework abstract; queries against it reach all eleven frameworks. Frameworks where the unit is genuinely a work role, job role, or profile (NICE, DCWF, ENISA ECSF, CyQUAL, CCSSF, OTCCF) additionally subclass `cybed:Role`.
 - **`cybed:RoleElement`**: the codable atomic statement attached to an organizing unit (task, knowledge statement, skill statement, learning standard). Two specialized subtypes for parsed sub-content: `cybed:Subpoint` for framework-as-specified enumerations, and `cybed:Example` for pedagogical-scaffolding fragments lifted from "Clarification statement:" prose.
 
 A single SPARQL query targeting `cybed:RoleElement` returns atomic elements across every framework in one pass; targeting `cybed:OrganizingUnit` returns parents.
 
 ## Installation
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 # Install from GitHub (not yet on CRAN)
 # install.packages("remotes")
 remotes::install_github("ryanstraight/cybedtools")
@@ -75,7 +77,8 @@ Each framework has a dedicated ingestion script under `scripts/` in the reposito
 
 For example, to ingest the NICE Framework:
 
-```{bash, eval = FALSE}
+```{bash}
+#| eval: false
 # Copy the NIST CPRT JSON to data/raw/nice/
 cp ~/Downloads/nice-v2-framework.json data/raw/nice/
 
@@ -89,13 +92,15 @@ The script parses the source, writes tidy CSVs to `data/raw/nice/tables/`, and g
 
 Before any downstream analysis, verify the ingested data against declared invariants:
 
-```{bash, eval = FALSE}
+```{bash}
+#| eval: false
 Rscript scripts/015-verify-ingestion.R
 ```
 
 The verifier checks six invariant layers: source provenance (SHA256 match), extraction count bounds, referential integrity, text-integrity (UTF-8 validity, non-empty, length sanity), ID uniqueness, and audit trail. Hard failures block downstream scripts. Soft flags warn but allow continuation.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 # Typical output
 # Summary: 95 pass, 0 soft flags, 0 HARD FAILURES.
 # VERIFICATION PASSED (with 0 soft flags for review).
@@ -105,7 +110,8 @@ The verifier checks six invariant layers: source provenance (SHA256 match), extr
 
 Once the frameworks are ingested and verified, assemble the semantic representation:
 
-```{bash, eval = FALSE}
+```{bash}
+#| eval: false
 Rscript scripts/020-assemble-jsonld.R
 ```
 
@@ -125,14 +131,15 @@ The package's six named analyses are implemented in R, not as `.rq` files. They 
 
 Run all six against the combined graph:
 
-```{bash, eval = FALSE}
+```{bash}
+#| eval: false
 Rscript scripts/040-run-sparql.R
 ```
 
 Each analysis writes one CSV to `data/processed/query-results/`:
 
-- `q10-organizing-units-per-framework.csv`, cross-framework parent count (all eight frameworks via `cybed:OrganizingUnit`).
-- `q10b-roles-per-framework.csv`, workforce-restricted parent count (NICE / DCWF / ECSF via `cybed:Role`).
+- `q10-organizing-units-per-framework.csv`, cross-framework parent count (all eleven frameworks via `cybed:OrganizingUnit`).
+- `q10b-roles-per-framework.csv`, role-restricted parent count (the six frameworks that assert `cybed:Role`).
 - `q11-elements-per-framework-strict.csv`, strict element count per framework (parents + Subpoints, Examples excluded).
 - `q11b-elements-per-framework-with-examples.csv`, inclusive element count per framework (parents + Subpoints + Examples).
 - `q12-framework-metadata.csv`, jurisdiction, sector, specificity per framework.
@@ -151,7 +158,8 @@ If you just installed the package and want to confirm it works before
 staging real framework sources, `make_demo_graph()` returns a small
 in-memory two-framework graph that exercises every domain helper:
 
-```{r, eval = TRUE}
+```{r}
+#| eval: true
 library(cybedtools)
 library(dplyr)
 
@@ -163,11 +171,12 @@ framework_metadata(rdf) |>
   arrange(jurisdiction, name)
 ```
 
-```{r, eval = TRUE}
+```{r}
+#| eval: true
 # Count how many top-level organizing units each framework declares.
-# organizing_unit_framework_bindings reaches all eight frameworks via the
+# organizing_unit_framework_bindings reaches all eleven frameworks via the
 # cross-framework cybed:OrganizingUnit type. role_framework_bindings
-# would restrict to workforce frameworks (NICE / DCWF / ECSF) only.
+# would restrict to the six frameworks that declare roles.
 organizing_unit_framework_bindings(rdf) |>
   count(framework_name, name = "organizing_unit_count")
 ```
@@ -180,7 +189,8 @@ sources.
 
 ## A minimal end-to-end example with real data
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(cybedtools)
 library(dplyr)
 
@@ -198,18 +208,18 @@ results <- framework_metadata(rdf) |>
 # 3. Inspect the result. One row per framework, columns for name,
 #    jurisdiction, sector, specificity. This metadata frame is the
 #    foundation for every cross-framework pivot the package supports.
-print(results)
+results
 ```
 
 This returns one row per framework with jurisdiction, sector, and specificity, the metadata foundation for cross-framework pivots.
 
 ## Next steps
 
-- See the vignette **"Cross-framework analysis"** for worked examples of structural and analytical queries across frameworks.
-- See the vignette **"Adding a new framework"** for how to extend the package with a framework beyond the current eight.
-- See the [namespace-architecture](../articles/namespace-architecture.html) article for the two-tier schema design.
-- See the [data-integrity](../articles/data-integrity.html) article for the verification contract.
-- See the [sparql-strategy](../articles/sparql-strategy.html) article for query design rationale.
+- See `vignette("cross-framework-analysis", package = "cybedtools")` for worked examples of structural and analytical queries across frameworks.
+- See `vignette("adding-a-framework", package = "cybedtools")` for how to extend the package with a framework beyond the current eleven.
+- See the [namespace-architecture](https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html) article for the two-tier schema design.
+- See the [data-integrity](https://ryanstraight.github.io/cybedtools/articles/data-integrity.html) article for the verification contract.
+- See the [sparql-strategy](https://ryanstraight.github.io/cybedtools/articles/sparql-strategy.html) article for query design rationale.
 
 ## License
 

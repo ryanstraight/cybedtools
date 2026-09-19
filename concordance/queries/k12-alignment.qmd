@@ -1,7 +1,7 @@
 ---
 title: "Where do Cyber.org K-12 and CSTA standards lexically align?"
 subtitle: "Pairwise text similarity with and without prose-encoded examples"
-description: "Pairwise Jaccard similarity between 123 Cyber.org K-12 parent standards and 140 CSTA K-12 CS parent standards, with and without each side's clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding."
+description: "Pairwise Jaccard similarity between the Cyber.org K-12 parent standards and the CSTA K-12 CS parent standards, with and without each side's clarification-derived examples. The contrast between parent-only and full-document similarity is the methodological finding."
 date: 2026-05-09
 categories: [Cross-framework, K-12, Pedagogy]
 ---
@@ -13,8 +13,25 @@ library(dplyr)
 library(ggplot2)
 library(here)
 
+for (p in c("k12_alignment.rds", "k12_alignment_parents.rds")) {
+  if (!file.exists(here("_data", p))) {
+    stop("Missing _data/", p, ". Run concordance/_data-prep-k12-alignment.R ",
+         "from the cybedtools repo root before rendering this page.", call. = FALSE)
+  }
+}
 alignment <- readRDS(here("_data", "k12_alignment.rds"))
 parents   <- readRDS(here("_data", "k12_alignment_parents.rds"))
+
+knitr::read_chunk(here("_data-prep-k12-alignment.R"))
+
+n_cyberorg <- nrow(alignment)
+n_csta <- sum(parents$framework_slug == "csta-2017")
+n_parent_hit <- sum(alignment$parent_strength != "none")
+n_full_hit <- sum(alignment$full_strength != "none")
+n_gained <- n_full_hit - n_parent_hit
+n_nomatch <- n_cyberorg - n_full_hit
+pct_nomatch <- round(n_nomatch / n_cyberorg * 100)
+n_moderate <- sum(alignment$full_strength %in% c("strong", "moderate"))
 ```
 
 ## The question
@@ -25,7 +42,7 @@ For each Cyber.org K-12 standard, what is the closest CSTA K-12 CS standard by t
 
 Cyber.org and CSTA are the two most widely-referenced K-12 standards sets covering cybersecurity content in US classrooms. Practitioners frequently ask whether a curriculum aligned to one is implicitly aligned to the other. The naive comparison (parent text against parent text) understates the alignment because the two frameworks encode pedagogical detail differently. Cyber.org embeds clarifications directly inside the numbered standard's prose. CSTA stores them in a separate clarification column.
 
-cybedtools v0.2.0 reclassifies both forms of clarification content as `cybed:Example` nodes, distinct from parent statements and from parser-extracted `cybed:Subpoint` bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its `cybed:hasExample` and `cybed:hasElement` children, concatenated and tokenized as a single document.
+cybedtools v0.2.0 introduced the reclassification of both forms of clarification content as `cybed:Example` nodes, and v0.3.0 keeps it unchanged. Those nodes are distinct from parent statements and from parser-extracted `cybed:Subpoint` bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its `cybed:hasExample` and `cybed:hasElement` children, concatenated and tokenized as a single document.
 
 The parent-only-vs-full-document contrast is the finding.
 
@@ -49,7 +66,7 @@ parent_counts |>
   knitr::kable()
 ```
 
-The full-document pass roughly doubles the count of detectable matches (10 to 21) over the parent-only pass. None reach the moderate tier (Jaccard ≥ 0.20) under either pass.
+The full-document pass roughly doubles the count of detectable matches (`r n_parent_hit` to `r n_full_hit`) over the parent-only pass. None reach the moderate tier (Jaccard ≥ 0.20) under either pass.
 
 ```{r}
 #| label: fig-similarity-shift
@@ -76,11 +93,11 @@ The points cluster above the 1:1 line. Full-document scoring systematically rais
 
 ### The vocabulary distinction matters
 
-Compare Cyber.org and CSTA at the parent-statement level only and you find 10 of 123 Cyber.org standards with a CSTA match. Compare full documents (parent plus Subpoints plus Examples) and you find 21. Eleven Cyber.org standards have a plausible CSTA counterpart that is invisible to the parent-only comparison.
+Compare Cyber.org and CSTA at the parent-statement level only and you find `r n_parent_hit` of `r n_cyberorg` Cyber.org standards with a CSTA match. Compare full documents (parent plus Subpoints plus Examples) and you find `r n_full_hit`. `r n_gained` Cyber.org standards have a plausible CSTA counterpart that is invisible to the parent-only comparison.
 
 ### The frameworks are still largely complementary
 
-Even on the full-document pass, 102 of 123 Cyber.org standards (83%) have no detectable CSTA match. Cyber.org covers cybersecurity-specific territory (threat actors, social engineering, physical security, risk-management foundations) that the CSTA K-12 CS Standards do not address.
+Even on the full-document pass, `r n_nomatch` of `r n_cyberorg` Cyber.org standards (`r pct_nomatch`%) have no detectable CSTA match. Cyber.org covers cybersecurity-specific territory (threat actors, social engineering, physical security, risk-management foundations) that the CSTA K-12 CS Standards do not address.
 
 ### The matches concentrate where the frameworks share computing foundations
 
@@ -98,7 +115,7 @@ The strongest match in this data pairs a Cyber.org 6-8 standard with a CSTA 3A (
 
 ### The metric is one of several reasonable choices
 
-Jaccard on unigrams is interpretable and fast, but ignores word order, multi-word phrases, and synonymy. Other choices (cosine on TF-IDF vectors, embedding-based similarity, manually-curated crosswalk) trade interpretability for sensitivity. The cybedtools v0.2.0 SPARQL helpers return the structured graph, and downstream analysts can run whichever similarity metric suits their question.
+Jaccard on unigrams is interpretable and fast, but ignores word order, multi-word phrases, and synonymy. Other choices (cosine on TF-IDF vectors, embedding-based similarity, manually-curated crosswalk) trade interpretability for sensitivity. The cybedtools SPARQL helpers return the structured graph, and downstream analysts can run whichever similarity metric suits their question.
 
 ## Look up your standard
 
@@ -136,7 +153,7 @@ alignment |>
   )
 ```
 
-The full row count is 123, one per Cyber.org standard. Standards with no detectable CSTA match (overlap below 10% under the methodology above) appear with their closest candidate even though that candidate is not a defensible coverage claim. The "no detectable match" bracket on the persona page is the same data filtered to overlap below 10%.
+The full row count is `r n_cyberorg`, one per Cyber.org standard. Standards with no detectable CSTA match (overlap below 10% under the methodology above) appear with their closest candidate even though that candidate is not a defensible coverage claim. The "no detectable match" bracket on the persona page is the same data filtered to overlap below 10%.
 
 ## Reproduce this
 
@@ -150,9 +167,9 @@ library(rdflib)
 
 g <- load_combined_ntriples_graph()
 
-# Pull parent standards (excludes Subpoints + Examples).
 prefix_block <- paste0(
   "PREFIX cybed: <https://w3id.org/cybed/ontology#>\n",
+  "PREFIX schema: <http://schema.org/>\n",
   "PREFIX cyberorg: <https://cyber.org/standards/terms#>\n",
   "PREFIX csta: <https://csteachers.org/k12standards/terms#>\n"
 )
@@ -161,30 +178,32 @@ query_subjects <- function(rdf, type_iri) {
   res <- rdflib::rdf_query(rdf, q)
   if (nrow(res) == 0) tibble::tibble(s = character(0)) else tibble::as_tibble(res)
 }
-
-cyberorg_parents <- query_subjects(g, "cyberorg:Standard") |>
-  transmute(element = s, framework = "cyberorg")
-csta_parents <- query_subjects(g, "csta:Standard") |>
-  transmute(element = s, framework = "csta")
-
-# Attach element text.
-elem_text <- sparql_pairs(g, "cybed:elementText") |>
-  transmute(element = s, text = o)
-
-# Attach Subpoint + Example children for full-document comparison.
-has_element <- sparql_pairs(g, "cybed:hasElement") |>
-  transmute(parent = s, child = o)
-has_example <- sparql_pairs(g, "cybed:hasExample") |>
-  transmute(parent = s, child = o)
-all_links <- bind_rows(has_element, has_example)
-
-# Build full-document text per parent (parent + all child text concatenated).
-# Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,
-# keep best CSTA match per Cyber.org standard. The full prep script is
-# in `concordance/_data-prep-k12-alignment.R` in the repository.
 ```
 
-The data file shipped with this page (`_data/k12_alignment.rds`) is the output of that prep script run against cybedtools v0.2.0. Re-run the prep when the package or the staged framework data changes.
+The parent pull is read straight out of the prep script, so this block cannot drift away from what actually ran:
+
+```{r}
+#| label: reproduce-pull
+#| eval: false
+#| echo: true
+```
+
+The `anti_join` is required, not optional. `cybed:Subpoint` children retain their parent's framework-native subtype (`csta:Standard`, `cyberorg:Standard`), so a plain type query catches parsed sub-points alongside genuine parents. CSTA carries 20 Subpoints this way. Cyber.org carries none, so its pool was clean by coincidence rather than by construction.
+
+Element text is then pulled and scoped to the frameworks whose statement text may be published, via the site's publication guard:
+
+```{.r}
+elem_text <- sparql_pairs(g, "cybed:elementText") |>
+  transmute(element = s, text = o) |>
+  inner_join(element_framework_bindings(g) |> select(element, framework_name),
+             by = "element") |>
+  filter(is_text_publishable(framework_name)) |>
+  select(element, text)
+```
+
+From there the script attaches Subpoint and Example children via `cybed:hasElement` and `cybed:hasExample`, builds full-document text per parent, tokenizes, drops stopwords and short tokens, computes Jaccard pairwise, and keeps the best CSTA match per Cyber.org standard. Every write passes through `assert_no_unpublishable_text()` first. The full script is `concordance/_data-prep-k12-alignment.R` in the repository.
+
+The data file shipped with this page (`_data/k12_alignment.rds`) is the output of that prep script. Re-run the prep when the package or the staged framework data changes.
 
 ## Related queries
 

@@ -253,6 +253,146 @@ framework_actual_counts <- function(framework, tables_dir) {
         essentials_total = nrow_or_null(essentials)
       )
     },
+    cyqual = {
+      tasks        <- safe_read(file.path(tables_dir, "tasks.csv"))
+      requirements <- safe_read(file.path(tables_dir, "requirements.csv"))
+      list(
+        roles_count                 = safe_read(file.path(tables_dir, "work-roles.csv"))               |> nrow_or_null(),
+        tasks                       = nrow_or_null(tasks),
+        requirements                = nrow_or_null(requirements),
+        # Tasks and requirements are the element population; roles reference
+        # shared elements rather than owning private copies.
+        elements_count              = {
+          if (is.null(tasks) || is.null(requirements)) NULL
+          else nrow(tasks) + nrow(requirements)
+        },
+        competencies                = safe_read(file.path(tables_dir, "competencies.csv"))             |> nrow_or_null(),
+        competency_groups           = safe_read(file.path(tables_dir, "competency-groups.csv"))        |> nrow_or_null(),
+        specialization_areas        = safe_read(file.path(tables_dir, "specialization-areas.csv"))     |> nrow_or_null(),
+        categories                  = safe_read(file.path(tables_dir, "categories.csv"))               |> nrow_or_null(),
+        work_role_task_edges        = safe_read(file.path(tables_dir, "work-role-tasks.csv"))          |> nrow_or_null(),
+        work_role_requirement_edges = safe_read(file.path(tables_dir, "work-role-requirements.csv"))   |> nrow_or_null()
+      )
+    },
+    ccssf = {
+      roles     <- safe_read(file.path(tables_dir, "roles.csv"))
+      adjacent  <- safe_read(file.path(tables_dir, "adjacent-roles.csv"))
+      elements  <- safe_read(file.path(tables_dir, "role-elements-long.csv"))
+      adj_comps <- safe_read(file.path(tables_dir, "adjacent-role-competencies-long.csv"))
+      crosswalk <- safe_read(file.path(tables_dir, "nice-crosswalk.csv"))
+      list(
+        activity_areas             = safe_read(file.path(tables_dir, "activity-areas.csv")) |> nrow_or_null(),
+        core_roles                 = nrow_or_null(roles),
+        adjacent_roles             = nrow_or_null(adjacent),
+        # Both populations are Roles in the graph: 22 Annex A-D core roles
+        # plus 37 Annex E cyber adjacent roles.
+        roles_count                = {
+          if (is.null(roles) || is.null(adjacent)) NULL else nrow(roles) + nrow(adjacent)
+        },
+        core_role_elements         = nrow_or_null(elements),
+        adjacent_role_competencies = nrow_or_null(adj_comps),
+        # Only three of the thirteen staged element types become element
+        # nodes; the rest are role-level attributes that stay in the tables.
+        element_node_rows          = {
+          if (is.null(elements) || is.null(adj_comps)) NULL
+          else sum(elements$element_type %in%
+                     c("tasks", "competencies", "tools_and_technology")) + nrow(adj_comps)
+        },
+        # Source-printed sub-bullets: rows the source nests under a
+        # colon-terminated parent bullet. Modelled as cybed:Subpoint of that
+        # parent in the graph, not as sibling top-level elements.
+        source_printed_subpoints   = if (is.null(elements) ||
+                                         !"parent_index" %in% names(elements)) NULL
+                                     else sum(!is.na(elements$parent_index)),
+        nice_crosswalk_rows        = crosswalk |> nrow_or_null(),
+        # Cited ids carried into the graph as cybed:niceCrossReference
+        # literals, and the subset whose printed form is malformed in the
+        # source (kept visible inside the literal).
+        nice_crosswalk_ids         = if (is.null(crosswalk)) NULL
+                                     else sum(!is.na(crosswalk$nice_work_role_id_normalized)),
+        nice_crosswalk_malformed_ids = if (is.null(crosswalk)) NULL
+                                     else sum(crosswalk$id_malformed_in_source %in% TRUE)
+      )
+    },
+    otccf = {
+      roles      <- safe_read(file.path(tables_dir, "job-roles.csv"))
+      role_els   <- safe_read(file.path(tables_dir, "role-elements-long.csv"))
+      tscs       <- safe_read(file.path(tables_dir, "tscs.csv"))
+      tsc_levels <- safe_read(file.path(tables_dir, "tsc-levels-long.csv"))
+      roa        <- safe_read(file.path(tables_dir, "tsc-range-of-application.csv"))
+      tsc_map    <- safe_read(file.path(tables_dir, "role-tsc-map.csv"))
+      ccs        <- safe_read(file.path(tables_dir, "role-critical-core-skills.csv"))
+      list(
+        tracks                   = safe_read(file.path(tables_dir, "tracks.csv")) |> nrow_or_null(),
+        job_roles                = nrow_or_null(roles),
+        role_tracks              = safe_read(file.path(tables_dir, "role-tracks.csv")) |> nrow_or_null(),
+        critical_work_functions  = if (is.null(role_els)) NULL
+                                   else sum(role_els$element_type == "critical_work_function"),
+        key_tasks                = if (is.null(role_els)) NULL
+                                   else sum(role_els$element_type == "key_task"),
+        tscs                     = nrow_or_null(tscs),
+        skillsfuture_derived_tscs = if (is.null(tscs)) NULL else sum(tscs$skillsfuture_derived),
+        tsc_level_statements     = nrow_or_null(tsc_levels),
+        range_of_application     = nrow_or_null(roa),
+        # Key tasks, level statements, and range-of-application rows are the
+        # whole element population; CWFs are headings carried as
+        # cybed:sourceSection, not element nodes.
+        element_node_rows        = {
+          if (is.null(role_els) || is.null(tsc_levels) || is.null(roa)) NULL
+          else sum(role_els$element_type == "key_task") + nrow(tsc_levels) + nrow(roa)
+        },
+        # Both skills maps are in the graph: one cybed:UnitRelation per row,
+        # and one cybed:relatedUnit edge per distinct role-to-target pair.
+        role_tsc_map_rows        = nrow_or_null(tsc_map),
+        # Five TSC titles are spelled differently in the skills maps than in
+        # the catalogue. The variant stays in the staged table; the relation
+        # resolves on the slug. Counted so a change in the source is caught.
+        role_tsc_map_variant_titles = {
+          if (is.null(tsc_map) || is.null(tscs)) NULL
+          else sum(tsc_map$tsc_title_as_listed !=
+                     tscs$title[match(tsc_map$tsc_slug, tscs$tsc_slug)], na.rm = TRUE)
+        },
+        role_tsc_related_pairs   = {
+          if (is.null(tsc_map)) NULL
+          else nrow(dplyr::distinct(tsc_map, role_slug, tsc_slug))
+        },
+        role_tsc_map_unresolved  = {
+          if (is.null(tsc_map) || is.null(tscs) || is.null(roles)) NULL
+          else sum(is.na(tsc_map$tsc_slug) | !tsc_map$tsc_slug %in% tscs$tsc_slug |
+                     !tsc_map$role_slug %in% roles$role_slug)
+        },
+        role_critical_core_skills_rows = nrow_or_null(ccs),
+        role_critical_core_skills_unresolved = {
+          if (is.null(ccs) || is.null(roles)) NULL
+          else sum(!ccs$role_slug %in% roles$role_slug)
+        },
+        # Distinct Critical Core Skill titles. Each becomes one non-role
+        # organizing unit; the skills themselves are SkillsFuture's, not the
+        # OTCCF's, and the document prints titles only.
+        critical_core_skills     = if (is.null(ccs)) NULL
+                                   else dplyr::n_distinct(ccs$skill_name),
+        role_critical_core_skill_pairs = {
+          if (is.null(ccs)) NULL
+          else nrow(dplyr::distinct(ccs, role_slug, skill_name))
+        },
+        # Distinct published statements across both skills maps, which is the
+        # number of cybed:UnitRelation nodes the assembler emits. The source
+        # prints some core-skill statements twice, so this sits below the
+        # staged row totals tracked above.
+        unit_relations           = {
+          if (is.null(tsc_map) || is.null(ccs)) NULL
+          else nrow(dplyr::distinct(tsc_map, role_slug, tsc_slug, proficiency_level)) +
+               nrow(dplyr::distinct(ccs, role_slug, skill_name, proficiency_level))
+        },
+        # Staged core-skill rows the source prints twice, kept visible so a
+        # change in the source is caught rather than absorbed by the dedupe.
+        role_critical_core_skills_duplicate_rows = {
+          if (is.null(ccs)) NULL
+          else nrow(ccs) -
+               nrow(dplyr::distinct(ccs, role_slug, skill_name, proficiency_level))
+        }
+      )
+    },
     digcomp = {
       areas <- safe_read(file.path(tables_dir, "competence-areas.csv"))
       competences <- safe_read(file.path(tables_dir, "competences.csv"))
@@ -380,6 +520,25 @@ text_fields_by_framework <- function(framework) {
     digcomp = list(
       list(label = "competence-name", file = "competences.csv", column = "competence_name")
     ),
+    cyqual = list(
+      list(label = "task-text",        file = "tasks.csv",        column = "description"),
+      list(label = "requirement-text", file = "requirements.csv", column = "description"),
+      list(label = "role-desc",        file = "work-roles.csv",   column = "description"),
+      list(label = "competency-desc",  file = "competencies.csv", column = "description")
+    ),
+    ccssf = list(
+      list(label = "role-desc",        file = "roles.csv",                            column = "description"),
+      list(label = "element-text",     file = "role-elements-long.csv",               column = "element_text"),
+      list(label = "adjacent-resp",    file = "adjacent-roles.csv",                   column = "responsibility"),
+      list(label = "adjacent-comp",    file = "adjacent-role-competencies-long.csv",  column = "competency")
+    ),
+    otccf = list(
+      list(label = "role-desc",        file = "job-roles.csv",                column = "role_description"),
+      list(label = "role-element",     file = "role-elements-long.csv",       column = "element_text"),
+      list(label = "tsc-desc",         file = "tscs.csv",                     column = "description"),
+      list(label = "level-statement",  file = "tsc-levels-long.csv",          column = "element_text"),
+      list(label = "range-of-application", file = "tsc-range-of-application.csv", column = "element_text")
+    ),
     list()
   )
 }
@@ -416,6 +575,24 @@ verify_id_uniqueness <- function(framework, results) {
     digcomp = list(
       list(file = "competence-areas.csv", id_col = "area_id",        label = "area-id"),
       list(file = "competences.csv",      id_col = "competence_id",  label = "competence-id")
+    ),
+    cyqual = list(
+      list(file = "work-roles.csv",           id_col = "code", label = "cyqual-work-role-code"),
+      list(file = "tasks.csv",                id_col = "code", label = "cyqual-task-code"),
+      list(file = "requirements.csv",         id_col = "code", label = "cyqual-requirement-code"),
+      list(file = "competencies.csv",         id_col = "code", label = "cyqual-competency-code"),
+      list(file = "specialization-areas.csv", id_col = "code", label = "cyqual-specialization-area-code"),
+      list(file = "categories.csv",           id_col = "code", label = "cyqual-category-code"),
+      list(file = "competency-groups.csv",    id_col = "code", label = "cyqual-competency-group-code")
+    ),
+    ccssf = list(
+      list(file = "roles.csv",          id_col = "role_id",          label = "ccssf-role-id"),
+      list(file = "adjacent-roles.csv", id_col = "adjacent_role_id", label = "ccssf-adjacent-role-id")
+    ),
+    otccf = list(
+      list(file = "job-roles.csv", id_col = "role_slug",  label = "otccf-role-slug"),
+      list(file = "tscs.csv",      id_col = "tsc_slug",   label = "otccf-tsc-slug"),
+      list(file = "tracks.csv",    id_col = "track_slug", label = "otccf-track-slug")
     ),
     nice = list(
       list(file = "work-roles.csv",   id_col = "element_id",  label = "work-role-id"),
@@ -522,10 +699,31 @@ main <- function() {
   }
   invariants <- read_yaml(verify_config$invariants_file)
 
-  frameworks <- list.dirs(verify_config$raw_dir, recursive = FALSE, full.names = FALSE) |>
+  # The invariants file is the declaration of what counts as a pipeline
+  # framework, so derive the check list from it rather than scanning
+  # data/raw/ for directories. data/raw/ also accumulates STAGING dirs --
+  # crosswalk sources with no assemble_*() adapter (cybok), candidate
+  # frameworks held pending a licensing answer (asd, ukcsc), and data
+  # acquired ahead of a re-ingest step (csta-2026). Those legitimately
+  # have no declared invariants; scanning the directory treated each one
+  # as an undeclared framework and hard-failed the build, which blocked
+  # the pipeline on data that was never part of it. Declaring a framework
+  # here without staging its data still fails, correctly, via the
+  # provenance check below.
+  frameworks <- names(invariants$frameworks)
+  if (length(frameworks) == 0) {
+    stop("No frameworks declared under `frameworks:` in ", verify_config$invariants_file)
+  }
+
+  raw_dirs <- list.dirs(verify_config$raw_dir, recursive = FALSE, full.names = FALSE) |>
     keep(\(f) f != "" && dir.exists(file.path(verify_config$raw_dir, f)))
+  staging_only <- setdiff(raw_dirs, frameworks)
 
   message("Checking frameworks: ", paste(frameworks, collapse = ", "))
+  if (length(staging_only) > 0) {
+    message("Staging dirs present but not declared as pipeline frameworks (not verified): ",
+            paste(staging_only, collapse = ", "))
+  }
 
   results <- new_verification_result()
   for (fw in frameworks) {

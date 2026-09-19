@@ -18,6 +18,11 @@ dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
 graph_path <- here("data", "processed", "ntriples", "_combined.nt")
 g <- load_combined_ntriples_graph(graph_path)
 
+# Publication terms per framework. Registering the graph lets the guard match
+# on framework IRIs and schema:name literals as well as slugs.
+source(here("concordance", "_publication-guard.R"))
+invisible(publication_policy(g))
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -50,15 +55,28 @@ jaccard <- function(a, b) {
 # Pull NICE work roles + their elements
 # ---------------------------------------------------------------------------
 
+## ---- reproduce-pull ----
 unit_bindings <- organizing_unit_framework_bindings(g)
-nice_roles <- unit_bindings |>
+# NICE side must be WORK ROLES ONLY. Since the v2.2.0 re-ingest NICE also
+# contributes 11 competency areas as cybed:OrganizingUnit -- a second
+# grouping axis over the same K/S catalog, not roles. Filtering organizing
+# units by framework alone silently pulled those in (53 units instead of
+# 42). Use the cybed:Role-typed bindings for NICE; CSEC2017 knowledge
+# areas are OrganizingUnit-only by design and stay on that path.
+nice_roles <- role_framework_bindings(g) |>
   filter(grepl("^NICE", framework_name)) |>
-  select(unit, unit_name)
+  select(unit = role, unit_name = role_name)
 
 csec_kas <- unit_bindings |>
   filter(grepl("CSEC2017", framework_name)) |>
   select(unit, unit_name)
+## ---- reproduce-end ----
 
+# Pulls are not filtered by publication policy. Local analysis of a lawfully
+# obtained source is permitted for every framework staged here, and a policy
+# filter on the pull would silently change every similarity score below. The
+# publication guarantee lives at the write side instead, in the
+# assert_no_unpublishable_text() calls before each saveRDS.
 elem_text <- sparql_pairs(g, "cybed:elementText") |>
   transmute(element = s, text = o)
 
@@ -127,7 +145,17 @@ best_per_role <- top_per_role |> filter(rank == 1L)
 # Save
 # ---------------------------------------------------------------------------
 
+# Gate before every write. Both objects persist ids, unit titles and scores
+# only, and titles are structure, which is publishable under every framework's
+# terms here. The guard inspects every character column regardless, so a text
+# column added later stops the write instead of shipping.
+alignment_structure_cols <- c("nice_id", "nice_name", "csec_id", "csec_name")
+assert_no_unpublishable_text(top_per_role,
+                             structure_cols = alignment_structure_cols)
 saveRDS(top_per_role,  file.path(data_dir, "nice_csec2017_alignment.rds"))
+
+assert_no_unpublishable_text(best_per_role,
+                             structure_cols = alignment_structure_cols)
 saveRDS(best_per_role, file.path(data_dir, "nice_csec2017_best.rds"))
 
 cat("\nNICE x CSEC2017 alignment data written.\n")

@@ -7,12 +7,14 @@
 # Source: https://github.com/jankudev/sfia-tools/releases/tag/v0.0.1
 #   Asset: sfia-sqlite.db (744 KB, 2025-02-05)
 #
-# Licensing note: SFIA content is redistributed by jankudev under the SFIA
-# Foundation's non-commercial free-use provision. Research use (derivative
-# analysis, cross-framework comparison) is permissible. We do NOT redistribute
-# SFIA skill-description text in downstream toolkit releases without confirming
-# licensing first. Analytical outputs (frequency tables, code distributions,
-# mappings) are safe to publish.
+# Licensing note: all use of SFIA is under licence from the SFIA Foundation,
+# and the licence covers the structure of SFIA as well as its text. Free tiers
+# cover Personal use and single-country Corporate internal use. Redistribution
+# and sub-licensing are prohibited at every tier. The jankudev extract carries
+# no licence file of any kind and holds no SFIA licence it could pass on, and it
+# does contain full skill descriptions, guidance notes, per-level descriptors
+# and attribute descriptions. cybedtools therefore treats SFIA as
+# local-analysis-only and publishes nothing SFIA beyond aggregate counts.
 #
 # Run: Rscript scripts/010-ingest-sfia.R
 
@@ -25,6 +27,8 @@ suppressPackageStartupMessages({
   library(yaml)
   library(glue)
 })
+
+source(here("scripts", "_ingest-common.R"), local = TRUE)
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -160,6 +164,11 @@ compute_sha256 <- function(file_path) {
 #' @param tables Named list of extracted tibbles.
 #' @param csv_paths Named character vector of CSV output paths.
 write_provenance_manifest <- function(db_path, tables, csv_paths) {
+  manifest_path <- file.path(sfia_config$staging_dir, sfia_config$manifest_filename)
+  db_sha256 <- compute_sha256(db_path)
+  retrieved_date <- resolve_retrieved_date(manifest_path,
+                                           c(db_sha256 = db_sha256))
+
   manifest <- list(
     framework         = "SFIA",
     framework_version = sfia_config$sfia_version,
@@ -172,29 +181,40 @@ write_provenance_manifest <- function(db_path, tables, csv_paths) {
       download_url = sfia_config$source_url
     ),
     retrieval = list(
-      retrieved_date = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date = retrieved_date,
       retrieved_by   = "scripts/010-ingest-sfia.R",
       db_file        = basename(db_path),
       db_size_bytes  = file.info(db_path)$size,
-      db_sha256      = compute_sha256(db_path)
+      db_sha256      = db_sha256
     ),
     extraction = list(
       table_row_counts = tables |> purrr::map_int(nrow) |> as.list(),
       output_files     = as.list(relativize_to_root(csv_paths))
     ),
     licensing = list(
-      sfia_text_license = "SFIA Foundation non-commercial free-use provision",
-      jankudev_license  = "See jankudev/sfia-tools repository",
+      sfia_text_license = paste(
+        "SFIA Foundation licence required for all use; no redistribution or",
+        "sub-licensing; local analysis only in cybedtools"
+      ),
+      jankudev_license  = "None. The jankudev/sfia-tools repository carries no licence file.",
+      extract_contents  = paste(
+        "Not structure only. The extract carries full skill descriptions and",
+        "guidance notes, per-level descriptors, and attribute descriptions."
+      ),
       redistribution_note = paste(
-        "SFIA skill-description text is redistributed by jankudev under SFIA",
-        "Foundation policy. Derivative analytical outputs (code frequencies,",
-        "cross-framework mappings) are safe to publish. Do NOT redistribute",
-        "SFIA text in toolkit releases without confirming licensing."
+        "All use of SFIA is under licence from the SFIA Foundation. The free",
+        "Personal and single-country Corporate tiers cover internal use by an",
+        "individual or a small organisation, which is what running this",
+        "pipeline locally is. Redistribution and sub-licensing are prohibited",
+        "at every tier, and the licence covers the concept, content and",
+        "structure of SFIA, so there is no structure-versus-text carve-out.",
+        "The extract this script reads is unlicensed and grants nothing.",
+        "cybedtools publishes no SFIA text and no SFIA structure beyond",
+        "aggregate counts. Anyone staging SFIA needs their own licence."
       )
     )
   )
 
-  manifest_path <- file.path(sfia_config$staging_dir, sfia_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

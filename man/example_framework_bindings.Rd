@@ -24,8 +24,17 @@ framework partOf are excluded.
 Examples are a strict subset of the elements returned by
 \code{\link[=element_framework_bindings]{element_framework_bindings()}}. Use this helper when reporting on the
 Subpoint-vs-Example split for a framework, or when constructing a
-"strict" element count (parent + Subpoint, no Example) by subtracting
-Example counts from total element counts.
+"strict" native element count by subtracting both Example counts (this
+helper) and Subpoint counts (\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}) from the
+total element count.
+}
+\note{
+The \code{framework} column holds the framework's full URI. Avoid
+naming a local variable or function parameter \code{framework} in code
+that filters or mutates this tibble -- dplyr's data masking silently
+resolves a bare \code{framework} reference inside \code{filter()}/\code{mutate()}
+to this COLUMN rather than your same-named variable, with no error
+and no warning, only a wrong (often zero-row) result surfacing later.
 }
 \examples{
 \dontrun{
@@ -36,11 +45,13 @@ example_framework_bindings(rdf)
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=element_text]{element_text()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
 \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
-\code{\link[=sparql_subjects]{sparql_subjects()}}
+\code{\link[=sparql_subjects]{sparql_subjects()}},
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
 }
 \concept{SPARQL helpers}

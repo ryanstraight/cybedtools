@@ -2,7 +2,9 @@
 title: "Queries"
 subtitle: "Worked R examples for cross-framework and per-framework analysis"
 listing:
-  contents: "*-*.qmd"
+  # Every .qmd in this folder except this index. A "*-*.qmd" glob silently
+  # dropped any page whose filename carried no hyphen.
+  contents: ["*.qmd", "!index.qmd"]
   type: table
   fields: [title, description, categories]
   field-display-names:

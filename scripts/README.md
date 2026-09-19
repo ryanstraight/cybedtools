@@ -37,12 +37,11 @@ See `docs/framework-data-sources.md` for canonical source URLs and ingestion not
 
 ```
 000-build.R                  # Master orchestrator
-010-ingest-<framework>.R     # 8 scripts, one per framework
+010-ingest-<framework>.R     # 11 scripts, one per framework
 015-verify-ingestion.R       # Six-invariant verification rig
 016-summarize-ingestion.R    # Generates docs/ingestion-summary.md
 020-assemble-jsonld.R        # Builds JSON-LD from tidy CSVs
 025-export-ntriples.R        # Derives N-Triples for SPARQL backend
-030-load-rdf-graph.R         # RDF graph loaders (also exported via R/rdf-graph.R)
 040-run-sparql.R             # SPARQL query runner
 utils/jsonld-helpers.R       # Mirror of R/jsonld-helpers.R for script use
 ```

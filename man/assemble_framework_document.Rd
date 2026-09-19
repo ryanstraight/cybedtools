@@ -8,7 +8,8 @@ assemble_framework_document(
   framework_node,
   role_nodes,
   element_nodes,
-  framework_prefix
+  framework_prefix,
+  relation_nodes = list()
 )
 }
 \arguments{
@@ -20,6 +21,11 @@ assemble_framework_document(
 \code{\link[=build_role_element_node]{build_role_element_node()}}.}
 
 \item{framework_prefix}{Character, the Tier 2 prefix.}
+
+\item{relation_nodes}{List of named lists produced by
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}. Optional: frameworks that publish no
+qualified unit-to-unit statements pass nothing and the \verb{@graph} is
+unchanged.}
 }
 \value{
 Top-level JSON-LD document with \verb{@context} and \verb{@graph}.
@@ -58,7 +64,9 @@ Other JSON-LD construction:
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}},
-\code{\link[=build_role_node]{build_role_node()}}
+\code{\link[=build_role_node]{build_role_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

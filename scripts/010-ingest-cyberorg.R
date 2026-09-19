@@ -40,6 +40,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -246,6 +248,16 @@ build_subconcept_catalog <- function() {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(pdf_path, text_path, standards_df, subconcepts_df) {
+  manifest_path <- file.path(cyberorg_config$staging_dir, cyberorg_config$manifest_filename)
+  pdf_sha256 <- if (file.exists(pdf_path)) {
+    digest(file = pdf_path, algo = "sha256")
+  } else {
+    NA_character_
+  }
+  text_sha256 <- digest(file = text_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(
+    manifest_path, c(pdf_sha256 = pdf_sha256, text_sha256 = text_sha256))
+
   manifest <- list(
     framework         = "Cyber.org K-12",
     framework_version = cyberorg_config$framework_version,
@@ -259,12 +271,12 @@ write_provenance_manifest <- function(pdf_path, text_path, standards_df, subconc
       conversion_tool = "markitdown MCP (PDF -> markdown)"
     ),
     retrieval = list(
-      retrieved_date  = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date  = retrieved_date,
       retrieved_by    = "scripts/010-ingest-cyberorg.R",
       pdf_size_bytes  = if (file.exists(pdf_path)) file.info(pdf_path)$size else NA_integer_,
-      pdf_sha256      = if (file.exists(pdf_path)) digest(file = pdf_path, algo = "sha256") else NA_character_,
+      pdf_sha256      = pdf_sha256,
       text_size_bytes = file.info(text_path)$size,
-      text_sha256     = digest(file = text_path, algo = "sha256")
+      text_sha256     = text_sha256
     ),
     extraction = list(
       grade_bands          = length(cyberorg_grade_bands),
@@ -276,6 +288,15 @@ write_provenance_manifest <- function(pdf_path, text_path, standards_df, subconc
     ),
     licensing = list(
       source_license = cyberorg_config$license,
+      citation = paste(
+        "K-12 Cybersecurity Learning Standards. (2021). Retrieved from",
+        "https://cyber.org/standards."
+      ),
+      reproduction_grant = paste(
+        "The source PDF's version-control page adds, separately from the CC",
+        "licence: 'Authorization to reproduce this report in whole or in part",
+        "is granted.'"
+      ),
       redistribution_note = paste(
         "CC BY-NC 4.0 permits non-commercial redistribution with attribution.",
         "Toolkit release MUST NOT include standard text in any commercial",
@@ -292,7 +313,6 @@ write_provenance_manifest <- function(pdf_path, text_path, standards_df, subconc
     )
   )
 
-  manifest_path <- file.path(cyberorg_config$staging_dir, cyberorg_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

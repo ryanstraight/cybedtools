@@ -21,6 +21,11 @@ dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
 graph_path <- here("data", "processed", "ntriples", "_combined.nt")
 g <- load_combined_ntriples_graph(graph_path)
 
+# Publication terms per framework. Registering the graph lets the guard match
+# on framework IRIs and schema:name literals as well as slugs.
+source(here("concordance", "_publication-guard.R"))
+invisible(publication_policy(g))
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -67,12 +72,30 @@ jaccard <- function(a, b) {
 # cybed:hasElement / cybed:hasExample.
 # ---------------------------------------------------------------------------
 
+# cybed:Subpoint children retain their parent's framework-native subtype
+# (csta:Standard, cyberorg:Standard), so a plain type query catches both
+# genuine parents and parsed sub-points. Excluded here so "parent-only"
+# means what it says on both sides. 2026-08-14 audit finding: CSTA has 20
+# Subpoints (csta:Standard-typed) that were leaking into this pull before
+# the fix -- Cyber.org has zero, so its side was clean by coincidence, not
+# by construction.
+## ---- reproduce-pull ----
+subpoint_ids <- query_subjects(g, "cybed:Subpoint")
+
 cyberorg_parents <- query_subjects(g, "cyberorg:Standard") |>
+  anti_join(subpoint_ids, by = "s") |>
   transmute(element = s, framework_slug = "cyberorg-k12")
 csta_parents <- query_subjects(g, "csta:Standard") |>
+  anti_join(subpoint_ids, by = "s") |>
   transmute(element = s, framework_slug = "csta-2017")
 parents_iri <- bind_rows(cyberorg_parents, csta_parents)
+## ---- reproduce-end ----
 
+# Pulls are not filtered by publication policy. Local analysis of a lawfully
+# obtained source is permitted for every framework staged here, and a policy
+# filter on the pull would silently change every similarity score below. The
+# publication guarantee lives at the write side instead, in the
+# assert_no_unpublishable_text() calls before each saveRDS.
 elem_text <- sparql_pairs(g, "cybed:elementText") |>
   transmute(element = s, text = o)
 
@@ -204,9 +227,28 @@ best <- best |>
 # Save
 # ---------------------------------------------------------------------------
 
+# Gate before every write, on the object exactly as it is written. `best` is a
+# wide table carrying one framework per column rather than a framework column,
+# so attribution is declared per column. Every other character column is named
+# as structure, and anything left undeclared is refused.
+assert_no_unpublishable_text(
+  best,
+  framework_by_col = c(cyberorg_text        = "cyberorg-k12",
+                       parent_csta_text     = "csta-2017",
+                       full_csta_text       = "csta-2017",
+                       full_csta_full_text  = "csta-2017"),
+  structure_cols   = c("cyberorg_id", "cyberorg_unit",
+                       "parent_csta_id", "parent_csta_unit",
+                       "full_csta_id", "full_csta_unit",
+                       "parent_strength", "full_strength"))
 saveRDS(best, file.path(data_dir, "k12_alignment.rds"))
-saveRDS(parents |> select(-parent_tokens, -full_tokens),
-        file.path(data_dir, "k12_alignment_parents.rds"))
+
+parents_out <- parents |> select(-parent_tokens, -full_tokens)
+assert_no_unpublishable_text(
+  parents_out,
+  framework_col  = "framework_slug",
+  structure_cols = c("element", "unit", "unit_name", "framework_name"))
+saveRDS(parents_out, file.path(data_dir, "k12_alignment_parents.rds"))
 
 cat("\nk12 alignment data written.\n")
 cat("  cyberorg parents: ", nrow(cyberorg_p), "\n", sep = "")

@@ -89,6 +89,8 @@ reference:
       - build_organizing_unit_node
       - build_role_node
       - build_role_element_node
+      - build_related_unit_metadata
+      - build_unit_relation_node
       - assemble_framework_document
 
   - title: Sub-point and example parsing
@@ -136,8 +138,10 @@ reference:
       - organizing_unit_framework_bindings
       - role_framework_bindings
       - element_framework_bindings
+      - subpoint_framework_bindings
       - example_framework_bindings
       - role_element_bindings
+      - element_text
 
   - title: Validation
     contents:

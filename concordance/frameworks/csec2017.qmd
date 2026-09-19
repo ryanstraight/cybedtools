@@ -19,7 +19,7 @@ categories: [pedagogy, global]
 | Version | 2017 v1.0 |
 | Released | 2017-12-31 |
 | Source format | PDF |
-| License | Copyright 2017 ACM/IEEE/AIS/IFIP, with permission granted for educational-materials development |
+| License | Copyright 2017 by ACM, IEEE, AIS, IFIP, all rights reserved, with permission granted only to use these curricular guidelines for the development of educational materials and programs |
 | `framework_summary` slug | `csec2017-v1` |
 
 ## Structure in cybed: terms
@@ -79,9 +79,11 @@ categories: [pedagogy, global]
 | Measure | Value |
 |---|---|
 | Knowledge Areas | 8 |
-| Strict elements (topics) | 40 |
+| Strict elements (topics) | 38 |
+| Subpoints (parsed enumeration lists) | 2 |
 | With-examples elements | 40 |
-| Topics per Knowledge Area | 5.0 |
+| Topics per Knowledge Area, strict | 4.8 |
+| Topics per Knowledge Area, with-examples | 5.0 |
 
 The Knowledge Area / Topic structure is the framework's
 coarse-grained surface. Beneath each topic, CSEC2017 defines further
@@ -114,7 +116,7 @@ CSEC2017 curricular guidelines (the Joint Task Force report from ACM, IEEE-CS, A
 
 **License**
 
-Subject to ACM/IEEE licensing terms. The package does not bundle the source text. Users stage it locally.
+Copyright 2017 by ACM, IEEE, AIS, IFIP, all rights reserved, with one purpose-scoped permission: permission is granted "to use these curricular guidelines for the development of educational materials and programs. Other use requires specific permission." This site shows Knowledge Area names, counts and alignment scores, and no statement text. A permission request to ACM is being prepared. The package does not bundle the source text. Users stage it locally.
 :::
 
 :::

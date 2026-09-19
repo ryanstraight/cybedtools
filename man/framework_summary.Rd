@@ -3,51 +3,78 @@
 \docType{data}
 \name{framework_summary}
 \alias{framework_summary}
-\title{Eight-framework summary tibble}
+\title{Eleven-framework summary tibble}
 \format{
-A tibble with 8 rows and 11 columns.
+A tibble with 11 rows and 16 columns.
 \describe{
 \item{framework_slug}{Character. Stable slug used as the URI tail
-(e.g., \code{"nice-v2"}, \code{"sfia-9"}).}
-\item{framework_name}{Character. Short display name suitable for
-tables and prose.}
+(e.g., \code{"nice-v2"}, \code{"sfia-9"}, \code{"otccf-v1.1"}). Unique.}
+\item{framework_name}{Character. Short curated display name suitable
+for tables and prose. Not the graph's \code{schema:name} literal, which
+carries the full published title.}
 \item{framework_type}{Character. Content-focus classification, one
 of \code{"workforce"} or \code{"pedagogy"}. Independent of the structural
 \code{cybed:Role} vs \code{cybed:OrganizingUnit} distinction.}
-\item{jurisdiction}{Character. One of \code{"US"}, \code{"EU"}, or \code{"global"}.}
-\item{organizing_unit_count}{Integer. Distinct top-level enumerated
-units bound to the framework via \code{cybed:partOf}. For NICE / DCWF /
-ECSF this is work roles or work profiles; for SFIA, skills; for
-Cyber.org K-12, grade-band x sub-concept cells; for CSTA, level-concept
-buckets; for CSEC2017, Knowledge Areas; for DigComp 2.2, competence
-areas. Cross-framework comparison via \code{cybed:OrganizingUnit}.}
-\item{element_count_strict}{Integer. Distinct framework-as-specified
-elements (parents plus \code{cybed:Subpoint} children). Excludes
-\code{cybed:Example} instances. Use this column when the comparison
-must exclude pedagogical scaffolding.}
-\item{element_count_with_examples}{Integer. Distinct elements
-including \code{cybed:Example} instances (Cyber.org K-12 and CSTA
-Clarification-statement scaffolding). For frameworks without
-Examples this equals \code{element_count_strict}.}
-\item{example_count}{Integer. Distinct \code{cybed:Example} instances.
-Non-zero for Cyber.org K-12 and CSTA only; zero for the other six
-frameworks.}
+\item{jurisdiction}{Character. One of \code{"US"}, \code{"EU"}, \code{"CZ"}, \code{"CA"},
+\code{"SG"}, or \code{"global"}.}
+\item{organizing_unit_count}{Integer. Distinct subjects typed
+\code{cybed:OrganizingUnit} and bound to the framework via \code{cybed:partOf}.
+A mixed denominator where a framework publishes more than one kind of
+unit, as described above.}
+\item{role_count}{Integer. Distinct subjects typed \code{cybed:Role} and
+bound to the framework via \code{cybed:partOf}. A subset of
+\code{organizing_unit_count}. \code{NA} for the five frameworks that assert no
+roles at all (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2).
+\code{NA} rather than zero, because "this framework does not use the role
+construct" is a different statement from "this framework has zero
+roles".}
+\item{element_count_strict}{Integer. Distinct parent elements only.
+Equals \code{element_count_with_examples} less \code{subpoint_count} less
+\code{example_count}. Use this column when the comparison must exclude
+both enumeration splitting and pedagogical scaffolding.}
+\item{subpoint_count}{Integer. Distinct \code{cybed:Subpoint} instances:
+enumeration-list splits parsed out of a parent's text at assembly
+time, plus, for CCSSF only, sub-bullets the source itself prints
+beneath a parent bullet. Zero where the parser is disabled (OTCCF)
+or finds nothing.}
+\item{example_count}{Integer. Distinct \code{cybed:Example} instances
+(Clarification-statement scaffolding). Non-zero for Cyber.org K-12
+and CSTA only.}
+\item{element_count_with_examples}{Integer. Distinct elements typed
+\code{cybed:RoleElement} and bound to the framework: parents plus
+Subpoints plus Examples.}
+\item{unit_relation_count}{Integer. Distinct \code{cybed:UnitRelation}
+nodes bound to the framework: qualified unit-to-unit statements, each
+carrying its published proficiency level. Nonzero for OTCCF only
+(310: 190 role-to-TSC plus 120 role-to-Critical-Core-Skill), zero
+everywhere else, since no other framework in the corpus publishes a
+skills map of this shape.}
 \item{elements_per_organizing_unit_strict}{Numeric.
 \code{element_count_strict / organizing_unit_count}, rounded to one
 decimal. The supplementary density figure, reported in the
 cross-framework-analysis vignette.}
 \item{elements_per_organizing_unit_with_examples}{Numeric.
-\code{element_count_with_examples / organizing_unit_count}, rounded
-to one decimal. The headline density figure used in the README.
-The vignette shows it alongside the strict column to make visible
-how Examples inflate Cyber.org K-12 and CSTA's apparent
-specification density.}
+\code{element_count_with_examples / organizing_unit_count}, rounded to one
+decimal. The headline density figure used in the README. The vignette
+shows it alongside the strict column to make visible how Examples
+inflate Cyber.org K-12 and CSTA's apparent specification density.}
+\item{elements_per_role_strict}{Numeric. The count of DISTINCT parent
+elements reachable by \code{cybed:hasElement} from a role-typed organizing
+unit, divided by \code{role_count}, rounded to one decimal. \code{NA} where
+\code{role_count} is \code{NA}. Distinct, not summed per role, because NICE,
+CyQUAL and DCWF share statements across roles, so an edge count would
+measure reuse rather than coverage and would not be comparable with
+the per-organizing-unit columns.}
+\item{elements_per_role_with_examples}{Numeric. As above but counting
+every element type, so parents plus Subpoints plus Examples reachable
+from role-typed units, divided by \code{role_count}. \code{NA} where
+\code{role_count} is \code{NA}.}
 \item{license}{Character. Distribution license as published by the
 framework owner.}
 }
 }
 \source{
-Computed from the eight-framework combined graph produced by
+Computed from the eleven-framework combined graph produced by
 \code{scripts/025-export-ntriples.R}. See
 \code{data-raw/build-framework-summary.R}.
 }
@@ -55,39 +82,79 @@ Computed from the eight-framework combined graph produced by
 framework_summary
 }
 \description{
-One row per framework in the cybedtools corpus. Counts
-(\code{organizing_unit_count}, \code{element_count_strict},
-\code{element_count_with_examples}, \code{example_count},
-\code{elements_per_organizing_unit_strict},
-\code{elements_per_organizing_unit_with_examples}) are computed from the
-staged combined N-Triples graph at package-build time via
-\code{data-raw/build-framework-summary.R}. Display name, framework type
+One row per framework in the cybedtools corpus. All count columns are
+computed from the staged combined N-Triples graph at package-build time
+via \code{data-raw/build-framework-summary.R}. Display name, framework type
 (workforce vs pedagogy), and license are hand-curated because they
 originate outside the JSON-LD graph.
 }
 \details{
-Two element-count columns are surfaced: \code{element_count_strict} counts
-parents plus parsed Subpoints (framework-as-specified content);
-\code{element_count_with_examples} additionally counts the Cyber.org K-12
-and CSTA Clarification-statement Examples (pedagogical scaffolding,
-not enumerable sub-standards). For frameworks that emit no Examples
-(NICE, DCWF, ECSF, SFIA, CSEC2017, DigComp 2.2) the two columns are
-equal. The README headline "density spread" finding uses the
-with-examples count, which counts what each framework puts in front of
-a teacher, trainee, or curriculum designer. The strict count is the
-supplementary figure, reported in the cross-framework-analysis
-vignette, which shows both columns side-by-side and discusses the
-encoding heterogeneity that drives the difference.
+Three frameworks were added in v0.3.0 by steward permission: CyQUAL
+(Czech Republic, open data, attribution to CyQUAL and Masaryk
+University), CCSSF (Canada, Government of Canada copyright, used with
+written permission of the Canadian Centre for Cyber Security), and OTCCF
+(Singapore, Cyber Security Agency of Singapore copyright, permission for
+non-commercial academic and research use). The build script fails loudly
+in both directions if the graph and the curated display table disagree
+about which frameworks exist.
+
+Statement codes are unique only within a framework. NICE and CCSSF both
+print codes in the T0516 shape, and they denote different statements.
+Never join two frameworks on a bare statement code. Join on the full IRI,
+or carry a framework column alongside the code.
+}
+\section{What the element counts mean}{
+
+\code{element_count_with_examples} counts every \code{cybed:RoleElement} bound to
+the framework: parents, plus \code{cybed:Subpoint} children, plus
+\code{cybed:Example} children. \code{element_count_strict} counts parents only, that
+is with-examples less both the Subpoint and the Example populations.
+Only DCWF, DigComp 2.2 and OTCCF have zero of both children, so strict
+equals with-examples there.
+
+\strong{Corrected 2026-08-14}: \code{element_count_strict} previously subtracted
+only \code{example_count}, so any framework with nonzero Subpoints carried an
+inflated "strict" value that silently included non-parent content
+(NICE +4, SFIA +158, ECSF +16, CSTA +20, CSEC2017 +2). That is what
+produced the NICE 2,115-vs-NIST's-2,111 discrepancy caught in the
+Concordance manuscript audit. The README headline "density spread"
+finding uses the with-examples count, which counts what each framework
+puts in front of a teacher, trainee, or curriculum designer. The strict
+count is the supplementary figure, reported in the
+cross-framework-analysis vignette.
+
+Note that \code{docs/framework-invariants.yml} uses the word "strict" in a
+different sense: its \code{total_elements_strict} is parents plus Subpoints
+excluding Examples, whereas this tibble's \code{element_count_strict} is
+parents only, so the two figures will not match for any framework with
+Subpoints.
+}
+
+\section{Units, roles, and density}{
+
+\code{organizing_unit_count} counts every \code{cybed:OrganizingUnit}, which for
+several frameworks mixes more than one kind of unit: NICE contributes 42
+work roles plus 11 competency areas, CyQUAL 102 work roles plus 59
+competencies, OTCCF 15 job roles plus 30 Technical Skills and
+Competencies plus 16 Critical Core Skills. A density taken over that
+mixed denominator is not like-for-like against a framework whose units
+are all roles, such as DCWF's 74. The \code{role_count} and
+\verb{elements_per_role_*} columns added in v0.3.0 give the role-only cut.
+The \verb{elements_per_organizing_unit_*} columns keep the definition they
+have always had, because they are published figures.
 
 The \code{framework_type} column denotes content focus (workforce
 competencies vs educational standards), not the structural distinction
-that drives \code{cybed:Role} assertion. SFIA carries \code{framework_type == "workforce"} because it specifies workforce skills, but its parent
-units assert \code{cybed:OrganizingUnit} only (not \code{cybed:Role}) because
-SFIA enumerates skills rather than work roles. For structural
-questions, query \code{cybed:Role} and \code{cybed:OrganizingUnit} directly.
+that drives \code{cybed:Role} assertion. SFIA carries \code{framework_type == "workforce"} because it specifies workforce skills, but its parent units
+assert \code{cybed:OrganizingUnit} only (not \code{cybed:Role}) because SFIA
+enumerates skills rather than work roles, so its \code{role_count} is \code{NA}.
+For structural questions, query \code{cybed:Role} and \code{cybed:OrganizingUnit}
+directly.
 }
+
 \examples{
 framework_summary
 subset(framework_summary, framework_type == "workforce")
+subset(framework_summary, !is.na(role_count))
 }
 \keyword{datasets}

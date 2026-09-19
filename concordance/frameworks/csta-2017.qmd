@@ -4,7 +4,7 @@ subtitle: "Computer Science Teachers Association K-12 Standards (Revised 2017)"
 jurisdiction: "US"
 framework-type: "Pedagogy"
 organizing-units: 25
-elements: 254
+elements: 258
 license: "CC BY-NC-SA 4.0"
 date: 2026-05-08
 categories: [pedagogy, us]
@@ -92,11 +92,12 @@ categories: [pedagogy, us]
 | Measure | Value |
 |---|---|
 | Standard groups | 25 |
-| Strict elements (numbered standards) | 140 |
-| With-examples elements | 254 |
+| Strict elements (numbered standards) | 120 |
+| Subpoints (parsed enumeration lists) | 24 |
 | Examples (clarification text) | 114 |
-| Elements per standard group (strict) | 5.6 |
-| Elements per standard group (with examples) | 10.2 |
+| With-examples elements | 258 |
+| Elements per standard group (strict) | 4.8 |
+| Elements per standard group (with examples) | 10.3 |
 
 Per-unit density approximately doubles when clarification text is
 included alongside numbered standards.
@@ -126,7 +127,7 @@ CSTA K-12 CS Standards distribution.
 
 **License**
 
-Creative Commons BY-NC-SA 4.0, non-commercial use with attribution and share-alike. The package does not bundle the source distribution. Users stage it locally.
+Creative Commons BY-NC-SA 4.0, non-commercial use with attribution and share-alike. The ingested workbook carries no licence statement of any kind, so the label is read from CSTA's publication page for the 2017 edition. The package does not bundle the source distribution. Users stage it locally.
 :::
 
 :::

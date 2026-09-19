@@ -35,11 +35,13 @@ sparql_pairs(rdf, "cybed:jurisdiction")
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=element_text]{element_text()}},
 \code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
 \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
-\code{\link[=sparql_subjects]{sparql_subjects()}}
+\code{\link[=sparql_subjects]{sparql_subjects()}},
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
 }
 \concept{SPARQL helpers}

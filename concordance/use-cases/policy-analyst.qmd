@@ -15,6 +15,21 @@ library(stringr)
 best  <- readRDS(here("_data", "nice_ecsf_best.rds")) |>
   mutate(pct = round(similarity * 100, 1))
 top3  <- readRDS(here("_data", "nice_ecsf_alignment.rds"))
+
+fs <- cybedtools::framework_summary
+n_nice <- nrow(best)
+n_ecsf <- fs$organizing_unit_count[fs$framework_slug == "ecsf-v1"]
+ecsf_counts <- best |> count(ecsf_name, sort = TRUE)
+n_ecsf_hit <- nrow(ecsf_counts)
+top_pair <- best |> arrange(desc(pct)) |> slice_head(n = 1)
+ciso_roles <- best |> filter(grepl("CISO", ecsf_name)) |> pull(nice_name)
+us_elements <- sum(fs$element_count_with_examples[fs$jurisdiction == "US"])
+eu_elements <- sum(fs$element_count_with_examples[fs$jurisdiction == "EU"])
+rank3 <- function(profile) {
+  s <- top3 |> filter(ecsf_name == profile) |> arrange(desc(similarity)) |> slice_head(n = 3)
+  if (nrow(s) == 0) "no NICE role ranks this profile in its top three" else
+    paste(sprintf("%s (%.1f%%)", s$nice_name, s$similarity * 100), collapse = ", ")
+}
 ```
 
 ## Devi's situation
@@ -28,13 +43,13 @@ This iteration scopes to NICE-ECSF role-vocabulary alignment only. DCWF (US defe
 She uses cybedtools to surface candidate equivalence pairs for each NICE work role, then reads the underlying role descriptions to make the equivalence judgment by hand for the briefing.
 
 ::: {.column-margin}
-This page uses real data computed against cybedtools v0.2.0. The
+This page uses real data computed against cybedtools v0.3.0. The
 persona is composite. The question, the code, and the result are not.
 :::
 
 ## The question, formally stated
 
-For each of the 41 NICE work roles, what's the closest ENISA ECSF role profile (and the next two closest) by full-document text similarity?
+For each of the `r n_nice` NICE work roles, what is the closest ENISA ECSF role profile (and the next two closest) by full-document text similarity?
 
 ::: {.column-margin}
 **Vocabulary overlap** is the percentage of unique words two units share, after dropping common words ("the," "and," "of") and short tokens. 0% means no shared vocabulary, 100% means identical wording. The underlying metric and the methodology choices live on the [analytic query page](../queries/nice-ecsf-alignment.qmd).
@@ -44,7 +59,7 @@ For each of the 41 NICE work roles, what's the closest ENISA ECSF role profile (
 
 ```{r}
 #| label: tbl-similarity-summary
-#| tbl-cap: "Best-match vocabulary overlap across all 41 NICE work roles"
+#| tbl-cap: !expr paste("Best-match vocabulary overlap across all", n_nice, "NICE work roles")
 tibble::tibble(
   Statistic = c("Minimum", "Median", "Mean", "Maximum"),
   `Vocabulary overlap` = c(
@@ -80,19 +95,19 @@ best |>
   knitr::kable()
 ```
 
-Best-match overlap runs from 11% to 18% across all 41 NICE work roles, median 14.5%, with the strongest pair (NICE Incident Response → ECSF Cyber Incident Responder) at 17.7%. The NICE-to-CSEC2017 median for comparison was 4%. The workforce-vocabulary alignment here runs roughly three times that, though the absolute overlap remains modest enough to support candidate-identification rather than equivalence claims. Both vocabularies describe workforce positions. The difference between them is jurisdiction and granularity, not framework purpose.
+Best-match overlap runs from `r min(best$pct)`% to `r max(best$pct)`% across all `r n_nice` NICE work roles, median `r median(best$pct)`%, with the strongest pair (NICE `r top_pair$nice_name` to ECSF `r top_pair$ecsf_name`) at `r top_pair$pct`%. The NICE-to-CSEC2017 median for comparison was 4%. The workforce-vocabulary alignment here runs roughly three times that, though the absolute overlap remains modest enough to support candidate-identification rather than equivalence claims. Both vocabularies describe workforce positions. The difference between them is jurisdiction and granularity, not framework purpose.
 
-Seven of ECSF's twelve role profiles appear as someone's top match. Five never do (Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, Digital Forensics Investigator). The dominance of Cyber Incident Responder (12 NICE roles), CISO (7), and Penetration Tester (7) reflects ECSF's deliberately-coarser role catalog. ECSF profiles cover broader role families that several NICE-position-specific roles fold into.
+`r n_ecsf_hit` of ECSF's `r n_ecsf` role profiles appear as someone's top match. `r n_ecsf - n_ecsf_hit` never do (Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, Digital Forensics Investigator). The dominance of `r paste(sprintf("%s (%d NICE roles)", ecsf_counts$ecsf_name[1:3], ecsf_counts$n[1:3]), collapse = ", ")` reflects ECSF's deliberately-coarser role catalog. ECSF profiles cover broader role families that several NICE-position-specific roles fold into.
 
 ## What this means for Devi
 
 ### Real candidate pairs exist
 
-The top-of-table pairing of NICE Incident Response with ECSF Cyber Incident Responder is a face-valid cross-jurisdictional analog. Several other top-similarity pairs hold up too. NICE Penetration Testing maps to ECSF Penetration Tester. NICE Cyber Operations Planning maps to ECSF Cybersecurity Architect or CISO depending on level. For a briefing audience that needs concrete examples, these are usable.
+The pairing of NICE Incident Response with ECSF Cyber Incident Responder is a face-valid cross-jurisdictional analog and sits near the top of the table. Several other pairs hold up too. NICE Vulnerability Analysis lands on ECSF Penetration Tester. NICE Executive Cybersecurity Leadership lands on ECSF CISO. For a briefing audience that needs concrete examples, these are usable.
 
 ### The granularity asymmetry is the headline
 
-NICE specifies 41 detailed civilian work roles by position description. ECSF specifies 12 broader role profiles by intent. Many-to-one vocabulary patterns are the rule, not the exception. Devi's briefing needs to describe the relationship as "NICE roles cluster into ECSF profiles," not "NICE roles map one-to-one onto ECSF profiles." That pattern matches cybedtools' US/EU 14:1 element-coverage ratio at the element layer. The role-level granularity asymmetry surfaces the same design-philosophy difference one layer up.
+NICE specifies `r n_nice` detailed civilian work roles by position description. ECSF specifies `r n_ecsf` broader role profiles by intent. Many-to-one vocabulary patterns are the rule, not the exception. Devi's briefing needs to describe the relationship as "NICE roles cluster into ECSF profiles," rather than "NICE roles map one-to-one onto ECSF profiles." That pattern matches the granularity difference cybedtools surfaces at the element layer, where US frameworks carry `r format(us_elements, big.mark = ",")` elements against the EU's `r format(eu_elements, big.mark = ",")`. The role-level granularity asymmetry surfaces the same design-philosophy difference one layer up.
 
 ### ENISA does not enforce ECSF
 
@@ -100,25 +115,19 @@ ECSF is a recommendation document from ENISA, the EU agency for cybersecurity es
 
 ### CISO over-attracts management-flavored NICE roles
 
-Seven NICE roles best-match to CISO: Secure Project Management, Cybersecurity Workforce Management, Systems Security Management, Product Support Management, Executive Cybersecurity Leadership, Technology Portfolio Management, and Cybersecurity Policy and Planning. Three of those (Product Support Management, Technology Portfolio Management, Secure Project Management) read as general technology management rather than specifically cybersecurity leadership. Two forces produce that pattern. NICE includes general-IT-management roles in its catalog because the catalog inherits broader workforce-vocabulary patterns, and ECSF has no non-cybersecurity-specific management profile to absorb them. CISO meanwhile carries the broadest management vocabulary in the ECSF profile catalog. Both forces push general-management NICE roles to CISO by default. The seven-CISO cluster should be read as candidates for ECSF-side leadership-pathway alignment, not as ECSF CISO equivalents.
+`r length(ciso_roles)` NICE roles best-match to CISO: `r paste(ciso_roles, collapse = ", ")`. Two of those, Technology Portfolio Management and Secure Project Management, read as general technology management rather than specifically cybersecurity leadership. Two forces produce that pattern. NICE includes general-IT-management roles in its catalog because the catalog inherits broader workforce-vocabulary patterns, and ECSF has no non-cybersecurity-specific management profile to absorb them. CISO meanwhile carries the broadest management vocabulary in the ECSF profile catalog. Both forces push general-management NICE roles to CISO by default. The CISO cluster should be read as candidates for ECSF-side leadership-pathway alignment, not as ECSF CISO equivalents.
 
 ### The five unmatched ECSF profiles still have analogs
 
-Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, and Digital Forensics Investigator each lack a NICE work role that places them as a top-1 match. Looking at each profile's strongest second- or third-rank NICE candidates surfaces face-valid analogs for four of the five:
+Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, and Digital Forensics Investigator each lack a NICE work role that places them as a top-1 match. Looking at each profile's strongest second- or third-rank NICE candidates surfaces face-valid analogs for three of the five:
 
-- **Cybersecurity Implementer**: NICE Software Security Assessment
-  (12.2%), Database Administration, Secure Software Development.
-- **Cybersecurity Educator**: NICE Cybersecurity Curriculum
-  Development (13.2%), the only NICE role that ranks ECSF
-  Cybersecurity Educator in any role's top three at all.
-- **Cybersecurity Risk Manager**: NICE Cybersecurity Legal Advice
-  (13.3%), Knowledge Management, Systems Testing and Evaluation.
-- **Digital Forensics Investigator**: NICE Incident Response (14.1%),
-  Digital Forensics, Digital Evidence Analysis.
+- **Cybersecurity Implementer**: `r rank3("Cybersecurity Implementer")`.
+- **Cybersecurity Risk Manager**: `r rank3("Cybersecurity Risk Manager")`.
+- **Digital Forensics Investigator**: `r rank3("Digital Forensics Investigator")`.
 
-### Cybersecurity Researcher is the exception
+### Two profiles are exceptions
 
-The profile does not appear in any NICE role's top three even by expanded ranking. The structural reason: NICE catalogs federal civilian and federal-adjacent workforce roles. Cybersecurity research at the institutional scale ECSF imagines (universities, EU national labs) sits in DoD, intelligence-community, and national-lab structures NICE does not enumerate.
+Cybersecurity Educator and Cybersecurity Researcher appear in no NICE role's top three, even by expanded ranking. The structural reason is the same for both. NICE catalogs federal civilian and federal-adjacent workforce roles. Cybersecurity teaching and research at the institutional scale ECSF imagines (universities, EU national labs) sit in academic, DoD, intelligence-community, and national-lab structures NICE does not enumerate in those terms.
 
 These five profiles still need US-side commentary in the briefing. The table is a starting point, not a coverage claim.
 
@@ -128,7 +137,7 @@ Devi can bring a slide showing the top 8 candidate equivalence pairs and treat t
 
 ### Vocabulary candidates are not credentialing equivalence
 
-A 14-18% vocabulary overlap does not mean a US-trained worker is qualified for the matched EU position. Credentialing pathways, regulatory contexts, clearance requirements, language fluency, and, on the EU side, Bologna Process degree recognition all remain separate considerations the briefing memo will need to treat individually. cybedtools surfaces structural candidates. The equivalence judgment is human work.
+A `r min(best$pct)`% to `r max(best$pct)`% vocabulary overlap does not mean a US-trained worker is qualified for the matched EU position. Credentialing pathways, regulatory contexts, clearance requirements, language fluency, and, on the EU side, Bologna Process degree recognition all remain separate considerations the briefing memo will need to treat individually. cybedtools surfaces structural candidates. The equivalence judgment is human work.
 
 ## See also
 

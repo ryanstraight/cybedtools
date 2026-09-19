@@ -2,7 +2,9 @@
 title: "Frameworks"
 subtitle: "What each framework specifies, where it sits, and what its source license permits"
 listing:
-  contents: ["*-*.qmd", "csec2017.qmd"]
+  # Every .qmd in this folder except this index. A "*-*.qmd" glob silently
+  # dropped any page whose filename carried no hyphen.
+  contents: ["*.qmd", "!index.qmd"]
   type: table
   fields: [title, jurisdiction, framework-type, organizing-units, elements, license]
   field-display-names:
@@ -20,10 +22,24 @@ listing:
   table-hover: true
 ---
 
+```{r}
+#| label: setup
+#| include: false
+fs <- cybedtools::framework_summary
+n_fw <- nrow(fs)
+n_juris <- length(unique(fs$jurisdiction))
+n_us <- sum(fs$jurisdiction == "US")
+n_ped <- sum(fs$framework_type == "pedagogy")
+ped_juris <- paste(sort(unique(fs$jurisdiction[fs$framework_type == "pedagogy"])), collapse = ", ")
+```
+
 The framework corpus splits along two axes: workforce versus
-pedagogy, and US/EU/global jurisdiction. The combinations are not
-exhaustive (there is no global pedagogy framework, and the US is
-overrepresented in both columns), but together the frameworks span
+pedagogy, and jurisdiction, which now takes `r n_juris` values
+(`r paste(sort(unique(fs$jurisdiction)), collapse = ", ")`). The
+combinations are uneven. The US carries `r n_us` of the `r n_fw`
+frameworks, and the `r n_ped` pedagogy frameworks sit in only
+`r length(unique(fs$jurisdiction[fs$framework_type == "pedagogy"]))`
+jurisdictions (`r ped_juris`). Together the frameworks span
 the practical comparison surface for most cybersecurity workforce
 and education research questions.
 

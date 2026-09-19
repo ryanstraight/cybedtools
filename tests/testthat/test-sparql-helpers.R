@@ -190,6 +190,70 @@ test_that("role_element_bindings is empty when no hasElement triples exist", {
 })
 
 # ---------------------------------------------------------------------------
+# Domain helper: element_text
+# ---------------------------------------------------------------------------
+
+# The fixture graph carries no cybed:elementText triples, so tests that need
+# statement text build a small graph that does.
+make_element_text_graph <- function() {
+  rdf <- make_fixture_graph()
+  el_a1 <- cybed_term("element/fixture-el-a1")
+  el_a2 <- cybed_term("element/fixture-el-a2")
+  rdflib::rdf_add(rdf, el_a1, cybed_term("elementText"), "Apply access controls.")
+  rdflib::rdf_add(rdf, el_a2, cybed_term("elementText"), "Monitor network traffic.")
+  rdf
+}
+
+test_that("element_text returns the documented columns and types", {
+  skip_if_no_rdflib()
+  rdf <- make_element_text_graph()
+
+  result <- element_text(rdf)
+
+  expect_s3_class(result, "tbl_df")
+  expect_named(result, c("element", "text"))
+  expect_type(result$element, "character")
+  expect_type(result$text, "character")
+})
+
+test_that("element_text is non-empty on a graph carrying statement text", {
+  skip_if_no_rdflib()
+  rdf <- make_element_text_graph()
+
+  result <- element_text(rdf)
+
+  expect_equal(nrow(result), 2)
+  expect_setequal(
+    result$text,
+    c("Apply access controls.", "Monitor network traffic.")
+  )
+})
+
+test_that("element_text returns a zero-row tibble with correct columns on a graph without text", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  result <- element_text(rdf)
+
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 0)
+  expect_named(result, c("element", "text"))
+})
+
+test_that("element_text joins to element_framework_bindings by element without losing rows", {
+  skip_if_no_rdflib()
+  rdf <- make_element_text_graph()
+
+  texts    <- element_text(rdf)
+  bindings <- element_framework_bindings(rdf)
+
+  joined <- dplyr::inner_join(texts, bindings, by = "element")
+
+  expect_equal(nrow(joined), nrow(texts))
+  expect_setequal(joined$text, texts$text)
+})
+
+# ---------------------------------------------------------------------------
 # Semantic tests: sub-point traversal via cybed:elaborates and cybed:Subpoint
 # ---------------------------------------------------------------------------
 
@@ -338,6 +402,20 @@ test_that("example_framework_bindings returns the single fixture Example", {
   expect_named(efb, c("example", "framework", "framework_name"))
   expect_match(efb$example,        "fixture-el-a2\\.example\\.1$")
   expect_equal(efb$framework_name, "Fixture Framework A")
+})
+
+test_that("subpoint_framework_bindings returns all five fixture Subpoints", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  sfb <- subpoint_framework_bindings(rdf)
+
+  # FW A: a1.sub.1, a1.sub.2 (2); FW B: b1.sub.1-3 (3); 5 total.
+  expect_equal(nrow(sfb), 5)
+  expect_named(sfb, c("subpoint", "framework", "framework_name"))
+  per_fw <- table(sfb$framework_name)
+  expect_equal(unname(per_fw["Fixture Framework A"]), 2)
+  expect_equal(unname(per_fw["Fixture Framework B"]), 3)
 })
 
 test_that("cybed:hasExample triples are queryable and link parent -> example", {

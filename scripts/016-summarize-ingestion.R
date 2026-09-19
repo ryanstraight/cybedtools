@@ -227,6 +227,16 @@ render_summary_doc <- function(manifests, summary_tbl) {
       },
       csec2017 = extraction$knowledge_areas,
       digcomp  = extraction$competence_areas,
+      # Work roles only. CyQUAL's 59 competencies are a second organizing
+      # axis, not roles, so they are not counted here.
+      cyqual   = extraction$work_roles_count,
+      # Both CCSSF populations are roles: 22 core work roles plus the 37
+      # Annex E cyber adjacent roles.
+      ccssf    = extraction$core_roles + extraction$adjacent_roles,
+      # Job roles only. OTCCF's 30 TSCs and its 16 Critical Core Skills are
+      # further organizing axes, not roles, so they are not counted here.
+      # The graph carries all 61 units; this column tracks roles.
+      otccf    = extraction$job_roles,
       NA
     )
     elem_count <- switch(slug,
@@ -238,6 +248,23 @@ render_summary_doc <- function(manifests, summary_tbl) {
       csta           = extraction$standards_count,
       csec2017       = extraction$essentials_total,
       digcomp        = extraction$competences,
+      # Tasks and requirements together are CyQUAL's element population.
+      cyqual         = extraction$tasks_count + extraction$requirements_count,
+      # Tasks, competencies, and tools and technology are the only staged
+      # element types that become element nodes; the rest are role-level
+      # attributes. Annex E competencies are added to them. The 30
+      # source-printed sub-bullets are counted here as staged rows; in the
+      # graph they are cybed:Subpoint rather than top-level elements.
+      ccssf          = extraction$element_type_breakdown$tasks +
+                       extraction$element_type_breakdown$competencies +
+                       extraction$element_type_breakdown$tools_and_technology +
+                       extraction$adjacent_role_competencies,
+      # Key tasks, TSC level statements, and range-of-application rows are
+      # OTCCF's element population. Critical Work Functions are headings
+      # carried as cybed:sourceSection, not elements.
+      otccf          = extraction$role_element_breakdown$key_task +
+                       extraction$tsc_level_statements +
+                       extraction$tsc_range_of_application_rows,
       NA
     )
 
@@ -271,9 +298,9 @@ render_summary_doc <- function(manifests, summary_tbl) {
   lines <- c(lines,
     "## Downstream pipeline",
     "",
-    "- `scripts/020-assemble-jsonld.R` assembles the five framework JSON-LD documents plus a combined graph at `data/processed/jsonld/_combined.jsonld`.",
-    "- `scripts/030-load-rdf-graph.R` loads the graph into rdflib.",
-    "- `scripts/040-run-sparql.R` runs the package's six named analyses (q10 through q15) via the helpers in `R/sparql-helpers.R` and writes one CSV per analysis to `data/processed/query-results/`.",
+    "- `scripts/020-assemble-jsonld.R` assembles the eleven framework JSON-LD documents plus a combined graph at `data/processed/jsonld/_combined.jsonld`.",
+    "- `load_combined_rdf_graph()` and the other loaders in `R/rdf-graph.R` load the graph into rdflib.",
+    "- `scripts/040-run-sparql.R` runs the package's nine named analyses (q10 through q16) via the helpers in `R/sparql-helpers.R` and writes one CSV per analysis to `data/processed/query-results/`.",
     ""
   )
 

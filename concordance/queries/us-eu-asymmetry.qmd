@@ -1,7 +1,7 @@
 ---
 title: "How is element coverage distributed across US and EU frameworks?"
-subtitle: "The 14-to-1 jurisdictional ratio, reframed"
-description: "Total element coverage across the framework corpus, split by jurisdiction. The roughly 14-to-1 US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point."
+subtitle: "The US-to-EU element ratio, reframed"
+description: "Total element coverage across the framework corpus, split by jurisdiction. The US versus EU element-count ratio is the headline figure. What it does and does not say about the underlying frameworks is the point."
 date: 2026-05-09
 categories: [Cross-framework, Workforce, Cross-jurisdictional]
 ---
@@ -31,17 +31,35 @@ us_total <- juris_totals$n_elements[juris_totals$jurisdiction == "US"]
 eu_total <- juris_totals$n_elements[juris_totals$jurisdiction == "EU"]
 global_total <- juris_totals$n_elements[juris_totals$jurisdiction == "global"]
 us_eu_ratio <- round(us_total / eu_total, 1)
+
+n_juris <- nrow(juris_totals)
+corpus_total <- sum(juris_totals$n_elements)
+us_eu_share <- round((us_total + eu_total) / corpus_total * 100)
+other_total <- corpus_total - us_total - eu_total
+cz_total <- juris_totals$n_elements[juris_totals$jurisdiction == "CZ"]
+ca_total <- juris_totals$n_elements[juris_totals$jurisdiction == "CA"]
+sg_total <- juris_totals$n_elements[juris_totals$jurisdiction == "SG"]
+n_us <- juris_totals$n_frameworks[juris_totals$jurisdiction == "US"]
+n_eu <- juris_totals$n_frameworks[juris_totals$jurisdiction == "EU"]
+n_global <- juris_totals$n_frameworks[juris_totals$jurisdiction == "global"]
+cm <- function(x) format(x, big.mark = ",")
 ```
+
+::: {.callout-note}
+## Scope note
+
+The corpus now spans `r n_juris` jurisdictions. This page compares two of them. Those two hold about `r us_eu_share`% of the corpus by element count, so read what follows as one comparison inside a wider table rather than as a partition of the whole. A fuller cross-jurisdictional treatment is to follow.
+:::
 
 ## The question
 
-How does total element coverage in cybedtools split across US, EU, and global frameworks, and what does the gap reflect?
+How does total element coverage in cybedtools split across the US and EU frameworks, and what does the gap reflect?
 
 ## Why it matters
 
 Total element counts are an obvious cross-framework metric to reach for. They are also the easiest to misread. A reader who sees one jurisdiction's element count vastly exceeding another's may infer that the lagging jurisdiction is undercovered. The actual story is more often that the two jurisdictions chose different design philosophies for their workforce taxonomies.
 
-The cybedtools corpus pulls four US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), two EU frameworks (ENISA ECSF, DigComp 2.2), and two global frameworks (SFIA, ACM/IEEE CSEC2017). The element-count ratio between them is large and worth naming, but the framing matters more than the figure.
+The cybedtools corpus pulls `r n_us` US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), `r n_eu` EU frameworks (ENISA ECSF, DigComp 2.2), `r n_global` global frameworks (SFIA, ACM/IEEE CSEC2017), and one each from the Czech Republic (CyQUAL), Canada (CCSSF), and Singapore (OTCCF). The element-count ratio between the US and EU rows is large and worth naming, but the framing matters more than the figure.
 
 ## The result
 
@@ -71,7 +89,8 @@ juris_totals |>
             hjust = -0.15, size = 3.6, color = "#0F172A") +
   coord_flip() +
   scale_fill_manual(
-    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC")
+    values = c(US = "#0284C7", EU = "#0EA5E9", global = "#7DD3FC",
+               CZ = "#0369A1", CA = "#38BDF8", SG = "#075985")
   ) +
   scale_y_continuous(
     expand = expansion(mult = c(0, 0.18)),
@@ -87,7 +106,7 @@ juris_totals |>
   )
 ```
 
-The four US frameworks contribute `r format(us_total, big.mark = ",")` elements. The two EU frameworks contribute `r format(eu_total, big.mark = ",")`. That ratio runs at roughly `r us_eu_ratio` to one. Global frameworks add `r format(global_total, big.mark = ",")` more.
+The `r n_us` US frameworks contribute `r cm(us_total)` elements. The `r n_eu` EU frameworks contribute `r cm(eu_total)`. That ratio runs at roughly `r us_eu_ratio` to one. The global frameworks add `r cm(global_total)` more, the Czech framework `r cm(cz_total)`, the Singaporean framework `r cm(sg_total)`, and the Canadian framework `r cm(ca_total)`, for a corpus total of `r cm(corpus_total)`.
 
 ## What this tells us
 
@@ -97,11 +116,11 @@ NICE and DCWF were built to specify the US federal civilian and defense cyber wo
 
 ### Two materialization gaps sit on the EU side
 
-ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.2.0 graph. DigComp 2.2's Annex examples (the framework's signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools' EU element count understates what those frameworks actually specify.
+ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.3.0 graph. DigComp 2.2's Annex examples (the framework's signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools' EU element count understates what those frameworks actually specify.
 
 ### Reading the ratio as a coverage gap is wrong
 
-US workforce frameworks were designed for US workforce-planning purposes. EU frameworks were designed for EU interoperability and citizen-self-assessment purposes. The 14-to-1 figure is what those design choices look like at the element layer.
+US workforce frameworks were designed for US workforce-planning purposes. EU frameworks were designed for EU interoperability and citizen-self-assessment purposes. The `r us_eu_ratio`-to-one figure is what those design choices look like at the element layer, and each of the other four rows in the table reflects a further set of design choices.
 
 ## What this doesn't tell us
 
@@ -109,9 +128,9 @@ US workforce frameworks were designed for US workforce-planning purposes. EU fra
 
 Concept depth, real-world adoption, regulatory force, and steward-community size all matter for cross-jurisdictional comparison and none of them appear in this figure.
 
-### Global frameworks sit outside this view
+### Four jurisdictions sit outside this view
 
-SFIA and CSEC2017 don't fit cleanly into US or EU buckets. SFIA is UK-anchored with global commercial uptake. CSEC2017 is a joint ACM/IEEE/AIS/IFIP product. Both contribute element coverage that resists jurisdictional bucketing.
+`r n_juris - 2` of the `r n_juris` jurisdictions in the table are neither US nor EU, and together they carry `r cm(other_total)` elements. SFIA and CSEC2017 don't fit cleanly into either bucket. SFIA is UK-anchored with global commercial uptake. CSEC2017 is a joint ACM/IEEE/AIS/IFIP product. The Czech, Canadian, and Singaporean national frameworks each answer to their own steward and their own workforce. All of them contribute element coverage that a two-bloc comparison does not reach.
 
 ### The cybedtools materialization is partial on the EU side
 

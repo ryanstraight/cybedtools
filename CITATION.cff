@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
 title: "cybedtools: An R Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks"
-version: 0.2.0
+version: 0.3.0
 # Zenodo concept DOI: the parent identifier that resolves to the latest
 # released version (currently 10.5281/zenodo.20076116, verified against
 # the Zenodo project's "Cite all versions" link). This DOI does not
@@ -19,7 +19,7 @@ authors:
 license: MIT
 repository-code: "https://github.com/ryanstraight/cybedtools"
 url: "https://github.com/ryanstraight/cybedtools"
-date-released: "2026-05-08"
+date-released: "2026-09-19"
 keywords:
   - cybersecurity
   - workforce frameworks
@@ -36,9 +36,10 @@ keywords:
 abstract: >-
   cybedtools provides a reproducible R pipeline for ingesting, semantically
   representing (via a two-tier JSON-LD schema), and querying (via SPARQL)
-  eight major cybersecurity-related competency and learning-standards
+  eleven major cybersecurity-related competency and learning-standards
   frameworks: NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
-  ACM/IEEE CSEC2017, and DigComp 2.2. The cybed: vocabulary uses
+  ACM/IEEE CSEC2017, DigComp 2.2, CyQUAL, CCSSF, and OTCCF. The cybed:
+  vocabulary uses
   cybed:OrganizingUnit as the cross-framework abstract for parent units
   and cybed:Role as a workforce-restricted subtype, with cybed:Subpoint
   and cybed:Example separating framework-as-specified enumerations from

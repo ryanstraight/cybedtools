@@ -52,7 +52,7 @@ Named list (JSON-LD node).
 
 Every framework's top-level enumerated unit is an instance of
 \code{cybed:OrganizingUnit} (subClassOf \code{skos:Concept}), the cross-framework
-abstract that lets one SPARQL query reach all eight frameworks' parent
+abstract that lets one SPARQL query reach all eleven frameworks' parent
 units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
 unit is genuinely a work role or work profile additionally assert
 \code{cybed:Role} (itself \verb{subClassOf cybed:OrganizingUnit}); pass \code{is_role = TRUE} for those. Non-workforce frameworks (SFIA enumerates skills;
@@ -100,7 +100,9 @@ Other JSON-LD construction:
 \code{\link[=build_framework_node]{build_framework_node()}},
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}},
-\code{\link[=build_role_node]{build_role_node()}}
+\code{\link[=build_role_node]{build_role_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

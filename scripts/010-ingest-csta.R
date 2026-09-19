@@ -30,6 +30,8 @@ suppressPackageStartupMessages({
   library(digest)
 })
 
+source(here("scripts", "_ingest-common.R"), local = TRUE)
+
 csta_config <- list(
   framework_version = "CSTA K-12 Computer Science Standards (Revised 2017)",
   version_date      = "2017",
@@ -77,6 +79,11 @@ build_cluster_catalog <- function(standards) {
 # ---------------------------------------------------------------------------
 
 write_provenance_manifest <- function(xlsx_path, standards, levels, clusters) {
+  manifest_path <- file.path(csta_config$staging_dir, csta_config$manifest_filename)
+  file_sha256 <- digest(file = xlsx_path, algo = "sha256")
+  retrieved_date <- resolve_retrieved_date(manifest_path,
+                                           c(file_sha256 = file_sha256))
+
   manifest <- list(
     framework         = "CSTA K-12 CS",
     framework_version = csta_config$framework_version,
@@ -87,10 +94,10 @@ write_provenance_manifest <- function(xlsx_path, standards, levels, clusters) {
       filename  = csta_config$xlsx_filename
     ),
     retrieval = list(
-      retrieved_date   = format(Sys.Date(), "%Y-%m-%d"),
+      retrieved_date   = retrieved_date,
       retrieved_by     = "scripts/010-ingest-csta.R",
       file_size_bytes  = file.info(xlsx_path)$size,
-      file_sha256      = digest(file = xlsx_path, algo = "sha256")
+      file_sha256      = file_sha256
     ),
     extraction = list(
       standards_count  = nrow(standards),
@@ -101,9 +108,21 @@ write_provenance_manifest <- function(xlsx_path, standards, levels, clusters) {
     ),
     licensing = list(
       source_license = csta_config$license,
+      license_read_from = paste(
+        "CSTA's 2017-edition publication page,",
+        "https://csteachers.org/2017standards/interactive/. The ingested XLSX",
+        "carries no licence statement in its cells or document properties."
+      ),
+      citation = paste(
+        "Computer Science Teachers Association (2017). CSTA K-12 Computer",
+        "Science Standards, Revised 2017. Retrieved from",
+        "https://csteachers.org/k12standards/."
+      ),
       redistribution_note = paste(
         "CC BY-NC-SA 4.0: attribution + non-commercial + share-alike.",
-        "Commercial toolkit release may not include CSTA text.",
+        "Commercial toolkit release may not include CSTA text. The share-alike",
+        "term propagates, so any single file containing CSTA-derived content",
+        "must itself be offered under CC BY-NC-SA 4.0.",
         "Analytical derivatives publishable with attribution."
       )
     ),
@@ -117,7 +136,6 @@ write_provenance_manifest <- function(xlsx_path, standards, levels, clusters) {
     )
   )
 
-  manifest_path <- file.path(csta_config$staging_dir, csta_config$manifest_filename)
   write_yaml(manifest, manifest_path)
   message("Provenance manifest written: ", manifest_path)
   invisible(manifest_path)

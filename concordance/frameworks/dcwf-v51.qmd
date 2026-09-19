@@ -4,7 +4,7 @@ subtitle: "DoD Cyber Workforce Framework (DoDD 8140)"
 jurisdiction: "US"
 framework-type: "Workforce"
 organizing-units: 74
-elements: 2945
+elements: 4052
 license: "Public domain"
 date: 2026-05-08
 categories: [workforce, us]
@@ -20,7 +20,7 @@ categories: [workforce, us]
 | Released | 2025-07-25 |
 | Aligned to | NICE Framework |
 | Source format | DoD CIO Work Role Tool (XLSX) |
-| License | Public domain (works of the United States Government) |
+| License | A US Government work prepared by DoD personnel, so not subject to copyright in the United States under 17 U.S.C. 105. The v5.1 workbook carries no distribution statement |
 | `framework_summary` slug | `dcwf-v51` |
 
 ## Structure in cybed: terms
@@ -88,13 +88,23 @@ categories: [workforce, us]
 |---|---|
 | Work roles | 74 |
 | Strict elements | 2,945 |
-| With-examples elements | 2,945 |
-| Elements per work role | 39.8 |
+| Subpoints (parsed enumeration lists) | 1,107 |
+| With-examples elements | 4,052 |
+| Elements per work role, strict | 39.8 |
+| Elements per work role, with-examples | 54.8 |
 
-DCWF encodes detail entirely in numbered statements. The strict and
-with-examples counts coincide because the ingestion has no
-prose-embedded clarifications to promote into separate
-`cybed:Example` nodes.
+DCWF has no `cybed:Example` nodes -- its numbered statements carry no
+separate prose-embedded clarifications the way Cyber.org K-12 or CSTA
+do. But 1,107 of its Task/KSA statements phrase part of their content
+as an enumerated list ("including X and Y", "(e.g., X, Y, and Z)"),
+and the uniform Subpoint parser splits those out the same way it does
+across the other ten frameworks, so strict and with-examples do not
+coincide here. This is DCWF's second correction of the day: a parser
+bug fixed 2026-08-14 (a dead `e.g.` introducer pattern, plus a
+soft-wrap newline being read as a false sentence boundary) meant most
+of this framework's `(e.g., ...)`-style enumerations were previously
+invisible to the Subpoint layer entirely. DCWF now carries the highest
+with-examples density of any framework in the corpus, ahead of NICE.
 
 ## Provenance
 
@@ -121,7 +131,7 @@ DoD Cyber Workforce Framework reference materials.
 
 **License**
 
-Works of the United States Government are in the US public domain.
+A work of the United States Government prepared by DoD personnel, so not subject to copyright in the United States under 17 U.S.C. 105. The v5.1 workbook carries no distribution statement, so nothing in the artifact either grants or restricts distribution. The package does not bundle the source workbook. Users stage it locally.
 :::
 
 :::

@@ -166,5 +166,84 @@ make_fixture_graph <- function() {
   rdflib::rdf_add(rdf, el_a2_ex1, cybed_term("partOf"),    fw_a)
   rdflib::rdf_add(rdf, el_a2,     cybed_term("hasExample"), el_a2_ex1)
 
+  # Two cybed:UnitRelation nodes (added v0.3.0): role_a1 requires role_a2 at
+  # two different levels. Same pair, two statements, two IRIs, minted the way
+  # build_unit_relation_node() mints them (from, to, label, level). Typed neither
+  # cybed:OrganizingUnit nor cybed:RoleElement, so unit and element helpers
+  # are unaffected by their presence.
+  relation_class <- cybed_term("UnitRelation")
+  rel_1 <- cybed_term("relation/fixture-a1--fixture-a2--requires--L3")
+  rel_2 <- cybed_term("relation/fixture-a1--fixture-a2--requires--L5")
+
+  for (r in c(rel_1, rel_2)) {
+    rdflib::rdf_add(rdf, r, rdf_type,                  relation_class)
+    rdflib::rdf_add(rdf, r, cybed_term("fromUnit"),    role_a1)
+    rdflib::rdf_add(rdf, r, cybed_term("toUnit"),      role_a2)
+    rdflib::rdf_add(rdf, r, cybed_term("relationLabel"), "requires")
+    rdflib::rdf_add(rdf, r, cybed_term("partOf"),      fw_a)
+  }
+  rdflib::rdf_add(rdf, rel_1, cybed_term("proficiencyLevel"), "3")
+  rdflib::rdf_add(rdf, rel_2, cybed_term("proficiencyLevel"), "5")
+
   rdf
 }
+
+# Extended fixture: the base graph plus one deliberate cross-framework local
+# code collision, used by test-cross-framework-keys.R.
+#
+# The real corpus has this situation. CCSSF is an explicit adaptation of NICE
+# and reuses NICE-shaped statement codes, and the staged graph keeps the two
+# apart only because each framework mints its subjects in its own namespace
+# (https://w3id.org/cybed/framework/ccssf# vs https://nice.nist.gov/framework/
+# terms#). A caller who strips an identifier down to its bare local code loses
+# that separation silently. This fixture reproduces the collision so the
+# helpers can be asserted against it: two frameworks, one element code
+# "T0516" each, one role code "WRL-001" each, minted in per-framework
+# namespaces exactly as the pipeline mints them.
+#
+# Kept as a separate builder rather than folded into make_fixture_graph() so
+# the existing hard-coded fixture counts in test-sparql-helpers.R stay valid.
+fixture_ns_a <- "https://w3id.org/cybed/framework/fixture-a#"
+fixture_ns_b <- "https://w3id.org/cybed/framework/fixture-b#"
+
+make_shared_code_fixture_graph <- function() {
+  rdf <- make_fixture_graph()
+
+  fw_a <- cybed_term("framework/fixture-fw-a")
+  fw_b <- cybed_term("framework/fixture-fw-b")
+
+  role_class            <- cybed_term("Role")
+  organizing_unit_class <- cybed_term("OrganizingUnit")
+  element_class         <- cybed_term("RoleElement")
+
+  # Same bare role code in both frameworks, different namespaces.
+  role_shared_a <- paste0(fixture_ns_a, "WRL-001")
+  role_shared_b <- paste0(fixture_ns_b, "WRL-001")
+
+  for (r in c(role_shared_a, role_shared_b)) {
+    rdflib::rdf_add(rdf, r, rdf_type, role_class)
+    rdflib::rdf_add(rdf, r, rdf_type, organizing_unit_class)
+  }
+  rdflib::rdf_add(rdf, role_shared_a, schema_term("name"), "Shared Code Role A")
+  rdflib::rdf_add(rdf, role_shared_b, schema_term("name"), "Shared Code Role B")
+  rdflib::rdf_add(rdf, role_shared_a, cybed_term("partOf"), fw_a)
+  rdflib::rdf_add(rdf, role_shared_b, cybed_term("partOf"), fw_b)
+
+  # Same bare element code in both frameworks, different namespaces.
+  el_shared_a <- paste0(fixture_ns_a, "T0516")
+  el_shared_b <- paste0(fixture_ns_b, "T0516")
+
+  for (e in c(el_shared_a, el_shared_b)) {
+    rdflib::rdf_add(rdf, e, rdf_type, element_class)
+  }
+  rdflib::rdf_add(rdf, el_shared_a, cybed_term("partOf"), fw_a)
+  rdflib::rdf_add(rdf, el_shared_b, cybed_term("partOf"), fw_b)
+  rdflib::rdf_add(rdf, role_shared_a, cybed_term("hasElement"), el_shared_a)
+  rdflib::rdf_add(rdf, role_shared_b, cybed_term("hasElement"), el_shared_b)
+
+  rdf
+}
+
+# The bare local code shared by two frameworks in the extended fixture.
+fixture_shared_element_code <- "T0516"
+fixture_shared_role_code    <- "WRL-001"

@@ -8,7 +8,8 @@ build_jsonld_context(framework_prefix)
 }
 \arguments{
 \item{framework_prefix}{Character, one of the valid framework prefixes.
-Workforce: \code{"nice"}, \code{"dcwf"}, \code{"ecf"}, \code{"sfia"}, \code{"ecsf"}.
+Workforce: \code{"nice"}, \code{"dcwf"}, \code{"ecf"}, \code{"sfia"}, \code{"ecsf"}, \code{"cyqual"},
+\code{"ccssf"}, \code{"otccf"}.
 Pedagogical: \code{"cyberorg"}, \code{"csta"}, \code{"csec"}, \code{"digcomp"}.}
 }
 \value{
@@ -32,7 +33,9 @@ Other JSON-LD construction:
 \code{\link[=build_framework_node]{build_framework_node()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
 \code{\link[=build_role_element_node]{build_role_element_node()}},
-\code{\link[=build_role_node]{build_role_node()}}
+\code{\link[=build_role_node]{build_role_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

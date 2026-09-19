@@ -8,7 +8,8 @@ load_single_framework_graph(framework_slug, jsonld_dir = NULL)
 }
 \arguments{
 \item{framework_slug}{Character, one of \code{"nice"}, \code{"sfia"}, \code{"dcwf"},
-\code{"ecsf"}, \code{"cyberorg-k12"}, \code{"csta"}, \code{"csec2017"}, or \code{"digcomp"}.}
+\code{"ecsf"}, \code{"cyberorg-k12"}, \code{"csta"}, \code{"csec2017"}, \code{"digcomp"}, or
+\code{"cyqual"}, \code{"ccssf"}, or \code{"otccf"}.}
 
 \item{jsonld_dir}{Character path to the directory containing per-framework
 JSON-LD files. Defaults to \verb{data/processed/jsonld/}.}

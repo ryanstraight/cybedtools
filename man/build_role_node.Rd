@@ -12,6 +12,7 @@ build_role_node(
   description = NA_character_,
   element_ids = character(0),
   framework_id = NA_character_,
+  opm_codes = character(0),
   metadata = list()
 )
 }
@@ -32,6 +33,19 @@ framework vocabulary (e.g., \code{"WorkRole"}, \code{"RoleProfile"}).}
 \item{framework_id}{Character, framework identifier (e.g., \code{"nice-v2"}) to
 populate \code{cybed:partOf}. Enables SPARQL queries that traverse role to
 framework. Recommended. Defaults to \code{NA} for backward compatibility.}
+
+\item{opm_codes}{Character vector of OPM occupational-series codes to
+attach as the multi-valued literal property \code{cybed:opmCode}. NICE
+v2.2.0 publishes Federal-use OPM cybersecurity data standard codes per
+work role; a role may carry zero, one, or several codes (e.g., NICE
+\code{DD-WRL-004} carries two). The codes are modeled as literals, not
+nodes: the published \code{opm_code} elements have no descriptive payload
+(title/text are empty; the code is the identifier). Empty vector (the
+default) and \code{NA} entries omit the property. Merged via the same
+metadata-merge path used for \code{cybed:ecfCrossReference},
+\code{cybed:cybokCrossReference}, and \code{cybed:niceCrossReference} (the
+framework's own cited NICE work-role ids, recorded as literals where the
+cited ids do not resolve to elements in this graph).}
 
 \item{metadata}{Named list, optional additional fields to include.}
 }
@@ -59,6 +73,17 @@ role <- build_role_node(
 )
 role[["@type"]]
 # c("nice:WorkRole", "cybed:Role", "cybed:OrganizingUnit")
+
+# Multi-valued OPM codes (NICE v2.2.0 Federal-use annotation).
+role_opm <- build_role_node(
+  role_id              = "DD-WRL-004",
+  role_name            = "Enterprise Architecture",
+  framework_prefix     = "nice",
+  framework_role_type  = "WorkRole",
+  framework_id         = "nice-v2",
+  opm_codes            = c("631", "632")
+)
+role_opm[["cybed:opmCode"]]
 }
 \seealso{
 Other JSON-LD construction:
@@ -67,6 +92,8 @@ Other JSON-LD construction:
 \code{\link[=build_jsonld_context]{build_jsonld_context()}},
 \code{\link[=build_multi_framework_context]{build_multi_framework_context()}},
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}},
-\code{\link[=build_role_element_node]{build_role_element_node()}}
+\code{\link[=build_related_unit_metadata]{build_related_unit_metadata()}},
+\code{\link[=build_role_element_node]{build_role_element_node()}},
+\code{\link[=build_unit_relation_node]{build_unit_relation_node()}}
 }
 \concept{JSON-LD construction}

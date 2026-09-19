@@ -1,7 +1,7 @@
 ---
 title: "Where do NICE work roles align with CSEC2017 Knowledge Areas?"
 subtitle: "Cross-framework similarity at the role-to-curriculum-area level"
-description: "Pairwise Jaccard similarity between 41 NICE work roles and 8 CSEC2017 Knowledge Areas, with each unit's full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding."
+description: "Pairwise Jaccard similarity between the NICE work roles and the 8 CSEC2017 Knowledge Areas, with each unit's full document (parent description plus all child elements concatenated) as the comparison surface. The uniformly-low similarity is the methodological finding."
 date: 2026-05-09
 categories: [Cross-framework, Workforce, Higher Ed]
 ---
@@ -13,13 +13,33 @@ library(dplyr)
 library(ggplot2)
 library(here)
 
+for (p in c("nice_csec2017_best.rds", "nice_csec2017_alignment.rds")) {
+  if (!file.exists(here("_data", p))) {
+    stop("Missing _data/", p, ". Run concordance/_data-prep-nice-csec2017-alignment.R ",
+         "from the cybedtools repo root before rendering this page.", call. = FALSE)
+  }
+}
 best <- readRDS(here("_data", "nice_csec2017_best.rds"))
 top3 <- readRDS(here("_data", "nice_csec2017_alignment.rds"))
+
+knitr::read_chunk(here("_data-prep-nice-csec2017-alignment.R"))
+
+fs <- cybedtools::framework_summary
+n_nice <- nrow(best)
+n_ka <- fs$organizing_unit_count[fs$framework_slug == "csec2017-v1"]
+ka_counts <- best |> count(csec_name, sort = TRUE)
+comp_n <- ka_counts$n[ka_counts$csec_name == "Component Security"]
+comp_pct <- round(comp_n / n_nice * 100)
+rest_n <- n_nice - comp_n
+n_zero_ka <- n_ka - nrow(ka_counts)
+max_sim <- sprintf("%.2f", max(best$similarity))
+max_pct <- round(max(best$similarity) * 100)
+med_pct <- round(median(best$similarity) * 100)
 ```
 
 ## The question
 
-For each of the 41 NICE work roles, what is the closest CSEC2017 Knowledge Area by full-document text similarity, and how does that similarity distribute across the 8 KAs?
+For each of the `r n_nice` NICE work roles, what is the closest CSEC2017 Knowledge Area by full-document text similarity, and how does that similarity distribute across the `r n_ka` KAs?
 
 ## Why it matters
 
@@ -48,7 +68,7 @@ tibble::tibble(
   knitr::kable()
 ```
 
-Every best-match similarity sits below 0.10. The strongest pairing in the entire 41-role set is roughly 7% vocabulary overlap. The median is 4%.
+Every best-match similarity sits below 0.10. The strongest pairing in the entire `r n_nice`-role set is roughly `r max_pct`% vocabulary overlap. The median is `r med_pct`%.
 
 ```{r}
 #| label: fig-ka-distribution
@@ -76,17 +96,17 @@ ggplot(counts, aes(x = csec_name, y = n)) +
         panel.grid.minor = element_blank())
 ```
 
-Of 41 NICE work roles, 27 (66%) best-match to Component Security. The remaining 14 distribute across four KAs (Organizational, System, Connection, Software). Three KAs attract zero NICE roles as top match.
+Of `r n_nice` NICE work roles, `r comp_n` (`r comp_pct`%) best-match to Component Security. The remaining `r rest_n` distribute across four KAs (Organizational, System, Connection, Software). `r n_zero_ka` KAs attract zero NICE roles as top match.
 
 ## What this tells us
 
 ### The two frameworks are not text-aligned
 
-A best-match similarity ceiling of 0.07 across all 41 NICE roles is the structural finding. Even the highest-overlap pairs share fewer than one in fourteen unique tokens. The vocabulary similarity is too low to support any defensible NICE-to-CSEC2017 crosswalking at the role-to-KA level.
+A best-match similarity ceiling of `r max_sim` across all `r n_nice` NICE roles is the structural finding. Even the highest-overlap pairs share fewer than one in fourteen unique tokens. The vocabulary similarity is too low to support any defensible NICE-to-CSEC2017 crosswalking at the role-to-KA level.
 
 ### Component Security dominance is a vocabulary-scale artifact
 
-Component Security's 8-Topic scope covers hardware, firmware, integrated systems, embedded design, and component testing. That vocabulary is broad enough to overlap weakly with any NICE role that mentions technology components. Other KAs use narrower, more specialized vocabulary. Human Security covers identity, social engineering, awareness. Societal Security covers policy, ethics, law. Neither overlaps with NICE workforce-position language regardless of the role's semantic relationship to those topics.
+Component Security's scope covers hardware, firmware, integrated systems, embedded design, and component testing. That vocabulary is broad enough to overlap weakly with any NICE role that mentions technology components. Other KAs use narrower, more specialized vocabulary. Human Security covers identity, social engineering, awareness. Societal Security covers policy, ethics, law. Neither overlaps with NICE workforce-position language regardless of the role's semantic relationship to those topics.
 
 ### Evidence of absence is useful
 
@@ -108,7 +128,7 @@ TF-IDF cosine similarity, embedding-based similarity, and topic-modeling approac
 
 ## Look up by NICE work role
 
-The widget below shows each of the 41 NICE work roles with its top-3 CSEC2017 Knowledge Areas by full-document Jaccard. Search by role name ("incident," "forensics," "policy") or sort by overlap percentage.
+The widget below shows each of the `r n_nice` NICE work roles with its top-3 CSEC2017 Knowledge Areas by full-document Jaccard. Search by role name ("incident," "forensics," "policy") or sort by overlap percentage.
 
 ```{r}
 #| label: tbl-lookup
@@ -144,7 +164,7 @@ top3 |>
   )
 ```
 
-Rows group by NICE work role. Expand a role to see its top-3 CSEC2017 matches in similarity-descending order. The headline finding (every best match below 10% overlap) is visible in the data. Even the top-ranked match for any role rarely clears 7%.
+Rows group by NICE work role. Expand a role to see its top-3 CSEC2017 matches in similarity-descending order. The headline finding (every best match below 10% overlap) is visible in the data. Even the top-ranked match for any role rarely clears `r max_pct`%.
 
 ## Reproduce this
 
@@ -157,21 +177,19 @@ library(tidyr)
 library(rdflib)
 
 g <- load_combined_ntriples_graph()
-
-# Pull NICE work roles + CSEC2017 KAs.
-units <- organizing_unit_framework_bindings(g)
-nice_roles <- units |>
-  filter(grepl("^NICE", framework_name)) |>
-  select(unit, unit_name)
-csec_kas <- units |>
-  filter(grepl("CSEC2017", framework_name)) |>
-  select(unit, unit_name)
-
-# Build full-document text per unit (parent description + all child element text).
-# Tokenize, drop stopwords and short tokens, compute Jaccard pairwise,
-# keep the top 3 CSEC2017 KAs per NICE work role. Full prep script in
-# `_data-prep-nice-csec2017-alignment.R` in the repository.
 ```
+
+The unit pull is read straight out of the prep script, so this block cannot drift away from what actually ran:
+
+```{r}
+#| label: reproduce-pull
+#| eval: false
+#| echo: true
+```
+
+Note which binding each side uses. The NICE side comes off `role_framework_bindings()`, not `organizing_unit_framework_bindings()`, because since the v2.2.0 re-ingest NICE contributes 11 competency areas as organizing units alongside its work roles. CSEC2017 Knowledge Areas are organizing-unit-only by design and stay on that path.
+
+From there the script builds full-document text per unit (parent description plus all child element text), tokenizes, drops stopwords and short tokens, computes Jaccard pairwise, and keeps the top 3 CSEC2017 KAs per NICE work role. The full script is `concordance/_data-prep-nice-csec2017-alignment.R` in the repository.
 
 ## Related queries
 

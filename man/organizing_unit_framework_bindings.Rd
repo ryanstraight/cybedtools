@@ -16,7 +16,7 @@ A tibble with columns \code{unit}, \code{unit_name}, \code{framework},
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-One row per (organizing unit, framework) pair across all eight
+One row per (organizing unit, framework) pair across all eleven
 frameworks. Queries on the cross-framework abstract type
 \code{cybed:OrganizingUnit}, which every framework's top-level enumerated
 unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
@@ -28,6 +28,16 @@ helper for cross-framework parent-level analysis. Use
 Units without a \code{cybed:partOf} triple, or whose partOf target is not
 typed \code{cybed:Framework}, are excluded.
 }
+\note{
+The \code{framework} column holds the framework's full URI. Avoid
+naming a local variable or function parameter \code{framework} in code
+that filters or mutates this tibble -- dplyr's data masking silently
+resolves a bare \code{framework} reference inside \code{filter()}/\code{mutate()}
+to this COLUMN rather than your same-named variable, with no error
+and no warning, only a wrong (often zero-row) result surfacing later.
+Confirmed 2026-08-14: a helper written as \code{function(framework, ...) filter(units, str_detect(framework_name, framework))} silently
+returned zero rows every time.
+}
 \examples{
 \dontrun{
 rdf <- load_combined_ntriples_graph()
@@ -37,11 +47,13 @@ organizing_unit_framework_bindings(rdf)
 \seealso{
 Other SPARQL helpers:
 \code{\link[=element_framework_bindings]{element_framework_bindings()}},
+\code{\link[=element_text]{element_text()}},
 \code{\link[=example_framework_bindings]{example_framework_bindings()}},
 \code{\link[=framework_metadata]{framework_metadata()}},
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
-\code{\link[=sparql_subjects]{sparql_subjects()}}
+\code{\link[=sparql_subjects]{sparql_subjects()}},
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
 }
 \concept{SPARQL helpers}

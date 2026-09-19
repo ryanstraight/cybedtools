@@ -11,7 +11,8 @@ reference index.
 
 R package providing a reproducible JSON-LD + SPARQL pipeline for
 analyzing cybersecurity workforce competency frameworks (NICE, DCWF,
-SFIA, ENISA ECSF) and pedagogical/learning-standards frameworks
+SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
+Singapore's OTCCF) and pedagogical/learning-standards frameworks
 (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). The
 intellectual contribution is a framework-agnostic schema (`cybed:`) that
 lets one query operate across heterogeneous frameworks. The
@@ -98,9 +99,9 @@ The package's design discipline is therefore:
 
 This is implemented by `R/sparql-helpers.R`. The two primitives
 (`sparql_pairs`, `sparql_subjects`) issue exactly one triple match;
-the four domain helpers (`framework_metadata`, `role_framework_bindings`,
-`element_framework_bindings`, `role_element_bindings`) compose multiple
-single-BGP calls and join in R.
+the domain helpers (`framework_metadata`, `role_framework_bindings`,
+`element_framework_bindings`, `role_element_bindings`, `element_text`)
+compose one or more single-BGP calls and join in R.
 
 **If you, the agent, are asked to write a multi-pattern SPARQL query
 against this package's graphs: don't. Decompose into single-BGP calls
