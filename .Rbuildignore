@@ -44,3 +44,4 @@
 ^\.ci-watch\.log$
 ^\.Rhistory$
 ^concordance$
+^python$

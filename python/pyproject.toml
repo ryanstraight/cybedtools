@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cybedtools"
+version = "0.0.1"
+description = "Python interface to the cybedtools cross-framework cybersecurity workforce and learning frameworks graph. This first release reserves the name while the package is built."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "Ryan Straight", email = "ryanstraight@arizona.edu" }]
+keywords = ["cybersecurity", "workforce", "frameworks", "rdf", "sparql"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Education",
+  "Topic :: Security",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "build>=1.2"]
+
+[project.urls]
+Homepage = "https://ryanstraight.github.io/cybedtools/"
+Repository = "https://github.com/ryanstraight/cybedtools"
+Issues = "https://github.com/ryanstraight/cybedtools/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cybedtools"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE", "pyproject.toml"]
