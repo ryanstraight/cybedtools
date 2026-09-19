@@ -27,8 +27,12 @@ license_table <- function() {
 #' The `license_short` column is the short label that
 #' [framework_summary]`$license` is derived from. The `license` column holds
 #' what the source's own document or terms page says, quoted and attributed
-#' to the document it was read from, and the `attribution` column holds the
-#' wording a steward prescribed, or `NA` where none is prescribed.
+#' to the document it was read from. The `attribution` column holds the
+#' wording to reproduce when the framework's content is used: the steward's
+#' own wording verbatim where one is prescribed, a minimal attribution
+#' composed by the package where the licence requires credit but the steward
+#' prescribes no wording, and `NA` where neither applies. The `license` cell
+#' says which of the two a given row carries.
 #'
 #' @param slug Character scalar, or `NULL`. Either `"cybedtools"` for the
 #'   package's own code, or a framework slug as carried by

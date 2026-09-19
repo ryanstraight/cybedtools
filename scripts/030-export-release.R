@@ -393,8 +393,10 @@ build_readme <- function(config, files) {
     "",
     paste0("Cite the software by its concept DOI, ", config$concept_doi,
            ", and cite this data release by its own record. Cite each",
-           " framework's publisher as that framework's terms require; the",
-           " attribution wording above is the wording the steward prescribed."),
+           " framework's publisher as that framework's terms require. The",
+           " attribution wording above is the steward's own where one is",
+           " prescribed. Where none is, it names the title, publisher, source",
+           " and licence, which is what the licence asks for."),
     "",
     sep = "\n"
   )
