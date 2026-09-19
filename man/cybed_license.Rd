@@ -27,8 +27,12 @@ slug it returns that one row.
 The \code{license_short} column is the short label that
 \link{framework_summary}\verb{$license} is derived from. The \code{license} column holds
 what the source's own document or terms page says, quoted and attributed
-to the document it was read from, and the \code{attribution} column holds the
-wording a steward prescribed, or \code{NA} where none is prescribed.
+to the document it was read from. The \code{attribution} column holds the
+wording to reproduce when the framework's content is used: the steward's
+own wording verbatim where one is prescribed, a minimal attribution
+composed by the package where the licence requires credit but the steward
+prescribes no wording, and \code{NA} where neither applies. The \code{license} cell
+says which of the two a given row carries.
 }
 \examples{
 cybed_license()

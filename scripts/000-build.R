@@ -16,6 +16,7 @@
 #   data/raw/<framework>/tables/*.csv     per-framework tidy CSVs
 #   data/raw/<framework>/provenance.yml   SHA256 + retrieval manifest
 #   data/processed/jsonld/*.jsonld        assembled semantic graphs
+#   data/processed/release/<version>/     public per-framework data release
 #   data/processed/query-results/*.csv    SPARQL query results
 #   docs/ingestion-summary.md             auto-generated framework inventory
 #   data/audit/audit-log.ndjson           append-only verification log
@@ -23,8 +24,10 @@
 # Failure handling:
 #   - Ingestion scripts abort if their source file is missing (manual-stage
 #     frameworks only; the auto-download frameworks re-fetch on demand).
-#   - Verification is the gate: HARD failures exit with non-zero status
-#     before downstream steps run. SOFT flags warn and continue.
+#   - Verification is the gate, in two places. 015 checks the staged CSVs:
+#     HARD failures exit with non-zero status before downstream steps run,
+#     SOFT flags warn and continue. 026 checks the assembled graph, where
+#     every failure is hard.
 #   - Assembly + query steps exit non-zero on any R error.
 
 suppressPackageStartupMessages({
@@ -52,6 +55,8 @@ post_ingestion_scripts <- c(
   "scripts/016-summarize-ingestion.R",
   "scripts/020-assemble-jsonld.R",
   "scripts/025-export-ntriples.R",
+  "scripts/026-verify-graph.R",
+  "scripts/030-export-release.R",
   "scripts/040-run-sparql.R"
 )
 
@@ -79,6 +84,7 @@ message("\n=== Build complete ===")
 message("Outputs:")
 message("  data/raw/<framework>/tables/       -- tidy CSVs per framework")
 message("  data/processed/jsonld/*.jsonld     -- assembled semantic graphs")
+message("  data/processed/release/<version>/  -- public per-framework data release")
 message("  data/processed/query-results/*.csv -- SPARQL query outputs")
 message("  docs/ingestion-summary.md          -- framework inventory")
 message("  data/audit/audit-log.ndjson        -- verification audit log")

@@ -51,9 +51,33 @@ if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION
 }
 
 assembly_config <- list(
-  raw_dir       = here("data", "raw"),
-  output_dir    = here("data", "processed", "jsonld")
+  raw_dir         = here("data", "raw"),
+  output_dir      = here("data", "processed", "jsonld"),
+  invariants_path = here("docs", "framework-invariants.yml")
 )
+
+# ---------------------------------------------------------------------------
+# Unit IRI discriminators
+# ---------------------------------------------------------------------------
+
+# Most frameworks number their organizing units and their statements out of
+# separate id spaces, so a bare local id is enough to keep a unit IRI and a
+# statement IRI apart. Two do not. DCWF draws work-role codes and task/KSA
+# numbers from one numeric range, and Cyber.org K-12 names a grade-band cell
+# after the standard it holds. For those, docs/framework-invariants.yml
+# declares a unit_iri_prefix, the assembler mints unit IRIs with it, and the
+# unit's printed code is carried as a schema:identifier literal instead of
+# only in the IRI. A framework that declares nothing keeps the IRIs it has
+# always had.
+framework_invariants <- read_yaml(assembly_config$invariants_path)
+
+unit_iri_prefix_for <- function(framework_slug) {
+  entry <- framework_invariants$frameworks[[framework_slug]]
+  if (is.null(entry) || is.null(entry$unit_iri_prefix)) {
+    return(NULL)
+  }
+  as.character(entry$unit_iri_prefix)
+}
 
 # ---------------------------------------------------------------------------
 # Provenance loader
@@ -408,7 +432,8 @@ assemble_dcwf <- function() {
         framework_role_type  = "WorkRole",
         description          = work_role_definition,
         element_ids          = child_ids,
-        framework_id         = "dcwf-v5.1"
+        framework_id         = "dcwf-v5.1",
+        unit_iri_prefix      = unit_iri_prefix_for("dcwf")
       )
     })
 
@@ -595,7 +620,8 @@ assemble_cyberorg <- function() {
         is_role           = FALSE,
         description       = paste("Grade-band x sub-concept group of standards for", grade_band, "students on", sc_name %||% sub_concept),
         element_ids       = child_standards,
-        framework_id      = "cyberorg-k12-v1.0"
+        framework_id      = "cyberorg-k12-v1.0",
+        unit_iri_prefix   = unit_iri_prefix_for("cyberorg-k12")
       )
     })
 

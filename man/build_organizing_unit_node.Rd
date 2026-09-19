@@ -13,7 +13,8 @@ build_organizing_unit_node(
   description = NA_character_,
   element_ids = character(0),
   framework_id = NA_character_,
-  metadata = list()
+  metadata = list(),
+  unit_iri_prefix = NULL
 )
 }
 \arguments{
@@ -43,6 +44,20 @@ via \code{cybed:hasElement}.}
 to populate \code{cybed:partOf}.}
 
 \item{metadata}{Named list, optional additional fields to include.}
+
+\item{unit_iri_prefix}{Character, optional discriminator inserted in front
+of \code{unit_id} in the minted IRI, so the unit becomes
+\verb{\{framework_prefix\}:\{unit_iri_prefix\}\{unit_id\}} instead of
+\code{{framework_prefix}:{unit_id}}. Use it when a framework numbers its
+units and its statements out of one id space, which makes a unit IRI and
+a statement IRI collide and fuses two nodes into one. DCWF numbers work
+roles and task/KSA statements from the same range, and Cyber.org K-12
+names a grade-band cell after the standard it holds; both are minted
+with a prefix for that reason. When a prefix is supplied the unit's own
+printed code is retained as a \code{schema:identifier} literal, so nothing
+the IRI used to carry is lost. Defaults to \code{NULL}, which mints the bare
+IRI and adds no literal: existing behaviour for every other framework
+and for a user's own.}
 }
 \value{
 Named list (JSON-LD node).
@@ -93,6 +108,17 @@ bucket <- build_organizing_unit_node(
 )
 bucket[["@type"]]
 # c("csta:StandardGroup", "cybed:OrganizingUnit")
+
+# A framework whose unit ids and statement ids share one space.
+cell <- build_organizing_unit_node(
+  unit_id           = "K-2.SEC.AUTH",
+  unit_name         = "K-2 / Security / Authentication",
+  framework_prefix  = "cyberorg",
+  framework_subtype = "StandardGroup",
+  unit_iri_prefix   = "cell-"
+)
+cell[["@id"]]
+cell[["schema:identifier"]]
 }
 \seealso{
 Other JSON-LD construction:

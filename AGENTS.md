@@ -126,6 +126,8 @@ can branch on class instead of regex-matching messages:
 | `cybedtools_unknown_prefix`        | `build_multi_framework_context()` on an unknown framework prefix  |
 | `cybedtools_file_not_found`        | `read_jsonld_document()`, `load_combined_*_graph()` when missing  |
 | `cybedtools_framework_not_found`   | `load_single_framework_graph()` on an unknown slug                |
+| `cybedtools_graph_identity`        | `assert_graph_identity()` when one IRI is both a unit and a statement |
+| `cybedtools_graph_invariant`       | `assert_graph_invariants()` on a count outside its declared band  |
 
 Recovery pattern:
 
@@ -148,6 +150,11 @@ Where to look for what:
 - `R/sparql-helpers.R`: single-BGP primitives plus domain helpers. The
   query layer.
 - `R/rdf-graph.R`: graph loaders for staged data (`load_*_graph`).
+- `R/graph-invariants.R`: the checks only an assembled graph can answer.
+  Identity (no IRI is both an organizing unit and a statement, no
+  `cybed:hasElement` self-loops) and the declared `graph_invariants`
+  counts. Run as `scripts/026-verify-graph.R` and re-run by
+  `scripts/030-export-release.R`.
 - `R/demo-graph.R`: `make_demo_graph()` synthetic two-framework
   fixture for sanity checks.
 - `R/cybedtools-package.R`: `?cybedtools` package-level help.
@@ -161,7 +168,9 @@ Where to look for what:
 - `docs/framework-data-sources.md`: per-framework source URLs,
   licensing, staging path.
 - `docs/framework-invariants.yml`: declared count bounds per framework
-  (used by `scripts/015-verify-ingestion.R`).
+  (used by `scripts/015-verify-ingestion.R`), the post-assembly
+  `graph_invariants` bands (used by `scripts/026-verify-graph.R`), and
+  each framework's optional `unit_iri_prefix`.
 - `vignettes/articles/data-integrity.Rmd`: the six-invariant verification
   contract (rendered as a pkgdown article).
 - `vignettes/articles/sparql-strategy.Rmd`: single-BGP SPARQL query
@@ -198,7 +207,9 @@ Summary:
    `scripts/010-ingest-<slug>.R` producing tidy CSVs and
    `provenance.yml`.
 3. Add an entry to `docs/framework-invariants.yml` with expected role
-   and element count bounds.
+   and element count bounds. Check there whether the framework can give
+   an organizing unit and a statement the same id; if it can, declare a
+   `unit_iri_prefix` for it, or the two nodes mint one IRI and fuse.
 4. Add verification field mappings in `scripts/015-verify-ingestion.R`.
 5. Add a JSON-LD assembly adapter in `scripts/020-assemble-jsonld.R`.
 6. Run `scripts/000-build.R`. Existing SPARQL queries automatically

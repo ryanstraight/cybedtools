@@ -18,8 +18,11 @@
 #   - `license` quotes what the source itself says, verbatim or as a faithful
 #     close quotation, and names the document or page it was read from.
 #     Where a source says nothing, the row says that it says nothing.
-#   - `attribution` is verbatim where the steward prescribed wording, and NA
-#     where no wording is prescribed. It is never invented.
+#   - `attribution` is verbatim where the steward prescribed wording. Where a
+#     licence requires credit but the steward prescribes none, the row may
+#     carry a minimal attribution composed here, and the `license` cell must
+#     say so. It is NA where neither applies. A steward's wording is never
+#     invented or paraphrased.
 #   - `granted` is TRUE only where a steward gave cybedtools specific written
 #     permission. An open licence is not a grant to cybedtools.
 #   - `public_redistribution` must agree with docs/framework-invariants.yml,
@@ -108,12 +111,20 @@ framework_licenses <- tibble::tribble(
     "ingests carry no notice of any kind, and rest instead on ENISA's ",
     "site-wide legal notice: \"Reproduction of ENISA material published on ",
     "this website is authorized, provided the source is acknowledged, unless ",
-    "it is stated otherwise.\""
+    "it is stated otherwise.\" ENISA prescribes no citation wording for the ",
+    "report or the data files, so the attribution below is the package's own ",
+    "and follows what the CC BY 4.0 licence requires."
   ),
-  NA_character_,
+  paste0(
+    "European Union Agency for Cybersecurity (ENISA), European Cybersecurity ",
+    "Skills Framework (ECSF) Role Profiles, September 2022, ISBN ",
+    "978-92-9204-584-5, DOI 10.2824/859537. (c) ENISA 2022, licensed under ",
+    "CC BY 4.0. Source: https://www.enisa.europa.eu/publications/",
+    "european-cybersecurity-skills-framework-role-profiles"
+  ),
   "full_with_attribution",
   "https://www.enisa.europa.eu/publications/european-cybersecurity-skills-framework-role-profiles",
-  FALSE, as.Date("2026-09-18"),
+  FALSE, as.Date("2026-09-19"),
 
   "framework", "sfia-9", "SFIA 9",
   "SFIA Foundation licence required",
