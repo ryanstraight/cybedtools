@@ -35,10 +35,10 @@ The cybersecurity workforce and learning frameworks displayed on this site retai
 
 ## Frameworks included by steward permission
 
-Three frameworks are here because their stewards gave written permission. That permission was given to cybedtools and does not pass to you.
+Three frameworks are here on their stewards' terms. Two of them gave written permission, and the Canadian framework is referenced as its steward asked. Those terms were given to cybedtools and do not pass to you.
 
 - **CyQUAL 1.2.0**: CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, https://platform.cyqual.cz/.
-- **CCSSF 2022**: Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission.
+- **CCSSF 2022**: Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.
 - **OTCCF v1.1**: Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/>
 
 CSA's permission covers the OTCCF's structure for non-commercial, academic and research use, and this site does not reproduce OTCCF statement text.

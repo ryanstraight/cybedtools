@@ -36,8 +36,9 @@ copyright under 17 U.S.C. 105), the package
 ships pointers to the canonical NIST CPRT and DoD CIO downloads. For
 SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the
 steward's redistribution policy as documented per framework. CyQUAL,
-CCSSF, and OTCCF are in the corpus by written steward permission, and
-each permission carries its own terms. Read the per-framework entries
+CCSSF, and OTCCF are in the corpus on their stewards' terms, two by
+written permission and CCSSF referenced as its steward asked, and
+each carries its own terms. Read the per-framework entries
 before staging those three.
 
 ## Run the pipeline

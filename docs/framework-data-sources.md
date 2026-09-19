@@ -221,7 +221,7 @@ cybedtools therefore uses SFIA for local analysis only. It publishes no SFIA sta
 
 ## Frameworks added by steward permission
 
-The three frameworks below are included with the written permission of their stewards. Each permission has its own terms, stated under **License**, and those terms apply to you as well if you stage the source and build the graph. As with every framework here, cybedtools ships the ingestion code and not the source text. You retrieve the source yourself.
+Two of the three frameworks below are included with the written permission of their stewards, and the Canadian framework is referenced as its steward asked. Each has its own terms, stated under **License**, and those terms apply to you as well if you stage the source and build the graph. As with every framework here, cybedtools ships the ingestion code and not the source text. You retrieve the source yourself.
 
 Statement codes are unique only within a framework. CyQUAL keeps the task codes of the 2017 NICE Framework (its `T0516` is NICE's 2017 `T0516`), and it also uses the `T1xxx` range for its own additions, a range NIST later reused for different statements. A code that appears in two frameworks is not evidence that the statements match. Align frameworks through statement text or a published crosswalk, never by joining on a bare code. In the graph every identifier sits under its framework's own namespace, so graph queries cannot confuse them. The risk is in tables.
 
@@ -245,7 +245,7 @@ Statement codes are unique only within a framework. CyQUAL keeps the task codes 
 
 **License.** Copyright Government of Canada. The Centre supplied the full document for this use and asks that the material be referenced when used. The document itself carries no license notice, so do not assume the Open Government Licence applies. The document is marked "TLP:CLEAR" and "UNCLASSIFIED / NON CLASSIFIÉ" on every page. Both are disclosure markings under the Traffic Light Protocol and the Government of Canada's security classification scheme, and neither is a copyright licence, so they do not widen what the Centre granted.
 
-**Attribution.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission.
+**Attribution.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.
 
 **Stage.** Save the PDF as `data/raw/ccssf/Canadian Cyber Security Skills Framework 2022 -ENG.pdf`.
 

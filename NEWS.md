@@ -1,11 +1,11 @@
 # cybedtools 0.3.0
 
-Eleven frameworks, up from eight. Three national frameworks join by written permission of their stewards, and the vocabulary gains a way to say that one organizing unit relates to another.
+Eleven frameworks, up from eight. Two national frameworks join by written permission of their stewards, a third is referenced as its steward asked, and the vocabulary gains a way to say that one organizing unit relates to another.
 
 ## New frameworks
 
 - **CyQUAL** (Czech Republic, Masaryk University), open data version 1.2.0: 102 work roles, 1,168 tasks, 1,320 requirements, 59 competencies. Ingested from the English export, with the Czech export supported as a fallback. Attribution to CyQUAL and Masaryk University.
-- **CCSSF**, the Canadian Cyber Security Skills Framework (ITSM.00.039, 2022 edition), Canadian Centre for Cyber Security: 22 core work roles and 37 cyber adjacent roles, with tasks, competencies, and tools. Copyright Government of Canada, used with permission. The framework's citations of 2017-era NICE work roles are recorded as `cybed:niceCrossReference` literals.
+- **CCSSF**, the Canadian Cyber Security Skills Framework (ITSM.00.039, 2022 edition), Canadian Centre for Cyber Security: 22 core work roles and 37 cyber adjacent roles, with tasks, competencies, and tools. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. The framework's citations of 2017-era NICE work roles are recorded as `cybed:niceCrossReference` literals.
 - **OTCCF**, the Operational Technology Cybersecurity Competency Framework version 1.1, Cyber Security Agency of Singapore: 15 job roles with key tasks, 30 technical skills with level statements, and the 310 role-to-skill requirements that join them. CSA's permission covers the framework's structure, for non-commercial, academic and research use. See `LICENSING.md`.
 - Terms, attribution wording, and staging instructions for all three are in `docs/framework-data-sources.md`. As before, the package ships ingestion code and no framework text.
 - Statement codes are unique only within a framework. CyQUAL reuses 2017 NICE task codes and shares the `T1xxx` range with current NICE for unrelated statements. Never join frameworks on a bare code. Graph identifiers are namespaced per framework and are safe.

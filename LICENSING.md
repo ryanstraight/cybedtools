@@ -14,7 +14,7 @@ If you are using cybedtools for academic research:
 If you are integrating cybedtools into a commercial product:
 
 - The MIT license on the code accommodates this.
-- Framework content is mixed. Some frameworks (NICE, DCWF) are public domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE, OTCCF) impose non-commercial or attribution constraints. Three (CyQUAL, CCSSF, OTCCF) are included by written permission of their stewards, and the permission given to cybedtools does not pass to you. Read the per-framework licenses in [`docs/framework-data-sources.md`](docs/framework-data-sources.md) before redistributing framework text. **It is incumbent upon you to obtain proper licensing**.
+- Framework content is mixed. Some frameworks (NICE, DCWF) are public domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE, OTCCF) impose non-commercial or attribution constraints. Two (CyQUAL, OTCCF) are included by written permission of their stewards, and CCSSF is referenced as the Canadian Centre for Cyber Security asked. The terms given to cybedtools do not pass to you. Read the per-framework licenses in [`docs/framework-data-sources.md`](docs/framework-data-sources.md) before redistributing framework text. **It is incumbent upon you to obtain proper licensing**.
 
 ## Scope of the MIT license
 
@@ -37,7 +37,7 @@ When redistributing or building on this toolkit, respect the upstream framework 
 
 ## Frameworks included by steward permission
 
-Three frameworks are in cybedtools because their stewards said yes in writing. The terms differ, and none of them is as broad as MIT. Full detail, including how to obtain each source, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
+Two frameworks are in cybedtools because their stewards said yes in writing, and the Canadian framework is here referenced as its steward asked. The terms differ, and none of them is as broad as MIT. Full detail, including how to obtain each source, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
 
 **OTCCF, Cyber Security Agency of Singapore.** Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/
 
@@ -45,7 +45,7 @@ The document names Mercer Singapore as a joint developer alongside CSA, with Ski
 
 CSA's permission is for referencing and integrating the OTCCF's structure, for non-commercial, academic and research purposes, and it requires that the ingestion scripts and structural mappings not misrepresent or alter the intent of the OTCCF's job roles, skills, or competency mappings as published by CSA. cybedtools makes public only the OTCCF's structure (roles, skill titles, categories, proficiency levels, role-to-skill mappings) and not its statement text. Eight of its thirty skills and all of its Critical Core Skills originate with SkillsFuture Singapore, and the graph marks them. Commercial use of the OTCCF portion is outside what CSA granted.
 
-**CCSSF, Canadian Centre for Cyber Security.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission. The Centre asks that its material be referenced when used.
+**CCSSF, Canadian Centre for Cyber Security.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. The Centre asks that its material be referenced when used.
 
 **CyQUAL, Masaryk University.** CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, https://platform.cyqual.cz/. Published as open data. Attribution to CyQUAL and to Masaryk University is required.
 

@@ -11,10 +11,10 @@
 #' (workforce vs pedagogy), and license are hand-curated because they
 #' originate outside the JSON-LD graph.
 #'
-#' Three frameworks were added in v0.3.0 by steward permission: CyQUAL
+#' Three frameworks were added in v0.3.0 on steward terms: CyQUAL
 #' (Czech Republic, open data, attribution to CyQUAL and Masaryk
-#' University), CCSSF (Canada, Government of Canada copyright, used with
-#' written permission of the Canadian Centre for Cyber Security), and OTCCF
+#' University), CCSSF (Canada, Government of Canada copyright,
+#' referenced as the Canadian Centre for Cyber Security asked), and OTCCF
 #' (Singapore, Cyber Security Agency of Singapore copyright, permission for
 #' non-commercial academic and research use). The build script fails loudly
 #' in both directions if the graph and the curated display table disagree

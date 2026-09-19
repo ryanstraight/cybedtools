@@ -46,7 +46,8 @@ It does not propose a replacement framework or attempt to re-author
 framework content. Existing frameworks retain their structure and
 vocabulary. The package adds a comparison layer.
 
-A native Python package is in development.
+A native Python package is in development. The name is reserved on
+[PyPI](https://pypi.org/project/cybedtools/).
 
 Who it’s for:
 
@@ -800,9 +801,10 @@ each ingestion script writes a per-framework `provenance.yml`. See
 [`LICENSING.md`](LICENSING.md) for layered guidance on academic
 vs. commercial use.
 
-Three frameworks are represented here by written permission of their
-stewards, on terms narrower than MIT. Their permission was given to
-cybedtools and does not pass to you.
+Three frameworks here come on terms narrower than MIT. Two of them are
+represented by written permission of their stewards, and the Canadian
+framework is referenced as its steward asked. Those terms were given to
+cybedtools and do not pass to you.
 
 - Derived from the Operational Technology Cybersecurity Competency
   Framework (OTCCF), published by the Cyber Security Agency of Singapore
@@ -812,7 +814,7 @@ cybedtools and does not pass to you.
   academic and research use.
 - Canadian Centre for Cyber Security, The Canadian Cyber Security Skills
   Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada.
-  Used with permission.
+  Referenced as the Canadian Centre for Cyber Security asked.
 - CyQUAL, the Czech national cybersecurity qualifications framework,
   developed at Masaryk University. Open data, version 1.2.0,
   <https://platform.cyqual.cz/>.
