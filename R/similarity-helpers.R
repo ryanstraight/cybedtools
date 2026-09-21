@@ -180,6 +180,131 @@ similarity_strength <- function(x) {
   )
 }
 
+#' Cross-framework unit-text similarity, top-n matches per unit
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Reproduces, as the one public entry point, the "full-document" Jaccard
+#' similarity computed script-locally by the concordance data-prep scripts
+#' (`concordance/_data-prep-*.R`, e.g. `_data-prep-nice-ecsf-alignment.R`'s
+#' `build_full_doc()`): each organizing unit's comparison text is its own
+#' `schema:name`, its own `cybed:elementText` when it carries one directly
+#' (true for pedagogy units where the unit and its top-level statement share
+#' one IRI, e.g. Cyber.org/CSTA cells), and the concatenated
+#' `cybed:elementText` of every element reachable via
+#' [unit_element_bindings()] (true for workforce units, whose task/
+#' knowledge/skill statements are separate elements linked by
+#' `cybed:hasElement`). This single text-assembly rule is what lets one
+#' function serve both structural shapes. Every (from-unit, to-unit) pair is
+#' then scored with `jaccard()`, the top `n` matches per from-unit are kept
+#' via `top_n_matches()`, and each score's `similarity_strength()` is
+#' attached. The tokenizer, the Jaccard set-similarity, the stopword list
+#' and the ranking tie-break are internal (`@noRd`) and may change without
+#' notice; only this function's signature and output shape are the
+#' contract.
+#'
+#' `from` and `to` select organizing units by `framework_slug`
+#' ([organizing_unit_framework_bindings()]`$framework_slug`), matching how
+#' the concordance scripts partition units before scoring
+#' (`framework_slug == "cyberorg-k12"` vs `"csta-2017"`, for example). A
+#' unit with no name, no own text, and no child element text at all
+#' contributes no rows on either side (empty document, nothing to compare).
+#'
+#' @param rdf An rdf object.
+#' @param from,to Character scalars, the `framework_slug` values (from
+#'   [organizing_unit_framework_bindings()]) whose organizing units are
+#'   compared. May be identical, to find near-duplicate units within one
+#'   framework.
+#' @param n Integer, matches to keep per from-unit (default `5`).
+#' @return A tibble with one row per (from unit, match): columns
+#'   `from_unit`, `to_unit` (both full IRIs), `score` (numeric in `[0, 1]`),
+#'   `strength` (`"strong"`/`"moderate"`/`"weak"`/`"none"`), and `rank`
+#'   (integer, `1..k`, dense per `from_unit`). A `from`-side unit with zero
+#'   candidates on the `to` side contributes no rows. A `from`-side unit
+#'   whose only candidates all score 0 still appears, ranked, with
+#'   `strength == "none"`.
+#' @family similarity helpers
+#' @export
+#' @examples
+#' rdf <- make_demo_graph()
+#' # make_demo_graph()'s two frameworks carry no cybed:elementText or
+#' # cybed:hasElement text, so this is a zero-row tibble with the columns
+#' # from_unit/to_unit/score/strength/rank.
+#' framework_similarity(rdf, from = "demo-fw-a", to = "demo-fw-b")
+#'
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' framework_similarity(rdf, from = "cyberorg-k12", to = "csta-2017", n = 3)
+#' }
+framework_similarity <- function(rdf, from, to, n = 5) {
+  stopifnot(is.character(from), length(from) == 1L)
+  stopifnot(is.character(to), length(to) == 1L)
+
+  units <- organizing_unit_framework_bindings(rdf)
+  texts <- element_text(rdf)
+
+  child_text <- unit_element_bindings(rdf) |>
+    dplyr::inner_join(texts, by = "element") |>
+    dplyr::group_by(.data$role) |>
+    dplyr::summarise(child_text = paste(.data$text, collapse = " "), .groups = "drop") |>
+    dplyr::rename(unit = "role")
+
+  own_text <- dplyr::rename(texts, unit = "element", own_text = "text")
+
+  side <- function(slug) {
+    units |>
+      dplyr::filter(.data$framework_slug == slug) |>
+      dplyr::left_join(own_text, by = "unit") |>
+      dplyr::left_join(child_text, by = "unit") |>
+      dplyr::mutate(
+        full_text = trimws(paste(
+          dplyr::coalesce(.data$unit_name, ""),
+          dplyr::coalesce(.data$own_text, ""),
+          dplyr::coalesce(.data$child_text, "")
+        ))
+      ) |>
+      dplyr::filter(nzchar(.data$full_text)) |>
+      dplyr::transmute(
+        unit   = .data$unit,
+        tokens = lapply(.data$full_text, tokenize)
+      )
+  }
+
+  from_units <- side(from)
+  to_units   <- side(to)
+
+  empty <- tibble::tibble(
+    from_unit = character(0), to_unit = character(0),
+    score = numeric(0), strength = character(0), rank = integer(0)
+  )
+  if (nrow(from_units) == 0 || nrow(to_units) == 0) {
+    return(empty)
+  }
+
+  grid <- tidyr::expand_grid(
+    fi = seq_len(nrow(from_units)),
+    ti = seq_len(nrow(to_units))
+  ) |>
+    dplyr::mutate(
+      group     = from_units$unit[.data$fi],
+      candidate = to_units$unit[.data$ti],
+      score     = purrr::map2_dbl(
+        .data$fi, .data$ti,
+        ~ jaccard(from_units$tokens[[.x]], to_units$tokens[[.y]])
+      )
+    )
+
+  top_n_matches(grid, n = n) |>
+    dplyr::transmute(
+      from_unit = .data$group,
+      to_unit   = .data$candidate,
+      score     = round(.data$score, 10),
+      strength  = similarity_strength(.data$score),
+      rank      = .data$rank
+    )
+}
+
 #' Filter unit bindings by a framework-name pattern, masking-proof
 #'
 #' Safe form of the `filter(grepl("^NICE", framework_name))` idiom used in
