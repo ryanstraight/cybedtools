@@ -171,7 +171,8 @@ display <- tibble::tribble(
   "https://w3id.org/cybed/ontology#framework/digcomp-2.2",       8L,             "DigComp 2.2",             "pedagogy",
   "https://w3id.org/cybed/ontology#framework/cyqual-v1.2.0",     9L,             "CyQUAL 1.2.0",            "workforce",
   "https://w3id.org/cybed/ontology#framework/ccssf-2022",        10L,            "CCSSF 2022",              "workforce",
-  "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce"
+  "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce",
+  "https://w3id.org/cybed/ontology#framework/csta-2026",         12L,            "CSTA PK-12 CS (2026)",    "pedagogy"
 )
 
 # Licence labels, derived. framework_licenses is the single owner of licence
@@ -290,7 +291,7 @@ role_dependent <- c("role_count", "elements_per_role_strict",
 non_role_cols  <- setdiff(names(framework_summary), role_dependent)
 
 stopifnot(
-  "framework_summary should have 11 rows" = nrow(framework_summary) == 11L,
+  "framework_summary should have 12 rows" = nrow(framework_summary) == 12L,
   "no NA values expected outside the role-dependent columns" =
     !any(is.na(framework_summary[non_role_cols])),
   "the role-dependent columns must be NA together or present together" =

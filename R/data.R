@@ -3,7 +3,7 @@
 # Roxygen documentation for shipped package data. Source script that
 # produces these artifacts lives in data-raw/.
 
-#' Eleven-framework summary tibble
+#' Twelve-framework summary tibble
 #'
 #' One row per framework in the cybedtools corpus. All count columns are
 #' computed from the staged combined N-Triples graph at package-build time
@@ -19,6 +19,13 @@
 #' non-commercial academic and research use). The build script fails loudly
 #' in both directions if the graph and the curated display table disagree
 #' about which frameworks exist.
+#'
+#' The 2026 CSTA PK-12 Computer Science Standards (`csta-2026`) were added
+#' after v0.3.0 as a framework of their own alongside the 2017 edition
+#' (`csta-2017`), whose row is unchanged. Its 53 organizing units are level x
+#' concept groups for the foundational tier and tier x specialty area groups
+#' for the specialty tier. Its Examples are CSTA's published implementation
+#' examples.
 #'
 #' Statement codes are unique only within a framework. NICE and CCSSF both
 #' print codes in the T0516 shape, and they denote different statements.
@@ -69,7 +76,7 @@
 #' For structural questions, query `cybed:Role` and `cybed:OrganizingUnit`
 #' directly.
 #'
-#' @format A tibble with 11 rows and 16 columns.
+#' @format A tibble with 12 rows and 16 columns.
 #' \describe{
 #'   \item{framework_slug}{Character. Stable slug used as the URI tail
 #'     (e.g., `"nice-v2"`, `"sfia-9"`, `"otccf-v1.1"`). Unique.}
@@ -87,8 +94,9 @@
 #'     unit, as described above.}
 #'   \item{role_count}{Integer. Distinct subjects typed `cybed:Role` and
 #'     bound to the framework via `cybed:partOf`. A subset of
-#'     `organizing_unit_count`. `NA` for the five frameworks that assert no
-#'     roles at all (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2).
+#'     `organizing_unit_count`. `NA` for the six frameworks that assert no
+#'     roles at all (SFIA, Cyber.org K-12, CSTA 2017, CSTA 2026, CSEC2017,
+#'     DigComp 2.2).
 #'     `NA` rather than zero, because "this framework does not use the role
 #'     construct" is a different statement from "this framework has zero
 #'     roles".}
@@ -101,9 +109,10 @@
 #'     time, plus, for CCSSF only, sub-bullets the source itself prints
 #'     beneath a parent bullet. Zero where the parser is disabled (OTCCF)
 #'     or finds nothing.}
-#'   \item{example_count}{Integer. Distinct `cybed:Example` instances
-#'     (Clarification-statement scaffolding). Non-zero for Cyber.org K-12
-#'     and CSTA only.}
+#'   \item{example_count}{Integer. Distinct `cybed:Example` instances:
+#'     Clarification-statement scaffolding for Cyber.org K-12 and CSTA 2017,
+#'     and published implementation examples for CSTA 2026. Zero everywhere
+#'     else.}
 #'   \item{element_count_with_examples}{Integer. Distinct elements typed
 #'     `cybed:RoleElement` and bound to the framework: parents plus
 #'     Subpoints plus Examples.}
@@ -121,7 +130,8 @@
 #'     `element_count_with_examples / organizing_unit_count`, rounded to one
 #'     decimal. The headline density figure used in the README. The vignette
 #'     shows it alongside the strict column to make visible how Examples
-#'     inflate Cyber.org K-12 and CSTA's apparent specification density.}
+#'     inflate the apparent specification density of Cyber.org K-12 and both
+#'     CSTA editions.}
 #'   \item{elements_per_role_strict}{Numeric. The count of DISTINCT parent
 #'     elements reachable by `cybed:hasElement` from a role-typed organizing
 #'     unit, divided by `role_count`, rounded to one decimal. `NA` where
@@ -142,7 +152,7 @@
 #'     it. Do not treat this column as a statement of terms; it is a label.}
 #' }
 #'
-#' @source Computed from the eleven-framework combined graph produced by
+#' @source Computed from the twelve-framework combined graph produced by
 #'   `scripts/025-export-ntriples.R`. See
 #'   `data-raw/build-framework-summary.R`.
 #' @examples
@@ -189,7 +199,7 @@
 #'     occurs.}
 #' }
 #'
-#' @format A tibble with 12 rows and 10 columns.
+#' @format A tibble with 13 rows and 10 columns.
 #' \describe{
 #'   \item{layer}{Character. `"code"` for the package's own code, or
 #'     `"framework"` for a framework's source content. Exactly one `"code"`
