@@ -121,21 +121,21 @@ build_csta2026_parts <- function(standards, boundaries, examples, units, prov,
       c(node, extra)
     })
 
-  expanded <- expand_with_subpoints(
-    element_nodes    = parent_element_nodes,
-    framework_prefix = csta2026_prefix,
-    framework_id     = csta2026_framework_id,
-    framework_slug   = csta2026_framework_id
+  # Sub-point parser disabled for csta-2026, as for OTCCF: CSTA's standards
+  # are published statements, and a parser-split fragment of a standard
+  # would be a unit the package invented rather than one CSTA printed.
+  # Shape matches what expand_with_subpoints() returns so the rest of the
+  # adapter is unchanged. Implementation examples are still attached below,
+  # from CSTA's own example list rather than parsed from the standard text.
+  expanded <- list(
+    nodes         = parent_element_nodes,
+    subnode_index = tibble::tibble(
+      parent_id  = character(0),
+      subnode_id = character(0),
+      ordinal    = integer(0),
+      node_type  = character(0)
+    )
   )
-
-  # Implementation examples are numbered from 1 per standard. The parser only
-  # mints Examples from an inline "Clarification statement:" segment, which
-  # CSTA's 2026 text does not use; if it ever did, its IRIs would collide
-  # with these, so stop rather than merge two sources under one number.
-  if (any(expanded$subnode_index$node_type == "Example")) {
-    stop("csta-2026: the sub-point parser produced Example nodes; ",
-         "implementation-example IRIs would collide.")
-  }
 
   example_nodes <- examples |>
     purrr::pmap(function(code, ordinal, example_type, text, ...) {

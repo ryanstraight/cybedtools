@@ -211,7 +211,7 @@ frameworks:
       specialty_units:          [13, 13]   # 6 areas x 2 tiers + X+CS at S1 only
       boundary_statements:      [660, 660] # paragraphs: 329 standards print 2, 2 print 1
       implementation_examples:  [652, 652]
-      standards_with_examples:  [326, 326]
+      standards_with_examples:  [326, 326]  # unchanged: examples are attached from CSTA's example list, not parsed
       ai_standards:             [107, 107]
     notes: |
       A separate framework from csta-2017, not a revision of it. The two
@@ -531,8 +531,9 @@ frameworks:
 # work roles + 37 Annex E adjacent roles) and 1,353 elements (1,178 parents +
 # 175 Subpoints).
 # CSTA PK-12 2026 joined 2026-09-21 as a twelfth framework, adding 53 non-role
-# organizing units and 1,028 elements (331 standards + 45 Subpoints + 652
-# implementation-example Examples).
+# organizing units and 983 elements (331 standards + 652 implementation-
+# example Examples). The sub-point parser is disabled for csta-2026 on
+# fidelity grounds, the same treatment OTCCF gets.
 # OTCCF joined 2026-09-19, adding 61 organizing units (15 Role-typed job roles +
 # 30 non-role Technical Skills and Competencies + 16 non-role Critical Core
 # Skills) and 1,612 elements, all parents: the sub-point parser is disabled for
@@ -545,8 +546,8 @@ graph_invariants:
   combined:
     organizing_unit_count: [772, 776]   # all 12 frameworks' parents (+53 from CSTA 2026)
     role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
-    total_elements_with_subpoints: [14472, 14507] # parents + Subpoints across all 12 (+376 from CSTA 2026)
-    total_elements_full:   [15610, 15645] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652)
+    total_elements_with_subpoints: [14427, 14462] # parents + Subpoints across all 12 (+331 from CSTA 2026, parser disabled)
+    total_elements_full:   [15565, 15600] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652)
     example_count:         [1130, 1144] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
     # qualified unit-to-unit statements so far.
@@ -619,18 +620,19 @@ graph_invariants:
       strict_inflation:              [1.10, 1.25]
       parser_enabled:                true
     csta-2026:
-      # Exact: a fixed source. 331 standards; the parser splits 45 Subpoints
-      # out of "including" and "such as" lists in the standard text, the same
-      # treatment csta-2017 gets. The 652 Examples are CSTA's implementation
-      # examples, attached from the example list rather than parsed from
-      # text.
+      # Exact: a fixed source. 331 standards. Sub-point parser disabled for
+      # csta-2026, as for OTCCF: CSTA's standards are published statements,
+      # and a parser-split fragment would be a unit the package invented
+      # rather than one CSTA printed. The 652 Examples are CSTA's
+      # implementation examples, attached from the example list rather than
+      # parsed from text, so they are unaffected.
       parent_elements:               [331, 331]
-      subpoint_elements:             [45, 45]
+      subpoint_elements:             [0, 0]
       example_elements:              [652, 652]
-      total_elements_with_subpoints: [376, 376]
-      total_elements_full:           [1028, 1028]
-      strict_inflation:              [1.13, 1.14]
-      parser_enabled:                true
+      total_elements_with_subpoints: [331, 331]
+      total_elements_full:           [983, 983]
+      strict_inflation:              [1.00, 1.00]
+      parser_enabled:                false
     csec2017-v1:
       parent_elements:               [35, 42]
       subpoint_elements:             [2, 4]

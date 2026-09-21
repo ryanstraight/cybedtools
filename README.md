@@ -641,7 +641,7 @@ imap(topics, \(pattern, topic) {
 #>  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22
 #>  4 Operational Technology Cyb…       1612     1      6           31           12
 #>  5 Canadian Cyber Security Sk…       1345     0      5           36           29
-#>  6 2026 CSTA PK-12 Computer S…       1028    34     46            9            1
+#>  6 2026 CSTA PK-12 Computer S…        983    34     46            9            1
 #>  7 SFIA 9                             821     6     15            0           11
 #>  8 Cyber.org K-12 Learning St…        492     0      8           10            0
 #>  9 ECSF v1                            390     0      4            0            1
@@ -800,7 +800,7 @@ organizing_unit_framework_bindings(rdf) |>
 #> 4 Operational Technology C…                   61          1612              26.4
 #> 5 Canadian Cyber Security …                   59          1345              22.8
 #> 6 CyQUAL 1.2.0                               161          3340              20.7
-#> 7 2026 CSTA PK-12 Computer…                   53          1028              19.4
+#> 7 2026 CSTA PK-12 Computer…                   53           983              18.5
 #> 8 CSTA K-12 Computer Scien…                   25           258              10.3
 #> # ℹ 4 more rows
 ```
