@@ -37,6 +37,7 @@ vocabulary_iri: "https://w3id.org/cybed/ontology#"
 
 # Concept DOI of the software record. The data deposit carries its own DOI.
 concept_doi: "10.5281/zenodo.20076116"
+data_doi: "10.5281/zenodo.22884320"
 
 # Predicates whose objects carry framework statement text. A structure_only
 # file drops every triple on these predicates. Derived from a predicate census
