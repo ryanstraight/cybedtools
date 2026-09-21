@@ -191,6 +191,13 @@ The "Top-level units" column reports each framework's own top-level enumerated u
 # fallbacks equal the values computed on 2026-09-21 against the staged
 # fourteen-framework graph, so the prose stays true when DEMO_LIVE is false.
 cq_dc_fmt         <- "1,400"
+# Not computed from package data: the August 2017 NICE Framework is not
+# in the corpus graph, so this cannot be derived at render time. Measured
+# 2026-09-19 against the NIST SP 800-181 supplemental task and KSA
+# workbook, normalised the same way as the value-shared-text chunk and on
+# the same parents-only basis. Held here as the single source so the
+# prose below never hand-types it.
+nice2017_survival_pct <- 5
 shared_nice_n     <- 100
 ccssf_pct_ceiling <- 1
 ai_zero_n         <- "Four"
@@ -423,7 +430,7 @@ statements |>
 
 <!-- The two percentages in the paragraph below are fixed, not computed at render time: the August 2017 NICE Framework is not in the corpus graph. They were measured on 2026-09-19 against the NIST SP 800-181 supplemental task and KSA workbook, normalised the same way as the chunk above and on the same parents-only basis. -->
 
-The largest block of shared text in the corpus is between CyQUAL, the Czech national framework, and DCWF, the US Department of Defense framework: `r cq_dc_fmt` statements, word for word. Neither names the other as a source. Each shares only `r shared_nice_n` statements with the current NICE Framework. What they have in common is the 2017 NICE Framework. Checked against NIST's 2017 release, nearly all of what the two share is 2017 NICE text, and under 5 percent of that 2017 text survives in NICE v2.2.0. The 2017 edition is better preserved in Prague and at the Pentagon than at NIST. Canada's framework describes itself as an adaptation of NICE and shares under `r ccssf_pct_ceiling` percent of its statements with anything. The second-largest block belongs to Saudi Arabia's SCyWF, which shares `r scywf_nice_n` statements with NICE v2.2.0.
+The largest block of shared text in the corpus is between CyQUAL, the Czech national framework, and DCWF, the US Department of Defense framework: `r cq_dc_fmt` statements, word for word. Neither names the other as a source. Each shares only `r shared_nice_n` statements with the current NICE Framework. What they have in common is the 2017 NICE Framework. Checked against NIST's 2017 release, nearly all of what the two share is 2017 NICE text, and under `r nice2017_survival_pct` percent of that 2017 text survives in NICE v2.2.0. The 2017 edition is better preserved in Prague and at the Pentagon than at NIST. Canada's framework describes itself as an adaptation of NICE and shares under `r ccssf_pct_ceiling` percent of its statements with anything. The second-largest block belongs to Saudi Arabia's SCyWF, which shares `r scywf_nice_n` statements with NICE v2.2.0.
 
 ### Which frameworks have nothing to say about a topic?
 
