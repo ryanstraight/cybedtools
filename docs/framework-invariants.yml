@@ -570,6 +570,55 @@ frameworks:
       ingested. The category and specialty area descriptions of Tables 1
       and 2 are not carried yet.
 
+  cybok:
+    version: "CyBOK v1.1.0"
+    version_date: "2021-07"
+    structural_type: "body-of-knowledge"
+    jurisdiction: "UK"
+    sector: "general"
+    specificity: "cybersecurity-specific"
+    # Open Government Licence v3.0, Crown Copyright NCSC 2021, read from the
+    # Introduction's own copyright page. See framework_licenses.
+    public_redistribution: full_with_attribution
+    expected:
+      # Exact bounds: the sources are fixed PDFs (SHA256 in provenance.yml),
+      # read deterministically and checked string by string against an
+      # independent extraction. Any drift means a different release or a
+      # reader change, which is a human-review event, not a tolerance to
+      # absorb. Measured 2026-09-21.
+      categories:                 [5, 5]      # Introduction, Figure 2
+      knowledge_areas:            [21, 21]    # Introduction, Figure 2
+      topics:                     [119, 119]  # nodes on the root of the 21 Knowledge Trees
+      indicative_material:        [477, 477]  # nodes one layer below a Topic
+      topics_without_indicative_material: [2, 2] # AC-01 and AC-07, drawn as leaves
+      a_to_z_rows:                [493, 493]  # every printed row of the A-to-Z table
+      a_to_z_rows_resolved:       [366, 366]  # of the 482 rows naming a KA
+      verbatim_failures:          [0, 0]      # carried strings missing from the check text
+      crosswalk_ka_names_unresolved: [0, 0]   # staged SFIA and ECSF crosswalks
+    notes: |
+      The Cyber Security Body of Knowledge v1.1.0 (July 2021), published by
+      the National Cyber Security Centre under the Open Government Licence
+      v3.0. A body of knowledge, not a workforce framework: no roles, no
+      proficiency levels, so nothing asserts cybed:Role.
+      21 Knowledge Areas (cybok:KnowledgeArea, cybed:OrganizingUnit) keyed by
+      the acronyms of CyBOK's A-to-Z document, each carrying its category (one
+      of the 5 of the Introduction's Figure 2) as the literal cybok:category
+      and its own document version as schema:version, because CyBOK versions
+      each KA separately. Topics (cybok:Topic, cybed:RoleElement) and their
+      Indicative Material (cybed:Subpoint, also cybok:IndicativeMaterial) are
+      read from each KA's Knowledge Tree, the level-1 and level-2 nodes as
+      CyBOK itself defines them. Topic numbers (RMG-01) are cybedtools' own,
+      in tree order: CyBOK prints no Topic codes.
+      The tree links are read from the drawing, not from node position:
+      Distributed Systems Security draws the Topic "attacking P2P systems"
+      in the column where the other Topics' children sit.
+      The A-to-Z index disagrees with the trees in places (Topic wording,
+      terms the trees no longer carry). It is a cross-check only, reported
+      row by row in tables/a-to-z-resolution.csv, never a source of Topics.
+      The sub-point parser is off. Every Subpoint is a node the tree draws.
+      The Introduction's own Knowledge Tree is staged for the cross-check and
+      not ingested, as it is not a Knowledge Area.
+
 # Graph invariants describe the post-expansion counts after the v0.1.1
 # sub-point parser runs over each framework's elementText literals. These
 # differ from the per-framework source-data invariants above, which
@@ -628,6 +677,10 @@ frameworks:
 # (40 Role-typed job roles + 24 competency areas + 12 specialty areas + 5
 # categories) and 1,419 elements, all parents: the sub-point parser is
 # disabled for scywf, as for OTCCF, csta-2026 and digcomp.
+# CyBOK v1.1.0 joined 2026-09-21 as a fourteenth framework, adding 21 non-role
+# organizing units (Knowledge Areas) and 596 elements (119 Topic parents + 477
+# Indicative Material Subpoints). Its Subpoints are source-drawn tree nodes,
+# as CCSSF's source-printed sub-bullets are, and the parser is disabled.
 # DigComp 3.0 joined 2026-09-21, replacing digcomp-2.2 in place, adding 26
 # organizing units (5 areas + 21 competences) and 884 elements (362
 # Competence Statement parents + 522 Learning Outcome Examples). Sub-point
@@ -635,18 +688,18 @@ frameworks:
 # OTCCF and csta-2026 get.
 graph_invariants:
   combined:
-    organizing_unit_count: [874, 878]   # all 13 frameworks' parents (+53 from CSTA 2026, +21 from DigComp 3.0's new Competence tier, +81 from SCyWF)
+    organizing_unit_count: [895, 899]   # all 14 frameworks' parents (+53 from CSTA 2026, +21 from DigComp 3.0's new Competence tier, +81 from SCyWF, +21 from CyBOK)
     role_count:            [344, 344]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15 + SCyWF 40
-    total_elements_with_subpoints: [16108, 16316] # parents + Subpoints across all 13 (+331 from CSTA 2026, +362 from DigComp 3.0 and +1,419 from SCyWF, all parser-disabled)
-    total_elements_full:   [17782, 17990] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652 + DigComp 3.0 522)
+    total_elements_with_subpoints: [16704, 16912] # parents + Subpoints across all 14 (+331 from CSTA 2026, +362 from DigComp 3.0 and +1,419 from SCyWF, all parser-disabled, and +596 from CyBOK's source-drawn tree)
+    total_elements_full:   [18378, 18586] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652 + DigComp 3.0 522)
     example_count:         [1649, 1672] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026 + 522 DigComp 3.0
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
     # qualified unit-to-unit statements so far.
     unit_relation_count:   [310, 310]   # OTCCF 190 TSC + 120 distinct core-skill statements
-    framework_count:       [13, 13]
+    framework_count:       [14, 14]
   per_framework:
-    # Nine of the thirteen frameworks run with the parser enabled. OTCCF,
-    # csta-2026, digcomp-3.0 and scywf-1.5 run with it off (see their
+    # Nine of the fourteen frameworks run with the parser enabled. OTCCF,
+    # csta-2026, digcomp-3.0, scywf-1.5 and cybok-v1.1.0 run with it off (see their
     # parser_enabled: false below). The 2026-05-08
     # parser refinement (sentence-boundary stop + connective filter)
     # brought SFIA and CSEC2017 from initial 30%+ false-positive rates to
@@ -797,4 +850,15 @@ graph_invariants:
       total_elements_with_subpoints: [1419, 1419]
       total_elements_full:           [1419, 1419]
       strict_inflation:              [1.00, 1.00]
+      parser_enabled:                false
+    cybok-v1.1.0:
+      # Exact: fixed sources. Parents are the 119 Topics. The 477 Subpoints
+      # are the Indicative Material the Knowledge Trees draw under them, not
+      # parser output: the parser is disabled.
+      parent_elements:               [119, 119]
+      subpoint_elements:             [477, 477]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [596, 596]
+      total_elements_full:           [596, 596]
+      strict_inflation:              [5.00, 5.01]
       parser_enabled:                false

@@ -467,6 +467,25 @@ framework_actual_counts <- function(framework, tables_dir) {
         verbatim_failures          = if (is.null(verbatim)) NULL else sum(!verbatim$found)
       )
     },
+    cybok = {
+      topics   <- safe_read(file.path(tables_dir, "topics.csv"))
+      im       <- safe_read(file.path(tables_dir, "indicative-material.csv"))
+      atoz     <- safe_read(file.path(tables_dir, "a-to-z-resolution.csv"))
+      verbatim <- safe_read(file.path(tables_dir, "verbatim-check.csv"))
+      xw       <- safe_read(file.path(tables_dir, "crosswalk-ka-resolution.csv"))
+      list(
+        categories           = safe_read(file.path(tables_dir, "categories.csv")) |> nrow_or_null(),
+        knowledge_areas      = safe_read(file.path(tables_dir, "knowledge-areas.csv")) |> nrow_or_null(),
+        topics               = nrow_or_null(topics),
+        indicative_material  = nrow_or_null(im),
+        topics_without_indicative_material =
+          if (is.null(topics) || is.null(im)) NULL else sum(!topics$topic_id %in% im$topic_id),
+        a_to_z_rows          = nrow_or_null(atoz),
+        a_to_z_rows_resolved = if (is.null(atoz)) NULL else sum(atoz$status == "resolved" & atoz$ka_acronym != "CI"),
+        verbatim_failures    = if (is.null(verbatim)) NULL else sum(!verbatim$found),
+        crosswalk_ka_names_unresolved = if (is.null(xw)) NULL else sum(xw$resolution == "unresolved")
+      )
+    },
     digcomp = {
       areas <- safe_read(file.path(tables_dir, "competence-areas.csv"))
       competences <- safe_read(file.path(tables_dir, "competences.csv"))
@@ -623,6 +642,11 @@ text_fields_by_framework <- function(framework) {
       list(label = "statement-text",   file = "statements.csv",       column = "text"),
       list(label = "ca-desc",          file = "competency-areas.csv", column = "description")
     ),
+    cybok = list(
+      list(label = "ka-name",             file = "knowledge-areas.csv",     column = "ka_name"),
+      list(label = "topic-title",         file = "topics.csv",              column = "title"),
+      list(label = "indicative-material", file = "indicative-material.csv", column = "term")
+    ),
     otccf = list(
       list(label = "role-desc",        file = "job-roles.csv",                column = "role_description"),
       list(label = "role-element",     file = "role-elements-long.csv",       column = "element_text"),
@@ -693,6 +717,11 @@ verify_id_uniqueness <- function(framework, results) {
       list(file = "categories.csv",       id_col = "category_id",       label = "scywf-category-id"),
       list(file = "specialty-areas.csv",  id_col = "specialty_area_id", label = "scywf-specialty-area-id")
     ),
+    cybok = list(
+      list(file = "knowledge-areas.csv", id_col = "ka_acronym", label = "cybok-ka-acronym"),
+      list(file = "knowledge-areas.csv", id_col = "ka_name",    label = "cybok-ka-name"),
+      list(file = "topics.csv",          id_col = "topic_id",   label = "cybok-topic-id")
+    ),
     otccf = list(
       list(file = "job-roles.csv", id_col = "role_slug",  label = "otccf-role-slug"),
       list(file = "tscs.csv",      id_col = "tsc_slug",   label = "otccf-tsc-slug"),
@@ -738,13 +767,14 @@ verify_id_uniqueness <- function(framework, results) {
 # Invariant 6: verbatim carriage (frameworks licensed on that condition)
 # ---------------------------------------------------------------------------
 
-#' SCyWF is carried under a permission that requires verbatim text. Its
-#' ingest looks every carried string up in an independent extraction of the
-#' PDF and writes the result to verbatim-check.csv. A missing string, a
-#' missing check file, or a role-card code with no Appendix B statement is a
-#' HARD failure here, not a soft count drift.
+#' SCyWF is carried under a permission that requires verbatim text, and
+#' CyBOK is read from PDFs with no structured release. Both ingests look every
+#' carried string up in an independent extraction of the PDF and write the
+#' result to verbatim-check.csv. A missing string, a missing check file, or
+#' (SCyWF only) a role-card code with no Appendix B statement is a HARD
+#' failure here, not a soft count drift.
 verify_verbatim_carriage <- function(framework_slug, results) {
-  if (!identical(framework_slug, "scywf")) return(results)
+  if (!framework_slug %in% c("scywf", "cybok")) return(results)
   tables_dir <- file.path(verify_config$raw_dir, framework_slug, "tables")
 
   check_path <- file.path(tables_dir, "verbatim-check.csv")
@@ -763,6 +793,7 @@ verify_verbatim_carriage <- function(framework_slug, results) {
     results <- record_check(results, framework_slug, "verbatim.check", "pass",
                             glue("all {nrow(check)} carried strings found verbatim"))
   }
+  if (!identical(framework_slug, "scywf")) return(results)
 
   unresolved_path <- file.path(tables_dir, "unresolved-codes.csv")
   unresolved <- if (file.exists(unresolved_path)) read_csv(unresolved_path, show_col_types = FALSE) else NULL
@@ -848,7 +879,7 @@ main <- function() {
   # The invariants file is the declaration of what counts as a pipeline
   # framework, so derive the check list from it rather than scanning
   # data/raw/ for directories. data/raw/ also accumulates STAGING dirs --
-  # crosswalk sources with no assemble_*() adapter (cybok), candidate
+  # crosswalk sources with no assemble_*() adapter, candidate
   # frameworks held pending a licensing answer (asd, ukcsc), and data
   # acquired ahead of an ingest step. Those legitimately
   # have no declared invariants; scanning the directory treated each one

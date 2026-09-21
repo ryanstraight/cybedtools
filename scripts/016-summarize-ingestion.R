@@ -264,6 +264,8 @@ render_summary_doc <- function(manifests, summary_tbl) {
       # categories are further organizing units, not roles. The graph
       # carries all 81 units. This column tracks roles.
       scywf    = extraction$job_roles,
+      # Knowledge Areas, as for CSEC2017. CyBOK asserts no roles.
+      cybok    = extraction$knowledge_areas,
       NA
     )
     elem_count <- switch(slug,
@@ -295,6 +297,9 @@ render_summary_doc <- function(manifests, summary_tbl) {
                        extraction$tsc_range_of_application_rows,
       # Appendix B's Task, Knowledge and Skill statements.
       scywf          = extraction$statements,
+      # Topics and the Indicative Material under them. In the graph the
+      # Indicative Material is cybed:Subpoint rather than top-level elements.
+      cybok          = extraction$topics + extraction$indicative_material,
       NA
     )
 
