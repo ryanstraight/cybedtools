@@ -8,11 +8,11 @@ cybed_fetch(frameworks = NULL, version = NULL)
 }
 \arguments{
 \item{frameworks}{Character vector of framework slugs to fetch (as
-carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}), or
+carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}, or the release file slug, e.g. \code{"nice"}), or
 \code{NULL} (the default) for every framework the release manifest ships.}
 
 \item{version}{Character scalar release version (e.g. \code{"1.0.0"}), or
-\code{NULL} (the default) for the release location's \code{"latest"} alias.}
+\code{NULL} (the default) for the data release this package version was built against, \code{cybed_data_release}.}
 }
 \value{
 Invisibly, a tibble with one row per fetched framework: columns
@@ -39,7 +39,7 @@ re-downloaded.
 # Requires network access (or a `cybedtools.release_url` override
 # pointing at a local mock release for testing).
 tryCatch(
-  cybed_fetch(frameworks = "nice-v2"),
+  cybed_fetch(frameworks = "nice"),
   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))
 )
 }
