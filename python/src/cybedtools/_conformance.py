@@ -16,6 +16,7 @@ a test noticing -- see ``test_conformance.py::test_fixture_copy_matches_source``
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -24,12 +25,27 @@ _THIS_FILE = Path(__file__).resolve()
 
 
 def _candidate_conformance_dirs() -> list[Path]:
-    """Directories to search for the conformance fixtures, in priority order."""
+    """Directories to search for the conformance fixtures, in priority order.
+
+    An explicit ``CYBEDTOOLS_CONFORMANCE_DIR`` wins. Otherwise the search runs
+    relative to this file (editable or source checkout) and then relative to
+    the working directory, which covers a non-editable install tested from
+    ``python/`` or from the repository root.
+    """
+    candidates: list[Path] = []
+    override = os.environ.get("CYBEDTOOLS_CONFORMANCE_DIR")
+    if override:
+        candidates.append(Path(override))
     # python/src/cybedtools/_conformance.py -> python/tests/fixtures/conformance
-    packaged = _THIS_FILE.parents[2] / "tests" / "fixtures" / "conformance"
+    candidates.append(_THIS_FILE.parents[2] / "tests" / "fixtures" / "conformance")
     # python/src/cybedtools/_conformance.py -> <repo root>/inst/conformance
-    repo_root = _THIS_FILE.parents[3] / "inst" / "conformance"
-    return [packaged, repo_root]
+    if len(_THIS_FILE.parents) > 3:
+        candidates.append(_THIS_FILE.parents[3] / "inst" / "conformance")
+    cwd = Path.cwd()
+    candidates.append(cwd / "tests" / "fixtures" / "conformance")
+    candidates.append(cwd / "python" / "tests" / "fixtures" / "conformance")
+    candidates.append(cwd.parent / "inst" / "conformance")
+    return candidates
 
 
 def conformance_dir() -> Path:
