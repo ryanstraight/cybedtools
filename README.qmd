@@ -565,9 +565,7 @@ pip install cybedtools
 
 ### Fetch data and load a graph
 
-::: {.panel-tabset}
-
-#### R
+R:
 
 ```r
 library(cybedtools)
@@ -579,7 +577,7 @@ rdf <- load_graph()
 framework_summary
 ```
 
-#### Python
+Python:
 
 ```python
 from cybedtools import load_graph, framework_summary
@@ -588,15 +586,11 @@ graph = load_graph()
 framework_summary()
 ```
 
-:::
-
 `load_graph()` calls `cybed_fetch()` internally (a no-op for files already cached with a verified hash). Both accept either the versioned framework slug (`"nice-v2"`) or the short release-file slug (`"nice"`); see `cybed_fetch()`'s documentation for the two-vocabulary mapping. The data release backing this package version is archived on Zenodo: [10.5281/zenodo.22884320](https://doi.org/10.5281/zenodo.22884320).
 
 ### Three queries
 
-::: {.panel-tabset}
-
-#### R
+R:
 
 ```r
 # 1. What's in the corpus?
@@ -611,7 +605,7 @@ unit_element_bindings(rdf) |>
 framework_similarity(rdf, from = "nice", to = "ecsf", n = 3)
 ```
 
-#### Python
+Python:
 
 ```python
 # 1. What's in the corpus?
@@ -625,8 +619,6 @@ unit_element_bindings(graph).head(10)
 from cybedtools import framework_similarity
 framework_similarity(graph, from_="nice", to="ecsf", n=3)
 ```
-
-:::
 
 The [function reference](https://ryanstraight.github.io/cybedtools/reference/) indexes the full public API for both languages.
 
