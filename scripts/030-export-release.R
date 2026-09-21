@@ -63,7 +63,7 @@ release_config <- list(
   nt_dir      = here("data", "processed", "ntriples"),
   release_dir = here("data", "processed", "release"),
   frameworks  = c("nice", "sfia", "dcwf", "ecsf",
-                  "cyberorg-k12", "csta", "csec2017", "digcomp",
+                  "cyberorg-k12", "csta", "csta-2026", "csec2017", "digcomp",
                   "cyqual", "ccssf", "otccf")
 )
 
@@ -134,9 +134,9 @@ assert_graph_gate <- function() {
 # file because an exclusion removed it is accounted for separately, by
 # report_exclusion_counts(), which reconciles each file's own before and after.
 #
-# The eleven per-framework documents partition the combined graph. The
+# The per-framework documents partition the combined graph. The
 # assembler builds the combined document by concatenating the same node lists
-# it wrote per framework, so the union of the eleven files should equal the
+# it wrote per framework, so the union of the per-framework files should equal the
 # combined file exactly. Checking it here is what makes the per-framework files
 # a safe source for the release: a triple present only in the combined graph
 # would be a triple no framework file carries, and it would ship nowhere.
@@ -261,7 +261,8 @@ apply_exclusions <- function(lines, slug, config, scope) {
 framework_entry <- function(slug, lines, config, policy, licenses, out_dir) {
   policy_value <- policy$policy[match(slug, policy$framework_slug)]
   scope <- release_scope(policy_value)
-  license_row <- release_license_row(licenses, slug)
+  license_row <- release_license_row(licenses, slug,
+                                     reserved = policy$framework_slug)
 
   framework_iri <- nt_subjects_of_type(lines, framework_class_iri)
   if (length(framework_iri) != 1L) {
