@@ -26,6 +26,24 @@
 # 14,583-row parent-child join). Always pass an explicit `by =` when
 # joining two of these tibbles together.
 
+#' Derive a framework's stable slug from its framework IRI
+#'
+#' Framework nodes are minted at `cybed:framework/{framework_id}`
+#' ([build_framework_node()]), and `framework_id` is exactly the slug
+#' documented on [framework_summary]`$framework_slug` (e.g. `"nice-v2"`).
+#' This helper takes the text after the final `/` of the expanded IRI, which
+#' recovers that slug without a round trip through the framework's
+#' `schema:name` literal.
+#'
+#' @param framework_uri Character vector of framework IRIs (the `framework`
+#'   column of `framework_metadata()` and the `*_bindings()` helpers).
+#' @return Character vector of slugs, same length as `framework_uri`. `NA`
+#'   input yields `NA` output.
+#' @noRd
+framework_slug_of <- function(framework_uri) {
+  sub(".*/", "", framework_uri)
+}
+
 #' Default PREFIX declarations used by every helper query
 #'
 #' @return Character string with the standard prefixes plus a trailing newline.
@@ -119,8 +137,10 @@ sparql_subjects <- function(rdf, predicate, object) {
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `framework`, `name`, `jurisdiction`,
-#'   `sector`, `specificity`. One row per framework typed as
-#'   `cybed:Framework`.
+#'   `sector`, `specificity`, `framework_slug`. One row per framework typed
+#'   as `cybed:Framework`. `framework_slug` is added (v0.4.0) as a stable
+#'   join key across frameworks; every existing column is unchanged and
+#'   row order is unchanged.
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -158,7 +178,8 @@ framework_metadata <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(specs, specificity = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: role-to-framework bindings with framework name attached
@@ -182,7 +203,7 @@ framework_metadata <- function(rdf) {
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `role`, `role_name`, `framework`,
-#'   `framework_name`.
+#'   `framework_name`, `framework_slug` (added v0.4.0, a stable join key).
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -221,7 +242,8 @@ role_framework_bindings <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(fw_names, framework_name = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: organizing-unit-to-framework bindings with framework name attached
@@ -243,7 +265,7 @@ role_framework_bindings <- function(rdf) {
 #'
 #' @param rdf An rdf object.
 #' @return A tibble with columns `unit`, `unit_name`, `framework`,
-#'   `framework_name`.
+#'   `framework_name`, `framework_slug` (added v0.4.0, a stable join key).
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -285,7 +307,8 @@ organizing_unit_framework_bindings <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(fw_names, framework_name = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: element-to-framework bindings with framework name attached
@@ -304,7 +327,8 @@ organizing_unit_framework_bindings <- function(rdf) {
 #' counting column in `framework_summary`).
 #'
 #' @param rdf An rdf object.
-#' @return A tibble with columns `element`, `framework`, `framework_name`.
+#' @return A tibble with columns `element`, `framework`, `framework_name`,
+#'   `framework_slug` (added v0.4.0, a stable join key).
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -337,7 +361,8 @@ element_framework_bindings <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(fw_names, framework_name = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: example-to-framework bindings with framework name attached
@@ -359,7 +384,8 @@ element_framework_bindings <- function(rdf) {
 #' total element count.
 #'
 #' @param rdf An rdf object.
-#' @return A tibble with columns `example`, `framework`, `framework_name`.
+#' @return A tibble with columns `example`, `framework`, `framework_name`,
+#'   `framework_slug` (added v0.4.0, a stable join key).
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -392,7 +418,8 @@ example_framework_bindings <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(fw_names, framework_name = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: subpoint-to-framework bindings with framework name attached
@@ -419,7 +446,8 @@ example_framework_bindings <- function(rdf) {
 #' column, which does exactly this.
 #'
 #' @param rdf An rdf object.
-#' @return A tibble with columns `subpoint`, `framework`, `framework_name`.
+#' @return A tibble with columns `subpoint`, `framework`, `framework_name`,
+#'   `framework_slug` (added v0.4.0, a stable join key).
 #' @note The `framework` column holds the framework's full URI. Avoid
 #'   naming a local variable or function parameter `framework` in code
 #'   that filters or mutates this tibble -- dplyr's data masking silently
@@ -452,7 +480,8 @@ subpoint_framework_bindings <- function(rdf) {
     dplyr::left_join(
       dplyr::rename(fw_names, framework_name = "o"),
       by = c("framework" = "s")
-    )
+    ) |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework))
 }
 
 #' Domain helper: statement text keyed by element
@@ -539,7 +568,44 @@ element_text <- function(rdf) {
 #' matters for your analysis.
 #'
 #' @param rdf An rdf object.
-#' @return A tibble with columns `role`, `element`.
+#' @return A tibble with columns `role`, `element`, `framework_slug`.
+#'   `framework_slug` (added v0.4.0) is the slug of the `role` (organizing
+#'   unit) subject's own framework, taken from
+#'   [organizing_unit_framework_bindings()]; a `role` with no valid
+#'   `cybed:partOf` to a `cybed:Framework` carries `NA` here rather than
+#'   dropping the row, so this helper's row count is unchanged from before
+#'   v0.4.0.
+#' @family SPARQL helpers
+#' @export
+#' @examples
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' unit_element_bindings(rdf)
+#' }
+unit_element_bindings <- function(rdf) {
+  has_element <- sparql_pairs(rdf, "cybed:hasElement")
+  bindings <- dplyr::transmute(has_element, role = .data$s, element = .data$o)
+
+  units <- organizing_unit_framework_bindings(rdf) |>
+    dplyr::transmute(role = .data$unit, framework_slug = .data$framework_slug)
+
+  bindings |>
+    dplyr::left_join(units, by = "role")
+}
+
+#' Deprecated alias for [unit_element_bindings()]
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `role_element_bindings()` is deprecated as of cybedtools 0.4.0 in favor of
+#' [unit_element_bindings()], which returns the identical result (all
+#' organizing units, not just `cybed:Role` subjects) under a name that
+#' doesn't overstate the role restriction. This alias will be removed in a
+#' future minor version; update call sites to `unit_element_bindings()`.
+#'
+#' @inheritParams unit_element_bindings
+#' @return See [unit_element_bindings()].
 #' @family SPARQL helpers
 #' @export
 #' @examples
@@ -548,6 +614,65 @@ element_text <- function(rdf) {
 #' role_element_bindings(rdf)
 #' }
 role_element_bindings <- function(rdf) {
-  has_element <- sparql_pairs(rdf, "cybed:hasElement")
-  dplyr::transmute(has_element, role = .data$s, element = .data$o)
+  warning(
+    paste(
+      "`role_element_bindings()` was deprecated in cybedtools 0.4.0.",
+      "Use `unit_element_bindings()` instead."
+    ),
+    call. = FALSE
+  )
+  unit_element_bindings(rdf)
+}
+
+#' Domain helper: unit-to-unit relation bindings
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' One row per `cybed:UnitRelation` node ([build_unit_relation_node()]),
+#' giving the related pair of organizing units plus the relation's own
+#' framework attribution. `relation` is `NA` for a plain (unlabeled)
+#' relation; `framework_slug` is `NA` when the relation node carries no
+#' `cybed:partOf`, or one whose target is not typed `cybed:Framework`.
+#'
+#' @param rdf An rdf object.
+#' @return A tibble with columns `from_unit`, `relation`, `to_unit`,
+#'   `framework_slug`.
+#' @family SPARQL helpers
+#' @export
+#' @examples
+#' \dontrun{
+#' rdf <- load_combined_ntriples_graph()
+#' unit_relation_bindings(rdf)
+#' }
+unit_relation_bindings <- function(rdf) {
+  relations <- sparql_subjects(rdf, "a", "cybed:UnitRelation") |>
+    dplyr::transmute(relation_id = .data$s)
+  from_unit <- sparql_pairs(rdf, "cybed:fromUnit")
+  to_unit   <- sparql_pairs(rdf, "cybed:toUnit")
+  labels    <- sparql_pairs(rdf, "cybed:relationLabel")
+  partof    <- sparql_pairs(rdf, "cybed:partOf")
+  fws       <- sparql_subjects(rdf, "a", "cybed:Framework")
+
+  fw_of_relation <- partof |>
+    dplyr::rename(relation_id = "s", framework = "o") |>
+    dplyr::semi_join(dplyr::rename(fws, framework = "s"), by = "framework") |>
+    dplyr::mutate(framework_slug = framework_slug_of(.data$framework)) |>
+    dplyr::select("relation_id", "framework_slug")
+
+  relations |>
+    dplyr::left_join(
+      dplyr::rename(from_unit, relation_id = "s", from_unit = "o"),
+      by = "relation_id"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(to_unit, relation_id = "s", to_unit = "o"),
+      by = "relation_id"
+    ) |>
+    dplyr::left_join(
+      dplyr::rename(labels, relation_id = "s", relation = "o"),
+      by = "relation_id"
+    ) |>
+    dplyr::left_join(fw_of_relation, by = "relation_id") |>
+    dplyr::select("from_unit", "relation", "to_unit", "framework_slug")
 }

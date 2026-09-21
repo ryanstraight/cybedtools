@@ -27,18 +27,19 @@ Imports:
     dplyr (>= 1.1.0),
     purrr,
     tibble,
+    tidyr,
     jsonlite,
     glue,
     here,
     rdflib,
     rlang,
-    lifecycle
+    lifecycle,
+    digest
 Suggests:
     readxl,
     readr,
     yaml,
     stringr,
-    digest,
     janitor,
     DBI,
     RSQLite,

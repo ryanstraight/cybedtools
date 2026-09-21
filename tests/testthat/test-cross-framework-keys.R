@@ -17,7 +17,7 @@
 #   framework_metadata, role_framework_bindings,
 #   organizing_unit_framework_bindings, element_framework_bindings,
 #   example_framework_bindings, subpoint_framework_bindings,
-#   role_element_bindings
+#   unit_element_bindings
 
 looks_like_full_iri <- function(x) {
   x <- x[!is.na(x)]
@@ -45,8 +45,8 @@ key_safety_cases <- list(
   list(name = "subpoint_framework_bindings",
        fn   = function(rdf) subpoint_framework_bindings(rdf),
        ids  = "subpoint"),
-  list(name = "role_element_bindings",
-       fn   = function(rdf) role_element_bindings(rdf),
+  list(name = "unit_element_bindings",
+       fn   = function(rdf) unit_element_bindings(rdf),
        ids  = c("role", "element"))
 )
 
@@ -113,13 +113,13 @@ test_that("stripping identifiers to bare local codes collapses two frameworks", 
   expect_equal(anyDuplicated(elements$element), 0L)
 })
 
-test_that("role_element_bindings pairs stay resolvable to a single framework", {
-  # role_element_bindings() is the one helper with no framework column. It
+test_that("unit_element_bindings pairs stay resolvable to a single framework", {
+  # unit_element_bindings() is the one helper with no framework column. It
   # returns full IRIs on both sides, so each pair still resolves, but only
   # through a join. Documented here so the reliance is explicit.
   rdf <- make_shared_code_fixture_graph()
 
-  pairs <- role_element_bindings(rdf)
+  pairs <- unit_element_bindings(rdf)
   expect_false("framework" %in% names(pairs))
   expect_true(looks_like_full_iri(pairs$role))
   expect_true(looks_like_full_iri(pairs$element))

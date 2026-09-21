@@ -42,6 +42,8 @@ Other SPARQL helpers:
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}},
-\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}
