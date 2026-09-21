@@ -1113,8 +1113,8 @@ assemble_ccssf <- function() {
   activity_areas <- read_framework_table("ccssf", "activity-areas")
   crosswalk      <- read_framework_table("ccssf", "nice-crosswalk")
 
-  # The publisher's permission is conditional on referencing ITSM.00.039
-  # wherever the material is used, so the attribution is recorded verbatim.
+  # The Centre asked that ITSM.00.039 be referenced wherever the material is
+  # used, so the attribution is recorded verbatim.
   # No landing page is recorded in provenance (the PDF was supplied directly
   # by the steward), so none is cited rather than guessing one.
   version_string <- paste(
@@ -1136,7 +1136,7 @@ assemble_ccssf <- function() {
     attribution      = paste(
       "Canadian Centre for Cyber Security, The Canadian Cyber Security Skills",
       "Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada.",
-      "Used with permission."
+      "Referenced as the Canadian Centre for Cyber Security asked."
     )
   )
 

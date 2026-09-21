@@ -12,8 +12,8 @@
 #   - Effective date printed in the PDF: April 19, 2023 (revision 1)
 #
 # Provenance of this copy: supplied directly by the Cyber Centre's Cyber
-# Skills Development Team on 2026-09-16, including Annexes A through F, with
-# permission to use the material on condition that it is referenced when used.
+# Skills Development Team on 2026-09-16, including Annexes A through F. The
+# Centre asked that the material be referenced when used.
 #
 # Structure (confirmed by reading the whole document):
 #   Four activity areas / work categories, one per annex:
@@ -37,9 +37,9 @@
 # in both the core role blocks and the Annex E table. Those citations are
 # captured as their own crosswalk table.
 #
-# Licensing: Copyright Government of Canada. Used with written permission of
-# the Canadian Centre for Cyber Security (Cyber Skills Development Team),
-# 2026-09-16, on condition that the material is referenced when used.
+# Licensing: Copyright Government of Canada. Referenced as the Canadian
+# Centre for Cyber Security asked. Supplied directly by the Cyber Centre's
+# Cyber Skills Development Team, 2026-09-16.
 #
 # Run: Rscript scripts/010-ingest-ccssf.R
 
@@ -76,9 +76,9 @@ ccssf_config <- list(
   isbn              = "978-0-660-46231-8",
   catalogue_number  = "D97-4/00-039-2022E-PDF",
   license           = paste(
-    "Copyright Government of Canada. Used with written permission of the",
-    "Canadian Centre for Cyber Security (Cyber Skills Development Team),",
-    "2026-09-16, on condition that the material is referenced when used."
+    "Copyright Government of Canada. Referenced as the Canadian Centre for",
+    "Cyber Security asked. Supplied directly by the Cyber Skills Development",
+    "Team, 2026-09-16."
   )
 )
 
