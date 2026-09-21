@@ -30,15 +30,15 @@ The cybersecurity workforce and learning frameworks displayed on this site retai
 - **SFIA 9**: all use of SFIA is under licence from the SFIA Foundation, and the protected material is the concept, content and structure of SFIA. Redistribution and sub-licensing are prohibited at every tier. cybedtools uses SFIA for local analysis only, and this site shows SFIA skill names and aggregate counts and nothing more. A permission request to the SFIA Foundation is being prepared.
 - **Cyber.org K-12 v1.0**: Creative Commons BY-NC 4.0, attribution and non-commercial use.
 - **CSTA K-12 CS Standards (Rev 2017)**: Creative Commons BY-NC-SA 4.0, attribution, non-commercial use and share-alike. The ingested workbook carries no licence statement, so the label is read from CSTA's publication page for the 2017 edition.
-- **DigComp 2.2**: Creative Commons BY 4.0, by the source PDF's own imprint page. The prescribed citation is: Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415.
+- **DigComp 3.0**: Creative Commons BY 4.0, verified against the dataset's own copyright notice, the JRC Data Catalogue record, and the DigComp 3.0 resources page. The European Commission logo is excluded from reuse; cybedtools reproduces no logo. The prescribed citation is: Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.
 - **ACM/IEEE CSEC2017**: copyright 2017 by ACM, IEEE, AIS, IFIP, all rights reserved, with permission granted only "to use these curricular guidelines for the development of educational materials and programs". This site shows Knowledge Area names, counts and alignment scores, and no statement text. A permission request to ACM is being prepared.
 
 ## Frameworks included by steward permission
 
-Three frameworks are here on their stewards' terms. Two of them gave written permission, and the Canadian framework is referenced as its steward asked. Those terms were given to cybedtools and do not pass to you.
+Three frameworks are here on their stewards' terms. All three gave written permission. Those terms were given to cybedtools and do not pass to you.
 
 - **CyQUAL 1.2.0**: CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, https://platform.cyqual.cz/.
-- **CCSSF 2022**: Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.
+- **CCSSF 2022**: Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security.
 - **OTCCF v1.1**: Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/>
 
 CSA's permission covers the OTCCF's structure for non-commercial, academic and research use, and this site does not reproduce OTCCF statement text.

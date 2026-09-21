@@ -1,0 +1,34 @@
+{
+  "manifest_version": "1",
+  "release_version": "1.0.0",
+  "release_date": "2026-09-21",
+  "files": [
+    {
+      "slug": "fixture-wf1",
+      "file": "fixture-wf1.nt.gz",
+      "triples": 5,
+      "bytes": 215,
+      "bytes_uncompressed": 618,
+      "sha256": "aafb41e8847cddec9d294f2c5ed753d962c35e2e9533a2d6a32bf405bf4c90a4",
+      "sha256_uncompressed": "f383dd4be844597084ba9f2b241c2a0b210bef1660ddd6dc9c35e91705d0e6b4"
+    },
+    {
+      "slug": "fixture-wf2",
+      "file": "fixture-wf2.nt.gz",
+      "triples": 5,
+      "bytes": 215,
+      "bytes_uncompressed": 618,
+      "sha256": "9a7bc7b6b81feb152a35bdacb145985478801f0dc1b2990d545c2c2105fe9a87",
+      "sha256_uncompressed": "66b2ca5ca2cf8ae64a3a0b15c8cf4f010d518ab1fe0b7ec98275d0bd0e2abc25"
+    },
+    {
+      "slug": "fixture-ped1",
+      "file": "fixture-ped1.nt.gz",
+      "triples": 5,
+      "bytes": 216,
+      "bytes_uncompressed": 627,
+      "sha256": "56558a4d6c09670e4f9701c786eceefbde79c21d24a1727f417f1accc9f041af",
+      "sha256_uncompressed": "70b15bd3a3b0cb0a8f1c693642fa85ab0f8d7d5d149bf808715658bf0049e37d"
+    }
+  ]
+}

@@ -10,7 +10,8 @@ subpoint_framework_bindings(rdf)
 \item{rdf}{An rdf object.}
 }
 \value{
-A tibble with columns \code{subpoint}, \code{framework}, \code{framework_name}.
+A tibble with columns \code{subpoint}, \code{framework}, \code{framework_name},
+\code{framework_slug} (added v0.4.0, a stable join key).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
@@ -19,7 +20,7 @@ One row per (subpoint, framework) pair where the subpoint is typed
 \code{cybed:Subpoint} (the generic enumeration-list-splitting subtype --
 "such as X, Y, and Z" / "including A and B" -- parsed out of a single
 native unit's text at JSON-LD assembly time, applied uniformly across
-all eleven frameworks) and its \code{partOf} target is typed
+the corpus) and its \code{partOf} target is typed
 \code{cybed:Framework}. Subpoints without a valid framework partOf are
 excluded.
 
@@ -57,6 +58,8 @@ Other SPARQL helpers:
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
-\code{\link[=sparql_subjects]{sparql_subjects()}}
+\code{\link[=sparql_subjects]{sparql_subjects()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}

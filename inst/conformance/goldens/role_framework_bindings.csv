@@ -1,0 +1,5 @@
+role,framework,role_name,framework_name,framework_slug
+https://w3id.org/cybed/ontology#role/fixture-role-1,https://w3id.org/cybed/ontology#framework/fixture-wf1,Security Analyst,Fixture Workforce Framework One,fixture-wf1
+https://w3id.org/cybed/ontology#role/fixture-role-2,https://w3id.org/cybed/ontology#framework/fixture-wf1,Network Defender,Fixture Workforce Framework One,fixture-wf1
+https://w3id.org/cybed/ontology#role/fixture-role-3,https://w3id.org/cybed/ontology#framework/fixture-wf2,Incident Handler,Fixture Workforce Framework Two,fixture-wf2
+https://w3id.org/cybed/ontology#role/fixture-role-4,https://w3id.org/cybed/ontology#framework/fixture-wf2,Threat Hunter,Fixture Workforce Framework Two,fixture-wf2

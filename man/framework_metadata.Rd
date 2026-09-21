@@ -11,8 +11,10 @@ framework_metadata(rdf)
 }
 \value{
 A tibble with columns \code{framework}, \code{name}, \code{jurisdiction},
-\code{sector}, \code{specificity}. One row per framework typed as
-\code{cybed:Framework}.
+\code{sector}, \code{specificity}, \code{framework_slug}. One row per framework typed
+as \code{cybed:Framework}. \code{framework_slug} is added (v0.4.0) as a stable
+join key across frameworks; every existing column is unchanged and
+row order is unchanged.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
@@ -46,6 +48,8 @@ Other SPARQL helpers:
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}},
-\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}

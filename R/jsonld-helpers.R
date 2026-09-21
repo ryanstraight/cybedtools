@@ -8,7 +8,8 @@
 # Two-tier namespace architecture (see the namespace-architecture article):
 #   Tier 1: `cybed:` (framework-agnostic base vocabulary)
 #   Tier 2: per-framework prefixes (nice, dcwf, ecf, sfia, ecsf, cyqual,
-#           ccssf, otccf, cyberorg, csta, csec, digcomp), each defining
+#           ccssf, otccf, scywf, cyberorg, csta, csta2026, csec, digcomp,
+#           cybok), each defining
 #           subclasses of Tier 1 types
 
 # ---------------------------------------------------------------------------
@@ -36,15 +37,31 @@ cybed_namespaces <- list(
   # the steward issued.
   cyqual    = "https://w3id.org/cybed/framework/cyqual#",
   ccssf     = "https://w3id.org/cybed/framework/ccssf#",
-  otccf     = "https://w3id.org/cybed/framework/otccf#"
+  otccf     = "https://w3id.org/cybed/framework/otccf#",
+  # The 2026 CSTA PK-12 standards are a separate framework from the 2017
+  # edition, with their own identifier scheme. Their package-coined terms
+  # (csta2026:StandardGroup and the per-standard literal properties) are
+  # minted under the cybed namespace for the same reason as above.
+  csta2026  = "https://w3id.org/cybed/framework/csta2026#",
+  # Saudi Cybersecurity Workforce Framework, ingested by written permission
+  # of the National Cybersecurity Authority. Its package-coined terms
+  # (scywf:JobRole, the group subtypes and the derived hierarchy predicates)
+  # are minted under the cybed namespace for the same reason as above.
+  scywf     = "https://w3id.org/cybed/framework/scywf#",
+  # Cyber Security Body of Knowledge (NCSC, Open Government Licence v3.0).
+  # CyBOK publishes no vocabulary of its own, so its package-coined terms
+  # (cybok:KnowledgeArea, cybok:Topic, cybok:IndicativeMaterial and
+  # cybok:category) are minted under the cybed namespace as above.
+  cybok     = "https://w3id.org/cybed/framework/cybok#"
 )
 
 # Valid framework prefixes (Tier 2). Workforce + pedagogical.
 valid_framework_prefixes <- c(
   # Workforce competency frameworks
-  "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf",
-  # Pedagogical learning-standards / curriculum frameworks
-  "cyberorg", "csta", "csec", "digcomp"
+  "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf", "scywf",
+  # Pedagogical learning-standards / curriculum frameworks and bodies of
+  # knowledge
+  "cyberorg", "csta", "csta2026", "csec", "digcomp", "cybok"
 )
 
 #' Build a standard JSON-LD `@context` block
@@ -58,8 +75,9 @@ valid_framework_prefixes <- c(
 #'
 #' @param framework_prefix Character, one of the valid framework prefixes.
 #'   Workforce: `"nice"`, `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`, `"cyqual"`,
-#'   `"ccssf"`, `"otccf"`.
-#'   Pedagogical: `"cyberorg"`, `"csta"`, `"csec"`, `"digcomp"`.
+#'   `"ccssf"`, `"otccf"`, `"scywf"`.
+#'   Pedagogical: `"cyberorg"`, `"csta"`, `"csta2026"`, `"csec"`, `"digcomp"`,
+#'   `"cybok"`.
 #' @return Named list suitable for use as JSON-LD `@context`.
 #' @family JSON-LD construction
 #' @export
@@ -201,12 +219,12 @@ build_framework_node <- function(framework_id,
 #'
 #' Every framework's top-level enumerated unit is an instance of
 #' `cybed:OrganizingUnit` (subClassOf `skos:Concept`), the cross-framework
-#' abstract that lets one SPARQL query reach all eleven frameworks' parent
+#' abstract that lets one SPARQL query reach every framework's parent
 #' units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
 #' unit is genuinely a work role or work profile additionally assert
 #' `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); pass `is_role =
 #' TRUE` for those. Non-workforce frameworks (SFIA enumerates skills;
-#' Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2 enumerate other organizing
+#' Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 enumerate other organizing
 #' units) assert `cybed:OrganizingUnit` only.
 #'
 #' Each unit also carries a per-framework subtype (e.g., `nice:WorkRole`,
@@ -353,7 +371,7 @@ build_organizing_unit_node <- function(unit_id,
 #' Convenience wrapper around [build_organizing_unit_node()] for workforce
 #' frameworks (NICE, DCWF, ENISA ECSF). Asserts `cybed:Role` in addition to
 #' `cybed:OrganizingUnit` and the per-framework subtype. For non-workforce
-#' frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
+#' frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0), call
 #' [build_organizing_unit_node()] directly with `is_role = FALSE`.
 #'
 #' @param role_id Character, framework-local identifier (e.g., `"OG-WRL-015"`).

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sparql-helpers.R
 \name{role_element_bindings}
 \alias{role_element_bindings}
-\title{Domain helper: organizing-unit-to-element bindings}
+\title{Deprecated alias for \code{\link[=unit_element_bindings]{unit_element_bindings()}}}
 \usage{
 role_element_bindings(rdf)
 }
@@ -10,25 +10,16 @@ role_element_bindings(rdf)
 \item{rdf}{An rdf object.}
 }
 \value{
-A tibble with columns \code{role}, \code{element}.
+See \code{\link[=unit_element_bindings]{unit_element_bindings()}}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-One row per (parent, element) pair derived from \code{cybed:hasElement}
-triples. Despite the "role" naming, the \code{role} column is NOT restricted
-to \code{cybed:Role} subjects -- \code{cybed:hasElement} is the universal parent-
-child link used across all eleven frameworks, so this returns element
-bindings for every \code{cybed:OrganizingUnit} (SFIA skills, Cyber.org K-12
-and CSTA standards, etc.), not just NICE/DCWF/ECSF work roles. Confirmed
-2026-08-14 stress test: of 428 distinct values in the \code{role} column,
-only 127 (30\%) are actual \code{cybed:Role} subjects. Low practical risk when
-immediately joined against \code{\link[=role_framework_bindings]{role_framework_bindings()}} or
-\code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}} (the mismatches drop out), but a
-standalone aggregate over this tibble's \code{role} column (e.g. "average
-elements per role") will silently include non-role parents. Filter to
-\code{cybed:Role} first via \code{\link[=role_framework_bindings]{role_framework_bindings()}} if that distinction
-matters for your analysis.
+\code{role_element_bindings()} is deprecated as of cybedtools 0.4.0 in favor of
+\code{\link[=unit_element_bindings]{unit_element_bindings()}}, which returns the identical result (all
+organizing units, not just \code{cybed:Role} subjects) under a name that
+doesn't overstate the role restriction. This alias will be removed in a
+future minor version; update call sites to \code{unit_element_bindings()}.
 }
 \examples{
 \dontrun{
@@ -46,6 +37,8 @@ Other SPARQL helpers:
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}},
-\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}

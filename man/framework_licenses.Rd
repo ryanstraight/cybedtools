@@ -5,7 +5,7 @@
 \alias{framework_licenses}
 \title{Licence facts for the package code and every framework}
 \format{
-A tibble with 12 rows and 10 columns.
+A tibble with 15 rows and 10 columns.
 \describe{
 \item{layer}{Character. \code{"code"} for the package's own code, or
 \code{"framework"} for a framework's source content. Exactly one \code{"code"}

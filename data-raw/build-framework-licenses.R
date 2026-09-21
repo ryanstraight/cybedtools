@@ -182,6 +182,28 @@ framework_licenses <- tibble::tribble(
   "https://creativecommons.org/licenses/by-nc-sa/4.0/",
   FALSE, as.Date("2026-09-18"),
 
+  "framework", "csta-2026", "CSTA PK-12 CS (2026)",
+  "CC BY-NC-SA 4.0",
+  paste0(
+    "From the 2026 CSTA PK-12 Computer Science Standards PDF's own licence ",
+    "page (p. iv): \"These Standards are licensed under the Creative Commons ",
+    "Attribution-NonCommercial-ShareAlike 4.0 International License. ",
+    "Accordingly, individuals and organizations are free to download, print, ",
+    "share, and adapt the materials in whole or in part, as long as they ",
+    "provide proper attribution, use for non-commercial purposes, and share ",
+    "contributions or derivations under the same license.\" Every page ",
+    "footer repeats \"CC BY-NC-SA 4.0\". cybedtools ingests the JSON behind ",
+    "CSTA's interactive Standards Explorer, which carries the same standard ",
+    "text and is published by CSTA, so it is treated under the same terms. ",
+    "The share-alike term propagates to any file containing CSTA-derived ",
+    "content. The attribution below is the PDF's own suggested citation and ",
+    "DOI, with the en dash in PK-12 rendered as a hyphen."
+  ),
+  "Computer Science Teachers Association. (2026). 2026 CSTA PK-12 computer science standards. https://csteachers.org/pk12standards/ DOI: https://doi.org/10.1145/3820482",
+  "full_with_attribution",
+  "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  FALSE, as.Date("2026-09-21"),
+
   "framework", "csec2017-v1", "ACM/IEEE CSEC2017",
   "All rights reserved; educational use",
   paste0(
@@ -200,24 +222,25 @@ framework_licenses <- tibble::tribble(
   "https://cybered.acm.org/",
   FALSE, as.Date("2026-09-18"),
 
-  "framework", "digcomp-2.2", "DigComp 2.2",
+  "framework", "digcomp-3.0", "DigComp 3.0",
   "CC BY 4.0",
   paste0(
-    "From the DigComp 2.2 report's own imprint page (EUR 31006 EN, ",
-    "JRC128415): \"(c) European Union, 2022 / The reuse policy of the ",
-    "European Commission is implemented by the Commission Decision ",
-    "2011/833/EU of 12 December 2011 on the reuse of Commission documents ",
-    "... Except otherwise noted, the reuse of this document is authorised ",
-    "under the Creative Commons Attribution 4.0 International (CC BY 4.0) ",
-    "licence ... This means that reuse is allowed provided appropriate ",
-    "credit is given and any changes are indicated.\" Nothing cybedtools ",
-    "ingests is marked \"otherwise noted\", and the notice's carve-out for ",
-    "photos and other non-EU-owned material does not reach it."
+    "From the copyright notice distributed with the official DigComp 3.0 ",
+    "data supplement (JRC144121, ISBN 978-92-68-32677-0): \"(c) European ",
+    "Union, 1995-2026 / The Commission's reuse policy is implemented by the ",
+    "Commission Decision of 12 December 2011 on the reuse of Commission ",
+    "documents. Any copyright and/or sui generis right on the dataset is ",
+    "licensed under the Creative Commons Attribution 4.0 International (CC ",
+    "BY 4.0) licence. Reuse is allowed provided appropriate credit is given ",
+    "and any changes are indicated.\" Also confirmed on the JRC Data ",
+    "Catalogue record (DOI 10.2905/JRC.FR75K8R) and the DigComp 3.0 ",
+    "resources page, which additionally excludes the European Commission ",
+    "logo from reuse; cybedtools reproduces no logo."
   ),
-  "Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415.",
+  "Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.",
   "full_with_attribution",
   "https://creativecommons.org/licenses/by/4.0/",
-  FALSE, as.Date("2026-09-18"),
+  FALSE, as.Date("2026-09-21"),
 
   "framework", "cyqual-v1.2.0", "CyQUAL 1.2.0",
   "Open data, attribution required",
@@ -233,36 +256,34 @@ framework_licenses <- tibble::tribble(
   "https://platform.cyqual.cz/en",
   TRUE, as.Date("2026-09-18"),
 
-  # CCSSF. The steward's written reply said only that the material is
-  # copyrighted under the Government of Canada and should be referenced when
-  # used. That is an instruction about referencing, not an affirmative grant,
-  # so `granted` is FALSE and no column in this row claims otherwise. Decided
-  # 2026-09-19: public text must not characterise the reply as more than it
-  # was until the steward confirms. Statement text stays unpublished.
+  # CCSSF. Owner decision 2026-09-21: the Canadian Centre for Cyber Security
+  # gave cybedtools written permission for full-text publication with
+  # attribution, superseding the 2026-09-19 decision that its earlier reply
+  # (an instruction to reference the material, not an affirmative grant) was
+  # not enough to publish statement text. `granted` is now TRUE and
+  # `public_redistribution` is `full_with_attribution`.
   "framework", "ccssf-2022", "CCSSF 2022",
-  "Government of Canada copyright",
+  "Government of Canada, with permission",
   paste0(
     "The Canadian Cyber Security Skills Framework (ITSM.00.039) carries no ",
     "licence notice of any kind: a sweep of the document finds no copyright ",
     "line, no Creative Commons statement, no Open Government Licence ",
     "reference and no all-rights-reserved statement. It carries only the ",
     "Government of Canada publication identifiers (ISBN 978-0-660-46231-8, ",
-    "Cat. No. D97-4/00-039-2022E-PDF). The Canadian Centre for Cyber ",
-    "Security states that its material is copyrighted under the Government ",
-    "of Canada and should be referenced when used. The document is marked ",
-    "\"TLP:CLEAR\" and \"UNCLASSIFIED / NON CLASSIFIE\" on every page; both ",
-    "are disclosure markings rather than copyright licences, so neither ",
-    "widens what may be republished. Do not assume the Open Government ",
-    "Licence applies."
+    "Cat. No. D97-4/00-039-2022E-PDF). The document is marked \"TLP:CLEAR\" ",
+    "and \"UNCLASSIFIED / NON CLASSIFIE\" on every page; both are disclosure ",
+    "markings rather than copyright licences. The Canadian Centre for Cyber ",
+    "Security gave cybedtools written permission on 2026-09-21 for full-text ",
+    "publication with attribution."
   ),
   paste0(
     "Canadian Centre for Cyber Security, The Canadian Cyber Security Skills ",
     "Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. ",
-    "Referenced as the Canadian Centre for Cyber Security asked."
+    "Used with permission of the Canadian Centre for Cyber Security."
   ),
-  "structure_only",
+  "full_with_attribution",
   "https://www.cyber.gc.ca/en/publications",
-  FALSE, as.Date("2026-09-18"),
+  TRUE, as.Date("2026-09-21"),
 
   "framework", "otccf-v1.1", "OTCCF v1.1",
   "CSA copyright; non-commercial academic",
@@ -284,7 +305,61 @@ framework_licenses <- tibble::tribble(
   "Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/",
   "structure_only",
   "https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/",
-  TRUE, as.Date("2026-09-18")
+  TRUE, as.Date("2026-09-18"),
+
+  # SCyWF. NCA's written grant of 2026-09-20 covers the full content with
+  # attribution, on three conditions recorded below. NCA prescribed no
+  # attribution wording, so the attribution is composed here from what the
+  # grant requires: NCA named as issuing body and source, with the official
+  # page link.
+  "framework", "scywf-1.5", "SCyWF 1.5",
+  "NCA written permission",
+  paste0(
+    "The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026) PDF ",
+    "carries no copyright line and no licence notice. Its only markings are ",
+    "\"TLP: Clear\" and \"Document Classification: Public\", which are ",
+    "disclosure markings rather than licences. The National Cybersecurity ",
+    "Authority (NCA) of the Kingdom of Saudi Arabia granted cybedtools ",
+    "written permission on 2026-09-20 to ingest and redistribute the ",
+    "framework's content, on three conditions. (1) NCA is cited as issuing ",
+    "body and source, with a link to the official SCyWF page. (2) Everything ",
+    "taken from the document (identifiers, titles, statement text) is ",
+    "carried verbatim, with no normalised labels, paraphrase, in-house ",
+    "translation or composed text presented as NCA content. (3) Anything ",
+    "cybedtools derives, such as hierarchy edges or cross-framework ",
+    "mappings, is marked as derived and not presented as NCA content. NCA ",
+    "prescribed no ",
+    "attribution wording, so the attribution below is composed to meet the ",
+    "first condition. The grant named an earlier edition (SCyWF - 1 : 2020) ",
+    "that NCA no longer publishes. The current edition is ingested by owner ",
+    "decision. The document's own disclaimer makes its Arabic version ",
+    "binding for matters of meaning and interpretation. cybedtools ingests ",
+    "the English version."
+  ),
+  "The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html",
+  "full_with_attribution",
+  "https://nca.gov.sa/en/pages/scywf.html",
+  TRUE, as.Date("2026-09-21"),
+
+  # CyBOK. An open licence, so no grant. The attribution is the wording the
+  # Introduction's copyright page prescribes, word for word, including its
+  # http link. terms_url is the https address of the same licence.
+  "framework", "cybok-v1.1.0", "CyBOK v1.1.0",
+  "OGL v3.0",
+  paste0(
+    "From the copyright page of the Introduction to CyBOK Knowledge Area, ",
+    "Version 1.1.0 (July 2021): \"© Crown Copyright, The National Cyber ",
+    "Security Centre 2021. This information is licensed under the Open ",
+    "Government Licence v3.0.\" The same page prescribes the attribution ",
+    "below. The A-to-Z Indicative Material document and each Knowledge Tree ",
+    "carry the same Crown Copyright and Open Government Licence v3.0 notice. ",
+    "The Open Government Licence v3.0 permits copying, ",
+    "publishing, adapting and commercial use on the condition of attribution."
+  ),
+  "CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/.",
+  "full_with_attribution",
+  "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+  FALSE, as.Date("2026-09-21")
 )
 
 # Integrity checks. These duplicate the test suite deliberately: the build
@@ -308,27 +383,47 @@ stopifnot(
     all(nchar(framework_licenses$license_short) < 40L),
   "every terms_url must be https" =
     all(grepl("^https://", framework_licenses$terms_url)),
-  "the CCSSF row must not claim permission" =
-    !any(grepl("permission",
+  # Owner decision 2026-09-21: the Centre's written permission for full-text
+  # publication with attribution replaced the earlier "must not claim
+  # permission" guard. The guard now points the other way: the row must say
+  # so, and must not still carry the pre-permission "referenced as ... asked"
+  # wording from before the grant.
+  "the CCSSF row must claim permission and be granted TRUE" = {
+    row <- framework_licenses[framework_licenses$slug == "ccssf-2022", ]
+    any(grepl("permission", unlist(row), ignore.case = TRUE)) &&
+      isTRUE(row$granted) &&
+      identical(row$public_redistribution, "full_with_attribution")
+  },
+  "the CCSSF row must not carry the pre-permission wording" =
+    !any(grepl("referenced as.*asked",
                unlist(framework_licenses[framework_licenses$slug == "ccssf-2022", ]),
                ignore.case = TRUE))
 )
 
 # The framework rows must cover exactly the shipped framework_summary slugs.
 # Checked here as well as in the tests so a rebuild of either object cannot
-# quietly drift from the other.
+# quietly drift from the other, in the direction that can break a release.
 if (exists("framework_summary")) {
   fw_slugs <- framework_licenses$slug[framework_licenses$layer == "framework"]
   missing_license <- setdiff(framework_summary$framework_slug, fw_slugs)
   missing_summary <- setdiff(fw_slugs, framework_summary$framework_slug)
-  if (length(missing_license) > 0L || length(missing_summary) > 0L) {
+  # A licence row with no summary row yet is the expected state while a
+  # framework is being added: this object is built first, because the
+  # summary build derives its licence column from it and refuses a framework
+  # without a licence row. That direction is reported, not fatal. The summary
+  # build and the test suite both require the two to agree exactly after.
+  if (length(missing_license) > 0L) {
     stop(
-      "framework_licenses and framework_summary disagree about which ",
-      "frameworks exist.\n  missing a licence row: ",
-      paste(missing_license, collapse = ", "),
-      "\n  missing a summary row: ",
-      paste(missing_summary, collapse = ", "),
+      "framework_licenses has no row for shipped framework_summary ",
+      "framework(s): ", paste(missing_license, collapse = ", "),
       call. = FALSE
+    )
+  }
+  if (length(missing_summary) > 0L) {
+    message(
+      "Licence row(s) with no framework_summary row yet: ",
+      paste(missing_summary, collapse = ", "),
+      ". Rebuild data-raw/build-framework-summary.R next."
     )
   }
 }

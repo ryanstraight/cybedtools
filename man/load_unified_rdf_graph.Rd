@@ -5,8 +5,8 @@
 \title{Load every framework's JSON-LD into a unified rdflib graph}
 \usage{
 load_unified_rdf_graph(
-  framework_slugs = c("nice", "sfia", "dcwf", "ecsf", "cyberorg-k12", "csta", "csec2017",
-    "digcomp", "cyqual", "ccssf", "otccf"),
+  framework_slugs = c("nice", "sfia", "dcwf", "ecsf", "cyberorg-k12", "csta",
+    "csta-2026", "csec2017", "digcomp", "cyqual", "ccssf", "otccf", "scywf", "cybok"),
   jsonld_dir = NULL
 )
 }

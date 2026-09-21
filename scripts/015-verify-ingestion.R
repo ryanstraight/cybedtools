@@ -125,6 +125,30 @@ verify_provenance <- function(framework, results) {
     }
   }
 
+  # A manifest may instead list several staged files under source$files, each
+  # with its own filename and file_sha256 (csta-2026 stages its JSON, the PDF
+  # and CSTA's crosswalk that way). Every listed file must be present and
+  # match.
+  for (f in manifest$source$files %||% list()) {
+    if (is.null(f$filename) || is.null(f$file_sha256)) next
+    source_path <- file.path(fw_dir, f$filename)
+    check_name <- glue("provenance.sha256.{f$filename}")
+    if (!file.exists(source_path)) {
+      results <- record_check(results, framework, check_name, "hard",
+                              glue("source file declared but not found: {source_path}"))
+      next
+    }
+    actual_sha <- digest(file = source_path, algo = "sha256")
+    if (identical(actual_sha, f$file_sha256)) {
+      results <- record_check(results, framework, check_name, "pass",
+                              "SHA256 matches declared")
+    } else {
+      results <- record_check(results, framework, check_name, "hard",
+                              "SHA256 mismatch",
+                              list(declared = f$file_sha256, actual = actual_sha))
+    }
+  }
+
   results
 }
 
@@ -243,6 +267,33 @@ framework_actual_counts <- function(framework, tables_dir) {
         levels_count    = nrow_or_null(levels),
         clusters_count  = nrow_or_null(clusters),
         concepts        = if (!is.null(standards)) length(unique(standards$concept)) else NULL
+      )
+    },
+    `csta-2026` = {
+      standards  <- safe_read(file.path(tables_dir, "standards.csv"))
+      units      <- safe_read(file.path(tables_dir, "units.csv"))
+      boundaries <- safe_read(file.path(tables_dir, "boundaries.csv"))
+      examples   <- safe_read(file.path(tables_dir, "examples.csv"))
+      found      <- if (is.null(standards)) NULL else standards[standards$tier == "foundational", ]
+      list(
+        standards_count         = nrow_or_null(standards),
+        foundational_standards  = nrow_or_null(found),
+        specialty_standards     = if (is.null(standards)) NULL else sum(standards$tier == "specialty"),
+        levels_count            = if (is.null(standards)) NULL else dplyr::n_distinct(standards$level),
+        foundational_concepts   = if (is.null(found)) NULL else dplyr::n_distinct(found$concept),
+        specialty_areas         = if (is.null(standards)) NULL
+                                  else dplyr::n_distinct(standards$specialty_area_code, na.rm = TRUE),
+        cybersecurity_standards = if (is.null(standards)) NULL
+                                  else sum(standards$specialty_area_code %in% "CYB"),
+        # Units are the observed (level, concept) pairs, so an area published
+        # at one tier only (X+CS) contributes one unit, not two.
+        organizing_units        = nrow_or_null(units),
+        foundational_units      = if (is.null(units)) NULL else sum(units$tier == "foundational"),
+        specialty_units         = if (is.null(units)) NULL else sum(units$tier == "specialty"),
+        boundary_statements     = nrow_or_null(boundaries),
+        implementation_examples = nrow_or_null(examples),
+        standards_with_examples = if (is.null(examples)) NULL else dplyr::n_distinct(examples$code),
+        ai_standards            = if (is.null(standards)) NULL else sum(standards$ai_standard)
       )
     },
     csec2017 = {
@@ -393,14 +444,60 @@ framework_actual_counts <- function(framework, tables_dir) {
         }
       )
     },
+    scywf = {
+      stmts    <- safe_read(file.path(tables_dir, "statements.csv"))
+      links    <- safe_read(file.path(tables_dir, "role-statements.csv"))
+      unres    <- safe_read(file.path(tables_dir, "unresolved-codes.csv"))
+      verbatim <- safe_read(file.path(tables_dir, "verbatim-check.csv"))
+      list(
+        categories                 = safe_read(file.path(tables_dir, "categories.csv")) |> nrow_or_null(),
+        specialty_areas            = safe_read(file.path(tables_dir, "specialty-areas.csv")) |> nrow_or_null(),
+        job_roles                  = safe_read(file.path(tables_dir, "roles.csv")) |> nrow_or_null(),
+        tasks                      = if (is.null(stmts)) NULL else sum(stmts$statement_type == "task"),
+        knowledge                  = if (is.null(stmts)) NULL else sum(stmts$statement_type == "knowledge"),
+        skills                     = if (is.null(stmts)) NULL else sum(stmts$statement_type == "skill"),
+        statements                 = nrow_or_null(stmts),
+        role_statement_links       = nrow_or_null(links),
+        unresolved_card_codes      = nrow_or_null(unres),
+        # Appendix B statements printed on no role card.
+        orphan_statements          = if (is.null(stmts) || is.null(links)) NULL
+                                     else sum(!stmts$statement_id %in% links$statement_id),
+        competency_areas           = safe_read(file.path(tables_dir, "competency-areas.csv")) |> nrow_or_null(),
+        role_competency_area_links = safe_read(file.path(tables_dir, "role-competency-areas.csv")) |> nrow_or_null(),
+        verbatim_failures          = if (is.null(verbatim)) NULL else sum(!verbatim$found)
+      )
+    },
+    cybok = {
+      topics   <- safe_read(file.path(tables_dir, "topics.csv"))
+      im       <- safe_read(file.path(tables_dir, "indicative-material.csv"))
+      atoz     <- safe_read(file.path(tables_dir, "a-to-z-resolution.csv"))
+      verbatim <- safe_read(file.path(tables_dir, "verbatim-check.csv"))
+      xw       <- safe_read(file.path(tables_dir, "crosswalk-ka-resolution.csv"))
+      list(
+        categories           = safe_read(file.path(tables_dir, "categories.csv")) |> nrow_or_null(),
+        knowledge_areas      = safe_read(file.path(tables_dir, "knowledge-areas.csv")) |> nrow_or_null(),
+        topics               = nrow_or_null(topics),
+        indicative_material  = nrow_or_null(im),
+        topics_without_indicative_material =
+          if (is.null(topics) || is.null(im)) NULL else sum(!topics$topic_id %in% im$topic_id),
+        a_to_z_rows          = nrow_or_null(atoz),
+        a_to_z_rows_resolved = if (is.null(atoz)) NULL else sum(atoz$status == "resolved" & atoz$ka_acronym != "CI"),
+        verbatim_failures    = if (is.null(verbatim)) NULL else sum(!verbatim$found),
+        crosswalk_ka_names_unresolved = if (is.null(xw)) NULL else sum(xw$resolution == "unresolved")
+      )
+    },
     digcomp = {
       areas <- safe_read(file.path(tables_dir, "competence-areas.csv"))
       competences <- safe_read(file.path(tables_dir, "competences.csv"))
       descs <- safe_read(file.path(tables_dir, "competence-descriptions.csv"))
+      statements <- safe_read(file.path(tables_dir, "competence-statements.csv"))
+      outcomes <- safe_read(file.path(tables_dir, "learning-outcomes.csv"))
       list(
-        competence_areas   = nrow_or_null(areas),
-        competences        = nrow_or_null(competences),
-        descriptions_found = if (!is.null(descs)) sum(!is.na(descs$description)) else NULL
+        competence_areas      = nrow_or_null(areas),
+        competences           = nrow_or_null(competences),
+        descriptions_found    = if (!is.null(descs)) sum(!is.na(descs$description)) else NULL,
+        competence_statements = nrow_or_null(statements),
+        learning_outcomes     = nrow_or_null(outcomes)
       )
     },
     list()
@@ -514,11 +611,19 @@ text_fields_by_framework <- function(framework) {
       # clarification is optional per CSTA doc structure; not checked for non-empty
       list(label = "standard-text",       file = "standards.csv", column = "standard")
     ),
+    `csta-2026` = list(
+      list(label = "standard-text",      file = "standards.csv",  column = "title"),
+      list(label = "boundary-statement", file = "boundaries.csv", column = "text"),
+      list(label = "example-text",       file = "examples.csv",   column = "text")
+    ),
     csec2017 = list(
       list(label = "essential-text", file = "essentials.csv", column = "element_text")
     ),
     digcomp = list(
-      list(label = "competence-name", file = "competences.csv", column = "competence_name")
+      list(label = "competence-name",      file = "competences.csv",           column = "competence_name"),
+      list(label = "area-description",     file = "competence-area-descriptions.csv", column = "description"),
+      list(label = "statement-text",       file = "competence-statements.csv", column = "description"),
+      list(label = "outcome-text",         file = "learning-outcomes.csv",     column = "description")
     ),
     cyqual = list(
       list(label = "task-text",        file = "tasks.csv",        column = "description"),
@@ -531,6 +636,16 @@ text_fields_by_framework <- function(framework) {
       list(label = "element-text",     file = "role-elements-long.csv",               column = "element_text"),
       list(label = "adjacent-resp",    file = "adjacent-roles.csv",                   column = "responsibility"),
       list(label = "adjacent-comp",    file = "adjacent-role-competencies-long.csv",  column = "competency")
+    ),
+    scywf = list(
+      list(label = "role-desc",        file = "roles.csv",            column = "description"),
+      list(label = "statement-text",   file = "statements.csv",       column = "text"),
+      list(label = "ca-desc",          file = "competency-areas.csv", column = "description")
+    ),
+    cybok = list(
+      list(label = "ka-name",             file = "knowledge-areas.csv",     column = "ka_name"),
+      list(label = "topic-title",         file = "topics.csv",              column = "title"),
+      list(label = "indicative-material", file = "indicative-material.csv", column = "term")
     ),
     otccf = list(
       list(label = "role-desc",        file = "job-roles.csv",                column = "role_description"),
@@ -568,13 +683,19 @@ verify_id_uniqueness <- function(framework, results) {
     csta = list(
       list(file = "standards.csv",    id_col = "identifier",  label = "csta-identifier")
     ),
+    `csta-2026` = list(
+      list(file = "standards.csv", id_col = "code",    label = "csta2026-code"),
+      list(file = "units.csv",     id_col = "unit_id", label = "csta2026-unit-id")
+    ),
     csec2017 = list(
       list(file = "knowledge-areas.csv", id_col = "ka_id",       label = "ka-id"),
       list(file = "essentials.csv",      id_col = "element_id",  label = "essential-id")
     ),
     digcomp = list(
-      list(file = "competence-areas.csv", id_col = "area_id",        label = "area-id"),
-      list(file = "competences.csv",      id_col = "competence_id",  label = "competence-id")
+      list(file = "competence-areas.csv",      id_col = "area_id",        label = "area-id"),
+      list(file = "competences.csv",           id_col = "competence_id",  label = "competence-id"),
+      list(file = "competence-statements.csv", id_col = "statement_id",   label = "statement-id"),
+      list(file = "learning-outcomes.csv",     id_col = "outcome_id",     label = "outcome-id")
     ),
     cyqual = list(
       list(file = "work-roles.csv",           id_col = "code", label = "cyqual-work-role-code"),
@@ -588,6 +709,18 @@ verify_id_uniqueness <- function(framework, results) {
     ccssf = list(
       list(file = "roles.csv",          id_col = "role_id",          label = "ccssf-role-id"),
       list(file = "adjacent-roles.csv", id_col = "adjacent_role_id", label = "ccssf-adjacent-role-id")
+    ),
+    scywf = list(
+      list(file = "roles.csv",            id_col = "role_id",           label = "scywf-role-id"),
+      list(file = "statements.csv",       id_col = "statement_id",      label = "scywf-statement-code"),
+      list(file = "competency-areas.csv", id_col = "ca_id",             label = "scywf-ca-code"),
+      list(file = "categories.csv",       id_col = "category_id",       label = "scywf-category-id"),
+      list(file = "specialty-areas.csv",  id_col = "specialty_area_id", label = "scywf-specialty-area-id")
+    ),
+    cybok = list(
+      list(file = "knowledge-areas.csv", id_col = "ka_acronym", label = "cybok-ka-acronym"),
+      list(file = "knowledge-areas.csv", id_col = "ka_name",    label = "cybok-ka-name"),
+      list(file = "topics.csv",          id_col = "topic_id",   label = "cybok-topic-id")
     ),
     otccf = list(
       list(file = "job-roles.csv", id_col = "role_slug",  label = "otccf-role-slug"),
@@ -627,6 +760,50 @@ verify_id_uniqueness <- function(framework, results) {
     }
   }
 
+  results
+}
+
+# ---------------------------------------------------------------------------
+# Invariant 6: verbatim carriage (frameworks licensed on that condition)
+# ---------------------------------------------------------------------------
+
+#' SCyWF is carried under a permission that requires verbatim text, and
+#' CyBOK is read from PDFs with no structured release. Both ingests look every
+#' carried string up in an independent extraction of the PDF and write the
+#' result to verbatim-check.csv. A missing string, a missing check file, or
+#' (SCyWF only) a role-card code with no Appendix B statement is a HARD
+#' failure here, not a soft count drift.
+verify_verbatim_carriage <- function(framework_slug, results) {
+  if (!framework_slug %in% c("scywf", "cybok")) return(results)
+  tables_dir <- file.path(verify_config$raw_dir, framework_slug, "tables")
+
+  check_path <- file.path(tables_dir, "verbatim-check.csv")
+  if (!file.exists(check_path)) {
+    return(record_check(results, framework_slug, "verbatim.check", "hard",
+                        "verbatim-check.csv missing: the ingest did not run its check"))
+  }
+  check <- read_csv(check_path, show_col_types = FALSE,
+                    col_types = cols(.default = col_character(), found = col_logical()))
+  failed <- check[!check$found, , drop = FALSE]
+  if (nrow(check) == 0 || nrow(failed) > 0) {
+    results <- record_check(results, framework_slug, "verbatim.check", "hard",
+                            glue("{nrow(failed)} of {nrow(check)} carried strings not found"),
+                            list(examples = head(paste(failed$field, failed$id), 5)))
+  } else {
+    results <- record_check(results, framework_slug, "verbatim.check", "pass",
+                            glue("all {nrow(check)} carried strings found verbatim"))
+  }
+  if (!identical(framework_slug, "scywf")) return(results)
+
+  unresolved_path <- file.path(tables_dir, "unresolved-codes.csv")
+  unresolved <- if (file.exists(unresolved_path)) read_csv(unresolved_path, show_col_types = FALSE) else NULL
+  if (is.null(unresolved) || nrow(unresolved) > 0) {
+    results <- record_check(results, framework_slug, "verbatim.card-codes", "hard",
+                            "role-card codes without an Appendix B statement, or no record of the check")
+  } else {
+    results <- record_check(results, framework_slug, "verbatim.card-codes", "pass",
+                            "every role-card code resolves to an Appendix B statement")
+  }
   results
 }
 
@@ -702,9 +879,9 @@ main <- function() {
   # The invariants file is the declaration of what counts as a pipeline
   # framework, so derive the check list from it rather than scanning
   # data/raw/ for directories. data/raw/ also accumulates STAGING dirs --
-  # crosswalk sources with no assemble_*() adapter (cybok), candidate
+  # crosswalk sources with no assemble_*() adapter, candidate
   # frameworks held pending a licensing answer (asd, ukcsc), and data
-  # acquired ahead of a re-ingest step (csta-2026). Those legitimately
+  # acquired ahead of an ingest step. Those legitimately
   # have no declared invariants; scanning the directory treated each one
   # as an undeclared framework and hard-failed the build, which blocked
   # the pipeline on data that was never part of it. Declaring a framework
@@ -732,6 +909,7 @@ main <- function() {
     results <- verify_counts(fw, invariants, results)
     results <- verify_text_integrity(fw, results)
     results <- verify_id_uniqueness(fw, results)
+    results <- verify_verbatim_carriage(fw, results)
   }
 
   results_tbl <- print_results(results)

@@ -4,15 +4,11 @@ cybedtools harmonizes cybersecurity workforce competency frameworks and cybersec
 
 ## Status of this release
 
-This is a placeholder. It installs, it imports, and it reports its version. It does not query anything yet. The release exists to reserve the `cybedtools` name on PyPI while the Python interface is built.
+This Python package mirrors the R package's public API: data loading, reference tables, query helpers (`*_bindings()`, `framework_metadata()`), `framework_similarity()`, and `cybed_fetch()`/`load_graph()` for downloading and verifying release graphs.
 
-## Use the R package today
+## How the two packages relate
 
-The mature interface is the R package, which builds the graph and ships the query helpers. It lives in the same repository: https://github.com/ryanstraight/cybedtools
-
-## How the two packages will relate
-
-The Python package will read the same published per-framework graph files that the R package produces, so both languages work from one set of data rather than two parallel builds. Function names and the column names of returned tables will match the R package, so one description in a paper covers both implementations.
+The Python package reads the same published per-framework graph files that the R package produces, so both languages work from one set of data rather than two parallel builds. Function names and the column names of returned tables match the R package, so one description in a paper covers both implementations. The R package remains the reference implementation and lives in the same repository: https://github.com/ryanstraight/cybedtools
 
 ## Licensing
 

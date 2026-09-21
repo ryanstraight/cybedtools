@@ -12,7 +12,9 @@ n_licenses <- length(unique(fs$license))
 n_role_fw <- sum(fs$framework_slug %in%
   c("nice-v2", "dcwf-v5.1", "ecsf-v1", "cyqual-v1.2.0", "ccssf-2022", "otccf-v1.1"))
 nice_per_role <- round(fs$elements_per_role_with_examples[fs$framework_slug == "nice-v2"])
-digcomp_per_unit <- round(fs$elements_per_organizing_unit_with_examples[fs$framework_slug == "digcomp-2.2"])
+digcomp_slug <- fs$framework_slug[grepl("^digcomp", fs$framework_slug)]
+digcomp_name <- fs$framework_name[fs$framework_slug == digcomp_slug]
+digcomp_per_unit <- round(fs$elements_per_organizing_unit_with_examples[fs$framework_slug == digcomp_slug])
 juris <- fs |>
   dplyr::group_by(jurisdiction) |>
   dplyr::summarise(n = sum(element_count_with_examples), .groups = "drop") |>
@@ -32,7 +34,7 @@ Defense's cyber workforce against NICE. ENISA's ECSF sketches twelve
 professional profiles for the European Union. SFIA catalogs skills
 across the global IT profession. Cyber.org and CSTA specify K-12
 teaching standards. CSEC2017 frames undergraduate curricula. DigComp
-2.2 specifies citizen-level digital competence. CyQUAL specifies the
+specifies citizen-level digital competence. CyQUAL specifies the
 Czech Republic's national cybersecurity qualifications. CCSSF specifies
 Canada's cyber security skills for federal and adjacent employers.
 OTCCF specifies Singapore's operational-technology cybersecurity job
@@ -61,11 +63,11 @@ Three findings ride out of that infrastructure cleanly.
 
 ### Per-unit element density spans roughly an order of magnitude
 
-NICE specifies about `r nice_per_role` elements per work role. DigComp specifies about `r digcomp_per_unit` elements per competence area. The spread is real. It is a difference in design philosophy, not a quality claim.
+NICE specifies about `r nice_per_role` elements per work role. `r digcomp_name` specifies about `r digcomp_per_unit` elements per organizing unit. The spread is real. It is a difference in design philosophy, not a quality claim.
 
 ### Element volume is unevenly distributed across `r nrow(juris)` jurisdictions
 
-By with-examples element count, the totals run `r juris_text`. ECSF was designed to be profile-level by intent. DigComp was designed for citizen self-assessment. The distribution reflects authorial intent, not framework completeness.
+By with-examples element count, the totals run `r juris_text`. ECSF was designed to be profile-level by intent. `r digcomp_name` was designed for citizen self-assessment. The distribution reflects authorial intent, not framework completeness.
 
 ### NICE work-role concentration is uneven
 

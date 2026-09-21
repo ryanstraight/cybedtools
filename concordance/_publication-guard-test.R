@@ -134,8 +134,11 @@ cat("\n=== text-publishable frameworks ===\n")
 print(text_publishable_frameworks())
 
 df <- tibble(
-  framework = c("otccf", "ccssf", "cyqual", "nice"),
-  statement = c("otccf key task text", "ccssf task text",
+  # ccssf moved to full_with_attribution 2026-09-21 (owner decision, written
+  # permission from the Canadian Centre for Cyber Security); csec2017 takes
+  # its place here as the second structure_only example.
+  framework = c("otccf", "csec2017", "cyqual", "nice"),
+  statement = c("otccf key task text", "csec2017 task text",
                 "cyqual task text", "nice task text")
 )
 
@@ -143,10 +146,10 @@ cat("\n=== drop_unpublishable_text ===\n")
 dropped <- drop_unpublishable_text(df, "framework", "statement")
 print(as.data.frame(dropped), right = FALSE)
 
-if (!all(is.na(dropped$statement[dropped$framework %in% c("otccf", "ccssf")]))) {
-  bad("otccf and ccssf text blanked")
+if (!all(is.na(dropped$statement[dropped$framework %in% c("otccf", "csec2017")]))) {
+  bad("otccf and csec2017 text blanked")
 }
-ok("otccf and ccssf text blanked")
+ok("otccf and csec2017 text blanked")
 if (!identical(dropped$statement[dropped$framework %in% c("cyqual", "nice")],
                df$statement[df$framework %in% c("cyqual", "nice")])) {
   bad("cyqual and nice text untouched")
@@ -157,10 +160,10 @@ cat("\n=== assert_no_unpublishable_text on the undropped frame ===\n")
 err <- errmsg(assert_no_unpublishable_text(df, framework_col = "framework"))
 if (is.null(err)) bad("assert stops on unpublishable text")
 cat(err, "\n")
-if (!grepl("otccf", err) || !grepl("ccssf", err)) {
+if (!grepl("otccf", err) || !grepl("csec2017", err)) {
   bad("assert names both offending frameworks")
 }
-ok("assert stops on unpublishable text and names otccf and ccssf")
+ok("assert stops on unpublishable text and names otccf and csec2017")
 
 cat("\n=== assert_no_unpublishable_text after the drop ===\n")
 err <- errmsg(assert_no_unpublishable_text(dropped, framework_col = "framework"))

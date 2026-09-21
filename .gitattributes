@@ -1,0 +1,13 @@
+# Force LF line endings for text formats this package's own tests and
+# reproducibility guarantees depend on being byte-stable across platforms.
+# Without this, Windows checkouts with core.autocrlf=true silently convert
+# LF to CRLF on checkout, which fails the conformance goldens' "LF line
+# endings, no CR byte" contract (inst/conformance/README.md) even though
+# nothing about the data changed.
+*.csv text eol=lf
+*.nt text eol=lf
+*.json text eol=lf
+*.R text eol=lf
+*.Rd text eol=lf
+*.md text eol=lf
+*.yml text eol=lf

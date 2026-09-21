@@ -1,0 +1,15 @@
+framework_slug,framework_name,framework_type,jurisdiction,organizing_unit_count,role_count,element_count_strict,subpoint_count,example_count,element_count_with_examples,unit_relation_count,elements_per_organizing_unit_strict,elements_per_organizing_unit_with_examples,elements_per_role_strict,elements_per_role_with_examples,license
+ccssf-2022,CCSSF 2022,workforce,CA,59,59,1148,197,0,1345,0,19.5,22.8,19.5,22.8,"Government of Canada, with permission"
+csec2017-v1,ACM/IEEE CSEC2017,pedagogy,global,8,,38,2,0,40,0,4.8,5,,,All rights reserved; educational use
+csta-2017,CSTA K-12 CS (Rev 2017),pedagogy,US,25,,120,24,114,258,0,4.8,10.3,,,CC BY-NC-SA 4.0
+csta-2026,CSTA PK-12 CS (2026),pedagogy,US,53,,331,0,652,983,0,6.2,18.5,,,CC BY-NC-SA 4.0
+cyberorg-k12-v1.0,Cyber.org K-12 v1.0,pedagogy,US,116,,123,0,369,492,0,1.1,4.2,,,CC BY-NC 4.0
+cybok-v1.1.0,CyBOK v1.1.0,pedagogy,UK,21,,119,477,0,596,0,5.7,28.4,,,OGL v3.0
+cyqual-v1.2.0,CyQUAL 1.2.0,workforce,CZ,161,102,2488,852,0,3340,0,15.5,20.7,22.9,30.9,"Open data, attribution required"
+dcwf-v5.1,DCWF v5.1,workforce,US,74,74,2945,1107,0,4052,0,39.8,54.8,39.8,54.8,"US Government work, no US copyright"
+digcomp-3.0,DigComp 3.0,pedagogy,EU,26,,362,0,522,884,0,13.9,34,,,CC BY 4.0
+ecsf-v1,ECSF v1,workforce,EU,12,12,374,16,0,390,0,31.2,32.5,31.2,32.5,CC BY 4.0 (report); data files unmarked
+nice-v2,NICE v2.2.0,workforce,US,53,42,2211,14,0,2225,0,41.7,42,44.4,44.7,US public domain + NIST worldwide grant
+otccf-v1.1,OTCCF v1.1,workforce,SG,61,15,1612,0,0,1612,310,26.4,26.4,18,18,CSA copyright; non-commercial academic
+scywf-1.5,SCyWF 1.5,workforce,SA,81,40,1419,0,0,1419,0,17.5,17.5,35.5,35.5,NCA written permission
+sfia-9,SFIA 9,workforce,global,147,,672,149,0,821,0,4.6,5.6,,,SFIA Foundation licence required

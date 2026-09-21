@@ -17,7 +17,7 @@
 #'   and `cybed:OrganizingUnit`, mirroring NICE / DCWF / ENISA ECSF.
 #' - **Framework B** (EU, general, general-IT) is non-workforce-shaped:
 #'   its 1 organizing unit is typed `cybed:OrganizingUnit` only,
-#'   mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+#'   mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.
 #'
 #' The graph also includes 5 atomic elements (typed `cybed:RoleElement`),
 #' one `cybed:Subpoint` (an enumerated child of an element, reachable via

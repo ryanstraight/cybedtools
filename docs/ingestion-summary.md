@@ -1,15 +1,15 @@
 ---
 title: Ingestion Summary
 type: status
-date: 2026-09-18
+date: 2026-09-21
 status: auto-generated
 ---
 
 # Ingestion Summary
 
-Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-09-18.
+Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-09-21.
 
-**Frameworks staged: 15**
+**Frameworks staged: 16**
 
 ## ASD Cyber Skills Framework (`asd`)
 
@@ -60,8 +60,8 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **spot check:** seed=2,026, elements_checked=15, exact_matches=15, discrepancies=0
 
 ### Licensing
-- **source license:** Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. Supplied directly by the Cyber Skills Development Team, 2026-09-16.
-- **redistribution:** Not granted permission; use with attribution. Reference the publication (ITSM.00.039) wherever the material or a derivative of it is used.
+- **source license:** Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security. Supplied directly by the Cyber Skills Development Team, 2026-09-16.
+- **redistribution:** Full-text publication with attribution (owner decision 2026-09-21, written permission received from the Canadian Centre for Cyber Security). Reference the publication (ITSM.00.039) wherever the material or a derivative of it is used.
 
 ## CSEC2017 (`csec2017`)
 
@@ -137,6 +137,13 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **practices:** 12
 - **practice categories:** 4
 - **dispositions:** 7
+- **organizing units:** 53
+- **foundational units:** 40
+- **specialty units:** 13
+- **boundary statements:** 660
+- **implementation examples:** 652
+- **standards with examples:** 326
+- **ai standards:** 107
 
 ### Licensing
 - **source license:** CC BY-NC-SA 4.0
@@ -173,23 +180,40 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 
 ## CyBOK (`cybok`)
 
-- **Publisher:** NA
-- **Version:** CyBOK crosswalk (Tier A: cross-reference data only, not full CyBOK ingestion)
-- **Version date:** 2021-10-01
+- **Publisher:** CyBOK project, University of Bristol, for the National Cyber Security Centre
+- **Version:** CyBOK v1.1.0
+- **Version date:** 2021-07
 
 ### Source
-- **Type:** NA
+- **Type:** official_pdf
 
 ### Retrieval
-- **Retrieved:** 2026-08-14 by `manual extraction, staged for scripts/020-assemble-jsonld.R`
+- **Retrieved:** 2026-09-21 by `manual staging (curl from www.cybok.org, URLs read from the CyBOK v1.1 knowledge base page)`
 
 ### Extracted scales
 - **cybok sfia mapping:** row_count=104, knowledge_area_count=21, distinct_sfia_codes=56
 - **cybok ecsf mapping:** row_count=12, roles_with_primary_ka=8, roles_with_no_primary_ka=4
+- **categories:** 5
+- **knowledge areas:** 21
+- **topics:** 119
+- **indicative material:** 477
+- **topics without indicative material:** 2
+- **a to z rows:** 493
+- **a to z rows knowledge areas:** 482
+- **a to z rows resolved:** 366
+- **a to z status:** resolved=366, term under a different topic in the tree=1, topic and term not in tree=12, topic resolved, term not in tree=52, topic worded differently, term in tree=51
+- **a to z rows introduction:** 11
+- **a to z rows introduction resolved:** 7
+- **verbatim checked:** 622
+- **verbatim found:** 622
+- **crosswalk ka names resolved:** 27
+- **crosswalk ka names unresolved:** 0
 
 ### Licensing
-- **source license:** Open Government Licence (Crown Copyright / NCSC 2025) for the CyBOK-ECSF compatibility study; SFIA Foundation site terms for the CyBOK-SFIA mapping table. Verify before any source-text redistribution.
-- **redistribution:** Analytical derivatives (the two crosswalk CSVs staged here) treated as safe; full CyBOK Knowledge Area text is out of scope for this Tier A ingest.
+- **source license:** Open Government Licence v3.0. The Introduction (p. 1) and the A-to-Z document both read: "© Crown Copyright, The National Cyber Security Centre 2021. This information is licensed under the Open Government Licence v3.0."
+- **attribution:** CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/.
+- **terms url:** http://www.nationalarchives.gov.uk/doc/open-government-licence/
+- **status:** full_with_attribution
 
 ## CyQUAL (`cyqual`)
 
@@ -246,26 +270,34 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 ## DigComp (`digcomp`)
 
 - **Publisher:** European Commission Joint Research Centre (JRC)
-- **Version:** DigComp 2.2
-- **Version date:** 2022-03-17
+- **Version:** DigComp 3.0
+- **Version date:** 2025-11-27
 
 ### Source
-- **Type:** pdf_with_markdown_intermediate
-- **File:** `DigComp-2.2-JRC128415.pdf`
+- **Type:** structured_data_supplement
 
 ### Retrieval
-- **Retrieved:** 2026-05-08 by `scripts/010-ingest-digcomp.R`
-- **SHA256:** `9733ab7946f094be78c00f6a839e26be5486a00d6f953d93ddf42a5c135ab359`
+- **Retrieved:** 2026-09-21 by `scripts/010-ingest-digcomp.R`
 
 ### Extracted scales
 - **competence areas:** 5
 - **competences:** 21
-- **descriptions found:** 20
+- **competence statements:** 362
+- **learning outcomes pre errata:** 523
+- **learning outcomes post errata:** 522
+- **proficiency levels staged:** 8
+- **glossary terms staged:** 126
+
+### Errata
+- **status:** PARTIALLY_APPLIED
+- **applied:** E1, E2, E3, E4
+- **unapplied:** E5, E6, E7
+- **note:** E1 (structural: delete LO2.5.09, renumber 2.5's outcomes down by one) and E2/E3/E4 (exact quoted replacement text) applied verbatim. Errata E5 to E7 are published as instructions without replacement text, so the staged wording is carried unchanged. The learning-outcome count (522) is unaffected: it comes from E1 alone.
 
 ### Licensing
-- **source license:** CC BY 4.0 (European Union, 2022; Commission Decision 2011/833/EU)
-- **citation:** Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415.
-- **redistribution note:** CC BY 4.0 by the source PDF's own imprint page: reuse is allowed provided appropriate credit is given and any changes are indicated. The 'except otherwise noted' qualifier and the photo carve-out do not reach anything this script ingests. Use the prescribed citation above.
+- **source license:** CC BY 4.0 (European Union, 2025; Commission Decision 2011/833/EU)
+- **citation:** Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.
+- **redistribution note:** CC BY 4.0, verified three ways in data/raw/digcomp/v3.0/provenance.yml: the dataset's own copyright.txt, the JRC Data Catalogue record, and the DigComp 3.0 resources page. The European Commission logo is excluded from reuse; cybedtools reproduces no logo.
 
 ## ECSF (`ecsf`)
 
@@ -319,6 +351,10 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **competency area ks associations count:** 412
 - **role opm mappings count:** 40
 
+### Errata
+- **applied:** 1
+- **note:** Source-data corrections applied deterministically at ingest. See errata.csv for element ids, published vs corrected values, and rationale.
+
 ### Licensing
 - **source license:** US public domain (17 U.S.C. 105); foreign rights reserved but granted royalty-free worldwide, incl. derivative works; attribute NIST as source
 - **redistribution:** NICE text is a US Government work in the US public domain (17 U.S.C. 105). NIST reserves foreign rights and then grants them back: 'foreign rights are reserved. To the extent NIST may assert rights outside of the United States, the public is granted the non-exclusive, perpetual, paid-up, royalty-free, worldwide right to reprint works in all formats including print, electronically, and online, and in all subsequent editions, and derivative works.' Attribute NIST as the source and do not imply NIST endorsement.
@@ -362,6 +398,43 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **redistribution:** Non-commercial academic and research use only. Any other use requires fresh permission from CSA.
 - **terms of use url:** https://www.csa.gov.sg/terms-of-use/
 - **landing page copyright verbatim:** © 2026 Government of Singapore
+
+## SCyWF (`scywf`)
+
+- **Publisher:** National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia
+- **Version:** SCyWF – 1.5: 2026
+- **Version date:** 2026
+
+### Source
+- **Type:** official_pdf
+
+### Retrieval
+- **Retrieved:** 2026-09-21 by `manual staging (curl from cdn.nca.gov.sa, URLs located via the NCA English SCyWF landing page)`
+
+### Extracted scales
+- **categories:** 5
+- **specialty areas:** 12
+- **job roles:** 40
+- **tasks:** 646
+- **knowledge:** 430
+- **skills:** 343
+- **statements:** 1,419
+- **role statement links:** 4,794
+- **unresolved card codes:** 0
+- **competency areas:** 24
+- **role competency area links:** 84
+- **hyphenation joins:** 0
+- **verbatim checked:** 3,290
+- **verbatim found:** 3,290
+- **nice shared codes:** 296
+- **nice identical text:** 0
+- **nice same text any code:** 762
+
+### Licensing
+- **source license:** Used with written permission of the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia, granted 2026-09-20. The document itself carries no copyright line and no licence notice, only the markings "TLP: Clear" and "Document Classification: Public", which are disclosure markings, not licences. Its p.3 disclaimer makes the Arabic version binding for all matters of meaning or interpretation. cybedtools ingests the English version.
+- **attribution:** The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html
+- **status:** full_with_attribution
+- **permission granted:** 2026-09-20
 
 ## SFIA (`sfia`)
 
@@ -417,18 +490,19 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | Framework | Version | Date | Top-level units | Elements | License |
 |---|---|---|---|---|---|
 | ASD Cyber Skills Framework | v2 (October 2022, originally v1.0 Jul... | 2022-10-01 | - | - | MIXED, confirmed by direct page-by-pa... |
-| CCSSF | 2022 | 2023-04-19 | 59 | 1,222 | Copyright Government of Canada. Refer... |
+| CCSSF | 2022 | 2023-04-19 | 59 | 1,222 | Copyright Government of Canada. Used ... |
 | CSEC2017 | CSEC2017 Curricular Guidelines v1.0 | 2017-12-31 | 8 | 38 | Copyright 2017 ACM/IEEE/AIS/IFIP, all... |
 | CSTA K-12 CS | CSTA K-12 Computer Science Standards ... | 2017 | 25 | 120 | CC BY-NC-SA 4.0 |
-| CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | - | - | CC BY-NC-SA 4.0 |
+| CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | 53 | 331 | CC BY-NC-SA 4.0 |
 | Cyber.org K-12 | Cyber.org K-12 Learning Standards v1.0 | 2021-09-09 | 116 | 123 | CC BY-NC 4.0 |
-| CyBOK | CyBOK crosswalk (Tier A: cross-refere... | 2021-10-01 | - | - | Open Government Licence (Crown Copyri... |
+| CyBOK | CyBOK v1.1.0 | 2021-07 | 21 | 596 | Open Government Licence v3.0. The Int... |
 | CyQUAL | 1.2.0 | NA | 102 | 2,488 | Published as open data by CyQUAL (Mas... |
 | DCWF | DCWF v5.1 | 2025-07-25 | 74 | 2,945 | US Government work, not subject to US... |
-| DigComp | DigComp 2.2 | 2022-03-17 | 5 | 21 | CC BY 4.0 (European Union, 2022; Comm... |
+| DigComp | DigComp 3.0 | 2025-11-27 | 5 | 21 | CC BY 4.0 (European Union, 2025; Comm... |
 | ECSF | ECSF v1 | 2022-09-19 | 12 | 374 | Report PDF: CC BY 4.0 (ENISA, 2022, I... |
 | NICE | NICE v2.2.0 (NIST SP 800-181 Rev 1 co... | 2026-04-28 | 42 | 2,211 | US public domain (17 U.S.C. 105); for... |
 | OTCCF | 1.1 | 2021-10-08 | 15 | 1,612 | Copyright Cyber Security Agency of Si... |
+| SCyWF | SCyWF – 1.5: 2026 | 2026 | 40 | 1,419 | Used with written permission of the N... |
 | SFIA | SFIA 9 | 2024-10 | 147 | 672 | SFIA Foundation licence required for ... |
 | UKCSC | live site content (framework is unver... | NA | - | - | ALL RIGHTS RESERVED -- NOT openly lic... |
 

@@ -20,12 +20,17 @@
 # manifest and in the release README, so they are written for a reader outside
 # the project.
 
-release_version: "2026.09.1"
+# History: release 2026.09.1 (2026-09-19) shipped nice, dcwf, ecsf, digcomp,
+# cyqual, cyberorg-k12, csta, otccf, and held ccssf, csec2017, csta-2026,
+# scywf, cybok pending steward confirmation or because they joined the
+# pipeline after that release was cut. That built output is preserved at
+# data/processed/release/2026.09.1/ (gitignored) and is not revised.
+release_version: "2026.09.2"
 
 # The release date is recorded here rather than stamped at build time. A
 # generation timestamp inside the manifest would change the manifest's bytes on
 # every run and destroy the reproducibility the hashes exist to demonstrate.
-release_date: "2026-09-19"
+release_date: "2026-09-21"
 
 graph_schema_version: "0.3.0"
 vocabulary_iri: "https://w3id.org/cybed/ontology#"
@@ -61,7 +66,15 @@ long_literal_allow_predicates:
   - "http://schema.org/license"
   - "http://schema.org/creditText"
 
-# Release 1. One gzip-compressed N-Triples file per slug, named by slug.
+# Release 2. One gzip-compressed N-Triples file per slug, named by slug.
+# Every framework whose policy in docs/framework-invariants.yml permits
+# public redistribution now ships. csec2017 and otccf ship structure_only
+# (the export's predicate-omission gate handles that automatically); every
+# other slug here is full_with_attribution. ccssf moves from held to shipped
+# because the Canadian Centre for Cyber Security's 2026-09-21 permission
+# supersedes the 2026-09-19 reference-only reading. csta-2026, scywf, and
+# cybok move from held to shipped because they joined the ingestion pipeline
+# after 2026.09.1 was cut and are now ready.
 shipped:
   - nice
   - dcwf
@@ -71,13 +84,17 @@ shipped:
   - cyberorg-k12
   - csta
   - otccf
+  - ccssf
+  - csec2017
+  - csta-2026
+  - scywf
+  - cybok
 
 # Cleared by policy for a structure-only file, withheld from this release
 # anyway. A deposit cannot be withdrawn, so a framework ships only once its
-# steward has confirmed in writing.
-held:
-  ccssf: "Steward confirmation pending."
-  csec2017: "Steward confirmation pending."
+# steward has confirmed in writing. Empty for 2026.09.2: every previously
+# held framework is now confirmed or ready (see `shipped` above).
+held: {}
 
 # Refused by policy, in every release. The export stops if a slug listed here
 # has any policy other than local_only, and stops if a local_only slug appears

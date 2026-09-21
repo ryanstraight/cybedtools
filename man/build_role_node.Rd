@@ -66,7 +66,7 @@ Named list (JSON-LD node).
 Convenience wrapper around \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}} for workforce
 frameworks (NICE, DCWF, ENISA ECSF). Asserts \code{cybed:Role} in addition to
 \code{cybed:OrganizingUnit} and the per-framework subtype. For non-workforce
-frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
+frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0), call
 \code{\link[=build_organizing_unit_node]{build_organizing_unit_node()}} directly with \code{is_role = FALSE}.
 }
 \examples{

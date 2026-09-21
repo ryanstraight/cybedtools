@@ -11,7 +11,7 @@ role_framework_bindings(rdf)
 }
 \value{
 A tibble with columns \code{role}, \code{role_name}, \code{framework},
-\code{framework_name}.
+\code{framework_name}, \code{framework_slug} (added v0.4.0, a stable join key).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
@@ -25,7 +25,7 @@ K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}}
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.
+every framework in the corpus.
 
 Roles without a \code{cybed:partOf} triple, or whose partOf target is not
 typed \code{cybed:Framework}, are excluded.
@@ -54,6 +54,8 @@ Other SPARQL helpers:
 \code{\link[=role_element_bindings]{role_element_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}},
-\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}

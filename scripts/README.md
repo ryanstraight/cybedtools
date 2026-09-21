@@ -26,8 +26,11 @@ Different upstream frameworks carry different licensing. Some permit redistribut
 | SFIA | SFIA Foundation non-commercial free-use | structural metadata only via jankudev/sfia-tools; do not redistribute SFIA skill text |
 | Cyber.org K-12 | CC BY-NC 4.0 | non-commercial only; do not include in commercial offerings |
 | CSTA K-12 CS | CC BY-NC-SA 4.0 | non-commercial, share-alike |
+| CSTA PK-12 CS (2026) | CC BY-NC-SA 4.0 | non-commercial, share-alike |
 | CSEC2017 | ACM/IEEE/AIS/IFIP, educational use | safe for educational development; analytical derivatives publishable with attribution |
 | DigComp | EU open re-use | typically safe; verify specific terms |
+| SCyWF | written permission of the National Cybersecurity Authority (NCA) | full content with attribution to NCA, carried verbatim, derived edges marked as derived |
+| CyBOK | Open Government Licence v3.0 (Crown Copyright, NCSC) | full content with CyBOK's prescribed attribution |
 
 Analytical derivatives (code frequencies, cross-framework mappings, structural comparisons) are generally publishable with attribution to the source framework, subject to the upstream license.
 
@@ -37,7 +40,7 @@ See `docs/framework-data-sources.md` for canonical source URLs and ingestion not
 
 ```
 000-build.R                  # Master orchestrator
-010-ingest-<framework>.R     # 11 scripts, one per framework
+010-ingest-<framework>.R     # 14 scripts, one per framework
 015-verify-ingestion.R       # Six-invariant verification rig
 016-summarize-ingestion.R    # Generates docs/ingestion-summary.md
 020-assemble-jsonld.R        # Builds JSON-LD from tidy CSVs
@@ -46,6 +49,9 @@ See `docs/framework-data-sources.md` for canonical source URLs and ingestion not
 030-export-release.R         # Builds the public per-framework data release
 040-run-sparql.R             # SPARQL query runner
 _ingest-common.R             # Shared helpers for the ingesters
+_assemble-csta2026.R         # JSON-LD adapter for csta-2026, sourced by 020
+_assemble-scywf.R            # JSON-LD adapter for scywf, sourced by 020
+_assemble-cybok.R            # JSON-LD adapter for cybok, sourced by 020
 _release-common.R            # Pure helpers for the release export
 utils/jsonld-helpers.R       # Mirror of R/jsonld-helpers.R for script use
 ```

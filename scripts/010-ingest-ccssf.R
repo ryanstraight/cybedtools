@@ -37,9 +37,10 @@
 # in both the core role blocks and the Annex E table. Those citations are
 # captured as their own crosswalk table.
 #
-# Licensing: Copyright Government of Canada. Referenced as the Canadian
-# Centre for Cyber Security asked. Supplied directly by the Cyber Centre's
-# Cyber Skills Development Team, 2026-09-16.
+# Licensing: Copyright Government of Canada. Used with permission of the
+# Canadian Centre for Cyber Security (written permission received
+# 2026-09-21, for full-text publication with attribution). Supplied
+# directly by the Cyber Centre's Cyber Skills Development Team, 2026-09-16.
 #
 # Run: Rscript scripts/010-ingest-ccssf.R
 
@@ -76,9 +77,9 @@ ccssf_config <- list(
   isbn              = "978-0-660-46231-8",
   catalogue_number  = "D97-4/00-039-2022E-PDF",
   license           = paste(
-    "Copyright Government of Canada. Referenced as the Canadian Centre for",
-    "Cyber Security asked. Supplied directly by the Cyber Skills Development",
-    "Team, 2026-09-16."
+    "Copyright Government of Canada. Used with permission of the Canadian",
+    "Centre for Cyber Security. Supplied directly by the Cyber Skills",
+    "Development Team, 2026-09-16."
   )
 )
 
@@ -1237,8 +1238,10 @@ write_provenance_manifest <- function(pdf_path, pdf_copy_path, text_path,
     licensing = list(
       source_license = ccssf_config$license,
       redistribution = paste(
-        "Permission covers use with attribution. Reference the publication",
-        "(ITSM.00.039) wherever the material or a derivative of it is used."
+        "Full-text publication with attribution (owner decision 2026-09-21,",
+        "written permission received from the Canadian Centre for Cyber",
+        "Security). Reference the publication (ITSM.00.039) wherever the",
+        "material or a derivative of it is used."
       )
     ),
     notes = list(

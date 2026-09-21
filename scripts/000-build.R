@@ -42,11 +42,14 @@ ingestion_scripts <- c(
   "scripts/010-ingest-ecsf.R",
   "scripts/010-ingest-cyberorg.R",
   "scripts/010-ingest-csta.R",
+  "scripts/010-ingest-csta2026.R",
   "scripts/010-ingest-csec2017.R",
   "scripts/010-ingest-digcomp.R",
   "scripts/010-ingest-cyqual.R",
   "scripts/010-ingest-ccssf.R",
-  "scripts/010-ingest-otccf.R"
+  "scripts/010-ingest-otccf.R",
+  "scripts/010-ingest-scywf.R",
+  "scripts/010-ingest-cybok.R"
 )
 
 # Pipeline stages after ingestion

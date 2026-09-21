@@ -1,0 +1,2 @@
+from_unit,relation,to_unit,framework_slug
+https://w3id.org/cybed/ontology#role/fixture-role-1,requires,https://w3id.org/cybed/ontology#role/fixture-role-3,fixture-wf1

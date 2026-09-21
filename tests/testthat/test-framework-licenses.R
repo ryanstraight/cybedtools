@@ -45,7 +45,7 @@ test_that("public_redistribution uses the declared vocabulary", {
 test_that("public_redistribution agrees with docs/framework-invariants.yml", {
   # Hard-coded from docs/framework-invariants.yml, which is the declaring
   # document. A framework carrying no `public_redistribution` key there means
-  # "unrestricted"; only nine frameworks declare one. The test suite does not
+  # "unrestricted"; only twelve frameworks declare one. The test suite does not
   # otherwise read that YAML, so the map is pinned here rather than parsed.
   # If the YAML changes, this map changes with it.
   expected <- c(
@@ -55,11 +55,14 @@ test_that("public_redistribution agrees with docs/framework-invariants.yml", {
     "sfia-9"            = "local_only",
     "cyberorg-k12-v1.0" = "full_with_attribution",
     "csta-2017"         = "full_with_attribution",
+    "csta-2026"         = "full_with_attribution",
     "csec2017-v1"       = "structure_only",
-    "digcomp-2.2"       = "full_with_attribution",
+    "digcomp-3.0"       = "full_with_attribution",
     "cyqual-v1.2.0"     = "full_with_attribution",
-    "ccssf-2022"        = "structure_only",
-    "otccf-v1.1"        = "structure_only"
+    "ccssf-2022"        = "full_with_attribution",
+    "otccf-v1.1"        = "structure_only",
+    "scywf-1.5"         = "full_with_attribution",
+    "cybok-v1.1.0"      = "full_with_attribution"
   )
 
   fw <- framework_licenses[framework_licenses$layer == "framework", ]
@@ -90,7 +93,7 @@ test_that("only attribution may be NA, and granted is logical", {
 test_that("granted is TRUE only where a steward gave written permission", {
   expect_setequal(
     framework_licenses$slug[framework_licenses$granted],
-    c("cyqual-v1.2.0", "otccf-v1.1")
+    c("cyqual-v1.2.0", "otccf-v1.1", "scywf-1.5", "ccssf-2022")
   )
 })
 
@@ -102,19 +105,23 @@ test_that("framework_summary's license column is the join of license_short", {
   )
 })
 
-test_that("the CCSSF row never claims permission", {
-  # Decided 2026-09-19: the steward said only that the material is
-  # copyrighted under the Government of Canada and should be referenced when
-  # used. Public text must not characterise that as permission until the
-  # steward confirms.
+test_that("the CCSSF row claims permission, granted 2026-09-21", {
+  # Owner decision 2026-09-21: the Canadian Centre for Cyber Security gave
+  # cybedtools written permission for full-text publication with
+  # attribution, superseding the 2026-09-19 decision (the steward's earlier
+  # reply asked only that its material be referenced, which was not itself
+  # an affirmative grant).
   ccssf <- framework_licenses[framework_licenses$slug == "ccssf-2022", ]
   expect_equal(nrow(ccssf), 1L)
-  expect_false(ccssf$granted)
-  expect_false(
+  expect_true(ccssf$granted)
+  expect_true(
     any(grepl("permission", unlist(ccssf), ignore.case = TRUE))
   )
-  expect_equal(ccssf$license_short, "Government of Canada copyright")
-  expect_equal(ccssf$public_redistribution, "structure_only")
+  expect_false(
+    any(grepl("referenced as.*asked", unlist(ccssf), ignore.case = TRUE))
+  )
+  expect_equal(ccssf$license_short, "Government of Canada, with permission")
+  expect_equal(ccssf$public_redistribution, "full_with_attribution")
 })
 
 test_that("the OTCCF row carries CSA's prescribed attribution verbatim", {
@@ -150,4 +157,39 @@ test_that("cybed_license returns the whole tibble, one row, or a classed error",
     cybed_license(c("nice-v2", "sfia-9")),
     class = "cybedtools_scalar_input"
   )
+})
+
+test_that("the csta-2026 row cites the document's licence page and DOI", {
+  row <- cybed_license("csta-2026")
+  expect_equal(row$license_short, "CC BY-NC-SA 4.0")
+  expect_equal(row$public_redistribution, "full_with_attribution")
+  expect_false(row$granted)
+  expect_match(row$license, "p. iv", fixed = TRUE)
+  expect_match(row$attribution, "Computer Science Teachers Association", fixed = TRUE)
+  expect_match(row$attribution, "10.1145/3820482", fixed = TRUE)
+})
+
+test_that("the scywf row names NCA, links the official page and records the grant", {
+  row <- cybed_license("scywf-1.5")
+  expect_equal(row$public_redistribution, "full_with_attribution")
+  expect_true(row$granted)
+  expect_equal(row$terms_url, "https://nca.gov.sa/en/pages/scywf.html")
+  expect_match(row$attribution, "National Cybersecurity Authority (NCA)", fixed = TRUE)
+  expect_match(row$attribution, "https://nca.gov.sa/en/pages/scywf.html", fixed = TRUE)
+  expect_match(row$attribution, "SCyWF – 1.5: 2026", fixed = TRUE)
+  expect_match(row$license, "verbatim", fixed = TRUE)
+  expect_match(row$license, "derived", fixed = TRUE)
+})
+
+test_that("the cybok row carries the OGL and CyBOK's prescribed attribution", {
+  row <- cybed_license("cybok-v1.1.0")
+  expect_equal(row$public_redistribution, "full_with_attribution")
+  expect_false(row$granted)
+  expect_equal(row$license_short, "OGL v3.0")
+  expect_identical(
+    row$attribution,
+    "CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/."
+  )
+  expect_match(row$license, "Open Government Licence v3.0", fixed = TRUE)
+  expect_match(row$terms_url, "nationalarchives.gov.uk/doc/open-government-licence", fixed = TRUE)
 })

@@ -181,6 +181,26 @@ render_summary_doc <- function(manifests, summary_tbl) {
       lines <- c(lines, "")
     }
 
+    # Errata (any framework that stages an errata.csv and records a
+    # manifest $errata block, e.g. digcomp, nice)
+    errata <- m$errata %||% list()
+    if (length(errata) > 0) {
+      lines <- c(lines, "### Errata")
+      status_val <- safe_get(errata, "status")
+      if (!is.na(status_val)) lines <- c(lines, glue("- **status:** {status_val}"))
+      applied_val <- errata$applied
+      if (!is.null(applied_val)) {
+        lines <- c(lines, glue("- **applied:** {paste(applied_val, collapse=', ')}"))
+      }
+      unapplied_val <- errata$unapplied
+      if (!is.null(unapplied_val)) {
+        lines <- c(lines, glue("- **unapplied:** {paste(unapplied_val, collapse=', ')}"))
+      }
+      note_val <- safe_get(errata, "note")
+      if (!is.na(note_val)) lines <- c(lines, glue("- **note:** {note_val}"))
+      lines <- c(lines, "")
+    }
+
     # Licensing
     lic <- m$licensing %||% list()
     if (length(lic) > 0) {
@@ -225,6 +245,9 @@ render_summary_doc <- function(manifests, summary_tbl) {
         # Role = level x concept clusters (5 levels x 5 concepts = 25)
         5 * 5
       },
+      # Observed level x concept and tier x specialty area groups, measured
+      # by scripts/010-ingest-csta2026.R.
+      `csta-2026` = extraction$organizing_units,
       csec2017 = extraction$knowledge_areas,
       digcomp  = extraction$competence_areas,
       # Work roles only. CyQUAL's 59 competencies are a second organizing
@@ -237,6 +260,12 @@ render_summary_doc <- function(manifests, summary_tbl) {
       # further organizing axes, not roles, so they are not counted here.
       # The graph carries all 61 units; this column tracks roles.
       otccf    = extraction$job_roles,
+      # Job roles only. SCyWF's competency areas, specialty areas and
+      # categories are further organizing units, not roles. The graph
+      # carries all 81 units. This column tracks roles.
+      scywf    = extraction$job_roles,
+      # Knowledge Areas, as for CSEC2017. CyBOK asserts no roles.
+      cybok    = extraction$knowledge_areas,
       NA
     )
     elem_count <- switch(slug,
@@ -246,6 +275,7 @@ render_summary_doc <- function(manifests, summary_tbl) {
       ecsf           = extraction$element_count,
       `cyberorg-k12` = extraction$standards_total,
       csta           = extraction$standards_count,
+      `csta-2026`    = extraction$standards_count,
       csec2017       = extraction$essentials_total,
       digcomp        = extraction$competences,
       # Tasks and requirements together are CyQUAL's element population.
@@ -265,6 +295,11 @@ render_summary_doc <- function(manifests, summary_tbl) {
       otccf          = extraction$role_element_breakdown$key_task +
                        extraction$tsc_level_statements +
                        extraction$tsc_range_of_application_rows,
+      # Appendix B's Task, Knowledge and Skill statements.
+      scywf          = extraction$statements,
+      # Topics and the Indicative Material under them. In the graph the
+      # Indicative Material is cybed:Subpoint rather than top-level elements.
+      cybok          = extraction$topics + extraction$indicative_material,
       NA
     )
 

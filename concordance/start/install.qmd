@@ -3,6 +3,14 @@ title: "Quick start"
 subtitle: "Install the package, stage framework data, run your first query"
 ---
 
+```{r}
+#| label: setup
+#| include: false
+fl <- cybedtools::framework_licenses
+permission_slugs <- c("cyqual-v1.2.0", "ccssf-2022", "otccf-v1.1")
+n_granted <- sum(fl$granted[fl$slug %in% permission_slugs])
+```
+
 ## Install cybedtools
 
 Install from GitHub via `remotes` or `pak`:
@@ -36,10 +44,10 @@ copyright under 17 U.S.C. 105), the package
 ships pointers to the canonical NIST CPRT and DoD CIO downloads. For
 SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the
 steward's redistribution policy as documented per framework. CyQUAL,
-CCSSF, and OTCCF are in the corpus on their stewards' terms, two by
-written permission and CCSSF referenced as its steward asked, and
-each carries its own terms. Read the per-framework entries
-before staging those three.
+CCSSF, and OTCCF are in the corpus on their stewards' terms,
+`r n_granted` by written permission and CCSSF referenced as its
+steward asked, and each carries its own terms. Read the per-framework
+entries before staging those three.
 
 ## Run the pipeline
 
@@ -60,7 +68,9 @@ Every query on this site reads from that file.
 
 ## First query
 
-```{.r}
+```{r}
+#| label: first-query
+#| echo: true
 library(cybedtools)
 library(dplyr)
 
@@ -72,25 +82,6 @@ framework_summary |>
     elements_per_organizing_unit_with_examples
   ) |>
   arrange(desc(elements_per_organizing_unit_with_examples))
-```
-
-Output:
-
-```
-# A tibble: 11 × 3
-   framework_name          organizing_unit_count elements_per_organizing_unit_with_examples
-   <chr>                                   <int>                                      <dbl>
- 1 DCWF v5.1                                  74                                       54.8
- 2 NICE v2.2.0                                53                                       42
- 3 ECSF v1                                    12                                       32.5
- 4 OTCCF v1.1                                 61                                       26.4
- 5 CCSSF 2022                                 59                                       22.8
- 6 CyQUAL 1.2.0                              161                                       20.7
- 7 CSTA K-12 CS (Rev 2017)                    25                                       10.3
- 8 SFIA 9                                    147                                        5.6
- 9 ACM/IEEE CSEC2017                           8                                        5
-10 Cyber.org K-12 v1.0                       116                                        4.2
-11 DigComp 2.2                                 5                                        4.2
 ```
 
 ## Next steps

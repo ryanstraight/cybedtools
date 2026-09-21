@@ -1,0 +1,8 @@
+element,text
+https://w3id.org/cybed/ontology#element/fixture-el-role1,Monitors network traffic for security incidents and analyzes alerts
+https://w3id.org/cybed/ontology#element/fixture-el-role2,Configures firewalls and defends the network perimeter
+https://w3id.org/cybed/ontology#element/fixture-el-role3,Monitors network traffic for incidents and coordinates incident response
+https://w3id.org/cybed/ontology#element/fixture-el-role4,Hunts for adversaries hiding in network traffic and endpoint logs
+https://w3id.org/cybed/ontology#element/fixture-el-unit5,Protéger les données personnelles et respecter la vie privée
+https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1,Clarification statement: includes GDPR-relevant scenarios
+https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1,chiffrement et contrôle d'accès

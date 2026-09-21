@@ -67,11 +67,11 @@ Named list (JSON-LD node).
 
 Every framework's top-level enumerated unit is an instance of
 \code{cybed:OrganizingUnit} (subClassOf \code{skos:Concept}), the cross-framework
-abstract that lets one SPARQL query reach all eleven frameworks' parent
+abstract that lets one SPARQL query reach every framework's parent
 units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
 unit is genuinely a work role or work profile additionally assert
 \code{cybed:Role} (itself \verb{subClassOf cybed:OrganizingUnit}); pass \code{is_role = TRUE} for those. Non-workforce frameworks (SFIA enumerates skills;
-Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2 enumerate other organizing
+Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 enumerate other organizing
 units) assert \code{cybed:OrganizingUnit} only.
 
 Each unit also carries a per-framework subtype (e.g., \code{nice:WorkRole},

@@ -11,13 +11,13 @@ organizing_unit_framework_bindings(rdf)
 }
 \value{
 A tibble with columns \code{unit}, \code{unit_name}, \code{framework},
-\code{framework_name}.
+\code{framework_name}, \code{framework_slug} (added v0.4.0, a stable join key).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-One row per (organizing unit, framework) pair across all eleven
-frameworks. Queries on the cross-framework abstract type
+One row per (organizing unit, framework) pair across every framework in
+the corpus. Queries on the cross-framework abstract type
 \code{cybed:OrganizingUnit}, which every framework's top-level enumerated
 unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
 level x concept cells, Knowledge Areas, competence areas). Use this
@@ -54,6 +54,8 @@ Other SPARQL helpers:
 \code{\link[=role_framework_bindings]{role_framework_bindings()}},
 \code{\link[=sparql_pairs]{sparql_pairs()}},
 \code{\link[=sparql_subjects]{sparql_subjects()}},
-\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}}
+\code{\link[=subpoint_framework_bindings]{subpoint_framework_bindings()}},
+\code{\link[=unit_element_bindings]{unit_element_bindings()}},
+\code{\link[=unit_relation_bindings]{unit_relation_bindings()}}
 }
 \concept{SPARQL helpers}

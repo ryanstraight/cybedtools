@@ -74,8 +74,8 @@ load_combined_rdf_graph <- function(file_path = NULL) {
 #' isolated SPARQL queries are needed.
 #'
 #' @param framework_slug Character, one of `"nice"`, `"sfia"`, `"dcwf"`,
-#'   `"ecsf"`, `"cyberorg-k12"`, `"csta"`, `"csec2017"`, `"digcomp"`, or
-#'   `"cyqual"`, `"ccssf"`, or `"otccf"`.
+#'   `"ecsf"`, `"cyberorg-k12"`, `"csta"`, `"csta-2026"`, `"csec2017"`,
+#'   `"digcomp"`, `"cyqual"`, `"ccssf"`, `"otccf"`, `"scywf"`, or `"cybok"`.
 #' @param jsonld_dir Character path to the directory containing per-framework
 #'   JSON-LD files. Defaults to `data/processed/jsonld/`.
 #' @return An rdf object.
@@ -165,9 +165,10 @@ load_combined_ntriples_graph <- function(file_path = NULL) {
 #' }
 load_unified_rdf_graph <- function(framework_slugs = c("nice", "sfia", "dcwf",
                                                         "ecsf", "cyberorg-k12",
-                                                        "csta", "csec2017",
-                                                        "digcomp", "cyqual",
-                                                        "ccssf", "otccf"),
+                                                        "csta", "csta-2026",
+                                                        "csec2017", "digcomp",
+                                                        "cyqual", "ccssf",
+                                                        "otccf", "scywf", "cybok"),
                                    jsonld_dir = NULL) {
   if (is.null(jsonld_dir)) {
     jsonld_dir <- here::here("data", "processed", "jsonld")

@@ -313,8 +313,8 @@ write_provenance_manifest <- function(json_path,
       file          = "errata.csv",
       applied_count = nrow(nice_errata),
       note = paste(
-        "Source-data corrections applied deterministically at ingest;",
-        "see errata.csv for element ids, published vs corrected values,",
+        "Source-data corrections applied deterministically at ingest.",
+        "See errata.csv for element ids, published vs corrected values,",
         "and rationale."
       )
     ),

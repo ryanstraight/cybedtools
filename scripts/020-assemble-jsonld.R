@@ -7,23 +7,27 @@
 # Per-framework adapters translate each framework's native structure into
 # the cybed:OrganizingUnit / cybed:RoleElement abstractions. Workforce
 # frameworks where the unit is genuinely a work role or work profile
-# (NICE, DCWF, CyQUAL and CCSSF work roles, ENISA ECSF profiles, OTCCF job
-# roles) additionally assert cybed:Role via build_role_node(). Frameworks
+# (NICE, DCWF, CyQUAL and CCSSF work roles, ENISA ECSF profiles, OTCCF and
+# SCyWF job roles) additionally assert cybed:Role via build_role_node(). Frameworks
 # that relate one unit to another (OTCCF's roles to the skills they
 # require) also return cybed:UnitRelation nodes. Non-workforce frameworks
-# (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2
-# enumerate other organizing units) call build_organizing_unit_node()
+# (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 and
+# CyBOK enumerate other organizing units) call build_organizing_unit_node()
 # directly with is_role = FALSE.
 #
 # Per-framework subtype mapping:
 #   nice:WorkRole, dcwf:WorkRole, ecsf:RoleProfile,
 #   cyqual:WorkRole, ccssf:WorkRole, ccssf:AdjacentRole,
-#   otccf:JobRole                                      -> subClassOf cybed:Role
-#   sfia:Skill, csec:KnowledgeArea, digcomp:CompetenceArea,
+#   otccf:JobRole, scywf:JobRole                       -> subClassOf cybed:Role
+#   sfia:Skill, csec:KnowledgeArea,
+#   digcomp:CompetenceArea, digcomp:Competence,
 #   cyberorg:StandardGroup, csta:StandardGroup,
+#   csta2026:StandardGroup,
 #   nice:CompetencyArea, cyqual:Competency,
 #   otccf:TechnicalSkillCompetency,
-#   otccf:CriticalCoreSkill                            -> subClassOf cybed:OrganizingUnit
+#   otccf:CriticalCoreSkill,
+#   scywf:CompetencyArea, scywf:SpecialtyArea,
+#   scywf:Category, cybok:KnowledgeArea                -> subClassOf cybed:OrganizingUnit
 #
 # Output: data/processed/jsonld/<framework>.jsonld per framework + a
 # combined multi-framework graph at data/processed/jsonld/_combined.jsonld.
@@ -49,6 +53,14 @@ if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION
 } else {
   library(cybedtools)
 }
+
+# The csta-2026 adapter lives in its own file so the test suite can drive it
+# with a synthetic fixture.
+source(here("scripts", "_assemble-csta2026.R"), local = TRUE)
+# The SCyWF adapter likewise, for the same reason.
+source(here("scripts", "_assemble-scywf.R"), local = TRUE)
+# And the CyBOK adapter.
+source(here("scripts", "_assemble-cybok.R"), local = TRUE)
 
 assembly_config <- list(
   raw_dir         = here("data", "raw"),
@@ -756,6 +768,20 @@ assemble_csta <- function() {
        prefix = "csta")
 }
 
+# The 2026 CSTA PK-12 standards: a separate framework from csta-2017, with
+# its own prefix and identifier scheme. The mapping is documented in
+# scripts/_assemble-csta2026.R.
+assemble_csta2026 <- function() {
+  build_csta2026_parts(
+    standards       = read_framework_table("csta-2026", "standards"),
+    boundaries      = read_framework_table("csta-2026", "boundaries"),
+    examples        = read_framework_table("csta-2026", "examples"),
+    units           = read_framework_table("csta-2026", "units"),
+    prov            = load_framework_provenance("csta-2026"),
+    unit_iri_prefix = unit_iri_prefix_for("csta-2026")
+  )
+}
+
 assemble_csec2017 <- function() {
   prov       <- load_framework_provenance("csec2017")
   kas        <- read_framework_table("csec2017", "knowledge-areas")
@@ -820,14 +846,50 @@ assemble_csec2017 <- function() {
        prefix = "csec")
 }
 
+#' Build the digcomp-3.0 framework, unit and element nodes.
+#'
+#' DigComp 3.0 replaces DigComp 2.2 in place (owner decision D1,
+#' 2026-08-21). The versionless IRIs `digcomp:AREA-*` and `digcomp:COMP-x.y`
+#' survive unchanged from 2.2 (see
+#' data/raw/digcomp/v3.0/MAPPING-2.2-to-3.0.md), but their node types
+#' change: 2.2 minted competences as `cybed:RoleElement`, with only areas as
+#' `cybed:OrganizingUnit`. 3.0 moves elements down to the 362 Competence
+#' Statements, so competences become a second organizing-unit tier
+#' (`digcomp:Competence`) alongside the 5 areas (`digcomp:CompetenceArea`) --
+#' 26 organizing units total, both tiers flat (mirroring
+#' `assemble_nice()`'s two independent WorkRole/CompetencyArea axes: a
+#' Competence's `cybed:hasElement` lists its own statements, and an Area's
+#' lists every statement across its member competences).
+#'
+#' Learning Outcomes have no source-provided link to an individual
+#' Competence Statement (both are keyed only by competence + proficiency
+#' level, many-to-many), so they attach as `cybed:Example` via
+#' `cybed:hasExample` on the Competence unit, never on a Statement.
+#'
+#' Sub-point parser disabled: Competence Statement text yields fragments
+#' like "clickbait", "validating", and "AI systems" rather than
+#' framework-as-specified enumerations, the same fidelity problem OTCCF and
+#' csta-2026 have. Every Competence Statement is emitted as a parent
+#' `cybed:RoleElement`, with no `cybed:Subpoint` children.
+#'
+#' Proficiency levels and the glossary are staged (see
+#' scripts/010-ingest-digcomp.R) but not emitted here: neither is a
+#' competence-scoped statement or citizen-facing example, and no existing
+#' cybed: predicate models an 8/4/6-level crosswalk table or a term
+#' glossary. Deferred rather than force-fit.
 assemble_digcomp <- function() {
   prov        <- load_framework_provenance("digcomp")
   areas       <- read_framework_table("digcomp", "competence-areas")
+  area_descs  <- read_framework_table("digcomp", "competence-area-descriptions")
   competences <- read_framework_table("digcomp", "competences")
-  descs       <- read_framework_table("digcomp", "competence-descriptions")
+  comp_descs  <- read_framework_table("digcomp", "competence-descriptions")
+  statements  <- read_framework_table("digcomp", "competence-statements")
+  outcomes    <- read_framework_table("digcomp", "learning-outcomes")
+
+  framework_id <- "digcomp-3.0"
 
   framework_node <- build_framework_node(
-    framework_id     = "digcomp-2.2",
+    framework_id     = framework_id,
     framework_name   = prov$framework_version,
     framework_prefix = "digcomp",
     version          = prov$framework_version,
@@ -839,55 +901,122 @@ assemble_digcomp <- function() {
     date_published   = prov$version_date
   )
 
-  # Role = Competence Area. Element = Competence.
-  parent_element_nodes <- descs |>
-    purrr::pmap(function(element_id, competence_id, competence_name, description, ...) {
-      text_val <- if (!is.na(description) && description != "") description else competence_name
-      build_role_element_node(
-        element_id             = element_id,
+  # Elements = Competence Statements (362), the graph's RoleElement citizens.
+  parent_element_nodes <- statements |>
+    purrr::pmap(function(statement_id, competence_id, area_id, proficiency_level,
+                         ai_label, description, ...) {
+      competence_name <- comp_descs$competence_name[comp_descs$competence_id == competence_id][1]
+      node <- build_role_element_node(
+        element_id             = statement_id,
         framework_prefix       = "digcomp",
-        framework_element_type = "Competence",
-        element_text           = text_val,
-        source_section         = paste0("DigComp ", competence_id, " ", competence_name),
-        framework_id           = "digcomp-2.2"
+        framework_element_type = "CompetenceStatement",
+        element_text           = description,
+        source_section         = paste0("DigComp 3.0 ", competence_id, " ",
+                                        competence_name, ", ", proficiency_level),
+        framework_id           = framework_id
       )
+      c(node, list(
+        `digcomp:proficiencyLevel` = proficiency_level,
+        `digcomp:aiLabel`          = ai_label
+      ))
     })
 
-  expanded <- expand_with_subpoints(
-    element_nodes    = parent_element_nodes,
-    framework_prefix = "digcomp",
-    framework_id     = "digcomp-2.2",
-    framework_slug   = "digcomp"
+  # Sub-point parser disabled for digcomp, as for OTCCF and csta-2026: its
+  # Competence Statement text yields fragments like "clickbait",
+  # "validating", "AI systems" rather than framework-as-specified
+  # enumerations, so a parser split would be a unit the package invented
+  # rather than one JRC printed. Shape matches what expand_with_subpoints()
+  # returns so the rest of the adapter is unchanged.
+  expanded <- list(
+    nodes         = parent_element_nodes,
+    subnode_index = tibble::tibble(
+      parent_id  = character(0),
+      subnode_id = character(0),
+      ordinal    = integer(0),
+      node_type  = character(0)
+    )
   )
 
-  role_nodes <- areas |>
+  # Examples = Learning Outcomes (522, post-errata), attached to their
+  # Competence via cybed:hasExample, never cybed:hasElement. Ordinal is the
+  # source's own trailing outcome number (LOx.y.NN), preserved rather than
+  # re-derived, so a reader can cross-check against the published id.
+  outcome_nodes <- outcomes |>
+    purrr::pmap(function(outcome_id, competence_id, area_id, proficiency_level,
+                         ko_type, ai_label, description, ...) {
+      ordinal <- as.integer(stringr::str_extract(outcome_id, "[0-9]+$"))
+      ex <- build_example_node(
+        parent_element_id = paste0("COMP-", competence_id),
+        ordinal           = ordinal,
+        text              = description,
+        framework_prefix  = "digcomp",
+        framework_id      = framework_id
+      )
+      c(ex, list(
+        `digcomp:proficiencyLevel` = proficiency_level,
+        `digcomp:koType`           = ko_type,
+        `digcomp:aiLabel`          = ai_label
+      ))
+    })
+
+  outcome_iris_by_competence <- split(
+    vapply(outcome_nodes, \(ex) as.character(ex[["@id"]]), character(1)),
+    paste0("digcomp:COMP-", outcomes$competence_id)
+  )
+
+  competence_nodes <- comp_descs |>
+    purrr::pmap(function(element_id, competence_id, area_id, competence_name, description, ...) {
+      statement_ids <- statements |>
+        filter(competence_id == !!competence_id) |>
+        pull(statement_id)
+      statement_ids <- extend_role_element_ids(statement_ids, expanded$subnode_index)
+
+      node <- build_organizing_unit_node(
+        unit_id           = element_id,
+        unit_name         = competence_name,
+        framework_prefix  = "digcomp",
+        framework_subtype = "Competence",
+        is_role           = FALSE,
+        description       = description,
+        element_ids       = statement_ids,
+        framework_id      = framework_id
+      )
+
+      example_iris <- outcome_iris_by_competence[[paste0("digcomp:", element_id)]]
+      if (!is.null(example_iris)) {
+        node[["cybed:hasExample"]] <- purrr::map(unname(example_iris),
+                                                 \(eid) list(`@id` = eid))
+      }
+      node
+    })
+
+  area_nodes <- areas |>
     purrr::pmap(function(area_id, area_number, area_name, ...) {
-      child_competence_ids <- competences |>
-        filter(area_id == !!area_id) |>
-        mutate(element_id = paste0("COMP-", competence_id)) |>
-        pull(element_id)
+      member_competence_ids <- competences$competence_id[competences$area_id == area_id]
+      area_statement_ids <- statements |>
+        filter(competence_id %in% member_competence_ids) |>
+        pull(statement_id)
+      area_statement_ids <- extend_role_element_ids(area_statement_ids, expanded$subnode_index)
 
-      child_competence_ids <- extend_role_element_ids(child_competence_ids, expanded$subnode_index)
+      area_description <- area_descs$description[area_descs$area_id == area_id][1]
 
-      # DigComp 2.2 organizes content by competence area (5 areas: Information
-      # and data literacy, Communication and collaboration, Digital content
-      # creation, Safety, Problem solving). DigComp does not specify roles;
-      # it is a citizen self-assessment instrument. Assert
-      # cybed:OrganizingUnit only.
+      # DigComp does not specify roles; it is a citizen self-assessment
+      # instrument. Assert cybed:OrganizingUnit only (is_role = FALSE).
       build_organizing_unit_node(
         unit_id           = area_id,
         unit_name         = area_name,
         framework_prefix  = "digcomp",
         framework_subtype = "CompetenceArea",
         is_role           = FALSE,
-        description       = paste("DigComp 2.2 Area", area_number, "-", area_name),
-        element_ids       = child_competence_ids,
-        framework_id      = "digcomp-2.2"
+        description       = area_description,
+        element_ids       = area_statement_ids,
+        framework_id      = framework_id,
+        metadata          = list(`digcomp:areaNumber` = as.integer(area_number))
       )
     })
 
-  list(framework = framework_node, roles = role_nodes, elements = expanded$nodes,
-       prefix = "digcomp")
+  list(framework = framework_node, roles = c(area_nodes, competence_nodes),
+       elements = c(expanded$nodes, outcome_nodes), prefix = "digcomp")
 }
 
 assemble_cyqual <- function() {
@@ -1136,7 +1265,7 @@ assemble_ccssf <- function() {
     attribution      = paste(
       "Canadian Centre for Cyber Security, The Canadian Cyber Security Skills",
       "Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada.",
-      "Referenced as the Canadian Centre for Cyber Security asked."
+      "Used with permission of the Canadian Centre for Cyber Security."
     )
   )
 
@@ -1634,6 +1763,33 @@ assemble_otccf <- function() {
        prefix    = "otccf")
 }
 
+# The Saudi Cybersecurity Workforce Framework. The mapping, and which edges
+# are cybedtools-derived rather than NCA content, is documented in
+# scripts/_assemble-scywf.R.
+assemble_scywf <- function() {
+  build_scywf_parts(
+    categories            = read_framework_table("scywf", "categories"),
+    specialty_areas       = read_framework_table("scywf", "specialty-areas"),
+    roles                 = read_framework_table("scywf", "roles"),
+    statements            = read_framework_table("scywf", "statements"),
+    role_statements       = read_framework_table("scywf", "role-statements"),
+    competency_areas      = read_framework_table("scywf", "competency-areas"),
+    role_competency_areas = read_framework_table("scywf", "role-competency-areas"),
+    prov                  = load_framework_provenance("scywf")
+  )
+}
+
+# The Cyber Security Body of Knowledge. The mapping is documented in
+# scripts/_assemble-cybok.R.
+assemble_cybok <- function() {
+  build_cybok_parts(
+    knowledge_areas     = read_framework_table("cybok", "knowledge-areas"),
+    topics              = read_framework_table("cybok", "topics"),
+    indicative_material = read_framework_table("cybok", "indicative-material"),
+    prov                = load_framework_provenance("cybok")
+  )
+}
+
 framework_assemblers <- list(
   nice               = assemble_nice,
   sfia               = assemble_sfia,
@@ -1641,11 +1797,14 @@ framework_assemblers <- list(
   ecsf               = assemble_ecsf,
   `cyberorg-k12`     = assemble_cyberorg,
   csta               = assemble_csta,
+  `csta-2026`        = assemble_csta2026,
   csec2017           = assemble_csec2017,
   digcomp            = assemble_digcomp,
   cyqual             = assemble_cyqual,
   ccssf              = assemble_ccssf,
-  otccf              = assemble_otccf
+  otccf              = assemble_otccf,
+  scywf              = assemble_scywf,
+  cybok              = assemble_cybok
 )
 
 main <- function() {

@@ -734,13 +734,20 @@ release_scope <- function(policy_value) {
 #' the match is exact first and then on the version suffix. A slug with no row,
 #' or with more than one candidate row, stops the export: a shipped file
 #' without licence terms is the one thing this stage must never write.
-release_license_row <- function(licenses, slug) {
+#'
+#' `reserved` names slugs that are frameworks in their own right. A licence
+#' row whose slug is one of them is never a version of another slug: csta-2026
+#' is its own framework, not a version of csta, so it must not compete with
+#' csta-2017 when csta is looked up.
+release_license_row <- function(licenses, slug, reserved = character()) {
   exact <- licenses[licenses$slug == slug, , drop = FALSE]
   if (nrow(exact) == 1L) {
     return(exact)
   }
 
-  candidates <- licenses[startsWith(licenses$slug, paste0(slug, "-")), , drop = FALSE]
+  candidates <- licenses[startsWith(licenses$slug, paste0(slug, "-")) &
+                           !licenses$slug %in% setdiff(reserved, slug), ,
+                         drop = FALSE]
   if (nrow(candidates) == 1L) {
     return(candidates)
   }

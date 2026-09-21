@@ -1,0 +1,163 @@
+---
+title: "SCyWF 1.5"
+subtitle: "Saudi Cybersecurity Workforce Framework"
+jurisdiction: "SA"
+framework-type: "Workforce"
+framework-slug: "scywf-1.5"
+license: "NCA written permission"
+date: 2026-09-21
+categories: [workforce, sa]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia |
+| Canonical page | [SCyWF official page](https://nca.gov.sa/en/pages/scywf.html) |
+| Version | SCyWF – 1.5: 2026 |
+| Source format | PDF |
+| License | The document carries no licence notice of its own. NCA granted cybedtools written permission to ingest and redistribute its content, verbatim, on three conditions |
+| `framework_summary` slug | `scywf-1.5` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="scywf-structure-title">
+  <title id="scywf-structure-title">SCyWF structural mapping</title>
+  <defs><marker id="scywf-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#scywf-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#scywf-arrow)"/>
+    <line x1="230" y1="282" x2="230" y2="324" marker-end="url(#scywf-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">scywf:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Category, Specialty Area">
+    <rect x="60" y="100" width="340" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Category, Specialty Area</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(5 categories, 12 specialty areas)</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Job role">
+    <rect x="120" y="212" width="220" height="70" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Job role</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">scywf:JobRole</text>
+    <text class="lt" x="230" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role = cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Task, Knowledge, Skill statement">
+    <rect x="80" y="324" width="300" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="352" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Task, Knowledge, Skill statement</text>
+    <text class="lt" x="230" y="367" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-category connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Category-to-job-role connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Job-role-to-element connection">
+    <text class="ep" x="238" y="308" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="308" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+  <figcaption>Job roles carry a category and a specialty area (both derived hierarchy, not published edges) and are linked to Task, Knowledge and Skill statements by code. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "scywf-1.5", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$scywf
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (categories, specialty areas, job roles)",
+    "Job roles",
+    "Strict elements (Task, Knowledge, Skill statements)",
+    "Elements per organizing unit",
+    "Elements per job role"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_role_strict)
+  )
+) |>
+  knitr::kable()
+```
+
+The document states its own size: `r cm(u$category_count)`
+categories, `r cm(u$specialty_area_count)` specialty areas, and
+`r cm(n$role_count)` job roles. Job-role cards in the source name only
+Task, Knowledge, and Skill statement codes; the statement text itself
+lives in separate appendix tables keyed by those codes, which this
+ingestion joins back to each role.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026) PDF, staged with a hash-verified provenance manifest.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-scywf.R` reconstructs table cells from PDF word coordinates and joins each job role's Task/Knowledge/Skill codes to their statement text in the appendix tables.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+The document carries no copyright line or licence notice; its only markings, "TLP: Clear" and "Document Classification: Public," are disclosure markings rather than licences. NCA granted cybedtools written permission on 2026-09-20 to ingest and redistribute the content on three conditions: NCA cited as issuing body and source, everything taken from the document carried verbatim with no paraphrase or in-house translation, and anything cybedtools derives marked as derived rather than presented as NCA content.
+:::
+
+:::
+
+## Caveats
+
+- The hierarchy edges between job role, specialty area, and category are **cybedtools's own derivation**, not a structure NCA published as edges. They are marked as derived per the terms of NCA's permission.
+- NCA's grant named an **earlier edition** (SCyWF – 1: 2020) that NCA no longer publishes; the current 1.5: 2026 edition is ingested by owner decision under the same permission.
+- The document's own disclaimer makes its **Arabic version binding** for matters of meaning and interpretation. cybedtools ingests the English version only.
+
+## Related
+
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)
