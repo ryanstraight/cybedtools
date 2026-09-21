@@ -1,4 +1,4 @@
-# cybedtools (development version)
+# cybedtools 0.4.0
 
 ## New framework
 
