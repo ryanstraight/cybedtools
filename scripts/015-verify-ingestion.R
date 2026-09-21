@@ -125,6 +125,30 @@ verify_provenance <- function(framework, results) {
     }
   }
 
+  # A manifest may instead list several staged files under source$files, each
+  # with its own filename and file_sha256 (csta-2026 stages its JSON, the PDF
+  # and CSTA's crosswalk that way). Every listed file must be present and
+  # match.
+  for (f in manifest$source$files %||% list()) {
+    if (is.null(f$filename) || is.null(f$file_sha256)) next
+    source_path <- file.path(fw_dir, f$filename)
+    check_name <- glue("provenance.sha256.{f$filename}")
+    if (!file.exists(source_path)) {
+      results <- record_check(results, framework, check_name, "hard",
+                              glue("source file declared but not found: {source_path}"))
+      next
+    }
+    actual_sha <- digest(file = source_path, algo = "sha256")
+    if (identical(actual_sha, f$file_sha256)) {
+      results <- record_check(results, framework, check_name, "pass",
+                              "SHA256 matches declared")
+    } else {
+      results <- record_check(results, framework, check_name, "hard",
+                              "SHA256 mismatch",
+                              list(declared = f$file_sha256, actual = actual_sha))
+    }
+  }
+
   results
 }
 
@@ -243,6 +267,33 @@ framework_actual_counts <- function(framework, tables_dir) {
         levels_count    = nrow_or_null(levels),
         clusters_count  = nrow_or_null(clusters),
         concepts        = if (!is.null(standards)) length(unique(standards$concept)) else NULL
+      )
+    },
+    `csta-2026` = {
+      standards  <- safe_read(file.path(tables_dir, "standards.csv"))
+      units      <- safe_read(file.path(tables_dir, "units.csv"))
+      boundaries <- safe_read(file.path(tables_dir, "boundaries.csv"))
+      examples   <- safe_read(file.path(tables_dir, "examples.csv"))
+      found      <- if (is.null(standards)) NULL else standards[standards$tier == "foundational", ]
+      list(
+        standards_count         = nrow_or_null(standards),
+        foundational_standards  = nrow_or_null(found),
+        specialty_standards     = if (is.null(standards)) NULL else sum(standards$tier == "specialty"),
+        levels_count            = if (is.null(standards)) NULL else dplyr::n_distinct(standards$level),
+        foundational_concepts   = if (is.null(found)) NULL else dplyr::n_distinct(found$concept),
+        specialty_areas         = if (is.null(standards)) NULL
+                                  else dplyr::n_distinct(standards$specialty_area_code, na.rm = TRUE),
+        cybersecurity_standards = if (is.null(standards)) NULL
+                                  else sum(standards$specialty_area_code %in% "CYB"),
+        # Units are the observed (level, concept) pairs, so an area published
+        # at one tier only (X+CS) contributes one unit, not two.
+        organizing_units        = nrow_or_null(units),
+        foundational_units      = if (is.null(units)) NULL else sum(units$tier == "foundational"),
+        specialty_units         = if (is.null(units)) NULL else sum(units$tier == "specialty"),
+        boundary_statements     = nrow_or_null(boundaries),
+        implementation_examples = nrow_or_null(examples),
+        standards_with_examples = if (is.null(examples)) NULL else dplyr::n_distinct(examples$code),
+        ai_standards            = if (is.null(standards)) NULL else sum(standards$ai_standard)
       )
     },
     csec2017 = {
@@ -514,6 +565,11 @@ text_fields_by_framework <- function(framework) {
       # clarification is optional per CSTA doc structure; not checked for non-empty
       list(label = "standard-text",       file = "standards.csv", column = "standard")
     ),
+    `csta-2026` = list(
+      list(label = "standard-text",      file = "standards.csv",  column = "title"),
+      list(label = "boundary-statement", file = "boundaries.csv", column = "text"),
+      list(label = "example-text",       file = "examples.csv",   column = "text")
+    ),
     csec2017 = list(
       list(label = "essential-text", file = "essentials.csv", column = "element_text")
     ),
@@ -567,6 +623,10 @@ verify_id_uniqueness <- function(framework, results) {
     ),
     csta = list(
       list(file = "standards.csv",    id_col = "identifier",  label = "csta-identifier")
+    ),
+    `csta-2026` = list(
+      list(file = "standards.csv", id_col = "code",    label = "csta2026-code"),
+      list(file = "units.csv",     id_col = "unit_id", label = "csta2026-unit-id")
     ),
     csec2017 = list(
       list(file = "knowledge-areas.csv", id_col = "ka_id",       label = "ka-id"),
@@ -704,7 +764,7 @@ main <- function() {
   # data/raw/ for directories. data/raw/ also accumulates STAGING dirs --
   # crosswalk sources with no assemble_*() adapter (cybok), candidate
   # frameworks held pending a licensing answer (asd, ukcsc), and data
-  # acquired ahead of a re-ingest step (csta-2026). Those legitimately
+  # acquired ahead of an ingest step. Those legitimately
   # have no declared invariants; scanning the directory treated each one
   # as an undeclared framework and hard-failed the build, which blocked
   # the pipeline on data that was never part of it. Declaring a framework

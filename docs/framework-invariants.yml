@@ -183,6 +183,57 @@ frameworks:
       Included for pedagogical breadth comparison against Cyber.org K-12.
       License: CC BY-NC-SA 4.0.
 
+  csta-2026:
+    version: "2026 CSTA PK-12 Computer Science Standards"
+    version_date: "2026-07"
+    structural_type: "learning-standards"
+    jurisdiction: "US"
+    sector: "K-12 education"
+    specificity: "general-computing"  # cybersec coverage is a subset, not the whole
+    framework_type: "pedagogical"
+    # Non-commercial and share-alike conditions also apply; see framework_licenses.
+    public_redistribution: full_with_attribution
+    expected:
+      # Exact bounds: the source is a fixed JSON capture of CSTA's Standards
+      # Explorer whose 331 codes match the PDF one for one, and the ingest
+      # stops unless its SHA256 matches provenance.yml. Any drift means a
+      # different capture, which is a human-review event, not a tolerance to
+      # absorb. Measured 2026-09-21 from csta-2026-standards-api.json.
+      standards_count:          [331, 331]
+      foundational_standards:   [196, 196]
+      specialty_standards:      [135, 135]
+      levels_count:             [10, 10]   # EK, E1-E5, MS, HS, S1, S2
+      foundational_concepts:    [5, 5]
+      specialty_areas:          [7, 7]     # six areas plus X+CS
+      cybersecurity_standards:  [27, 27]   # CYB: 15 Specialty I + 12 Specialty II
+      organizing_units:         [53, 53]   # observed pairs, never a crossing
+      foundational_units:       [40, 40]   # 8 levels x 5 concepts
+      specialty_units:          [13, 13]   # 6 areas x 2 tiers + X+CS at S1 only
+      boundary_statements:      [660, 660] # paragraphs: 329 standards print 2, 2 print 1
+      implementation_examples:  [652, 652]
+      standards_with_examples:  [326, 326]
+      ai_standards:             [107, 107]
+    notes: |
+      A separate framework from csta-2017, not a revision of it. The two
+      editions share no identifier scheme; CSTA's official crosswalk between
+      them is many-to-many and is staged for concordance work, not ingested.
+      Source of record is the JSON behind CSTA's interactive Standards
+      Explorer, checked 1:1 against the 218-page PDF. Standards are
+      cybed:RoleElement nodes keyed by CSTA's code verbatim. Organizing units
+      are csta2026:StandardGroup: level x concept for the foundational tier,
+      tier level x specialty area for the specialty tier. X+CS is published
+      at Specialty I only, so it has one unit, not two. CSTA's prose names
+      six specialty areas and introduces X+CS in addition; its identifier
+      table and explorer treat X+CS as a seventh area code, which is how it is
+      carried here.
+      Implementation examples are web-display content that the print PDF
+      does not carry. They are cybed:Example nodes reached by
+      cybed:hasExample. Boundary statements are part of each standard and
+      are carried as csta2026:boundaryStatement literals, not as Examples.
+      Practices, dispositions, progressions and interdisciplinary connections
+      are staged but not yet modelled.
+      License: CC BY-NC-SA 4.0, read from the PDF's own licence page (p. iv).
+
   ecsf:
     version: "ECSF v1"
     version_date: "2022-09-19"
@@ -479,6 +530,9 @@ frameworks:
 # CCSSF joined 2026-09-18, adding 59 organizing units (all Role-typed: 22 core
 # work roles + 37 Annex E adjacent roles) and 1,353 elements (1,178 parents +
 # 175 Subpoints).
+# CSTA PK-12 2026 joined 2026-09-21 as a twelfth framework, adding 53 non-role
+# organizing units and 1,028 elements (331 standards + 45 Subpoints + 652
+# implementation-example Examples).
 # OTCCF joined 2026-09-19, adding 61 organizing units (15 Role-typed job roles +
 # 30 non-role Technical Skills and Competencies + 16 non-role Critical Core
 # Skills) and 1,612 elements, all parents: the sub-point parser is disabled for
@@ -489,17 +543,17 @@ frameworks:
 # and its strict total by 8.
 graph_invariants:
   combined:
-    organizing_unit_count: [719, 723]   # all 11 frameworks' parents (+61 from OTCCF)
+    organizing_unit_count: [772, 776]   # all 12 frameworks' parents (+53 from CSTA 2026)
     role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
-    total_elements_with_subpoints: [14096, 14131] # parents + Subpoints across all 11
-    total_elements_full:   [14582, 14617] # adds Examples (Cyber.org K-12 ~369 + CSTA ~114)
-    example_count:         [478, 492]   # ~369 Cyber.org K-12 + ~114 CSTA
+    total_elements_with_subpoints: [14472, 14507] # parents + Subpoints across all 12 (+376 from CSTA 2026)
+    total_elements_full:   [15610, 15645] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652)
+    example_count:         [1130, 1144] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
     # qualified unit-to-unit statements so far.
     unit_relation_count:   [310, 310]   # OTCCF 190 TSC + 120 distinct core-skill statements
-    framework_count:       [11, 11]
+    framework_count:       [12, 12]
   per_framework:
-    # Ten of the eleven frameworks run with the parser enabled; OTCCF runs
+    # Eleven of the twelve frameworks run with the parser enabled; OTCCF runs
     # with it off (see its parser_enabled: false below). The 2026-05-08
     # parser refinement (sentence-boundary stop + connective filter)
     # brought SFIA and CSEC2017 from initial 30%+ false-positive rates to
@@ -563,6 +617,19 @@ graph_invariants:
       total_elements_with_subpoints: [136, 144]
       total_elements_full:           [246, 262]
       strict_inflation:              [1.10, 1.25]
+      parser_enabled:                true
+    csta-2026:
+      # Exact: a fixed source. 331 standards; the parser splits 45 Subpoints
+      # out of "including" and "such as" lists in the standard text, the same
+      # treatment csta-2017 gets. The 652 Examples are CSTA's implementation
+      # examples, attached from the example list rather than parsed from
+      # text.
+      parent_elements:               [331, 331]
+      subpoint_elements:             [45, 45]
+      example_elements:              [652, 652]
+      total_elements_with_subpoints: [376, 376]
+      total_elements_full:           [1028, 1028]
+      strict_inflation:              [1.13, 1.14]
       parser_enabled:                true
     csec2017-v1:
       parent_elements:               [35, 42]
