@@ -366,7 +366,7 @@ test_that("organizing_unit_framework_bindings returns the same rows as role_fram
   # the same number of rows here. On the eight-framework graph,
   # organizing_unit_framework_bindings returns more rows than
   # role_framework_bindings because non-workforce frameworks (SFIA,
-  # Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2) contribute units that
+  # Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0) contribute units that
   # are not cybed:Role.
   expect_equal(nrow(ofb), nrow(rfb))
   expect_named(ofb, c("unit", "framework", "unit_name", "framework_name"))

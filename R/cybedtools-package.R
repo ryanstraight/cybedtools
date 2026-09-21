@@ -4,7 +4,7 @@
 #' \if{html}{\figure{logo.png}{options: style="float: right; margin-left: 10px; margin-bottom: 10px;" alt="cybedtools logo" width="120"}}
 #'
 #' Eleven cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA,
-#' ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2,
+#' ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 3.0,
 #' CyQUAL, CCSSF, OTCCF) expressed in a shared `cybed:` semantic schema,
 #' with R helpers that query
 #' across them as if they were one corpus. The package adds a comparison

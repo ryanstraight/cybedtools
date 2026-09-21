@@ -24,7 +24,7 @@ test_that("framework slugs are unique and cover all twelve frameworks", {
   expect_setequal(
     framework_summary$framework_slug,
     c("nice-v2", "dcwf-v5.1", "ecsf-v1", "sfia-9", "cyberorg-k12-v1.0",
-      "csta-2017", "csec2017-v1", "digcomp-2.2", "cyqual-v1.2.0",
+      "csta-2017", "csec2017-v1", "digcomp-3.0", "cyqual-v1.2.0",
       "ccssf-2022", "otccf-v1.1", "csta-2026")
   )
 })
@@ -53,7 +53,7 @@ test_that("role_count is NA exactly for the frameworks that assert no roles", {
   na_slugs <- framework_summary$framework_slug[is.na(framework_summary$role_count)]
   expect_setequal(
     na_slugs,
-    c("sfia-9", "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1", "digcomp-2.2",
+    c("sfia-9", "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1", "digcomp-3.0",
       "csta-2026")
   )
   # The role-dependent columns are NA together.
@@ -85,28 +85,30 @@ test_that("OTCCF is the only framework publishing unit relations, and it has 310
   expect_true(all(others$unit_relation_count == 0L))
 })
 
-test_that("the original eight frameworks' pre-existing values are unchanged", {
+test_that("seven of the original eight frameworks' pre-existing values are unchanged", {
   # Pinned from the v0.2.0 shipped object. These are published figures.
+  # DigComp is excluded here: 3.0 replaced 2.2 in place (2026-09-21), a
+  # deliberate content change, not a regression. See the dedicated
+  # "DigComp 3.0" test below for its pinned values.
   pinned <- tibble::tibble(
     framework_slug = c("nice-v2", "dcwf-v5.1", "ecsf-v1", "sfia-9",
-                       "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1",
-                       "digcomp-2.2"),
-    organizing_unit_count = c(53L, 74L, 12L, 147L, 116L, 25L, 8L, 5L),
+                       "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1"),
+    organizing_unit_count = c(53L, 74L, 12L, 147L, 116L, 25L, 8L),
     element_count_strict =
-      c(2211L, 2945L, 374L, 672L, 123L, 120L, 38L, 21L),
-    subpoint_count = c(14L, 1107L, 16L, 149L, 0L, 24L, 2L, 0L),
-    example_count = c(0L, 0L, 0L, 0L, 369L, 114L, 0L, 0L),
+      c(2211L, 2945L, 374L, 672L, 123L, 120L, 38L),
+    subpoint_count = c(14L, 1107L, 16L, 149L, 0L, 24L, 2L),
+    example_count = c(0L, 0L, 0L, 0L, 369L, 114L, 0L),
     element_count_with_examples =
-      c(2225L, 4052L, 390L, 821L, 492L, 258L, 40L, 21L),
+      c(2225L, 4052L, 390L, 821L, 492L, 258L, 40L),
     elements_per_organizing_unit_strict =
-      c(41.7, 39.8, 31.2, 4.6, 1.1, 4.8, 4.8, 4.2),
+      c(41.7, 39.8, 31.2, 4.6, 1.1, 4.8, 4.8),
     elements_per_organizing_unit_with_examples =
-      c(42.0, 54.8, 32.5, 5.6, 4.2, 10.3, 5.0, 4.2)
+      c(42.0, 54.8, 32.5, 5.6, 4.2, 10.3, 5.0)
   )
 
   got <- framework_summary[match(pinned$framework_slug,
                                  framework_summary$framework_slug), ]
-  expect_equal(nrow(got), 8L)
+  expect_equal(nrow(got), 7L)
 
   for (cl in setdiff(names(pinned), "framework_slug")) {
     expect_equal(got[[cl]], pinned[[cl]], info = cl)
@@ -115,11 +117,11 @@ test_that("the original eight frameworks' pre-existing values are unchanged", {
   expect_equal(
     got$framework_type,
     c("workforce", "workforce", "workforce", "workforce",
-      "pedagogy", "pedagogy", "pedagogy", "pedagogy")
+      "pedagogy", "pedagogy", "pedagogy")
   )
   expect_equal(
     got$jurisdiction,
-    c("US", "US", "EU", "global", "US", "US", "global", "EU")
+    c("US", "US", "EU", "global", "US", "US", "global")
   )
 })
 

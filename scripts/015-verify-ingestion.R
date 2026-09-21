@@ -448,10 +448,14 @@ framework_actual_counts <- function(framework, tables_dir) {
       areas <- safe_read(file.path(tables_dir, "competence-areas.csv"))
       competences <- safe_read(file.path(tables_dir, "competences.csv"))
       descs <- safe_read(file.path(tables_dir, "competence-descriptions.csv"))
+      statements <- safe_read(file.path(tables_dir, "competence-statements.csv"))
+      outcomes <- safe_read(file.path(tables_dir, "learning-outcomes.csv"))
       list(
-        competence_areas   = nrow_or_null(areas),
-        competences        = nrow_or_null(competences),
-        descriptions_found = if (!is.null(descs)) sum(!is.na(descs$description)) else NULL
+        competence_areas      = nrow_or_null(areas),
+        competences           = nrow_or_null(competences),
+        descriptions_found    = if (!is.null(descs)) sum(!is.na(descs$description)) else NULL,
+        competence_statements = nrow_or_null(statements),
+        learning_outcomes     = nrow_or_null(outcomes)
       )
     },
     list()
@@ -574,7 +578,10 @@ text_fields_by_framework <- function(framework) {
       list(label = "essential-text", file = "essentials.csv", column = "element_text")
     ),
     digcomp = list(
-      list(label = "competence-name", file = "competences.csv", column = "competence_name")
+      list(label = "competence-name",      file = "competences.csv",           column = "competence_name"),
+      list(label = "area-description",     file = "competence-area-descriptions.csv", column = "description"),
+      list(label = "statement-text",       file = "competence-statements.csv", column = "description"),
+      list(label = "outcome-text",         file = "learning-outcomes.csv",     column = "description")
     ),
     cyqual = list(
       list(label = "task-text",        file = "tasks.csv",        column = "description"),
@@ -633,8 +640,10 @@ verify_id_uniqueness <- function(framework, results) {
       list(file = "essentials.csv",      id_col = "element_id",  label = "essential-id")
     ),
     digcomp = list(
-      list(file = "competence-areas.csv", id_col = "area_id",        label = "area-id"),
-      list(file = "competences.csv",      id_col = "competence_id",  label = "competence-id")
+      list(file = "competence-areas.csv",      id_col = "area_id",        label = "area-id"),
+      list(file = "competences.csv",           id_col = "competence_id",  label = "competence-id"),
+      list(file = "competence-statements.csv", id_col = "statement_id",   label = "statement-id"),
+      list(file = "learning-outcomes.csv",     id_col = "outcome_id",     label = "outcome-id")
     ),
     cyqual = list(
       list(file = "work-roles.csv",           id_col = "code", label = "cyqual-work-role-code"),

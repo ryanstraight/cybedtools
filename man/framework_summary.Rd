@@ -25,7 +25,7 @@ unit, as described above.}
 bound to the framework via \code{cybed:partOf}. A subset of
 \code{organizing_unit_count}. \code{NA} for the six frameworks that assert no
 roles at all (SFIA, Cyber.org K-12, CSTA 2017, CSTA 2026, CSEC2017,
-DigComp 2.2).
+DigComp 3.0).
 \code{NA} rather than zero, because "this framework does not use the role
 construct" is a different statement from "this framework has zero
 roles".}
@@ -124,8 +124,11 @@ or carry a framework column alongside the code.
 the framework: parents, plus \code{cybed:Subpoint} children, plus
 \code{cybed:Example} children. \code{element_count_strict} counts parents only, that
 is with-examples less both the Subpoint and the Example populations.
-Only DCWF, DigComp 2.2 and OTCCF have zero of both children, so strict
-equals with-examples there.
+Only DCWF and OTCCF have zero of both children (parser disabled for
+OTCCF; see docs/framework-invariants.yml), so strict equals
+with-examples there. DigComp 3.0 (unlike 2.2) has both: its parser runs
+over the 362 Competence Statements, and its Learning Outcomes are
+attached \code{cybed:Example} children.
 
 \strong{Corrected 2026-08-14}: \code{element_count_strict} previously subtracted
 only \code{example_count}, so any framework with nonzero Subpoints carried an

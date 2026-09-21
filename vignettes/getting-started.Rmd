@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## What cybedtools does
 
-Eleven cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore's OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 2.2) expressed in a shared `cybed:` semantic schema. The package adds a comparison layer over existing frameworks, not a replacement for them.
+Eleven cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore's OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 3.0) expressed in a shared `cybed:` semantic schema. The package adds a comparison layer over existing frameworks, not a replacement for them.
 
 This vignette walks through the two ways to use it: install the package and run helpers against the small built-in demo graph, or clone the repository and run the full pipeline against staged framework sources.
 

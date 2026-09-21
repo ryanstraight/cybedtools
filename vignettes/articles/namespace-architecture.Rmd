@@ -134,7 +134,7 @@ Each framework has its own prefix. The per-framework parent type subclasses `cyb
 | Cyber.org K-12    | `cyberorg:StandardGroup`    | `cybed:OrganizingUnit` | `cyberorg:Standard`                              |
 | CSTA K-12 CS      | `csta:StandardGroup`      | `cybed:OrganizingUnit` | `csta:Standard`                                  |
 | ACM/IEEE CSEC2017 | `csec:KnowledgeArea`           | `cybed:OrganizingUnit` | `csec:Essential`                                 |
-| DigComp 2.2       | `digcomp:CompetenceArea`       | `cybed:OrganizingUnit` | `digcomp:Competence`                             |
+| DigComp 3.0       | `digcomp:CompetenceArea`       | `cybed:OrganizingUnit` | `digcomp:Competence`                             |
 | CyQUAL 1.2.0      | `cyqual:WorkRole`              | `cybed:Role`           | `cyqual:Task`, `cyqual:Requirement`              |
 | CyQUAL 1.2.0      | `cyqual:Competency`            | `cybed:OrganizingUnit` | `cyqual:Requirement`                             |
 | CCSSF 2022        | `ccssf:WorkRole`, `ccssf:AdjacentRole` | `cybed:Role`   | `ccssf:Task`, `ccssf:Competency`, `ccssf:ToolOrTechnology` |

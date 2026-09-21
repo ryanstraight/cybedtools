@@ -108,8 +108,8 @@ frameworks:
       educational-development permission.
 
   digcomp:
-    version: "DigComp 2.2"
-    version_date: "2022-03-17"
+    version: "DigComp 3.0"
+    version_date: "2025-11-27"
     structural_type: "competence-framework"
     jurisdiction: "EU"
     sector: "citizen-education"
@@ -117,14 +117,31 @@ frameworks:
     framework_type: "pedagogical"
     public_redistribution: full_with_attribution
     expected:
-      competence_areas: [5, 5]
-      competences: [21, 21]
-      descriptions_found: [18, 21]  # allow 3-competence slip for body extraction
+      # Exact: the official JSON-LD data supplement, hash-anchored in
+      # data/raw/digcomp/v3.0/provenance.yml. Replaces DigComp 2.2 in place
+      # (owner decision D1, 2026-08-21). Skeleton unchanged from 2.2: 5
+      # areas, 21 competences, identical numbering and area membership.
+      competence_areas:      [5, 5]
+      competences:           [21, 21]
+      descriptions_found:    [21, 21]  # official text, no extraction slip
+      competence_statements: [362, 362]
+      # 523 as published, 522 after applying the 7 official errata (one
+      # duplicate, LO2.5.09, removed). See errata.csv.
+      learning_outcomes:     [522, 522]
     notes: |
-      Hand-curated 5 areas + 21 competences from TOC, body descriptions
-      extracted as first substantial paragraph per competence. Proficiency-
-      level descriptors (8 levels per competence) not automated. Cybersec
-      relevance concentrates in Safety area (4.1-4.4).
+      Source of record is the official DigComp 3.0 data supplement
+      (JSON-LD + XLSX, JRC144121), not a PDF scrape: every table is a
+      verbatim @graph extraction, no hand-curation, no truncation.
+      Replaces DigComp 2.2 (data/raw/digcomp/v2.2/ archived, not deleted).
+      4 of 5 area names and 13 of 21 competence names were revised; the
+      21 competence IRIs (digcomp:COMP-x.y) and 5 area IRIs (digcomp:AREA-*)
+      survive unchanged. Competence Statements (362) and Learning Outcomes
+      (523, 522 post-errata) are new structure with no 2.2 counterpart --
+      2.2's ~250 "examples of knowledge, skills and attitudes" were never
+      staged. Proficiency levels (8-level descriptors with 4-level and
+      CEFR-style 6-level crosswalks) and a 126-term glossary are staged but
+      not emitted into the graph. Cybersec relevance concentrates in Area 4,
+      renamed "Safety, wellbeing and responsible use" (4.1-4.4).
 
   cyberorg-k12:
     version: "Cyber.org K-12 Cybersecurity Learning Standards v1.0"
@@ -544,11 +561,11 @@ frameworks:
 # and its strict total by 8.
 graph_invariants:
   combined:
-    organizing_unit_count: [772, 776]   # all 12 frameworks' parents (+53 from CSTA 2026)
+    organizing_unit_count: [793, 797]   # all 12 frameworks' parents (+53 from CSTA 2026, +21 from DigComp 3.0's new Competence tier)
     role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
-    total_elements_with_subpoints: [14427, 14462] # parents + Subpoints across all 12 (+331 from CSTA 2026, parser disabled)
-    total_elements_full:   [15565, 15600] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652)
-    example_count:         [1130, 1144] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026
+    total_elements_with_subpoints: [14858, 14908] # parents + Subpoints across all 12 (+331 from CSTA 2026, parser disabled; DigComp 3.0's 362 parents + ~90-105 Subpoints replace 2.2's 21)
+    total_elements_full:   [16518, 16568] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652 + DigComp 3.0 522)
+    example_count:         [1652, 1666] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026 + 522 DigComp 3.0
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
     # qualified unit-to-unit statements so far.
     unit_relation_count:   [310, 310]   # OTCCF 190 TSC + 120 distinct core-skill statements
@@ -679,11 +696,18 @@ graph_invariants:
       total_elements_full:           [1612, 1612]
       strict_inflation:              [1.00, 1.00]
       parser_enabled:                false
-    digcomp-2.2:
-      parent_elements:               [18, 21]
-      subpoint_elements:             [0, 0]
-      example_elements:              [0, 0]
-      total_elements_with_subpoints: [18, 21]
-      total_elements_full:           [18, 21]
-      strict_inflation:              [0.99, 1.01]
+    digcomp-3.0:
+      # Replaces digcomp-2.2 (2026-09-21). Parents are exact: the 362
+      # Competence Statements from the official data supplement. The
+      # parser runs over their text; measured 97 Subpoints on the staged
+      # 2025-11-27 supplement, banded for tolerance to future parser
+      # refinements the way SFIA and DCWF are. The 522 Examples are the
+      # (post-errata) Learning Outcomes, attached from the outcome table
+      # rather than parsed from statement text.
+      parent_elements:               [362, 362]
+      subpoint_elements:             [90, 105]
+      example_elements:              [522, 522]
+      total_elements_with_subpoints: [452, 467]
+      total_elements_full:           [974, 989]
+      strict_inflation:              [1.24, 1.30]
       parser_enabled:                true

@@ -21,7 +21,7 @@ workforce-shaped: its 2 organizing units are typed \code{cybed:Role}
 and \code{cybed:OrganizingUnit}, mirroring NICE / DCWF / ENISA ECSF.
 \item \strong{Framework B} (EU, general, general-IT) is non-workforce-shaped:
 its 1 organizing unit is typed \code{cybed:OrganizingUnit} only,
-mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.
 }
 
 The graph also includes 5 atomic elements (typed \code{cybed:RoleElement}),

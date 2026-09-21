@@ -57,7 +57,7 @@ test_that("public_redistribution agrees with docs/framework-invariants.yml", {
     "csta-2017"         = "full_with_attribution",
     "csta-2026"         = "full_with_attribution",
     "csec2017-v1"       = "structure_only",
-    "digcomp-2.2"       = "full_with_attribution",
+    "digcomp-3.0"       = "full_with_attribution",
     "cyqual-v1.2.0"     = "full_with_attribution",
     "ccssf-2022"        = "structure_only",
     "otccf-v1.1"        = "structure_only"

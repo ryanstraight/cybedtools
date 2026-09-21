@@ -6,6 +6,11 @@
 - `framework_summary` and `framework_licenses` gain a `csta-2026` row. Every value in the eleven existing rows is unchanged.
 - The release export's licence lookup no longer treats `csta-2026` as a version of `csta`. A slug that is a framework in its own right is excluded from another slug's version-suffix match.
 - `scripts/015-verify-ingestion.R` checks the SHA256 of every file a manifest lists under `source.files`, not only a single `retrieval.file_sha256`.
+- The sub-point parser is disabled for `csta-2026`, the same treatment OTCCF gets: CSTA's standards are published statements, and a parser-split fragment would be a unit the package invented rather than one CSTA printed. Its 45 previously-parsed Subpoints drop out; parent elements (331) and implementation examples (652) are unaffected.
+
+## Framework upgrade
+
+- **DigComp 3.0 replaces DigComp 2.2 in place** (owner decision, 2026-08-21). The versionless IRIs `digcomp:AREA-*` and `digcomp:COMP-x.y` survive unchanged, but the framework node is now `digcomp-3.0` and every element's text changed (4 of 5 area names, 13 of 21 competence names revised; all descriptions rewritten). Source of record is the official JSON-LD data supplement (JRC144121), not a PDF scrape, hash-anchored and verified at ingest. The 7 official errata to the Learning Outcomes are applied (523 -> 522; see `data/raw/digcomp/v3.0/errata.csv`). Structurally, elements move down from the 21 competences to the 362 Competence Statements, so competences become a second organizing-unit tier (`digcomp:Competence`) alongside the 5 areas (`digcomp:CompetenceArea`) -- 26 organizing units total, both flat, neither a `cybed:Role` (DigComp is a citizen self-assessment instrument). The 522 Learning Outcomes attach to their Competence as `cybed:Example` via `cybed:hasExample`, never `cybed:hasElement` (no source-provided link to an individual statement). Proficiency levels (8-level descriptors with 4-level and CEFR-style 6-level crosswalks) and a 126-term glossary are staged but not yet emitted into the graph. DigComp 2.2's raw source stays archived at `data/raw/digcomp/v2.2/`. No other framework's output changed.
 
 ## Fixes
 

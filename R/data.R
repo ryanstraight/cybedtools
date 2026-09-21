@@ -37,8 +37,11 @@
 #' the framework: parents, plus `cybed:Subpoint` children, plus
 #' `cybed:Example` children. `element_count_strict` counts parents only, that
 #' is with-examples less both the Subpoint and the Example populations.
-#' Only DCWF, DigComp 2.2 and OTCCF have zero of both children, so strict
-#' equals with-examples there.
+#' Only DCWF and OTCCF have zero of both children (parser disabled for
+#' OTCCF; see docs/framework-invariants.yml), so strict equals
+#' with-examples there. DigComp 3.0 (unlike 2.2) has both: its parser runs
+#' over the 362 Competence Statements, and its Learning Outcomes are
+#' attached `cybed:Example` children.
 #'
 #' **Corrected 2026-08-14**: `element_count_strict` previously subtracted
 #' only `example_count`, so any framework with nonzero Subpoints carried an
@@ -96,7 +99,7 @@
 #'     bound to the framework via `cybed:partOf`. A subset of
 #'     `organizing_unit_count`. `NA` for the six frameworks that assert no
 #'     roles at all (SFIA, Cyber.org K-12, CSTA 2017, CSTA 2026, CSEC2017,
-#'     DigComp 2.2).
+#'     DigComp 3.0).
 #'     `NA` rather than zero, because "this framework does not use the role
 #'     construct" is a different statement from "this framework has zero
 #'     roles".}

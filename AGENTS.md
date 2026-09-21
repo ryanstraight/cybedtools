@@ -14,7 +14,7 @@ analyzing cybersecurity workforce competency frameworks (NICE, DCWF,
 SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
 Singapore's OTCCF) and pedagogical/learning-standards frameworks
 (Cyber.org K-12, CSTA K-12 CS in its 2017 and 2026 editions, ACM/IEEE
-CSEC2017, JRC DigComp 2.2). The
+CSEC2017, JRC DigComp 3.0). The
 intellectual contribution is a framework-agnostic schema (`cybed:`) that
 lets one query operate across heterogeneous frameworks. The
 implementation enforces the schema and provides analytical helpers.

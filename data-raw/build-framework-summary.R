@@ -168,7 +168,7 @@ display <- tibble::tribble(
   "https://w3id.org/cybed/ontology#framework/cyberorg-k12-v1.0", 5L,             "Cyber.org K-12 v1.0",     "pedagogy",
   "https://w3id.org/cybed/ontology#framework/csta-2017",         6L,             "CSTA K-12 CS (Rev 2017)", "pedagogy",
   "https://w3id.org/cybed/ontology#framework/csec2017-v1",       7L,             "ACM/IEEE CSEC2017",       "pedagogy",
-  "https://w3id.org/cybed/ontology#framework/digcomp-2.2",       8L,             "DigComp 2.2",             "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/digcomp-3.0",       8L,             "DigComp 3.0",             "pedagogy",
   "https://w3id.org/cybed/ontology#framework/cyqual-v1.2.0",     9L,             "CyQUAL 1.2.0",            "workforce",
   "https://w3id.org/cybed/ontology#framework/ccssf-2022",        10L,            "CCSSF 2022",              "workforce",
   "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce",

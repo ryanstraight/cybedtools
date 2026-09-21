@@ -26,9 +26,9 @@ Per-framework parser output in v0.2.0:
 | Cyber.org K-12   | enabled |         0 |      377 | Largest single-framework gain, routed to `cybed:Example`. Every parent has an explicit "Clarification statement:" segment with enumerated examples.                                       |
 | CSTA K-12 CS     | enabled |        20 |      114 | Two extraction paths: 20 Subpoints come from "such as" enumerations in the `standard` column (framework-as-specified); 114 Examples come from the separate `clarification` column (one Example per non-empty clarification, treated as pedagogical scaffolding). |
 | ACM/IEEE CSEC2017 | enabled |         2 |        0 | Connective filter handles source-truncated standards. Re-spot-check 0/2. The two Subpoints (least privilege, open design) are real.                                                       |
-| DigComp 2.2      | enabled |         0 |        0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
+| DigComp 2.2 (historical, replaced by 3.0) | enabled | 0 | 0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
 
-The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. CSTA PK-12 CS (2026) has 45 subpoints, split from "including" and "such as" lists in its standard text, and 652 examples, which are CSTA's published implementation examples rather than parser output. Current per-framework counts for all twelve are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
+The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. CSTA PK-12 CS (2026)'s parser is also off, on the same fidelity grounds as OTCCF (2026-09-21): 0 subpoints, and 652 examples, which are CSTA's published implementation examples rather than parser output. DigComp 3.0 replaced DigComp 2.2 in place (2026-09-21); its parser runs over the 362 Competence Statements, and its 522 (post-errata) Learning Outcomes are attached examples, not parser output. Current per-framework counts for all twelve are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
 
 The parser algorithm:
 
@@ -55,7 +55,7 @@ Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARS
 | CSTA K-12 CS     | Revised 2017                 | 2017       | XLSX                |
 | CSTA PK-12 CS    | 2026                         | 2026-07    | JSON (Standards Explorer) + PDF |
 | ACM/IEEE CSEC    | 2017 v1.0                    | 2017-12-31 | PDF                 |
-| DigComp          | 2.2                          | 2022-03-17 | PDF                 |
+| DigComp          | 3.0                          | 2025-11-27 | JSON-LD + XLSX (data supplement) |
 | CyQUAL           | 1.2.0 (open data export)     | retrieved 2026-09-16 | JSON      |
 | CCSSF            | 2022 edition (ITSM.00.039)   | 2023-04-19 | PDF                 |
 | OTCCF            | v1.1                         | 2021-10-08 | PDF                 |
@@ -72,7 +72,7 @@ Each ingestion script targets a specific upstream schema. When a publisher relea
 
 If you need a newer upstream version that the current cybedtools release does not yet support, open an issue at <https://github.com/ryanstraight/cybedtools/issues> with a sample of the new schema. Schema-revision PRs are welcome.
 
-Active publisher revisions to watch (as of cybedtools 0.3.0): NICE Framework v2.2.0 components have shipped via NIST CPRT and are now ingested, CSA has said an OTCCF update is in progress, the Canadian Centre for Cyber Security has said an updated CCSSF edition is in preparation, CSTA published its 2026 PK-12 standards, which are now ingested as a separate framework alongside the 2017 edition, SFIA 10 is in consultation, and DigComp 3.0 has been released.
+Active publisher revisions to watch (as of cybedtools 0.3.0): NICE Framework v2.2.0 components have shipped via NIST CPRT and are now ingested, CSA has said an OTCCF update is in progress, the Canadian Centre for Cyber Security has said an updated CCSSF edition is in preparation, CSTA published its 2026 PK-12 standards, which are now ingested as a separate framework alongside the 2017 edition, SFIA 10 is in consultation, and DigComp 3.0 has been released and is now ingested, replacing 2.2 in place.
 
 ## Structural typing: cybed:OrganizingUnit and cybed:Role
 
@@ -90,7 +90,7 @@ Per-framework structural typing:
 | CSTA K-12 CS      | `csta:StandardGroup`      | no                 | 25 level x concept cells (5 levels x 5 concepts; CSTA's published terminology uses level / concept / subconcept / practice but does not name the cell, so cybedtools labels it `csta:StandardGroup` descriptively)  |
 | CSTA PK-12 CS (2026) | `csta2026:StandardGroup` | no              | 53 groups: 40 level x concept groups in the foundational tier (8 levels x 5 concepts) and 13 tier x specialty area groups in the specialty tier (6 areas at Specialty I and II, plus X+CS at Specialty I only) |
 | CSEC2017          | `csec:KnowledgeArea`           | no                 | 8 Knowledge Areas (curricular thought-model groupings) |
-| DigComp 2.2       | `digcomp:CompetenceArea`       | no                 | 5 competence areas                                |
+| DigComp 3.0       | `digcomp:CompetenceArea`, `digcomp:Competence` | no | 5 competence areas + 21 competences (26 units) |
 | CyQUAL 1.2.0      | `cyqual:WorkRole`, `cyqual:Competency` | yes (work roles) | 102 work roles plus 59 competencies, 161 organizing units in all |
 | CCSSF 2022        | `ccssf:WorkRole`, `ccssf:AdjacentRole` | yes            | 22 core work roles and 37 cyber adjacent roles     |
 | OTCCF v1.1        | `otccf:JobRole`, `otccf:TechnicalSkillCompetency` | yes (job roles) | 15 job roles plus the skill units they map to, 61 organizing units in all |
@@ -219,21 +219,19 @@ cybedtools therefore uses SFIA for local analysis only. It publishes no SFIA sta
 
 ## DigComp (EU, citizen digital competence)
 
-**Source.** <https://joint-research-centre.ec.europa.eu/digcomp_en>. The European Commission Joint Research Centre publishes DigComp via the JRC Publications Repository; navigate from the project page to JRC128415 for DigComp 2.2.
+**Source.** <https://joint-research-centre.ec.europa.eu/digcomp_en>. The European Commission Joint Research Centre publishes DigComp 3.0 as an official machine-readable data supplement (JSON-LD + XLSX, JRC144121), not a PDF: <https://data.jrc.ec.europa.eu/dataset/ae764f46-94e8-4ffb-b2b0-e406618b998d> (dataset DOI 10.2905/JRC.FR75K8R; report DOI 10.2760/0001149).
 
-**License.** CC BY 4.0, by the staged PDF's own imprint page: "© European Union, 2022 / The reuse policy of the European Commission is implemented by the Commission Decision 2011/833/EU of 12 December 2011 on the reuse of Commission documents (OJ L 330, 14.12.2011, p. 39). Except otherwise noted, the reuse of this document is authorised under the Creative Commons Attribution 4.0 International (CC BY 4.0) licence (https://creativecommons.org/licenses/by/4.0/). This means that reuse is allowed provided appropriate credit is given and any changes are indicated. For any use or reproduction of photos or other material that is not owned by the EU, permission must be sought directly from the copyright holders." Nothing cybedtools ingests is marked "otherwise noted" and none of it is photographic, so the third-party carve-out does not reach it.
+**License.** CC BY 4.0, verified three ways: the dataset's own `copyright.txt` ("© European Union, 1995-2026 ... Any copyright and/or sui generis right on the dataset is licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) licence ... Reuse is allowed provided appropriate credit is given and any changes are indicated."), the JRC Data Catalogue record, and the DigComp 3.0 resources page. The European Commission logo is excluded from reuse; cybedtools reproduces no logo.
 
-**Attribution.** The prescribed string, verbatim from the imprint page: "How to cite this report: Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415."
+**Attribution.** Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.
 
-**Stage.** Save the PDF as `data/raw/digcomp/DigComp-2.2-JRC128415.pdf`.
+**Stage.** Save the data supplement under `data/raw/digcomp/v3.0/` (JSON-LD, XLSX, `copyright.txt`), hash-anchored in `data/raw/digcomp/v3.0/provenance.yml`. `data/raw/digcomp/v3.0/tables/` holds the verbatim `@graph` extraction the ingester reads. `data/raw/digcomp/v3.0/MAPPING-2.2-to-3.0.md` and `errata.csv` document the upgrade from 2.2.
 
-**Ingest.** `Rscript scripts/010-ingest-digcomp.R`
+**Ingest.** `Rscript scripts/010-ingest-digcomp.R`. Verifies the staged JSON-LD's SHA256 against the recorded hash, applies the 7 official errata to the learning outcomes (`errata.csv`; see the script's `apply_learning_outcome_errata()`), and writes the final tables to `data/raw/digcomp/tables/`.
 
-**Notes.** Best-effort PDF extraction via markitdown. 5 competence areas and 21 competences extract cleanly. The 8 proficiency levels per competence are documented in the source PDF but not automated (the source layout fragments the level descriptors across multi-column PDF layouts). DigComp 3.0 has been released and is not yet supported.
+**Notes.** Replaces DigComp 2.2 in place (owner decision D1, 2026-08-21); 2.2's raw source stays archived at `data/raw/digcomp/v2.2/`. Complete extraction, no PDF-scrape limitations: 5 competence areas, 21 competences (identical numbering and area membership to 2.2), 362 Competence Statements, and 523 Learning Outcomes (522 post-errata). Proficiency levels (8-level descriptors with 4-level and CEFR-style 6-level crosswalks) and a 126-term glossary are staged but not emitted into the graph.
 
-**Cybersecurity scope caveat.** DigComp's specificity tag is "general-digital-competence" reflecting the framework's overall scope, but Area 4 (Safety) covers protecting devices, personal data and privacy, health and well-being, and the environment, all of which overlap cybersecurity content. Researchers doing topic-level cross-framework comparisons should treat DigComp Area 4 competences as cybersecurity-relevant for those purposes, even though the framework as a whole is broader.
-
-**Prose-density caveat.** DigComp 2.2's signature update over 2.1 is the addition of "21 new examples of knowledge, skills, and attitudes" per competence, distributed across Annexes 1-3 of the source PDF. The cybedtools sub-point parser does not currently surface these annex examples as graph elements (extraction fragments across multi-column layouts). DigComp's apparent low element density in `framework_summary` reflects this extraction limitation, not low pedagogical density in the framework itself.
+**Cybersecurity scope caveat.** DigComp's specificity tag is "general-digital-competence" reflecting the framework's overall scope, but Area 4 ("Safety, wellbeing and responsible use") covers protecting devices, personal data and privacy, wellbeing, and environmental impacts, all of which overlap cybersecurity content. Researchers doing topic-level cross-framework comparisons should treat DigComp Area 4 competences and their Learning Outcomes as cybersecurity-relevant for those purposes, even though the framework as a whole is broader.
 
 ## Frameworks added by steward permission
 

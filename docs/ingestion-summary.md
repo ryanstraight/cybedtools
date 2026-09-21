@@ -253,26 +253,28 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 ## DigComp (`digcomp`)
 
 - **Publisher:** European Commission Joint Research Centre (JRC)
-- **Version:** DigComp 2.2
-- **Version date:** 2022-03-17
+- **Version:** DigComp 3.0
+- **Version date:** 2025-11-27
 
 ### Source
-- **Type:** pdf_with_markdown_intermediate
-- **File:** `DigComp-2.2-JRC128415.pdf`
+- **Type:** structured_data_supplement
 
 ### Retrieval
-- **Retrieved:** 2026-05-08 by `scripts/010-ingest-digcomp.R`
-- **SHA256:** `9733ab7946f094be78c00f6a839e26be5486a00d6f953d93ddf42a5c135ab359`
+- **Retrieved:** 2026-09-21 by `scripts/010-ingest-digcomp.R`
 
 ### Extracted scales
 - **competence areas:** 5
 - **competences:** 21
-- **descriptions found:** 20
+- **competence statements:** 362
+- **learning outcomes pre errata:** 523
+- **learning outcomes post errata:** 522
+- **proficiency levels staged:** 8
+- **glossary terms staged:** 126
 
 ### Licensing
-- **source license:** CC BY 4.0 (European Union, 2022; Commission Decision 2011/833/EU)
-- **citation:** Vuorikari, R., Kluzer, S. and Punie, Y., DigComp 2.2: The Digital Competence Framework for Citizens, EUR 31006 EN, Publications Office of the European Union, Luxembourg, 2022, ISBN 978-92-76-48882-8, doi:10.2760/115376, JRC128415.
-- **redistribution note:** CC BY 4.0 by the source PDF's own imprint page: reuse is allowed provided appropriate credit is given and any changes are indicated. The 'except otherwise noted' qualifier and the photo carve-out do not reach anything this script ingests. Use the prescribed citation above.
+- **source license:** CC BY 4.0 (European Union, 2025; Commission Decision 2011/833/EU)
+- **citation:** Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.
+- **redistribution note:** CC BY 4.0, verified three ways in data/raw/digcomp/v3.0/provenance.yml: the dataset's own copyright.txt, the JRC Data Catalogue record, and the DigComp 3.0 resources page. The European Commission logo is excluded from reuse; cybedtools reproduces no logo.
 
 ## ECSF (`ecsf`)
 
@@ -432,7 +434,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | CyBOK | CyBOK crosswalk (Tier A: cross-refere... | 2021-10-01 | - | - | Open Government Licence (Crown Copyri... |
 | CyQUAL | 1.2.0 | NA | 102 | 2,488 | Published as open data by CyQUAL (Mas... |
 | DCWF | DCWF v5.1 | 2025-07-25 | 74 | 2,945 | US Government work, not subject to US... |
-| DigComp | DigComp 2.2 | 2022-03-17 | 5 | 21 | CC BY 4.0 (European Union, 2022; Comm... |
+| DigComp | DigComp 3.0 | 2025-11-27 | 5 | 21 | CC BY 4.0 (European Union, 2025; Comm... |
 | ECSF | ECSF v1 | 2022-09-19 | 12 | 374 | Report PDF: CC BY 4.0 (ENISA, 2022, I... |
 | NICE | NICE v2.2.0 (NIST SP 800-181 Rev 1 co... | 2026-04-28 | 42 | 2,211 | US public domain (17 U.S.C. 105); for... |
 | OTCCF | 1.1 | 2021-10-08 | 15 | 1,612 | Copyright Cyber Security Agency of Si... |

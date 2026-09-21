@@ -211,7 +211,7 @@ build_framework_node <- function(framework_id,
 #' unit is genuinely a work role or work profile additionally assert
 #' `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); pass `is_role =
 #' TRUE` for those. Non-workforce frameworks (SFIA enumerates skills;
-#' Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2 enumerate other organizing
+#' Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 enumerate other organizing
 #' units) assert `cybed:OrganizingUnit` only.
 #'
 #' Each unit also carries a per-framework subtype (e.g., `nice:WorkRole`,
@@ -358,7 +358,7 @@ build_organizing_unit_node <- function(unit_id,
 #' Convenience wrapper around [build_organizing_unit_node()] for workforce
 #' frameworks (NICE, DCWF, ENISA ECSF). Asserts `cybed:Role` in addition to
 #' `cybed:OrganizingUnit` and the per-framework subtype. For non-workforce
-#' frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2), call
+#' frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0), call
 #' [build_organizing_unit_node()] directly with `is_role = FALSE`.
 #'
 #' @param role_id Character, framework-local identifier (e.g., `"OG-WRL-015"`).
