@@ -128,7 +128,7 @@ def role_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:
     Returns
     -------
     pandas.DataFrame
-        Columns ``role``, ``role_name``, ``framework``, ``framework_name``,
+        Columns ``role``, ``framework``, ``role_name``, ``framework_name``,
         ``framework_slug``.
     """
     roles = _subjects(rdf, _RDF_TYPE, _cybed("Role")).rename(columns={"s": "role"})
@@ -143,7 +143,7 @@ def role_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:
         names_.rename(columns={"s": "framework", "o": "framework_name"}), on="framework", how="left"
     )
     result["framework_slug"] = framework_slug_of(result["framework"])
-    return result[["role", "role_name", "framework", "framework_name", "framework_slug"]]
+    return result[["role", "framework", "role_name", "framework_name", "framework_slug"]]
 
 
 def organizing_unit_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:
@@ -156,7 +156,7 @@ def organizing_unit_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:
     Returns
     -------
     pandas.DataFrame
-        Columns ``unit``, ``unit_name``, ``framework``, ``framework_name``,
+        Columns ``unit``, ``framework``, ``unit_name``, ``framework_name``,
         ``framework_slug``.
     """
     units = _subjects(rdf, _RDF_TYPE, _cybed("OrganizingUnit")).rename(columns={"s": "unit"})
@@ -171,7 +171,7 @@ def organizing_unit_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:
         names_.rename(columns={"s": "framework", "o": "framework_name"}), on="framework", how="left"
     )
     result["framework_slug"] = framework_slug_of(result["framework"])
-    return result[["unit", "unit_name", "framework", "framework_name", "framework_slug"]]
+    return result[["unit", "framework", "unit_name", "framework_name", "framework_slug"]]
 
 
 def element_framework_bindings(rdf: rdflib.Graph) -> pd.DataFrame:

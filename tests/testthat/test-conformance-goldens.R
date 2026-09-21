@@ -99,12 +99,79 @@ test_that("framework_summary matches its golden", {
   expect_equal(as_char_frame(result), as_char_frame(golden))
 })
 
+test_that("role_framework_bindings matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- role_framework_bindings(rdf) |> dplyr::arrange(.data$role, .data$framework)
+  golden <- read_golden("role_framework_bindings")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
+test_that("organizing_unit_framework_bindings matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- organizing_unit_framework_bindings(rdf) |>
+    dplyr::arrange(.data$unit, .data$framework)
+  golden <- read_golden("organizing_unit_framework_bindings")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
+test_that("element_framework_bindings matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- element_framework_bindings(rdf) |>
+    dplyr::arrange(.data$element, .data$framework)
+  golden <- read_golden("element_framework_bindings")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
+test_that("example_framework_bindings matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- example_framework_bindings(rdf) |>
+    dplyr::arrange(.data$example, .data$framework)
+  golden <- read_golden("example_framework_bindings")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
+test_that("subpoint_framework_bindings matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- subpoint_framework_bindings(rdf) |>
+    dplyr::arrange(.data$subpoint, .data$framework)
+  golden <- read_golden("subpoint_framework_bindings")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
+test_that("element_text matches its golden", {
+  skip_if_no_conformance_fixture()
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  result <- element_text(rdf) |> dplyr::arrange(.data$element)
+  golden <- read_golden("element_text")
+
+  expect_equal(as_char_frame(result), as_char_frame(golden))
+})
+
 test_that("golden CSVs use LF line endings and no literal NA", {
   skip_if_no_conformance_fixture()
 
   for (name in c("framework_metadata", "unit_element_bindings",
                   "unit_relation_bindings", "framework_similarity",
-                  "cybed_license", "framework_summary")) {
+                  "cybed_license", "framework_summary",
+                  "role_framework_bindings", "organizing_unit_framework_bindings",
+                  "element_framework_bindings", "example_framework_bindings",
+                  "subpoint_framework_bindings", "element_text")) {
     path <- file.path(conformance_dir, "goldens", paste0(name, ".csv"))
     raw <- readBin(path, "raw", file.size(path))
     expect_false(any(raw == as.raw(0x0d)), info = paste(name, "carries a CR byte"))

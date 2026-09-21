@@ -44,7 +44,20 @@ def test_fixture_copy_matches_source() -> None:
     if packaged == repo_root_source:
         pytest.skip("conformance_dir() resolved directly to the repo-root copy.")
 
-    for name in ("framework_summary.csv", "cybed_license.csv"):
+    for name in (
+        "framework_summary.csv",
+        "cybed_license.csv",
+        "framework_metadata.csv",
+        "unit_element_bindings.csv",
+        "unit_relation_bindings.csv",
+        "framework_similarity.csv",
+        "role_framework_bindings.csv",
+        "organizing_unit_framework_bindings.csv",
+        "element_framework_bindings.csv",
+        "example_framework_bindings.csv",
+        "subpoint_framework_bindings.csv",
+        "element_text.csv",
+    ):
         packaged_file = packaged / "goldens" / name
         source_file = repo_root_source / "goldens" / name
         assert filecmp.cmp(packaged_file, source_file, shallow=False), (

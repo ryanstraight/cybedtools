@@ -17,16 +17,9 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-__all__ = ["framework_similarity"]
+from cybedtools.queries import element_text, organizing_unit_framework_bindings, unit_element_bindings
 
-_CYBED = "https://w3id.org/cybed/ontology#"
-_RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-_SCHEMA_NAME = "http://schema.org/name"
-_ELEMENT_TEXT = _CYBED + "elementText"
-_PART_OF = _CYBED + "partOf"
-_HAS_ELEMENT = _CYBED + "hasElement"
-_ORGANIZING_UNIT = _CYBED + "OrganizingUnit"
-_FRAMEWORK = _CYBED + "Framework"
+__all__ = ["framework_similarity"]
 
 _TOKEN_SPLIT_RE = re.compile(r"[^a-z0-9]+")
 
@@ -127,81 +120,6 @@ class _UnitDoc:
     tokens: list[str]
 
 
-def _local_name(iri: str) -> str:
-    """The final ``/``-delimited segment of an IRI (used as the framework slug)."""
-    return iri.rsplit("/", 1)[-1]
-
-
-def _iter_triples(graph: object):
-    """Yield ``(subject, predicate, obj)`` triples as plain strings from an rdflib Graph."""
-    for subject, predicate, obj in graph:  # type: ignore[misc]
-        yield str(subject), str(predicate), str(obj)
-
-
-def _element_text(graph: object) -> dict[str, str]:
-    """Map element IRI -> its ``cybed:elementText`` literal.
-
-    Mirrors ``element_text(rdf)``: any resource carrying a
-    ``cybed:elementText`` triple, keyed by subject IRI.
-    """
-    texts: dict[str, str] = {}
-    for subject, predicate, obj in _iter_triples(graph):
-        if predicate == _ELEMENT_TEXT:
-            texts[subject] = obj
-    return texts
-
-
-def _unit_element_bindings(graph: object) -> dict[str, list[str]]:
-    """Map organizing-unit IRI -> its ``cybed:hasElement`` targets, in triple order.
-
-    Mirrors the ``cybed:hasElement`` edges consumed by
-    ``unit_element_bindings()`` -- deliberately not ``cybed:hasExample``,
-    which R's ``framework_similarity()`` also excludes from child text.
-    """
-    bindings: dict[str, list[str]] = {}
-    for subject, predicate, obj in _iter_triples(graph):
-        if predicate == _HAS_ELEMENT:
-            bindings.setdefault(subject, []).append(obj)
-    return bindings
-
-
-def _organizing_units_for_framework(graph: object, slug: str) -> list[tuple[str, str]]:
-    """List ``(unit_iri, unit_name)`` pairs for organizing units in the framework `slug`.
-
-    Mirrors ``organizing_unit_framework_bindings(rdf)`` filtered to one
-    ``framework_slug``: a unit's slug is derived from the IRI of the
-    ``cybed:Framework`` it's ``cybed:partOf``, taking that IRI's final
-    path segment (matching how the shipped fixture's `framework_slug`
-    values -- e.g. ``"fixture-wf1"`` -- are the local name of
-    ``.../framework/fixture-wf1``).
-    """
-    unit_iris: set[str] = set()
-    part_of: dict[str, str] = {}
-    names: dict[str, str] = {}
-    framework_iris: set[str] = set()
-
-    for subject, predicate, obj in _iter_triples(graph):
-        if predicate == _RDF_TYPE and obj == _ORGANIZING_UNIT:
-            unit_iris.add(subject)
-        elif predicate == _RDF_TYPE and obj == _FRAMEWORK:
-            framework_iris.add(subject)
-        elif predicate == _PART_OF:
-            part_of[subject] = obj
-        elif predicate == _SCHEMA_NAME:
-            names[subject] = obj
-
-    result: list[tuple[str, str]] = []
-    for unit in unit_iris:
-        framework_iri = part_of.get(unit)
-        if framework_iri is None or framework_iri not in framework_iris:
-            continue
-        if _local_name(framework_iri) != slug:
-            continue
-        result.append((unit, names.get(unit, "")))
-    result.sort(key=lambda pair: pair[0])
-    return result
-
-
 def _side_documents(graph: object, slug: str) -> list[_UnitDoc]:
     """Build one tokenized document per organizing unit in framework `slug`.
 
@@ -211,12 +129,26 @@ def _side_documents(graph: object, slug: str) -> list[_UnitDoc]:
     of every element reachable via `cybed:hasElement`. Units whose
     assembled text is empty after trimming contribute no document (an
     empty document has nothing to compare).
+
+    Built entirely from the public query-graph helpers
+    (:func:`cybedtools.queries.organizing_unit_framework_bindings`,
+    :func:`cybedtools.queries.unit_element_bindings`,
+    :func:`cybedtools.queries.element_text`) rather than re-walking triples,
+    so this stays in lockstep with those functions' own graph traversal.
     """
-    texts = _element_text(graph)
-    element_bindings = _unit_element_bindings(graph)
+    units = organizing_unit_framework_bindings(graph)
+    units = units[units["framework_slug"] == slug].sort_values("unit")
+
+    texts = dict(zip(element_text(graph)["element"], element_text(graph)["text"], strict=True))
+
+    bindings = unit_element_bindings(graph)
+    element_bindings: dict[str, list[str]] = {}
+    for role, element in zip(bindings["role"], bindings["element"], strict=True):
+        element_bindings.setdefault(role, []).append(element)
 
     documents: list[_UnitDoc] = []
-    for unit, unit_name in _organizing_units_for_framework(graph, slug):
+    for unit, unit_name in zip(units["unit"], units["unit_name"], strict=True):
+        unit_name = "" if pd.isna(unit_name) else unit_name
         own_text = texts.get(unit, "")
         child_texts = [texts[element] for element in element_bindings.get(unit, []) if element in texts]
         child_text = " ".join(child_texts)
