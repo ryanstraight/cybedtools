@@ -124,7 +124,7 @@ A corpus of cybersecurity workforce and learning frameworks. Each carries a diff
 
 cybedtools makes the comparison one simple query.
 
-The package ingests seven workforce competency frameworks ([NICE](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center), [DCWF](https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/), [SFIA](https://sfia-online.org/en), [ENISA ECSF](https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf), the Czech [CyQUAL](https://platform.cyqual.cz/en), the [Canadian Cyber Security Skills Framework](https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework), and Singapore's [OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/)) and four pedagogical or learning-standards frameworks ([Cyber.org K-12](https://cyber.org/k-12-cybersecurity-learning-standards), [CSTA K-12 CS](https://csteachers.org/2017standards/interactive/), [ACM/IEEE CSEC2017](https://cybered.acm.org/), [JRC DigComp 2.2](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en)). All eleven are expressed in a shared `cybed:` semantic schema. A small set of R helpers queries across them as if they were one corpus.
+The package ingests seven workforce competency frameworks ([NICE](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center), [DCWF](https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/), [SFIA](https://sfia-online.org/en), [ENISA ECSF](https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf), the Czech [CyQUAL](https://platform.cyqual.cz/en), the [Canadian Cyber Security Skills Framework](https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework), and Singapore's [OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/)) and five pedagogical or learning-standards frameworks ([Cyber.org K-12](https://cyber.org/k-12-cybersecurity-learning-standards), [CSTA K-12 CS (2017)](https://csteachers.org/2017standards/interactive/), [CSTA PK-12 CS (2026)](https://csteachers.org/pk12standards/), [ACM/IEEE CSEC2017](https://cybered.acm.org/), [JRC DigComp 2.2](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en)). All twelve are expressed in a shared `cybed:` semantic schema. A small set of R helpers queries across them as if they were one corpus.
 
 It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer.
 
@@ -142,7 +142,7 @@ Who it's for:
 ```{r framework-table}
 #| echo: false
 #| results: asis
-# Eleven-framework summary, rendered as raw HTML so pkgdown extra.js can
+# Twelve-framework summary, rendered as raw HTML so pkgdown extra.js can
 # bind click-to-sort to the .sortable class. Source data is
 # cybedtools::framework_summary (computed by
 # data-raw/build-framework-summary.R against the staged combined graph).
@@ -173,20 +173,21 @@ cat(paste(rows, collapse = "\n"), "\n", sep = "")
 cat("</tbody>\n</table>\n")
 ```
 
-The "Top-level units" column reports each framework's own top-level enumerated unit, and those units are not the same kind of thing. NICE, DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles. SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2 declares competence areas, and Cyber.org K-12 and CSTA use unnamed groupings that cybedtools labels `StandardGroup`. All of them subclass `cybed:OrganizingUnit`, so cross-framework queries reach them uniformly. How the "Elements" column counts, and how `framework_summary` reports strict, augmented, and per-role totals, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
+The "Top-level units" column reports each framework's own top-level enumerated unit, and those units are not the same kind of thing. NICE, DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles. SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2 declares competence areas, and Cyber.org K-12 and both CSTA editions use unnamed groupings that cybedtools labels `StandardGroup`. All of them subclass `cybed:OrganizingUnit`, so cross-framework queries reach them uniformly. How the "Elements" column counts, and how `framework_summary` reports strict, augmented, and per-role totals, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
 
 ```{r value-setup}
 #| include: false
 # Every figure cited by the "What you could not do before" section. Baked
-# fallbacks equal the values computed on 2026-09-19 against the staged
-# eleven-framework graph, so the prose stays true when DEMO_LIVE is false.
+# fallbacks equal the values computed on 2026-09-21 against the staged
+# twelve-framework graph, so the prose stays true when DEMO_LIVE is false.
 cq_dc_fmt         <- "1,400"
 shared_nice_n     <- 100
 ccssf_pct_ceiling <- 1
 ai_zero_n         <- "Five"
-n_frameworks      <- "eleven"
+n_frameworks      <- "twelve"
 dcwf_ai_n         <- 24
-other_ai_n        <- 12
+other_ai_n        <- 10
+csta26_ai_n       <- 34
 nice_ethics_n     <- "three"
 nice_total_fmt    <- "2,225"
 role_reuse_n      <- "Three"
@@ -231,6 +232,7 @@ if (DEMO_LIVE) {
   dcwf_nm  <- fw("^DCWF")
   nice_nm  <- fw("^NICE")
   ccssf_nm <- fw("^Canadian")
+  csta26_nm <- fw("^2026 CSTA")
 
   texts_of <- function(nm) value_parents$text[value_parents$framework_name == nm]
   shared_cq_dc <- intersect(texts_of(cyq_nm), texts_of(dcwf_nm))
@@ -270,8 +272,8 @@ if (DEMO_LIVE) {
 
   spelled <- function(n) {
     words <- c("one", "two", "three", "four", "five", "six",
-               "seven", "eight", "nine", "ten", "eleven")
-    if (n >= 1 && n <= 11) words[n] else format(n, big.mark = ",")
+               "seven", "eight", "nine", "ten", "eleven", "twelve")
+    if (n >= 1 && n <= 12) words[n] else format(n, big.mark = ",")
   }
   # Sentence-initial figures are spelled out and capitalised.
   Spelled <- function(n) sub("^(.)", "\\U\\1", spelled(n), perl = TRUE)
@@ -291,7 +293,15 @@ if (DEMO_LIVE) {
 
   pick <- function(tbl, nm, col) tbl[[col]][tbl$framework_name == nm]
   dcwf_ai_n     <- pick(topic_counts, dcwf_nm, "ai")
-  other_ai_n    <- sum(topic_counts$ai) - dcwf_ai_n
+  # The prose compares DCWF with the other workforce frameworks, then gives
+  # the 2026 CSTA standards on their own. Fail the render if DCWF stops
+  # outnumbering the other workforce frameworks combined.
+  workforce_nm <- grep("^(NICE|SFIA|ECSF|CyQUAL|Canadian|Operational)",
+                       topic_counts$framework_name, value = TRUE)
+  stopifnot(length(workforce_nm) == 6)
+  other_ai_n    <- sum(topic_counts$ai[topic_counts$framework_name %in% workforce_nm])
+  stopifnot(dcwf_ai_n > other_ai_n)
+  csta26_ai_n   <- pick(topic_counts, csta26_nm, "ai")
   nice_ethics_n <- spelled(pick(topic_counts, nice_nm, "ethics"))
   nice_total_fmt <- format(pick(topic_counts, nice_nm, "statements"),
                            big.mark = ",")
@@ -405,7 +415,7 @@ imap(topics, \(pattern, topic) {
   print(n = Inf)
 ```
 
-`r ai_zero_n` of the `r n_frameworks` frameworks contain no statement that mentions artificial intelligence or machine learning. DCWF has `r dcwf_ai_n` such statements, more than the other ten frameworks combined. NICE has `r nice_ethics_n` statements that mention ethics, out of `r nice_total_fmt`. SFIA, ECSF and DigComp have none that mention cryptography.
+`r ai_zero_n` of the `r n_frameworks` frameworks contain no statement that mentions artificial intelligence or machine learning. DCWF has `r dcwf_ai_n` such statements, more than the other six workforce frameworks combined (`r other_ai_n`). The 2026 CSTA standards, which add a machine learning subconcept at every foundational level, have `r csta26_ai_n`. NICE has `r nice_ethics_n` statements that mention ethics, out of `r nice_total_fmt`. SFIA, ECSF and DigComp have none that mention cryptography.
 
 This measures the words a framework uses. It does not measure what a framework covers. OTCCF is a framework about operational technology and scores zero on the phrase "operational technology", because CSA writes "OT". A zero in this table is a reason to go and read the framework.
 

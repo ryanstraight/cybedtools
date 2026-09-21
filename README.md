@@ -44,12 +44,13 @@ Security Skills
 Framework](https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework),
 and Singapore’s
 [OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/))
-and four pedagogical or learning-standards frameworks ([Cyber.org
+and five pedagogical or learning-standards frameworks ([Cyber.org
 K-12](https://cyber.org/k-12-cybersecurity-learning-standards), [CSTA
-K-12 CS](https://csteachers.org/2017standards/interactive/), [ACM/IEEE
+K-12 CS (2017)](https://csteachers.org/2017standards/interactive/),
+[CSTA PK-12 CS (2026)](https://csteachers.org/pk12standards/), [ACM/IEEE
 CSEC2017](https://cybered.acm.org/), [JRC DigComp
 2.2](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en)).
-All eleven are expressed in a shared `cybed:` semantic schema. A small
+All twelve are expressed in a shared `cybed:` semantic schema. A small
 set of R helpers queries across them as if they were one corpus.
 
 It does not propose a replacement framework or attempt to re-author
@@ -491,6 +492,40 @@ CSA copyright; non-commercial academic
 
 </tr>
 
+<tr>
+
+<td>
+
+CSTA PK-12 CS (2026)
+</td>
+
+<td>
+
+pedagogy
+</td>
+
+<td>
+
+US
+</td>
+
+<td>
+
+53
+</td>
+
+<td>
+
+1,028
+</td>
+
+<td>
+
+CC BY-NC-SA 4.0
+</td>
+
+</tr>
+
 </tbody>
 
 </table>
@@ -499,11 +534,11 @@ The “Top-level units” column reports each framework’s own top-level
 enumerated unit, and those units are not the same kind of thing. NICE,
 DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles.
 SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2
-declares competence areas, and Cyber.org K-12 and CSTA use unnamed
-groupings that cybedtools labels `StandardGroup`. All of them subclass
-`cybed:OrganizingUnit`, so cross-framework queries reach them uniformly.
-How the “Elements” column counts, and how `framework_summary` reports
-strict, augmented, and per-role totals, is in
+declares competence areas, and Cyber.org K-12 and both CSTA editions use
+unnamed groupings that cybedtools labels `StandardGroup`. All of them
+subclass `cybed:OrganizingUnit`, so cross-framework queries reach them
+uniformly. How the “Elements” column counts, and how `framework_summary`
+reports strict, augmented, and per-role totals, is in
 [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
 
 ## What you could not do before
@@ -598,7 +633,7 @@ imap(topics, \(pattern, topic) {
   relocate(statements, .after = framework_name) |>
   arrange(desc(statements)) |>
   print(n = Inf)
-#> # A tibble: 11 × 6
+#> # A tibble: 12 × 6
 #>    framework_name              statements    ai ethics cryptography supply_chain
 #>    <chr>                            <int> <int>  <int>        <int>        <int>
 #>  1 DCWF v5.1                         4052    24     12           52           18
@@ -606,19 +641,22 @@ imap(topics, \(pattern, topic) {
 #>  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22
 #>  4 Operational Technology Cyb…       1612     1      6           31           12
 #>  5 Canadian Cyber Security Sk…       1345     0      5           36           29
-#>  6 SFIA 9                             821     6     15            0           11
-#>  7 Cyber.org K-12 Learning St…        492     0      8           10            0
-#>  8 ECSF v1                            390     0      4            0            1
-#>  9 CSTA K-12 Computer Science…        258     2      8            3            0
-#> 10 CSEC2017 Curricular Guidel…         40     0      3            1            1
-#> 11 DigComp 2.2                         21     0      0            0            0
+#>  6 2026 CSTA PK-12 Computer S…       1028    34     46            9            1
+#>  7 SFIA 9                             821     6     15            0           11
+#>  8 Cyber.org K-12 Learning St…        492     0      8           10            0
+#>  9 ECSF v1                            390     0      4            0            1
+#> 10 CSTA K-12 Computer Science…        258     2      8            3            0
+#> 11 CSEC2017 Curricular Guidel…         40     0      3            1            1
+#> 12 DigComp 2.2                         21     0      0            0            0
 ```
 
-Five of the eleven frameworks contain no statement that mentions
+Five of the twelve frameworks contain no statement that mentions
 artificial intelligence or machine learning. DCWF has 24 such
-statements, more than the other ten frameworks combined. NICE has three
-statements that mention ethics, out of 2,225. SFIA, ECSF and DigComp
-have none that mention cryptography.
+statements, more than the other six workforce frameworks combined (10).
+The 2026 CSTA standards, which add a machine learning subconcept at
+every foundational level, have 34. NICE has three statements that
+mention ethics, out of 2,225. SFIA, ECSF and DigComp have none that
+mention cryptography.
 
 This measures the words a framework uses. It does not measure what a
 framework covers. OTCCF is a framework about operational technology and
@@ -682,22 +720,22 @@ unlike denominators. It is not a quality claim. `framework_summary` also
 carries a `_strict` variant for analyses that prefer each framework’s
 own count.
 
-### US frameworks are about 48 percent of the corpus, and NICE’s reach is wider than that
+### US frameworks are about 52 percent of the corpus, and NICE’s reach is wider than that
 
-The corpus spans 6 jurisdictions and 14,596 elements, counted with
+The corpus spans 6 jurisdictions and 15,624 elements, counted with
 parsed examples included. US frameworks (NICE v2.2.0, DCWF v5.1,
-Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)) contribute 7,027 of them.
-The two EU-level frameworks (ECSF v1 and DigComp 2.2) contribute 411,
-which reflects design intent: ECSF profiles point to e-CF 4.0
-competences instead of restating them, and DigComp 2.2’s annex examples
-are not yet extracted. Counting by jurisdiction understates how far one
-framework travels. Canada’s framework describes itself as an adaptation
-of NICE for the Canadian labour market and cites NICE work roles
-throughout. CyQUAL says its structure and elements were adopted from
-NICE, and its task list carries the 2017 NICE task codes. Both describe
-the borrowing openly. The graph makes it countable. Element counts used
-as a coverage metric are evidence of lineage and design, and they do not
-measure how much work a framework represents.
+Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017), CSTA PK-12 CS (2026))
+contribute 8,055 of them. The two EU-level frameworks (ECSF v1 and
+DigComp 2.2) contribute 411, which reflects design intent: ECSF profiles
+point to e-CF 4.0 competences instead of restating them, and DigComp
+2.2’s annex examples are not yet extracted. Counting by jurisdiction
+understates how far one framework travels. Canada’s framework describes
+itself as an adaptation of NICE for the Canadian labour market and cites
+NICE work roles throughout. CyQUAL says its structure and elements were
+adopted from NICE, and its task list carries the 2017 NICE task codes.
+Both describe the borrowing openly. The graph makes it countable.
+Element counts used as a coverage metric are evidence of lineage and
+design, and they do not measure how much work a framework represents.
 
 ### Five NICE work roles carry a disproportionate share of the specification
 
@@ -753,7 +791,7 @@ organizing_unit_framework_bindings(rdf) |>
   ) |>
   mutate(elements_per_unit = round(element_count / top_level_unit_count, 1)) |>
   arrange(desc(elements_per_unit))
-#> # A tibble: 11 × 4
+#> # A tibble: 12 × 4
 #>   framework_name            top_level_unit_count element_count elements_per_unit
 #>   <chr>                                    <int>         <int>             <dbl>
 #> 1 DCWF v5.1                                   74          4052              54.8
@@ -762,9 +800,9 @@ organizing_unit_framework_bindings(rdf) |>
 #> 4 Operational Technology C…                   61          1612              26.4
 #> 5 Canadian Cyber Security …                   59          1345              22.8
 #> 6 CyQUAL 1.2.0                               161          3340              20.7
-#> 7 CSTA K-12 Computer Scien…                   25           258              10.3
-#> 8 SFIA 9                                     147           821               5.6
-#> # ℹ 3 more rows
+#> 7 2026 CSTA PK-12 Computer…                   53          1028              19.4
+#> 8 CSTA K-12 Computer Scien…                   25           258              10.3
+#> # ℹ 4 more rows
 ```
 
 Jurisdiction pivots, top-load NICE roles, pairwise framework
