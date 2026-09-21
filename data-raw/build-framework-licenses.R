@@ -341,7 +341,27 @@ framework_licenses <- tibble::tribble(
   "The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html",
   "full_with_attribution",
   "https://nca.gov.sa/en/pages/scywf.html",
-  TRUE, as.Date("2026-09-21")
+  TRUE, as.Date("2026-09-21"),
+
+  # CyBOK. An open licence, so no grant. The attribution is the wording the
+  # Introduction's copyright page prescribes, word for word, including its
+  # http link. terms_url is the https address of the same licence.
+  "framework", "cybok-v1.1.0", "CyBOK v1.1.0",
+  "OGL v3.0",
+  paste0(
+    "From the copyright page of the Introduction to CyBOK Knowledge Area, ",
+    "Version 1.1.0 (July 2021): \"© Crown Copyright, The National Cyber ",
+    "Security Centre 2021. This information is licensed under the Open ",
+    "Government Licence v3.0.\" The same page prescribes the attribution ",
+    "below. The A-to-Z Indicative Material document and each Knowledge Tree ",
+    "carry the same Crown Copyright and Open Government Licence v3.0 notice. ",
+    "The Open Government Licence v3.0 permits copying, ",
+    "publishing, adapting and commercial use on the condition of attribution."
+  ),
+  "CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/.",
+  "full_with_attribution",
+  "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+  FALSE, as.Date("2026-09-21")
 )
 
 # Integrity checks. These duplicate the test suite deliberately: the build
