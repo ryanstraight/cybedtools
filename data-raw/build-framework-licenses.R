@@ -182,6 +182,28 @@ framework_licenses <- tibble::tribble(
   "https://creativecommons.org/licenses/by-nc-sa/4.0/",
   FALSE, as.Date("2026-09-18"),
 
+  "framework", "csta-2026", "CSTA PK-12 CS (2026)",
+  "CC BY-NC-SA 4.0",
+  paste0(
+    "From the 2026 CSTA PK-12 Computer Science Standards PDF's own licence ",
+    "page (p. iv): \"These Standards are licensed under the Creative Commons ",
+    "Attribution-NonCommercial-ShareAlike 4.0 International License. ",
+    "Accordingly, individuals and organizations are free to download, print, ",
+    "share, and adapt the materials in whole or in part, as long as they ",
+    "provide proper attribution, use for non-commercial purposes, and share ",
+    "contributions or derivations under the same license.\" Every page ",
+    "footer repeats \"CC BY-NC-SA 4.0\". cybedtools ingests the JSON behind ",
+    "CSTA's interactive Standards Explorer, which carries the same standard ",
+    "text and is published by CSTA, so it is treated under the same terms. ",
+    "The share-alike term propagates to any file containing CSTA-derived ",
+    "content. The attribution below is the PDF's own suggested citation and ",
+    "DOI, with the en dash in PK-12 rendered as a hyphen."
+  ),
+  "Computer Science Teachers Association. (2026). 2026 CSTA PK-12 computer science standards. https://csteachers.org/pk12standards/ DOI: https://doi.org/10.1145/3820482",
+  "full_with_attribution",
+  "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  FALSE, as.Date("2026-09-21"),
+
   "framework", "csec2017-v1", "ACM/IEEE CSEC2017",
   "All rights reserved; educational use",
   paste0(
@@ -316,19 +338,28 @@ stopifnot(
 
 # The framework rows must cover exactly the shipped framework_summary slugs.
 # Checked here as well as in the tests so a rebuild of either object cannot
-# quietly drift from the other.
+# quietly drift from the other, in the direction that can break a release.
 if (exists("framework_summary")) {
   fw_slugs <- framework_licenses$slug[framework_licenses$layer == "framework"]
   missing_license <- setdiff(framework_summary$framework_slug, fw_slugs)
   missing_summary <- setdiff(fw_slugs, framework_summary$framework_slug)
-  if (length(missing_license) > 0L || length(missing_summary) > 0L) {
+  # A licence row with no summary row yet is the expected state while a
+  # framework is being added: this object is built first, because the
+  # summary build derives its licence column from it and refuses a framework
+  # without a licence row. That direction is reported, not fatal. The summary
+  # build and the test suite both require the two to agree exactly after.
+  if (length(missing_license) > 0L) {
     stop(
-      "framework_licenses and framework_summary disagree about which ",
-      "frameworks exist.\n  missing a licence row: ",
-      paste(missing_license, collapse = ", "),
-      "\n  missing a summary row: ",
-      paste(missing_summary, collapse = ", "),
+      "framework_licenses has no row for shipped framework_summary ",
+      "framework(s): ", paste(missing_license, collapse = ", "),
       call. = FALSE
+    )
+  }
+  if (length(missing_summary) > 0L) {
+    message(
+      "Licence row(s) with no framework_summary row yet: ",
+      paste(missing_summary, collapse = ", "),
+      ". Rebuild data-raw/build-framework-summary.R next."
     )
   }
 }
