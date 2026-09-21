@@ -19,7 +19,8 @@ build_jsonld_context(framework_prefix)
 
   Character, one of the valid framework prefixes. Workforce: `"nice"`,
   `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`, `"cyqual"`, `"ccssf"`,
-  `"otccf"`. Pedagogical: `"cyberorg"`, `"csta"`, `"csec"`, `"digcomp"`.
+  `"otccf"`, `"scywf"`. Pedagogical: `"cyberorg"`, `"csta"`,
+  `"csta2026"`, `"csec"`, `"digcomp"`, `"cybok"`.
 
 ## Value
 

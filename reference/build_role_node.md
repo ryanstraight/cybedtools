@@ -7,7 +7,7 @@ Convenience wrapper around
 for workforce frameworks (NICE, DCWF, ENISA ECSF). Asserts `cybed:Role`
 in addition to `cybed:OrganizingUnit` and the per-framework subtype. For
 non-workforce frameworks (SFIA, Cyber.org K-12, CSTA, CSEC2017, DigComp
-2.2), call
+3.0), call
 [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md)
 directly with `is_role = FALSE`.
 

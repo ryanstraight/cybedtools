@@ -9,7 +9,7 @@ K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use organizing_unit_framework_bindings()
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.
+every framework in the corpus.
 Roles without a cybed:partOf triple, or whose partOf target is not
 typed cybed:Framework, are excluded.'><meta property="og:description" content='
 One row per (role, framework) pair where the role is typed
@@ -21,7 +21,7 @@ K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use organizing_unit_framework_bindings()
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.
+every framework in the corpus.
 Roles without a cybed:partOf triple, or whose partOf target is not
 typed cybed:Framework, are excluded.'><meta property="og:image" content="https://ryanstraight.github.io/cybedtools/logo.png"><script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -49,7 +49,7 @@ typed cybed:Framework, are excluded.'><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,7 @@ K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.</p>
+every framework in the corpus.</p>
 <p>Roles without a <code>cybed:partOf</code> triple, or whose partOf target is not
 typed <code>cybed:Framework</code>, are excluded.</p>
     </div>
@@ -117,7 +117,7 @@ typed <code>cybed:Framework</code>, are excluded.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble with columns <code>role</code>, <code>role_name</code>, <code>framework</code>,
-<code>framework_name</code>.</p>
+<code>framework_name</code>, <code>framework_slug</code> (added v0.4.0, a stable join key).</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -139,7 +139,9 @@ and no warning, only a wrong (often zero-row) result surfacing later.</p>
 <code><a href="role_element_bindings.html">role_element_bindings()</a></code>,
 <code><a href="sparql_pairs.html">sparql_pairs()</a></code>,
 <code><a href="sparql_subjects.html">sparql_subjects()</a></code>,
-<code><a href="subpoint_framework_bindings.html">subpoint_framework_bindings()</a></code></p></div>
+<code><a href="subpoint_framework_bindings.html">subpoint_framework_bindings()</a></code>,
+<code><a href="unit_element_bindings.html">unit_element_bindings()</a></code>,
+<code><a href="unit_relation_bindings.html">unit_relation_bindings()</a></code></p></div>
     </div>
 
     <div class="section level2">

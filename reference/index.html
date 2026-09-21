@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -243,6 +243,29 @@
         </dt>
         <dd>Build a small in-memory demo RDF graph</dd>
       </dl></div><div class="section level2">
+      <h2 id="data-loading-public-release-">Data loading (public release)<a class="anchor" aria-label="anchor" href="#data-loading-public-release-"></a></h2>
+
+      <div class="section-desc"><p>Download and hash-verify the public per-framework data release into the user cache, and load it into an rdf graph. The names and shape match the Python package’s cybed_fetch()/load_graph() (0.4.0 API parity, see inst/conformance/).</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cybed_fetch.html">cybed_fetch()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Download and hash-verify per-framework release files into the user cache</dd>
+
+        <dt>
+
+          <code><a href="load_graph.html">load_graph()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Load a graph from the cached release files, fetching first if needed</dd>
+      </dl></div><div class="section level2">
       <h2 id="sparql-helpers">SPARQL helpers<a class="anchor" aria-label="anchor" href="#sparql-helpers"></a></h2>
 
       <div class="section-desc"><p>Single-BGP query primitives and domain-level helpers. The package’s query discipline is one triple-pattern match per SPARQL call, with joins and aggregation done in R via dplyr; see vignette cross-framework-analysis for worked examples.</p></div>
@@ -310,10 +333,24 @@
 
         <dt>
 
-          <code><a href="role_element_bindings.html">role_element_bindings()</a></code>
+          <code><a href="unit_element_bindings.html">unit_element_bindings()</a></code>
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
         <dd>Domain helper: organizing-unit-to-element bindings</dd>
+
+        <dt>
+
+          <code><a href="role_element_bindings.html">role_element_bindings()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Deprecated alias for <code><a href="../reference/unit_element_bindings.html">unit_element_bindings()</a></code></dd>
+
+        <dt>
+
+          <code><a href="unit_relation_bindings.html">unit_relation_bindings()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Domain helper: unit-to-unit relation bindings</dd>
 
         <dt>
 
@@ -321,6 +358,22 @@
           <span class="badge lifecycle lifecycle-stable">stable</span>
         </dt>
         <dd>Domain helper: statement text keyed by element</dd>
+      </dl></div><div class="section level2">
+      <h2 id="similarity">Similarity<a class="anchor" aria-label="anchor" href="#similarity"></a></h2>
+
+      <div class="section-desc"><p>Cross-framework unit-text similarity. The tokenizer, Jaccard scorer and stopword list are internal; framework_similarity() is the one exported entry point.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="framework_similarity.html">framework_similarity()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Cross-framework unit-text similarity, top-n matches per unit</dd>
       </dl></div><div class="section level2">
       <h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a></h2>
 
@@ -405,7 +458,7 @@
           <code><a href="framework_summary.html">framework_summary</a></code>
 
         </dt>
-        <dd>Eleven-framework summary tibble</dd>
+        <dd>Framework summary tibble</dd>
 
         <dt>
 

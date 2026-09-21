@@ -1,8 +1,185 @@
 # Changelog
 
-## cybedtools 0.3.1
+## cybedtools 0.4.0
 
-### Fixes
+### New framework
+
+- **CyBOK v1.1.0**, the Cyber Security Body of Knowledge (July 2021)
+  published by the National Cyber Security Centre, joins as a fourteenth
+  framework with the slug `cybok`, the framework id `cybok-v1.1.0` and
+  the prefix `cybok:`, under the Open Government Licence v3.0 with
+  CyBOK’s prescribed attribution. CyBOK publishes PDFs only, so the
+  ingest reads the Introduction, the 21 Knowledge Trees and the A-to-Z
+  Indicative Material index, each staged with its URL, its own version
+  and its SHA256. 21 Knowledge Areas (`cybok:KnowledgeArea`,
+  `cybed:OrganizingUnit`, never `cybed:Role`) carry their category, one
+  of 5, as `cybok:category` and their own document version as
+  `schema:version`. The 119 Topics of the trees are `cybok:Topic`
+  elements, and the 477 Indicative Material nodes drawn under them are
+  `cybed:Subpoint` children typed `cybok:IndicativeMaterial`. Which
+  Topic a node hangs from is read from the tree drawing, not from node
+  position. Every carried string is looked up in an independent
+  extraction of its PDF, 622 of 622 found. The A-to-Z index is a
+  cross-check only: 366 of its 482 Knowledge Area rows resolve to a
+  Topic and term in the trees, and every other row is reported in
+  `tables/a-to-z-resolution.csv`, not corrected. The staged SFIA and
+  ECSF crosswalks resolve to KA acronyms in full and are not wired into
+  the graph yet. The sub-point parser is off. Held from data release
+  2026.09.1, which was cut before it joined. The other thirteen
+  frameworks’ N-Triples are byte-identical.
+- `framework_summary` and `framework_licenses` gain a `cybok-v1.1.0`
+  row. Every value in the thirteen existing rows is unchanged.
+- `scripts/015-verify-ingestion.R` also fails hard when a CyBOK carried
+  string is missing from its check text.
+- **SCyWF 1.5**, the Saudi Cybersecurity Workforce Framework (SCyWF –
+  1.5: 2026) issued by the National Cybersecurity Authority (NCA), joins
+  as a thirteenth framework with the slug `scywf`, the framework id
+  `scywf-1.5` and the prefix `scywf:`, by NCA’s written permission of
+  2026-09-20. 40 job roles (`scywf:JobRole`, `cybed:Role`) link by
+  `cybed:hasElement` to the 1,419 Task, Knowledge and Skill statements
+  printed on their cards (4,794 links, every one resolving). Codes,
+  titles and statement text are carried verbatim, and the ingest proves
+  it: every carried string is looked up in an independent extraction of
+  the PDF, 3,290 of 3,290 found. 24 competency areas, 12 specialty areas
+  and 5 categories are organizing units that are not roles. The edges
+  from role to specialty area and from specialty area to category are
+  cybedtools-derived and sit on their own predicates,
+  `scywf:inSpecialtyArea` and `scywf:inCategory`. SCyWF reuses
+  NICE-shaped codes: 296 are shared with NICE v2.2.0 and the text
+  differs under every one, so the two are never joined on a bare code.
+  The sub-point parser is off. The Career Progression companion document
+  is staged and not ingested yet. Held from data release 2026.09.1,
+  which was cut before it joined. The other twelve frameworks’ N-Triples
+  are byte-identical.
+- `framework_summary` and `framework_licenses` gain a `scywf-1.5` row.
+  The rebuild also brings `digcomp-3.0` in line with its parser being
+  disabled: its `subpoint_count` goes from 97 to 0 and its with-examples
+  columns follow. That change was committed earlier without a rebuild,
+  and the summary build’s regression guard now names it as an
+  acknowledged change. Every other existing value is unchanged.
+- `scripts/015-verify-ingestion.R` fails hard when a framework carried
+  on a verbatim condition (SCyWF) has any carried string missing from
+  its check text or any role-card code without a statement.
+- **CSTA PK-12 CS (2026)**, the 2026 CSTA PK-12 Computer Science
+  Standards (DOI 10.1145/3820482), joins as a twelfth framework with the
+  slug `csta-2026` and the prefix `csta2026:`. It sits alongside the
+  2017 edition rather than replacing it. The two share no identifier
+  scheme, and `csta-2017` comes out byte-identical. 331 standards, keyed
+  by CSTA’s codes verbatim, are grouped into 53 `csta2026:StandardGroup`
+  units: level x concept for the 196 foundational standards and tier x
+  specialty area for the 135 specialty standards. Units are built from
+  the pairs that occur, so X+CS, published at Specialty I only, has one
+  unit. Every standard carries `csta2026:tier`, `csta2026:subconcept`
+  and, in the specialty tier, `csta2026:specialtyArea`, so the 27
+  Cybersecurity (`CYB`) standards can be selected directly. Boundary
+  statements are `csta2026:boundaryStatement` literals on the standard.
+  CSTA’s 652 implementation examples are `cybed:Example` nodes reached
+  through `cybed:hasExample`, as the 2017 clarifications are. Practices,
+  dispositions and progressions are not modelled yet. Licence CC
+  BY-NC-SA 4.0, read from the document’s own licence page. The framework
+  is held from data release 2026.09.1, which was cut before it joined.
+- `framework_summary` and `framework_licenses` gain a `csta-2026` row.
+  Every value in the eleven existing rows is unchanged.
+- The release export’s licence lookup no longer treats `csta-2026` as a
+  version of `csta`. A slug that is a framework in its own right is
+  excluded from another slug’s version-suffix match.
+- `scripts/015-verify-ingestion.R` checks the SHA256 of every file a
+  manifest lists under `source.files`, not only a single
+  `retrieval.file_sha256`.
+- The sub-point parser is disabled for `csta-2026`, the same treatment
+  OTCCF gets: CSTA’s standards are published statements, and a
+  parser-split fragment would be a unit the package invented rather than
+  one CSTA printed. Its 45 previously-parsed Subpoints drop out; parent
+  elements (331) and implementation examples (652) are unaffected.
+
+### Framework upgrade
+
+- **DigComp 3.0 replaces DigComp 2.2 in place** (owner decision,
+  2026-08-21). The versionless IRIs `digcomp:AREA-*` and
+  `digcomp:COMP-x.y` survive unchanged, but the framework node is now
+  `digcomp-3.0` and every element’s text changed (4 of 5 area names, 13
+  of 21 competence names revised; all descriptions rewritten). Source of
+  record is the official JSON-LD data supplement (JRC144121), not a PDF
+  scrape, hash-anchored and verified at ingest. The 7 official errata to
+  the Learning Outcomes are applied (523 -\> 522; see
+  `data/raw/digcomp/v3.0/errata.csv`). Structurally, elements move down
+  from the 21 competences to the 362 Competence Statements, so
+  competences become a second organizing-unit tier
+  (`digcomp:Competence`) alongside the 5 areas
+  (`digcomp:CompetenceArea`) – 26 organizing units total, both flat,
+  neither a `cybed:Role` (DigComp is a citizen self-assessment
+  instrument). The 522 Learning Outcomes attach to their Competence as
+  `cybed:Example` via `cybed:hasExample`, never `cybed:hasElement` (no
+  source-provided link to an individual statement). Proficiency levels
+  (8-level descriptors with 4-level and CEFR-style 6-level crosswalks)
+  and a 126-term glossary are staged but not yet emitted into the graph.
+  DigComp 2.2’s raw source stays archived at `data/raw/digcomp/v2.2/`.
+  No other framework’s output changed.
+
+### Licensing
+
+- **CCSSF is now full text, with attribution** (owner decision,
+  2026-09-21). The Canadian Centre for Cyber Security gave cybedtools
+  written permission for full-text publication with attribution,
+  superseding the 2026-09-19 reading of its earlier reply as a
+  reference-only instruction rather than a grant.
+  `docs/framework-invariants.yml`‘s `ccssf` policy moves from
+  `structure_only` to `full_with_attribution`; `framework_licenses`’
+  `ccssf-2022` row now has `granted = TRUE` and
+  `license_short = "Government of Canada, with permission"`. Every
+  remaining “Referenced as the Canadian Centre for Cyber Security asked”
+  wording (`creditText`, `license`, ingestion comments,
+  `docs/ingestion-summary.md`, `docs/framework-data-sources.md`,
+  `LICENSING.md`, `README`) now reads “Copyright Government of Canada.
+  Used with permission of the Canadian Centre for Cyber Security.” No
+  other framework’s attribution changed. Data release 2026.09.1 is not
+  revised; it was cut before this permission was received and still
+  holds CCSSF for steward confirmation.
+
+### API (0.4.0, Python parity)
+
+- Every `*_bindings()` helper and
+  [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md)
+  gain a `framework_slug` column (a stable join key, e.g. `"nice-v2"`,
+  derived from the framework IRI’s own local part). Existing columns and
+  row order are unchanged.
+- New exported `unit_element_bindings(rdf)`, identical to the old
+  [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+  output plus `framework_slug`.
+  [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+  is now a deprecated alias that calls
+  [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
+  and warns. It will be removed in a future minor version.
+- New exported `unit_relation_bindings(rdf)`: one row per
+  `cybed:UnitRelation` node, columns `from_unit`, `relation`, `to_unit`,
+  `framework_slug`.
+- New exported `framework_similarity(rdf, from, to, n = 5)`: the one
+  public entry point for cross-framework unit-text similarity, built on
+  the existing internal tokenizer, Jaccard scorer, and ranking helpers
+  (unchanged math). Compares each `from`-framework organizing unit’s
+  full document (its own name and text, plus every child element’s text)
+  against every `to`-framework unit, keeping the top `n` matches with a
+  `strength` label. Reproduces the “full-document” pass used by the
+  concordance NICE-vs-ECSF alignment script, generalized to any two
+  frameworks.
+- New exported `cybed_fetch(frameworks = NULL, version = NULL)` and
+  `load_graph(frameworks = NULL, version = NULL)`: download and
+  SHA-256-verify per-framework release files into
+  `tools::R_user_dir("cybedtools", "cache")`, never any other location,
+  and parse them into an rdf graph. The release location is configurable
+  via the `cybedtools.release_url` option or the
+  `CYBEDTOOLS_RELEASE_URL` environment variable, so tests (and
+  air-gapped mirrors) can point at a local `file://` release. The
+  default base URL points at this repository’s GitHub release assets.
+- New `inst/conformance/` directory: a hand-authored fixture graph
+  (`fixture.nt`), a mock release directory for
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)/[`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+  tests, and one golden CSV per public query function. This is the exact
+  parity contract a Python port is built against; see
+  `inst/conformance/README.md` for the format (encoding, sort keys,
+  rounding, NA handling).
+
+## cybedtools 0.3.1
 
 - **CCSSF attribution no longer claims permission.** The Canadian Centre
   for Cyber Security’s reply asked that its material be referenced when
@@ -172,6 +349,12 @@ unit relates to another.
 - Documentation now says exactly what `element_count_strict` counts
   (parent elements only) and notes that `docs/framework-invariants.yml`
   uses “strict” differently.
+- **Corrected 2026-08-14**: `element_count_strict` previously subtracted
+  only `example_count`, so any framework with nonzero Subpoints carried
+  an inflated “strict” value that silently included non-parent content
+  (NICE +4, SFIA +158, ECSF +16, CSTA +20, CSEC2017 +2). That is what
+  produced the NICE 2,115-vs-NIST’s-2,111 discrepancy caught in the
+  Concordance manuscript audit.
 
 ### Framework data
 

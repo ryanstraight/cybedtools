@@ -14,7 +14,7 @@ from scratch every time, in a spreadsheet.
 
 cybedtools makes the comparison one simple query.
 
-The package ingests seven workforce competency frameworks
+The package ingests eight workforce competency frameworks
 ([NICE](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center),
 [DCWF](https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/),
 [SFIA](https://sfia-online.org/en), [ENISA
@@ -22,22 +22,27 @@ ECSF](https://www.enisa.europa.eu/topics/skills-and-competences/skills-developme
 the Czech [CyQUAL](https://platform.cyqual.cz/en), the [Canadian Cyber
 Security Skills
 Framework](https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework),
-and Singapore’s
-[OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/))
-and four pedagogical or learning-standards frameworks ([Cyber.org
+Singapore’s
+[OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/),
+and Saudi Arabia’s [SCyWF](https://nca.gov.sa/en/pages/scywf.html)) and
+six pedagogical, learning-standards or body-of-knowledge frameworks
+([Cyber.org
 K-12](https://cyber.org/k-12-cybersecurity-learning-standards), [CSTA
-K-12 CS](https://csteachers.org/2017standards/interactive/), [ACM/IEEE
+K-12 CS (2017)](https://csteachers.org/2017standards/interactive/),
+[CSTA PK-12 CS (2026)](https://csteachers.org/pk12standards/), [ACM/IEEE
 CSEC2017](https://cybered.acm.org/), [JRC DigComp
-2.2](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en)).
-All eleven are expressed in a shared `cybed:` semantic schema. A small
-set of R helpers queries across them as if they were one corpus.
+3.0](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en),
+and the UK’s [CyBOK](https://www.cybok.org/)). All fourteen are
+expressed in a shared `cybed:` semantic schema. A small set of R helpers
+queries across them as if they were one corpus.
 
 It does not propose a replacement framework or attempt to re-author
 framework content. Existing frameworks retain their structure and
 vocabulary. The package adds a comparison layer.
 
-A native Python package is in development. The name is reserved on
-[PyPI](https://pypi.org/project/cybedtools/).
+A native Python package mirroring the R API is available:
+`pip install cybedtools` (see
+[PyPI](https://pypi.org/project/cybedtools/)).
 
 The documentation is indexed in
 [Context7](https://context7.com/ryanstraight/cybedtools) and published
@@ -64,20 +69,24 @@ Who it’s for:
 | Cyber.org K-12 v1.0 | pedagogy | US | 116 | 492 | CC BY-NC 4.0 |
 | CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 258 | CC BY-NC-SA 4.0 |
 | ACM/IEEE CSEC2017 | pedagogy | global | 8 | 40 | All rights reserved; educational use |
-| DigComp 2.2 | pedagogy | EU | 5 | 21 | CC BY 4.0 |
+| DigComp 3.0 | pedagogy | EU | 26 | 884 | CC BY 4.0 |
 | CyQUAL 1.2.0 | workforce | CZ | 161 | 3,340 | Open data, attribution required |
 | CCSSF 2022 | workforce | CA | 59 | 1,345 | Government of Canada copyright |
 | OTCCF v1.1 | workforce | SG | 61 | 1,612 | CSA copyright; non-commercial academic |
+| CSTA PK-12 CS (2026) | pedagogy | US | 53 | 983 | CC BY-NC-SA 4.0 |
+| SCyWF 1.5 | workforce | SA | 81 | 1,419 | NCA written permission |
+| CyBOK v1.1.0 | pedagogy | UK | 21 | 596 | OGL v3.0 |
 
 The “Top-level units” column reports each framework’s own top-level
 enumerated unit, and those units are not the same kind of thing. NICE,
-DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles.
-SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2
-declares competence areas, and Cyber.org K-12 and CSTA use unnamed
-groupings that cybedtools labels `StandardGroup`. All of them subclass
-`cybed:OrganizingUnit`, so cross-framework queries reach them uniformly.
-How the “Elements” column counts, and how `framework_summary` reports
-strict, augmented, and per-role totals, is in
+DCWF, ECSF, CyQUAL, the Canadian framework, OTCCF, and SCyWF declare
+roles. SFIA declares skills, CSEC2017 and CyBOK declare Knowledge Areas,
+DigComp 3.0 declares competence areas and competences, and Cyber.org
+K-12 and both CSTA editions use unnamed groupings that cybedtools labels
+`StandardGroup`. All of them subclass `cybed:OrganizingUnit`, so
+cross-framework queries reach them uniformly. How the “Elements” column
+counts, and how `framework_summary` reports strict, augmented, and
+per-role totals, is in
 [`docs/framework-data-sources.md`](https://ryanstraight.github.io/cybedtools/docs/framework-data-sources.md).
 
 ## What you could not do before
@@ -120,14 +129,14 @@ statements |>
   count(framework_name, framework_name_2, sort = TRUE) |>
   slice_head(n = 6)
 #> # A tibble: 6 × 3
-#>   framework_name                                          framework_name_2     n
-#>   <chr>                                                   <chr>            <int>
-#> 1 CyQUAL 1.2.0                                            DCWF v5.1         1400
-#> 2 CyQUAL 1.2.0                                            ECSF v1            132
-#> 3 CyQUAL 1.2.0                                            NICE v2.2.0 (NI…   100
-#> 4 DCWF v5.1                                               NICE v2.2.0 (NI…   100
-#> 5 Canadian Cyber Security Skills Framework 2022 (ITSM.00… CyQUAL 1.2.0         2
-#> 6 Canadian Cyber Security Skills Framework 2022 (ITSM.00… DCWF v5.1            2
+#>   framework_name                                 framework_name_2              n
+#>   <chr>                                          <chr>                     <int>
+#> 1 CyQUAL 1.2.0                                   DCWF v5.1                  1400
+#> 2 NICE v2.2.0 (NIST SP 800-181 Rev 1 components) SCyWF – 1.5: 2026           766
+#> 3 CyQUAL 1.2.0                                   ECSF v1                     132
+#> 4 CyQUAL 1.2.0                                   NICE v2.2.0 (NIST SP 800…   100
+#> 5 DCWF v5.1                                      NICE v2.2.0 (NIST SP 800…   100
+#> 6 DCWF v5.1                                      SCyWF – 1.5: 2026            78
 ```
 
 The largest block of shared text in the corpus is between CyQUAL, the
@@ -139,7 +148,9 @@ NIST’s 2017 release, nearly all of what the two share is 2017 NICE text,
 and under 5 percent of that 2017 text survives in NICE v2.2.0. The 2017
 edition is better preserved in Prague and at the Pentagon than at NIST.
 Canada’s framework describes itself as an adaptation of NICE and shares
-under 1 percent of its statements with anything.
+under 1 percent of its statements with anything. The second-largest
+block belongs to Saudi Arabia’s SCyWF, which shares 766 statements with
+NICE v2.2.0.
 
 ### Which frameworks have nothing to say about a topic?
 
@@ -172,27 +183,32 @@ imap(topics, \(pattern, topic) {
   relocate(statements, .after = framework_name) |>
   arrange(desc(statements)) |>
   print(n = Inf)
-#> # A tibble: 11 × 6
+#> # A tibble: 14 × 6
 #>    framework_name              statements    ai ethics cryptography supply_chain
 #>    <chr>                            <int> <int>  <int>        <int>        <int>
 #>  1 DCWF v5.1                         4052    24     12           52           18
 #>  2 CyQUAL 1.2.0                      3340     1      9           29           18
 #>  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22
 #>  4 Operational Technology Cyb…       1612     1      6           31           12
-#>  5 Canadian Cyber Security Sk…       1345     0      5           36           29
-#>  6 SFIA 9                             821     6     15            0           11
-#>  7 Cyber.org K-12 Learning St…        492     0      8           10            0
-#>  8 ECSF v1                            390     0      4            0            1
-#>  9 CSTA K-12 Computer Science…        258     2      8            3            0
-#> 10 CSEC2017 Curricular Guidel…         40     0      3            1            1
-#> 11 DigComp 2.2                         21     0      0            0            0
+#>  5 SCyWF – 1.5: 2026                 1419     8      1           18           12
+#>  6 Canadian Cyber Security Sk…       1345     0      5           36           29
+#>  7 2026 CSTA PK-12 Computer S…        983    34     46            9            1
+#>  8 DigComp 3.0                        884     6     79            0            0
+#>  9 SFIA 9                             821     6     15            0           11
+#> 10 CyBOK v1.1.0                       596     1      1           29            0
+#> 11 Cyber.org K-12 Learning St…        492     0      8           10            0
+#> 12 ECSF v1                            390     0      4            0            1
+#> 13 CSTA K-12 Computer Science…        258     2      8            3            0
+#> 14 CSEC2017 Curricular Guidel…         40     0      3            1            1
 ```
 
-Five of the eleven frameworks contain no statement that mentions
+Four of the fourteen frameworks contain no statement that mentions
 artificial intelligence or machine learning. DCWF has 24 such
-statements, more than the other ten frameworks combined. NICE has three
-statements that mention ethics, out of 2,225. SFIA, ECSF and DigComp
-have none that mention cryptography.
+statements, more than the other seven workforce frameworks combined
+(18). The 2026 CSTA standards, which add a machine learning subconcept
+at every foundational level, have 34. NICE has three statements that
+mention ethics, out of 2,225. SFIA, ECSF and DigComp have none that
+mention cryptography.
 
 This measures the words a framework uses. It does not measure what a
 framework covers. OTCCF is a framework about operational technology and
@@ -215,26 +231,27 @@ role_element_bindings(rdf) |>
     .by = framework_name
   ) |>
   arrange(desc(mean_roles))
-#> # A tibble: 6 × 5
+#> # A tibble: 7 × 5
 #>   framework_name                   statements mean_roles max_roles used_once_pct
 #>   <chr>                                 <int>      <dbl>     <int>         <dbl>
 #> 1 CyQUAL 1.2.0                           3151        5          50            33
-#> 2 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51
-#> 3 DCWF v5.1                              4052        2.4        74            55
-#> 4 ECSF v1                                 390        1           1           100
-#> 5 Canadian Cyber Security Skills …       1345        1           1           100
-#> 6 Operational Technology Cybersec…        270        1           1           100
+#> 2 SCyWF – 1.5: 2026                      1418        3.4        40            36
+#> 3 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51
+#> 4 DCWF v5.1                              4052        2.4        74            55
+#> 5 ECSF v1                                 390        1           1           100
+#> 6 Canadian Cyber Security Skills …       1345        1           1           100
+#> 7 Operational Technology Cybersec…        270        1           1           100
 ```
 
-Three of the role-based frameworks attach one statement to many roles.
+Four of the role-based frameworks attach one statement to many roles.
 Three never do. In DCWF, 8 statements are attached to all 74 work roles,
 which makes them a common core the framework does not name. In CyQUAL
-the most widely shared statement reaches 50 of 102 roles. In ECSF, CCSSF
-and OTCCF every statement belongs to exactly one role, so “how many
-roles need this skill” cannot be answered from those frameworks’ own
-data, and an element count does not show the difference. OTCCF’s row
-counts the key tasks attached to its job roles. Its skill statements
-attach to skills.
+the most widely shared statement reaches 50 of 102 roles. In SCyWF, 4
+statements are attached to all 40 job roles. In ECSF, CCSSF and OTCCF
+every statement belongs to exactly one role, so “how many roles need
+this skill” cannot be answered from those frameworks’ own data, and an
+element count does not show the difference. OTCCF’s row counts the key
+tasks attached to its job roles. Its skill statements attach to skills.
 
 ## Finding things with `cybedtools`
 
@@ -257,22 +274,23 @@ unlike denominators. It is not a quality claim. `framework_summary` also
 carries a `_strict` variant for analyses that prefer each framework’s
 own count.
 
-### US frameworks are about 48 percent of the corpus, and NICE’s reach is wider than that
+### US frameworks are about 43 percent of the corpus, and NICE’s reach is wider than that
 
-The corpus spans 6 jurisdictions and 14,596 elements, counted with
+The corpus spans 8 jurisdictions and 18,457 elements, counted with
 parsed examples included. US frameworks (NICE v2.2.0, DCWF v5.1,
-Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)) contribute 7,027 of them.
-The two EU-level frameworks (ECSF v1 and DigComp 2.2) contribute 411,
-which reflects design intent: ECSF profiles point to e-CF 4.0
-competences instead of restating them, and DigComp 2.2’s annex examples
-are not yet extracted. Counting by jurisdiction understates how far one
-framework travels. Canada’s framework describes itself as an adaptation
-of NICE for the Canadian labour market and cites NICE work roles
-throughout. CyQUAL says its structure and elements were adopted from
-NICE, and its task list carries the 2017 NICE task codes. Both describe
-the borrowing openly. The graph makes it countable. Element counts used
-as a coverage metric are evidence of lineage and design, and they do not
-measure how much work a framework represents.
+Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017), CSTA PK-12 CS (2026))
+contribute 8,010 of them. The two EU-level frameworks (ECSF v1 and
+DigComp 3.0) contribute 1,274, which reflects design intent: ECSF
+profiles point to e-CF 4.0 competences instead of restating them, and
+DigComp is an intentionally high-level citizen self-assessment
+instrument. Counting by jurisdiction understates how far one framework
+travels. Canada’s framework describes itself as an adaptation of NICE
+for the Canadian labour market and cites NICE work roles throughout.
+CyQUAL says its structure and elements were adopted from NICE, and its
+task list carries the 2017 NICE task codes. Both describe the borrowing
+openly. The graph makes it countable. Element counts used as a coverage
+metric are evidence of lineage and design, and they do not measure how
+much work a framework represents.
 
 ### Five NICE work roles carry a disproportionate share of the specification
 
@@ -333,18 +351,18 @@ organizing_unit_framework_bindings(rdf) |>
   ) |>
   mutate(elements_per_unit = round(element_count / top_level_unit_count, 1)) |>
   arrange(desc(elements_per_unit))
-#> # A tibble: 11 × 4
+#> # A tibble: 14 × 4
 #>   framework_name            top_level_unit_count element_count elements_per_unit
 #>   <chr>                                    <int>         <int>             <dbl>
 #> 1 DCWF v5.1                                   74          4052              54.8
 #> 2 NICE v2.2.0 (NIST SP 800…                   53          2225              42  
-#> 3 ECSF v1                                     12           390              32.5
-#> 4 Operational Technology C…                   61          1612              26.4
-#> 5 Canadian Cyber Security …                   59          1345              22.8
-#> 6 CyQUAL 1.2.0                               161          3340              20.7
-#> 7 CSTA K-12 Computer Scien…                   25           258              10.3
-#> 8 SFIA 9                                     147           821               5.6
-#> # ℹ 3 more rows
+#> 3 DigComp 3.0                                 26           884              34  
+#> 4 ECSF v1                                     12           390              32.5
+#> 5 CyBOK v1.1.0                                21           596              28.4
+#> 6 Operational Technology C…                   61          1612              26.4
+#> 7 Canadian Cyber Security …                   59          1345              22.8
+#> 8 CyQUAL 1.2.0                               161          3340              20.7
+#> # ℹ 6 more rows
 ```
 
 Jurisdiction pivots, top-load NICE roles, pairwise framework
@@ -398,9 +416,8 @@ and each ingestion script writes a per-framework `provenance.yml`. See
 [`LICENSING.md`](https://ryanstraight.github.io/cybedtools/LICENSING.md)
 for layered guidance on academic vs. commercial use.
 
-Three frameworks here come on terms narrower than MIT. Two of them are
-represented by written permission of their stewards, and the Canadian
-framework is referenced as its steward asked. Those terms were given to
+Three frameworks here come on terms narrower than MIT, all represented
+by written permission of their stewards. Those terms were given to
 cybedtools and do not pass to you.
 
 - Derived from the Operational Technology Cybersecurity Competency
@@ -411,7 +428,7 @@ cybedtools and do not pass to you.
   academic and research use.
 - Canadian Centre for Cyber Security, The Canadian Cyber Security Skills
   Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada.
-  Referenced as the Canadian Centre for Cyber Security asked.
+  Used with permission of the Canadian Centre for Cyber Security.
 - CyQUAL, the Czech national cybersecurity qualifications framework,
   developed at Masaryk University. Open data, version 1.2.0,
   <https://platform.cyqual.cz/>.
@@ -532,6 +549,20 @@ Load assembled JSON-LD or N-Triples into rdflib for SPARQL querying.
 - [`make_demo_graph()`](https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.md)
   **\[stable\]** : Build a small in-memory demo RDF graph
 
+## Data loading (public release)
+
+Download and hash-verify the public per-framework data release into the
+user cache, and load it into an rdf graph. The names and shape match the
+Python package’s cybed_fetch()/load_graph() (0.4.0 API parity, see
+inst/conformance/).
+
+- [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+  **\[experimental\]** : Download and hash-verify per-framework release
+  files into the user cache
+- [`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+  **\[experimental\]** : Load a graph from the cached release files,
+  fetching first if needed
+
 ## SPARQL helpers
 
 Single-BGP query primitives and domain-level helpers. The package’s
@@ -542,30 +573,58 @@ cross-framework-analysis for worked examples.
 - [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md)
   **\[stable\]** : Run a single-BGP SPARQL select returning
   subject-object pairs
+
 - [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)
   **\[stable\]** : Run a single-BGP SPARQL select with fixed predicate
   and object
+
 - [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md)
   **\[stable\]** : Domain helper: tibble of framework metadata
+
 - [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
   **\[stable\]** : Domain helper: organizing-unit-to-framework bindings
   with framework name attached
+
 - [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
   **\[stable\]** : Domain helper: role-to-framework bindings with
   framework name attached
+
 - [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md)
   **\[stable\]** : Domain helper: element-to-framework bindings with
   framework name attached
+
 - [`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
   **\[stable\]** : Domain helper: subpoint-to-framework bindings with
   framework name attached
+
 - [`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md)
   **\[stable\]** : Domain helper: example-to-framework bindings with
   framework name attached
-- [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+
+- [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
   **\[stable\]** : Domain helper: organizing-unit-to-element bindings
+
+- [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+  **\[deprecated\]** :
+
+  Deprecated alias for
+  [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
+
+- [`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
+  **\[experimental\]** : Domain helper: unit-to-unit relation bindings
+
 - [`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
   **\[stable\]** : Domain helper: statement text keyed by element
+
+## Similarity
+
+Cross-framework unit-text similarity. The tokenizer, Jaccard scorer and
+stopword list are internal; framework_similarity() is the one exported
+entry point.
+
+- [`framework_similarity()`](https://ryanstraight.github.io/cybedtools/reference/framework_similarity.md)
+  **\[experimental\]** : Cross-framework unit-text similarity, top-n
+  matches per unit
 
 ## Validation
 
@@ -612,7 +671,7 @@ Licence facts for the package code and every framework, with one owner.
 Pre-computed summary tibbles shipped with the package.
 
 - [`framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
-  : Eleven-framework summary tibble
+  : Framework summary tibble
 - [`framework_licenses`](https://ryanstraight.github.io/cybedtools/reference/framework_licenses.md)
   **\[experimental\]** : Licence facts for the package code and every
   framework
@@ -650,7 +709,7 @@ Pre-computed summary tibbles shipped with the package.
 - [Data integrity
   protocol](https://ryanstraight.github.io/cybedtools/articles/data-integrity.md):
 
-  Six invariants every framework ingestion must satisfy before
+  The invariants every framework ingestion must satisfy before
   downstream analysis runs, plus the audit-trail mechanics that keep the
   pipeline honest.
 

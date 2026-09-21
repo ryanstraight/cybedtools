@@ -122,10 +122,11 @@ organizing_unit_framework_bindings(rdf_full)
 role_framework_bindings(rdf_full)
 ```
 
-`cybed:OrganizingUnit` reaches all eleven frameworks. `cybed:Role`
-reaches the six that declare roles: NICE, DCWF, ECSF, CyQUAL, CCSSF, and
-OTCCF. A query written against `cybed:Role` when the question is
-corpus-wide drops five frameworks without saying so.
+`cybed:OrganizingUnit` reaches every framework in the corpus.
+`cybed:Role` reaches only the frameworks that declare roles: NICE
+v2.2.0, DCWF v5.1, ECSF v1, CyQUAL 1.2.0, CCSSF 2022, OTCCF v1.1, SCyWF
+1.5. A query written against `cybed:Role` when the question is
+corpus-wide silently drops the other 7 frameworks.
 
 ### Respect the upstream licenses
 
@@ -137,14 +138,14 @@ framework_metadata(rdf_full) |>
 
 Package code is MIT. Framework content keeps its upstream terms.
 `docs/framework-invariants.yml` records a `public_redistribution` policy
-per framework: SFIA is `local_only`, CSEC2017, CCSSF and OTCCF are
-`structure_only`, CyQUAL is `full_with_attribution`. OTCCF and CyQUAL
-are in the package by the written permission of their stewards. CCSSF is
-not: its attribution is “Copyright Government of Canada. Referenced as
-the Canadian Centre for Cyber Security asked.” Do not reproduce
-statement text from a framework marked `local_only` or `structure_only`.
-Titles, counts, categories and mappings are fine. See `LICENSE.md` and
-`LICENSING.md`.
+per framework: SFIA is `local_only`, CSEC2017 and OTCCF are
+`structure_only`, CyQUAL and CCSSF are `full_with_attribution`. OTCCF,
+CyQUAL and CCSSF are in the package by the written permission of their
+stewards. CCSSF’s attribution is “Copyright Government of Canada. Used
+with permission of the Canadian Centre for Cyber Security.” Do not
+reproduce statement text from a framework marked `local_only` or
+`structure_only`. Titles, counts, categories and mappings are fine. See
+`LICENSE.md` and `LICENSING.md`.
 
 ### Cite the package and the stewards
 

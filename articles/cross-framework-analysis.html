@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,12 +101,12 @@
 <div class="section level2">
 <h2 id="what-youll-find-here">What you’ll find here<a class="anchor" aria-label="anchor" href="#what-youll-find-here"></a>
 </h2>
-<p>The eleven frameworks in cybedtools were authored by different bodies
-for different audiences (NIST and DoD writing for the US workforce,
-ENISA and JRC writing for the EU citizen and policy audiences, Cyber.org
-and CSTA writing for K-12 educators, ACM/IEEE for higher-ed curricula,
-SFIA Foundation for the global IT-skills market, and national bodies in
-the Czech Republic, Canada, and Singapore writing for their own labour
+<p>The frameworks in cybedtools were authored by different bodies for
+different audiences (NIST and DoD writing for the US workforce, ENISA
+and JRC writing for the EU citizen and policy audiences, Cyber.org and
+CSTA writing for K-12 educators, ACM/IEEE for higher-ed curricula, SFIA
+Foundation for the global IT-skills market, and national bodies in the
+Czech Republic, Canada, and Singapore writing for their own labour
 markets). They were not all authored independently. Canada’s framework
 presents itself as an adaptation of NICE, and CyQUAL says its structure
 and elements were adopted from NICE. Lineage like that is one of the
@@ -120,37 +120,36 @@ they count.</p>
 <p>That heterogeneity is the reason a cross-framework comparison layer
 needs to exist. cybedtools does not erase the differences. It makes them
 queryable.</p>
-<p>The findings below are what shows up when you put eleven
+<p>The findings below are what shows up when you put the corpus’s
 differently-organized frameworks in the same graph and run the same
 queries against each. Read them as demonstrations of what the comparison
 layer surfaces, not as claims about which framework is “more thorough”
 or “more granular” in absolute terms.</p>
 <div class="section level3">
-<h3 id="element-volume-varies-by-140x-across-the-corpus">Element volume varies by ~140x across the corpus<a class="anchor" aria-label="anchor" href="#element-volume-varies-by-140x-across-the-corpus"></a>
+<h3 id="element-volume-varies-widely-across-the-corpus">Element volume varies widely across the corpus<a class="anchor" aria-label="anchor" href="#element-volume-varies-widely-across-the-corpus"></a>
 </h3>
-<p>DCWF declares 4,052 elements; DigComp 2.2 declares 21. Per-unit
-density correspondingly spreads from DCWF’s 54.8 elements per work role
-to DigComp’s 4.2 elements per competence area, a roughly 13x ratio when
-Cyber.org K-12 and CSTA’s Clarification-statement Examples are included.
-The spread reflects each framework’s design philosophy more than care or
-completeness: NICE/DCWF are granular by design as the basis for hiring
-and training pipelines; ECSF and DigComp are intentionally high-level as
-interoperability frames and citizen self-assessment instruments.
-cybedtools does not normalize across this asymmetry; downstream analyses
-that aggregate “framework coverage” should account for it
-explicitly.</p>
+<p>DCWF v5.1 declares 4,052 elements; ACM/IEEE CSEC2017 declares 40.
+Per-unit density spreads correspondingly: DCWF v5.1 sits at 54.8
+elements per top-level unit against Cyber.org K-12 v1.0 at 4.2, roughly
+a 13x ratio, counted with Cyber.org K-12 and CSTA’s
+Clarification-statement Examples included. The spread reflects each
+framework’s design philosophy more than care or completeness: granular
+frameworks built as the basis for hiring and training pipelines sit at
+one end; high-level interoperability frames and citizen self-assessment
+instruments sit at the other. cybedtools does not normalize across this
+asymmetry; downstream analyses that aggregate “framework coverage”
+should account for it explicitly.</p>
 <p>For analyses that need to compare frameworks at their own native
 granularity, <code>framework_summary</code> carries
 <code>elements_per_organizing_unit_strict</code>, which excludes both
 <code>cybed:Subpoint</code> and <code>cybed:Example</code> instances –
 every layer of tool-parsed augmentation, not just pedagogical
-scaffolding. Under the strict count Cyber.org K-12 drops to ~1.1
-elements per cell (numbered standards only) and the cross-framework
-spread widens to ~38x (NICE at 41.7 against Cyber.org K-12 at 1.1).
-Earlier releases reported a wider figure. NICE’s strict per-unit density
-fell when its 11 competency areas joined its 42 work roles in the
-denominator, which is a change in what is being counted and not in NICE.
-<code>framework_summary</code> now also carries
+scaffolding. Under the strict count the cross-framework spread between
+NICE (41.7 elements per unit) and Cyber.org K-12 (1.1) is roughly 38x.
+NICE’s strict per-unit density moves when its competency areas join its
+work roles in the denominator (11 non-role organizing units alongside 42
+work roles), which is a change in what is being counted and not in NICE.
+<code>framework_summary</code> also carries
 <code>elements_per_role_strict</code> for the frameworks that declare
 roles, which keeps the denominator to roles alone. The strict view is
 structurally honest about each framework’s normative content but invites
@@ -162,21 +161,21 @@ sub-concept cell).</p>
 <div class="section level3">
 <h3 id="the-corpus-skews-us-heavy-by-element-volume">The corpus skews US-heavy by element volume<a class="anchor" aria-label="anchor" href="#the-corpus-skews-us-heavy-by-element-volume"></a>
 </h3>
-<p>US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) contribute about
-half of the corpus by element count. The two EU-level frameworks (ECSF,
-DigComp) contribute under one-fifteenth of the US volume, and the rest
-comes from SFIA, CSEC2017, and the three national frameworks added in
-0.3.0 (CyQUAL, Canada’s CCSSF, Singapore’s OTCCF). Two of those three
-are built on NICE by their own account, so counting by jurisdiction
-understates how far US-authored content travels. The US and EU asymmetry
-itself reflects design philosophy more than relative investment: ENISA
-designed ECSF as profile-level for national elaboration, and JRC
-designed DigComp 2.2 as a citizen self-assessment instrument. ECSF
-profiles also embed e-CF 4.0 cross-references that cybedtools does not
-currently materialize as triples; full ECSF coverage requires consulting
-those pointers separately. Researchers using element counts as a
-coverage metric should attribute the asymmetry to design intent, not
-corpus completeness.</p>
+<p>US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) contribute about 43
+percent of the corpus by element count. The EU-level frameworks (ECSF,
+DigComp) together contribute about 16 percent of the US volume, and the
+rest comes from SFIA, CSEC2017, and the additional national frameworks
+contributed since the package’s initial release (CyQUAL, Canada’s CCSSF,
+Singapore’s OTCCF). Most of those are built on NICE by their own
+account, so counting by jurisdiction understates how far US-authored
+content travels. The US and EU asymmetry itself reflects design
+philosophy more than relative investment: ENISA designed ECSF as
+profile-level for national elaboration, and JRC designed DigComp 3.0 as
+a citizen self-assessment instrument. ECSF profiles also embed e-CF 4.0
+cross-references that cybedtools does not currently materialize as
+triples; full ECSF coverage requires consulting those pointers
+separately. Researchers using element counts as a coverage metric should
+attribute the asymmetry to design intent, not corpus completeness.</p>
 </div>
 <div class="section level3">
 <h3 id="encoding-strategy-varies-across-the-corpus">Encoding strategy varies across the corpus<a class="anchor" aria-label="anchor" href="#encoding-strategy-varies-across-the-corpus"></a>
@@ -214,16 +213,19 @@ curriculum designer; the strict count is the supplementary figure. The
 vignette below shows both columns side by side.</p>
 </div>
 <div class="section level3">
-<h3 id="the-five-highest-element-load-nice-work-roles-concentrate-disproportionate-specification">The five highest-element-load NICE work roles concentrate
-disproportionate specification<a class="anchor" aria-label="anchor" href="#the-five-highest-element-load-nice-work-roles-concentrate-disproportionate-specification"></a>
+<h3 id="a-small-number-of-nice-work-roles-concentrate-disproportionate-specification">A small number of NICE work roles concentrate disproportionate
+specification<a class="anchor" aria-label="anchor" href="#a-small-number-of-nice-work-roles-concentrate-disproportionate-specification"></a>
 </h3>
-<p>Security Control Assessment (304 elements), Secure Systems
-Development (237), Cybersecurity Architecture (218), Defensive
-Cybersecurity (205), and Systems Security Management (201). Curricula
-that “cover NICE” by surveying these five look thorough; curricula that
-cover the long tail of 42 roles look thin by element count alone. This
-is a property of NICE’s internal weighting, not a finding about the
-corpus.</p>
+<p>A handful of NICE work roles (Security Control Assessment, Secure
+Systems Development, Cybersecurity Architecture, Defensive
+Cybersecurity, and Systems Security Management among them) carry far
+more elements than the typical role. Curricula that “cover NICE” by
+surveying only the heaviest roles look thorough; curricula that cover
+the long tail of the remaining roles look thin by element count alone.
+This is a property of NICE’s internal weighting, not a finding about the
+corpus. The “Largest organizing units by element count” recipe below
+reproduces the current ranking against a staged graph; the README’s live
+figures reflect it against the package’s current release.</p>
 <p>The rest of this vignette is the technical apparatus that produces
 these and other comparative findings, organized by query family:</p>
 <ul>
@@ -278,7 +280,7 @@ dplyr.</p>
 <pre><code># A tibble: 8 × 5
   framework                                name                               jurisdiction sector              specificity
   &lt;chr&gt;                                    &lt;chr&gt;                              &lt;chr&gt;        &lt;chr&gt;               &lt;chr&gt;
-1 https://w3id.org/cybed/.../digcomp-2.2  DigComp 2.2                        EU           citizen-education   general-digital-competence
+1 https://w3id.org/cybed/.../digcomp-3.0  DigComp 3.0                        EU           citizen-education   general-digital-competence
 2 https://w3id.org/cybed/.../ecsf-v1      ECSF v1                            EU           civilian            cybersecurity-specific
 3 https://w3id.org/cybed/.../csec2017-v1  CSEC2017 Curricular Guidelines...  global       higher-education    cybersecurity-specific
 4 https://w3id.org/cybed/.../sfia-9       SFIA 9                             global       general             general-IT
@@ -331,24 +333,26 @@ dplyr.</p>
 <span><span class="fu"><a href="../reference/element_framework_bindings.html">element_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"element_count_with_examples"</span><span class="op">)</span></span></code></pre></div>
 <p>Density varies dramatically across heterogeneous denominators. DCWF
-has 4,052 elements across 74 work roles (about 55 per work role) – the
-corpus’s highest density, ahead of NICE. NICE has 2,225 elements, 1,877
-of which are attached to at least one of its 42 work roles (about 45 per
-work role). The rest belong only to its 11 competency areas, a second
-grouping axis, or to no role at all. CyQUAL and OTCCF are built the same
-way, with competencies and technical skills beside their roles, so
-<code>framework_summary</code> reports <code>role_count</code> and
-per-role density separately from the per-unit figures. The three
-national frameworks sit in the middle of the range: CyQUAL about 31
-elements per work role, Canada’s CCSSF about 23, and OTCCF 18 key tasks
-per job role, with OTCCF’s level statements attached to its skills and
-not its roles. SFIA 9 has 821 leaf elements (parent skills + parsed
-Subpoints) across 147 skills (~5.6 per skill). At the other end,
-Cyber.org K-12 has 123 strict elements across 116 grade-band x
-sub-concept cells (~1.1 strict per cell), or 492 with-Examples elements
-(~4.2 with-Examples per cell). DigComp 2.2 has 21 elements across 5
-competence areas (~4.2 per area). A schema that generalizes across both
-extremes is doing real work.</p>
+and NICE sit at the high end, with tens of elements per work role.
+NICE’s elements are not all role-bound: some attach only to its
+competency areas, a second grouping axis, or to no role at all. CyQUAL
+and OTCCF are built the same way, with competencies and technical skills
+beside their roles, so <code>framework_summary</code> reports
+<code>role_count</code> and per-role density separately from the
+per-unit figures. The three national frameworks (CyQUAL, Canada’s CCSSF,
+and OTCCF) sit in the middle of the range on a per-role or per-job-role
+basis, with OTCCF’s level statements attached to its skills rather than
+its roles. SFIA sits further down, with a modest multiple of leaf
+elements per skill. At the other end, Cyber.org K-12 and DigComp are the
+sparsest: Cyber.org K-12’s strict count is close to one element per
+grade-band x sub-concept cell, rising once pedagogical Examples are
+included, and DigComp’s strict elements sit close to its Competence
+Statement count per competence area, rising once its Learning Outcome
+Examples are included. A schema that generalizes across both extremes is
+doing real work. Exact current counts for every framework, strict and
+with-examples, are in the table and plot above – generated from
+<code><a href="../reference/framework_summary.html">cybedtools::framework_summary</a></code>, never hand-typed here, so
+this prose never drifts out of sync with a re-ingested framework.</p>
 <p>The same numbers, plotted from
 <code><a href="../reference/framework_summary.html">cybedtools::framework_summary</a></code> (no staged graph required,
 since the data object ships with the package). Hover for organizing-unit
@@ -402,7 +406,7 @@ and element counts:</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html" class="external-link">ggplotly</a></span><span class="op">(</span><span class="va">p</span>, tooltip <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">config</span><span class="op">(</span>displayModeBar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="plotly html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[{"orientation":"v","width":[4.2000000000000002,10.300000000000001,5,4.2000000000000002],"base":[0.65000000000000002,4.6500000000000004,2.6499999999999999,1.6499999999999999],"x":[2.1000000000000001,5.1500000000000004,2.5,2.1000000000000001],"y":[0.70000000000000007,0.69999999999999929,0.70000000000000018,0.70000000000000018],"text":["<b>Cyber.org K-12 v1.0<\/b><br>116 top-level units,   492 elements (incl. 369 Clarification-statement examples)<br>4.2 elements per unit<br>US · CC BY-NC 4.0","<b>CSTA K-12 CS (Rev 2017)<\/b><br>25 top-level units,   258 elements (incl. 114 Clarification-statement examples)<br>10.3 elements per unit<br>US · CC BY-NC-SA 4.0","<b>ACM/IEEE CSEC2017<\/b><br>8 top-level units,    40 elements<br>5 elements per unit<br>global · All rights reserved; educational use","<b>DigComp 2.2<\/b><br>5 top-level units,    21 elements<br>4.2 elements per unit<br>EU · CC BY 4.0"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(56,189,248,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"pedagogy","legendgroup":"pedagogy","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[42,54.799999999999997,32.5,5.5999999999999996,20.699999999999999,22.800000000000001,26.399999999999999],"base":[9.6500000000000004,10.65,8.6500000000000004,3.6499999999999999,5.6500000000000004,6.6500000000000004,7.6500000000000004],"x":[21,27.399999999999999,16.25,2.7999999999999998,10.35,11.4,13.199999999999999],"y":[0.69999999999999929,0.69999999999999929,0.69999999999999929,0.69999999999999973,0.69999999999999929,0.69999999999999929,0.69999999999999929],"text":["<b>NICE v2.2.0<\/b><br>53 top-level units, 2,225 elements<br>42 elements per unit<br>US · US public domain + NIST worldwide grant","<b>DCWF v5.1<\/b><br>74 top-level units, 4,052 elements<br>54.8 elements per unit<br>US · US Government work, no US copyright","<b>ECSF v1<\/b><br>12 top-level units,   390 elements<br>32.5 elements per unit<br>EU · CC BY 4.0 (report); data files unmarked","<b>SFIA 9<\/b><br>147 top-level units,   821 elements<br>5.6 elements per unit<br>global · SFIA Foundation licence required","<b>CyQUAL 1.2.0<\/b><br>161 top-level units, 3,340 elements<br>20.7 elements per unit<br>CZ · Open data, attribution required","<b>CCSSF 2022<\/b><br>59 top-level units, 1,345 elements<br>22.8 elements per unit<br>CA · Government of Canada copyright","<b>OTCCF v1.1<\/b><br>61 top-level units, 1,612 elements<br>26.4 elements per unit<br>SG · CSA copyright; non-commercial academic"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(15,23,42,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"workforce","legendgroup":"workforce","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":23.970112079701121,"r":7.9701120797011216,"b":40.647571606475722,"l":158.60523038605237},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.7400000000000002,57.539999999999999],"tickmode":"array","ticktext":["0","20","40"],"tickvals":[0,20,40],"categoryorder":"array","categoryarray":["0","20","40"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Elements per top-level unit","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,11.6],"tickmode":"array","ticktext":["Cyber.org K-12 v1.0","DigComp 2.2","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","CyQUAL 1.2.0","CCSSF 2022","OTCCF v1.1","ECSF v1","NICE v2.2.0","DCWF v5.1"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11],"categoryorder":"array","categoryarray":["Cyber.org K-12 v1.0","DigComp 2.2","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","CyQUAL 1.2.0","CCSSF 2022","OTCCF v1.1","ECSF v1","NICE v2.2.0","DCWF v5.1"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"247630de8472":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"247630de8472","visdat":{"247630de8472":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[{"orientation":"v","width":[4.2000000000000002,10.300000000000001,5,34,18.5,28.399999999999999],"base":[0.65000000000000002,3.6499999999999999,1.6499999999999999,11.65,5.6500000000000004,9.6500000000000004],"x":[2.1000000000000001,5.1500000000000004,2.5,17,9.25,14.199999999999999],"y":[0.70000000000000007,0.69999999999999973,0.70000000000000018,0.69999999999999929,0.69999999999999929,0.69999999999999929],"text":["<b>Cyber.org K-12 v1.0<\/b><br>116 top-level units,   492 elements (incl. 369 Clarification-statement examples)<br>4.2 elements per unit<br>US · CC BY-NC 4.0","<b>CSTA K-12 CS (Rev 2017)<\/b><br>25 top-level units,   258 elements (incl. 114 Clarification-statement examples)<br>10.3 elements per unit<br>US · CC BY-NC-SA 4.0","<b>ACM/IEEE CSEC2017<\/b><br>8 top-level units,    40 elements<br>5 elements per unit<br>global · All rights reserved; educational use","<b>DigComp 3.0<\/b><br>26 top-level units,   884 elements (incl. 522 Clarification-statement examples)<br>34 elements per unit<br>EU · CC BY 4.0","<b>CSTA PK-12 CS (2026)<\/b><br>53 top-level units,   983 elements (incl. 652 Clarification-statement examples)<br>18.5 elements per unit<br>US · CC BY-NC-SA 4.0","<b>CyBOK v1.1.0<\/b><br>21 top-level units,   596 elements<br>28.4 elements per unit<br>UK · OGL v3.0"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(56,189,248,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"pedagogy","legendgroup":"pedagogy","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[42,54.799999999999997,32.5,5.5999999999999996,20.699999999999999,22.800000000000001,26.399999999999999,17.5],"base":[12.65,13.65,10.65,2.6499999999999999,6.6500000000000004,7.6500000000000004,8.6500000000000004,4.6500000000000004],"x":[21,27.399999999999999,16.25,2.7999999999999998,10.35,11.4,13.199999999999999,8.75],"y":[0.69999999999999929,0.69999999999999929,0.69999999999999929,0.70000000000000018,0.69999999999999929,0.69999999999999929,0.69999999999999929,0.69999999999999929],"text":["<b>NICE v2.2.0<\/b><br>53 top-level units, 2,225 elements<br>42 elements per unit<br>US · US public domain + NIST worldwide grant","<b>DCWF v5.1<\/b><br>74 top-level units, 4,052 elements<br>54.8 elements per unit<br>US · US Government work, no US copyright","<b>ECSF v1<\/b><br>12 top-level units,   390 elements<br>32.5 elements per unit<br>EU · CC BY 4.0 (report); data files unmarked","<b>SFIA 9<\/b><br>147 top-level units,   821 elements<br>5.6 elements per unit<br>global · SFIA Foundation licence required","<b>CyQUAL 1.2.0<\/b><br>161 top-level units, 3,340 elements<br>20.7 elements per unit<br>CZ · Open data, attribution required","<b>CCSSF 2022<\/b><br>59 top-level units, 1,345 elements<br>22.8 elements per unit<br>CA · Government of Canada, with permission","<b>OTCCF v1.1<\/b><br>61 top-level units, 1,612 elements<br>26.4 elements per unit<br>SG · CSA copyright; non-commercial academic","<b>SCyWF 1.5<\/b><br>81 top-level units, 1,419 elements<br>17.5 elements per unit<br>SA · NCA written permission"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(15,23,42,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"workforce","legendgroup":"workforce","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":23.970112079701121,"r":7.9701120797011216,"b":40.647571606475722,"l":158.60523038605237},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.7400000000000002,57.539999999999999],"tickmode":"array","ticktext":["0","20","40"],"tickvals":[0,20,40],"categoryorder":"array","categoryarray":["0","20","40"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Elements per top-level unit","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,14.6],"tickmode":"array","ticktext":["Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","SCyWF 1.5","CSTA PK-12 CS (2026)","CyQUAL 1.2.0","CCSSF 2022","OTCCF v1.1","CyBOK v1.1.0","ECSF v1","DigComp 3.0","NICE v2.2.0","DCWF v5.1"],"tickvals":[1,2,3,3.9999999999999996,5,6,7,7.9999999999999991,9,10,11,12,13,14],"categoryorder":"array","categoryarray":["Cyber.org K-12 v1.0","ACM/IEEE CSEC2017","SFIA 9","CSTA K-12 CS (Rev 2017)","SCyWF 1.5","CSTA PK-12 CS (2026)","CyQUAL 1.2.0","CCSSF 2022","OTCCF v1.1","CyBOK v1.1.0","ECSF v1","DigComp 3.0","NICE v2.2.0","DCWF v5.1"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"25ad3fb04204":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"25ad3fb04204","visdat":{"25ad3fb04204":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
 <h3 id="largest-organizing-units-by-element-count">Largest organizing units by element count<a class="anchor" aria-label="anchor" href="#largest-organizing-units-by-element-count"></a>

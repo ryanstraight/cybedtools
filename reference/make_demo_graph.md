@@ -12,7 +12,7 @@ vocabulary:
 
 - **Framework B** (EU, general, general-IT) is non-workforce-shaped: its
   1 organizing unit is typed `cybed:OrganizingUnit` only, mirroring SFIA
-  / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+  / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.
 
 The graph also includes 5 atomic elements (typed `cybed:RoleElement`),
 one `cybed:Subpoint` (an enumerated child of an element, reachable via
@@ -61,24 +61,24 @@ Other RDF graph loading:
 ``` r
 rdf <- make_demo_graph()
 framework_metadata(rdf)
-#> # A tibble: 2 × 5
-#>   framework                                name  jurisdiction sector specificity
-#>   <chr>                                    <chr> <chr>        <chr>  <chr>      
-#> 1 https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT 
-#> 2 https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…
+#> # A tibble: 2 × 6
+#>   framework                 name  jurisdiction sector specificity framework_slug
+#>   <chr>                     <chr> <chr>        <chr>  <chr>       <chr>         
+#> 1 https://w3id.org/cybed/o… Demo… EU           gener… general-IT  demo-fw-b     
+#> 2 https://w3id.org/cybed/o… Demo… US           civil… cybersecur… demo-fw-a     
 organizing_unit_framework_bindings(rdf)   # all three units, both frameworks
-#> # A tibble: 3 × 4
-#>   unit                                        framework unit_name framework_name
-#>   <chr>                                       <chr>     <chr>     <chr>         
-#> 1 https://w3id.org/cybed/ontology#role/demo-… https://… IT Gener… Demo Framewor…
-#> 2 https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…
-#> 3 https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…
+#> # A tibble: 3 × 5
+#>   unit                         framework unit_name framework_name framework_slug
+#>   <chr>                        <chr>     <chr>     <chr>          <chr>         
+#> 1 https://w3id.org/cybed/onto… https://… IT Gener… Demo Framewor… demo-fw-b     
+#> 2 https://w3id.org/cybed/onto… https://… Incident… Demo Framewor… demo-fw-a     
+#> 3 https://w3id.org/cybed/onto… https://… Security… Demo Framewor… demo-fw-a     
 role_framework_bindings(rdf)              # only the two workforce-shaped units
-#> # A tibble: 2 × 4
-#>   role                                        framework role_name framework_name
-#>   <chr>                                       <chr>     <chr>     <chr>         
-#> 1 https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…
-#> 2 https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…
+#> # A tibble: 2 × 5
+#>   role                         framework role_name framework_name framework_slug
+#>   <chr>                        <chr>     <chr>     <chr>          <chr>         
+#> 1 https://w3id.org/cybed/onto… https://… Incident… Demo Framewor… demo-fw-a     
+#> 2 https://w3id.org/cybed/onto… https://… Security… Demo Framewor… demo-fw-a     
 sparql_pairs(rdf, "cybed:hasExample")     # the parent -> example link
 #> # A tibble: 1 × 2
 #>   s                                                  o                          

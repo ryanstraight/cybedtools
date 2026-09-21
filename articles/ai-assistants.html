@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,11 +204,11 @@ Subpoints and excludes Examples.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf_full</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf_full</span><span class="op">)</span></span></code></pre></div>
-<p><code>cybed:OrganizingUnit</code> reaches all eleven frameworks.
-<code>cybed:Role</code> reaches the six that declare roles: NICE, DCWF,
-ECSF, CyQUAL, CCSSF, and OTCCF. A query written against
-<code>cybed:Role</code> when the question is corpus-wide drops five
-frameworks without saying so.</p>
+<p><code>cybed:OrganizingUnit</code> reaches every framework in the
+corpus. <code>cybed:Role</code> reaches only the frameworks that declare
+roles: NICE v2.2.0, DCWF v5.1, ECSF v1, CyQUAL 1.2.0, CCSSF 2022, OTCCF
+v1.1, SCyWF 1.5. A query written against <code>cybed:Role</code> when
+the question is corpus-wide silently drops the other 7 frameworks.</p>
 </div>
 <div class="section level3">
 <h3 id="respect-the-upstream-licenses">Respect the upstream licenses<a class="anchor" aria-label="anchor" href="#respect-the-upstream-licenses"></a>
@@ -219,15 +219,15 @@ frameworks without saying so.</p>
 <p>Package code is MIT. Framework content keeps its upstream terms.
 <code>docs/framework-invariants.yml</code> records a
 <code>public_redistribution</code> policy per framework: SFIA is
-<code>local_only</code>, CSEC2017, CCSSF and OTCCF are
-<code>structure_only</code>, CyQUAL is
-<code>full_with_attribution</code>. OTCCF and CyQUAL are in the package
-by the written permission of their stewards. CCSSF is not: its
-attribution is “Copyright Government of Canada. Referenced as the
-Canadian Centre for Cyber Security asked.” Do not reproduce statement
-text from a framework marked <code>local_only</code> or
-<code>structure_only</code>. Titles, counts, categories and mappings are
-fine. See <code>LICENSE.md</code> and <code>LICENSING.md</code>.</p>
+<code>local_only</code>, CSEC2017 and OTCCF are
+<code>structure_only</code>, CyQUAL and CCSSF are
+<code>full_with_attribution</code>. OTCCF, CyQUAL and CCSSF are in the
+package by the written permission of their stewards. CCSSF’s attribution
+is “Copyright Government of Canada. Used with permission of the Canadian
+Centre for Cyber Security.” Do not reproduce statement text from a
+framework marked <code>local_only</code> or <code>structure_only</code>.
+Titles, counts, categories and mappings are fine. See
+<code>LICENSE.md</code> and <code>LICENSING.md</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="cite-the-package-and-the-stewards">Cite the package and the stewards<a class="anchor" aria-label="anchor" href="#cite-the-package-and-the-stewards"></a>

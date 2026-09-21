@@ -31,7 +31,7 @@
 - [Data integrity
   protocol](https://ryanstraight.github.io/cybedtools/articles/data-integrity.md):
 
-  Six invariants every framework ingestion must satisfy before
+  The invariants every framework ingestion must satisfy before
   downstream analysis runs, plus the audit-trail mechanics that keep the
   pipeline honest.
 

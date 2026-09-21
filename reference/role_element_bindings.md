@@ -1,24 +1,15 @@
-# Domain helper: organizing-unit-to-element bindings
+# Deprecated alias for [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
 
-**\[stable\]**
+**\[deprecated\]**
 
-One row per (parent, element) pair derived from `cybed:hasElement`
-triples. Despite the "role" naming, the `role` column is NOT restricted
-to `cybed:Role` subjects – `cybed:hasElement` is the universal parent-
-child link used across all eleven frameworks, so this returns element
-bindings for every `cybed:OrganizingUnit` (SFIA skills, Cyber.org K-12
-and CSTA standards, etc.), not just NICE/DCWF/ECSF work roles. Confirmed
-2026-08-14 stress test: of 428 distinct values in the `role` column,
-only 127 (30%) are actual `cybed:Role` subjects. Low practical risk when
-immediately joined against
-[`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
-or
-[`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
-(the mismatches drop out), but a standalone aggregate over this tibble's
-`role` column (e.g. "average elements per role") will silently include
-non-role parents. Filter to `cybed:Role` first via
-[`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
-if that distinction matters for your analysis.
+`role_element_bindings()` is deprecated as of cybedtools 0.4.0 in favor
+of
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
+which returns the identical result (all organizing units, not just
+`cybed:Role` subjects) under a name that doesn't overstate the role
+restriction. This alias will be removed in a future minor version;
+update call sites to
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md).
 
 ## Usage
 
@@ -34,7 +25,8 @@ role_element_bindings(rdf)
 
 ## Value
 
-A tibble with columns `role`, `element`.
+See
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md).
 
 ## See also
 
@@ -47,7 +39,9 @@ Other SPARQL helpers:
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
 [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
-[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md),
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
+[`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
 
 ## Examples
 

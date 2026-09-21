@@ -12,11 +12,13 @@ reference index.
 R package providing a reproducible JSON-LD + SPARQL pipeline for
 analyzing cybersecurity workforce competency frameworks (NICE, DCWF,
 SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
-Singapore’s OTCCF) and pedagogical/learning-standards frameworks
-(Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). The
-intellectual contribution is a framework-agnostic schema (`cybed:`) that
-lets one query operate across heterogeneous frameworks. The
-implementation enforces the schema and provides analytical helpers.
+Singapore’s OTCCF, the Saudi Cybersecurity Workforce Framework) and
+pedagogical/learning-standards frameworks and bodies of knowledge
+(Cyber.org K-12, CSTA K-12 CS in its 2017 and 2026 editions, ACM/IEEE
+CSEC2017, JRC DigComp 3.0, the UK’s CyBOK). The intellectual
+contribution is a framework-agnostic schema (`cybed:`) that lets one
+query operate across heterogeneous frameworks. The implementation
+enforces the schema and provides analytical helpers.
 
 It does not propose a replacement framework or attempt to re-author
 framework content. Existing frameworks retain their structure and
@@ -61,7 +63,7 @@ repo. Stage them under `data/raw/<slug>/` per
 ## Test, document, build
 
 ``` sh
-# Run the test suite (roughly 550 tests)
+# Run the test suite
 Rscript -e "devtools::test()"
 
 # Regenerate man/ + NAMESPACE after roxygen comment changes

@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,11 +100,11 @@
 <h2 id="scope-of-this-vignette">Scope of this vignette<a class="anchor" aria-label="anchor" href="#scope-of-this-vignette"></a>
 </h2>
 <p>Extending <code>cybedtools</code> with a framework beyond the current
-eleven (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp
-2.2, CyQUAL, CCSSF, OTCCF) is a six-step process. This vignette walks
-through the steps using a hypothetical “Framework X” to make the pattern
-concrete.</p>
-<p>The six steps:</p>
+corpus (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp
+3.0, CyQUAL, CCSSF, OTCCF) follows a fixed sequence of steps. This
+vignette walks through the steps using a hypothetical “Framework X” to
+make the pattern concrete.</p>
+<p>The steps:</p>
 <ol style="list-style-type: decimal">
 <li>Pick a slug and framework prefix.</li>
 <li>Stage the source file and write an ingestion script.</li>
@@ -277,11 +277,11 @@ and ENISA ECSF do this.</li>
 <li>Use <code>build_organizing_unit_node(is_role = FALSE)</code> when
 the parent units are something else (skills, learning standards
 clusters, knowledge areas, competence areas). SFIA, Cyber.org K-12,
-CSTA, CSEC2017, and DigComp 2.2 do this.</li>
+CSTA, CSEC2017, and DigComp 3.0 do this.</li>
 </ul>
 <p>Both paths assert <code>cybed:OrganizingUnit</code> so
-cross-framework queries reach all eleven frameworks via the abstract
-type. Only <code><a href="../reference/build_role_node.html">build_role_node()</a></code> additionally asserts
+cross-framework queries reach every framework in the corpus via the
+abstract type. Only <code><a href="../reference/build_role_node.html">build_role_node()</a></code> additionally asserts
 <code>cybed:Role</code>, restricting workforce-only queries
 appropriately.</p>
 <p>The example below assumes Framework X is workforce-shaped:</p>
@@ -493,9 +493,9 @@ framework’s block in <code>docs/framework-invariants.yml</code>, under
 <code>public_redistribution</code>. Two values are in use.
 <code>full_with_attribution</code> means the statement text may be
 published as long as the attribution travels with it, which is where
-CyQUAL sits. <code>structure_only</code> means titles, categories,
-levels, and mappings may be published and the statement text may not,
-which is where CCSSF and OTCCF sit. Put the reasoning in a comment
+CyQUAL and CCSSF sit. <code>structure_only</code> means titles,
+categories, levels, and mappings may be published and the statement text
+may not, which is where OTCCF sits. Put the reasoning in a comment
 beside the value, including the date of the written permission, so the
 next reader does not have to reconstruct it.</p>
 <p>Treat the value as binding on anything the package makes public,

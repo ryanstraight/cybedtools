@@ -2,8 +2,8 @@
 
 **\[stable\]**
 
-One row per (organizing unit, framework) pair across all eleven
-frameworks. Queries on the cross-framework abstract type
+One row per (organizing unit, framework) pair across every framework in
+the corpus. Queries on the cross-framework abstract type
 `cybed:OrganizingUnit`, which every framework's top-level enumerated
 unit asserts (work roles, work profiles, skills, grade-band x
 sub-concept cells, level x concept cells, Knowledge Areas, competence
@@ -30,7 +30,7 @@ organizing_unit_framework_bindings(rdf)
 ## Value
 
 A tibble with columns `unit`, `unit_name`, `framework`,
-`framework_name`.
+`framework_name`, `framework_slug` (added v0.4.0, a stable join key).
 
 ## Note
 
@@ -56,7 +56,9 @@ Other SPARQL helpers:
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
 [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
-[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md),
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
+[`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
 
 ## Examples
 

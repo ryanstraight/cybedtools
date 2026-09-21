@@ -1,37 +1,30 @@
-# Run a single-BGP SPARQL select returning subject-object pairs
+# Domain helper: unit-to-unit relation bindings
 
-**\[stable\]**
+**\[experimental\]**
 
-Issues a `SELECT ?s ?o WHERE { ?s P ?o }` query where `P` is the
-supplied predicate. The predicate position is constant. Both subject and
-object are bound. This is a single triple match, the only pattern shape
-librdf reliably plans on graphs of cybedtools' scale.
+One row per `cybed:UnitRelation` node
+([`build_unit_relation_node()`](https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.md)),
+giving the related pair of organizing units plus the relation's own
+framework attribution. `relation` is `NA` for a plain (unlabeled)
+relation; `framework_slug` is `NA` when the relation node carries no
+`cybed:partOf`, or one whose target is not typed `cybed:Framework`.
 
 ## Usage
 
 ``` r
-sparql_pairs(rdf, predicate)
+unit_relation_bindings(rdf)
 ```
 
 ## Arguments
 
 - rdf:
 
-  An rdf object from
-  [`rdflib::rdf_parse()`](https://docs.ropensci.org/rdflib/reference/rdf_parse.html)
-  or
-  [`load_combined_ntriples_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.md).
-
-- predicate:
-
-  Character. A SPARQL predicate (e.g., `"cybed:partOf"`,
-  `"schema:name"`, `"a"`). Use the prefixed form. `default_prefixes()`
-  supplies cybed, schema, rdfs, and skos.
+  An rdf object.
 
 ## Value
 
-A tibble with columns `s` (character, subject URI) and `o` (character,
-object value, either URI or literal).
+A tibble with columns `from_unit`, `relation`, `to_unit`,
+`framework_slug`.
 
 ## See also
 
@@ -43,16 +36,16 @@ Other SPARQL helpers:
 [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md),
 [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md),
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
+[`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
 [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
 [`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md),
-[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
-[`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
 
 ## Examples
 
 ``` r
 if (FALSE) { # \dontrun{
 rdf <- load_combined_ntriples_graph()
-sparql_pairs(rdf, "cybed:jurisdiction")
+unit_relation_bindings(rdf)
 } # }
 ```

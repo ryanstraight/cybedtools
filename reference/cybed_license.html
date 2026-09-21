@@ -51,7 +51,7 @@ says which of the two a given row carries."><meta property="og:image" content="h
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ single-row tibble otherwise.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cybed_license</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    layer     slug              framework_name  license_short license attribution</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> code      cybedtools        cybedtools (R … MIT           <span style="color: #949494;">"</span>LICEN… Copyright …</span>
@@ -144,11 +144,14 @@ single-row tibble otherwise.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> framework sfia-9            SFIA 9          SFIA Foundat… <span style="color: #949494;">"</span>SFIA … <span style="color: #BB0000;">NA</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> framework cyberorg-k12-v1.0 Cyber.org K-12… CC BY-NC 4.0  <span style="color: #949494;">"</span>From … K-12 Cyber…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> framework csta-2017         CSTA K-12 CS (… CC BY-NC-SA … <span style="color: #949494;">"</span>The i… Computer S…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> framework csec2017-v1       ACM/IEEE CSEC2… All rights r… <span style="color: #949494;">"</span>From … <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> framework digcomp-2.2       DigComp 2.2     CC BY 4.0     <span style="color: #949494;">"</span>From … Vuorikari,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> framework cyqual-v1.2.0     CyQUAL 1.2.0    Open data, a… <span style="color: #949494;">"</span>The o… CyQUAL, th…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> framework ccssf-2022        CCSSF 2022      Government o… <span style="color: #949494;">"</span>The C… Canadian C…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> framework otccf-v1.1        OTCCF v1.1      CSA copyrigh… <span style="color: #949494;">"</span>\"(c)… Derived fr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> framework csta-2026         CSTA PK-12 CS … CC BY-NC-SA … <span style="color: #949494;">"</span>From … Computer S…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> framework csec2017-v1       ACM/IEEE CSEC2… All rights r… <span style="color: #949494;">"</span>From … <span style="color: #BB0000;">NA</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> framework digcomp-3.0       DigComp 3.0     CC BY 4.0     <span style="color: #949494;">"</span>From … Cosgrove, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> framework cyqual-v1.2.0     CyQUAL 1.2.0    Open data, a… <span style="color: #949494;">"</span>The o… CyQUAL, th…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> framework ccssf-2022        CCSSF 2022      Government o… <span style="color: #949494;">"</span>The C… Canadian C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> framework otccf-v1.1        OTCCF v1.1      CSA copyrigh… <span style="color: #949494;">"</span>\"(c)… Derived fr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> framework scywf-1.5         SCyWF 1.5       NCA written … <span style="color: #949494;">"</span>The S… The Saudi …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> framework cybok-v1.1.0      CyBOK v1.1.0    OGL v3.0      <span style="color: #949494;">"</span>From … CyBOK © Cr…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: public_redistribution &lt;chr&gt;, terms_url &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   granted &lt;lgl&gt;, verified &lt;date&gt;</span></span>
 <span class="r-in"><span><span class="fu">cybed_license</span><span class="op">(</span><span class="st">"otccf-v1.1"</span><span class="op">)</span></span></span>

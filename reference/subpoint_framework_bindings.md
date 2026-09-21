@@ -5,9 +5,9 @@
 One row per (subpoint, framework) pair where the subpoint is typed
 `cybed:Subpoint` (the generic enumeration-list-splitting subtype – "such
 as X, Y, and Z" / "including A and B" – parsed out of a single native
-unit's text at JSON-LD assembly time, applied uniformly across all
-eleven frameworks) and its `partOf` target is typed `cybed:Framework`.
-Subpoints without a valid framework partOf are excluded.
+unit's text at JSON-LD assembly time, applied uniformly across the
+corpus) and its `partOf` target is typed `cybed:Framework`. Subpoints
+without a valid framework partOf are excluded.
 
 Subpoints are a strict subset of the elements returned by
 [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md),
@@ -36,7 +36,8 @@ subpoint_framework_bindings(rdf)
 
 ## Value
 
-A tibble with columns `subpoint`, `framework`, `framework_name`.
+A tibble with columns `subpoint`, `framework`, `framework_name`,
+`framework_slug` (added v0.4.0, a stable join key).
 
 ## Note
 
@@ -59,7 +60,9 @@ Other SPARQL helpers:
 [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md),
 [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
-[`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)
+[`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
+[`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
 
 ## Examples
 

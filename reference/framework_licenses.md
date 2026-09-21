@@ -24,7 +24,7 @@ framework_licenses
 
 ## Format
 
-A tibble with 12 rows and 10 columns.
+A tibble with 15 rows and 10 columns.
 
 - layer:
 
@@ -130,7 +130,7 @@ Other licensing:
 
 ``` r
 framework_licenses
-#> # A tibble: 12 × 10
+#> # A tibble: 15 × 10
 #>    layer     slug              framework_name  license_short license attribution
 #>    <chr>     <chr>             <chr>           <chr>         <chr>   <chr>      
 #>  1 code      cybedtools        cybedtools (R … MIT           "LICEN… Copyright …
@@ -140,33 +140,41 @@ framework_licenses
 #>  5 framework sfia-9            SFIA 9          SFIA Foundat… "SFIA … NA         
 #>  6 framework cyberorg-k12-v1.0 Cyber.org K-12… CC BY-NC 4.0  "From … K-12 Cyber…
 #>  7 framework csta-2017         CSTA K-12 CS (… CC BY-NC-SA … "The i… Computer S…
-#>  8 framework csec2017-v1       ACM/IEEE CSEC2… All rights r… "From … NA         
-#>  9 framework digcomp-2.2       DigComp 2.2     CC BY 4.0     "From … Vuorikari,…
-#> 10 framework cyqual-v1.2.0     CyQUAL 1.2.0    Open data, a… "The o… CyQUAL, th…
-#> 11 framework ccssf-2022        CCSSF 2022      Government o… "The C… Canadian C…
-#> 12 framework otccf-v1.1        OTCCF v1.1      CSA copyrigh… "\"(c)… Derived fr…
+#>  8 framework csta-2026         CSTA PK-12 CS … CC BY-NC-SA … "From … Computer S…
+#>  9 framework csec2017-v1       ACM/IEEE CSEC2… All rights r… "From … NA         
+#> 10 framework digcomp-3.0       DigComp 3.0     CC BY 4.0     "From … Cosgrove, …
+#> 11 framework cyqual-v1.2.0     CyQUAL 1.2.0    Open data, a… "The o… CyQUAL, th…
+#> 12 framework ccssf-2022        CCSSF 2022      Government o… "The C… Canadian C…
+#> 13 framework otccf-v1.1        OTCCF v1.1      CSA copyrigh… "\"(c)… Derived fr…
+#> 14 framework scywf-1.5         SCyWF 1.5       NCA written … "The S… The Saudi …
+#> 15 framework cybok-v1.1.0      CyBOK v1.1.0    OGL v3.0      "From … CyBOK © Cr…
 #> # ℹ 4 more variables: public_redistribution <chr>, terms_url <chr>,
 #> #   granted <lgl>, verified <date>
 subset(framework_licenses, granted)
-#> # A tibble: 2 × 10
+#> # A tibble: 4 × 10
 #>   layer     slug          framework_name license_short       license attribution
 #>   <chr>     <chr>         <chr>          <chr>               <chr>   <chr>      
 #> 1 framework cyqual-v1.2.0 CyQUAL 1.2.0   Open data, attribu… "The o… CyQUAL, th…
-#> 2 framework otccf-v1.1    OTCCF v1.1     CSA copyright; non… "\"(c)… Derived fr…
+#> 2 framework ccssf-2022    CCSSF 2022     Government of Cana… "The C… Canadian C…
+#> 3 framework otccf-v1.1    OTCCF v1.1     CSA copyright; non… "\"(c)… Derived fr…
+#> 4 framework scywf-1.5     SCyWF 1.5      NCA written permis… "The S… The Saudi …
 #> # ℹ 4 more variables: public_redistribution <chr>, terms_url <chr>,
 #> #   granted <lgl>, verified <date>
 subset(framework_licenses, public_redistribution != "unrestricted",
        select = c("slug", "license_short", "public_redistribution"))
-#> # A tibble: 9 × 3
-#>   slug              license_short                          public_redistribution
-#>   <chr>             <chr>                                  <chr>                
-#> 1 ecsf-v1           CC BY 4.0 (report); data files unmark… full_with_attribution
-#> 2 sfia-9            SFIA Foundation licence required       local_only           
-#> 3 cyberorg-k12-v1.0 CC BY-NC 4.0                           full_with_attribution
-#> 4 csta-2017         CC BY-NC-SA 4.0                        full_with_attribution
-#> 5 csec2017-v1       All rights reserved; educational use   structure_only       
-#> 6 digcomp-2.2       CC BY 4.0                              full_with_attribution
-#> 7 cyqual-v1.2.0     Open data, attribution required        full_with_attribution
-#> 8 ccssf-2022        Government of Canada copyright         structure_only       
-#> 9 otccf-v1.1        CSA copyright; non-commercial academic structure_only       
+#> # A tibble: 12 × 3
+#>    slug              license_short                         public_redistribution
+#>    <chr>             <chr>                                 <chr>                
+#>  1 ecsf-v1           CC BY 4.0 (report); data files unmar… full_with_attribution
+#>  2 sfia-9            SFIA Foundation licence required      local_only           
+#>  3 cyberorg-k12-v1.0 CC BY-NC 4.0                          full_with_attribution
+#>  4 csta-2017         CC BY-NC-SA 4.0                       full_with_attribution
+#>  5 csta-2026         CC BY-NC-SA 4.0                       full_with_attribution
+#>  6 csec2017-v1       All rights reserved; educational use  structure_only       
+#>  7 digcomp-3.0       CC BY 4.0                             full_with_attribution
+#>  8 cyqual-v1.2.0     Open data, attribution required       full_with_attribution
+#>  9 ccssf-2022        Government of Canada, with permission full_with_attribution
+#> 10 otccf-v1.1        CSA copyright; non-commercial academ… structure_only       
+#> 11 scywf-1.5         NCA written permission                full_with_attribution
+#> 12 cybok-v1.1.0      OGL v3.0                              full_with_attribution
 ```

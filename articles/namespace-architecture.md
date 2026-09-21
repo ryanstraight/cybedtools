@@ -19,8 +19,8 @@ knowledge statement, skill statement, competence, learning standard),
 sub-point, example, element text, source reference, and structural
 metadata (jurisdiction, sector, specificity). Per-framework vocabularies
 specialize these via subclassing, so a single SPARQL query targeting
-`cybed:OrganizingUnit` returns parent units across all eleven frameworks
-in one pass.
+`cybed:OrganizingUnit` returns parent units across every framework in
+the corpus in one pass.
 
 Schema.org (`schema:`) and SKOS (`skos:`) provide the outermost
 vocabulary layer for generic properties such as name, description,
@@ -138,9 +138,9 @@ flowchart TD
 ```
 
 A single SPARQL query against `cybed:OrganizingUnit` returns comparable
-parent-level bindings across all eleven frameworks at once. A query
-against `cybed:RoleElement` returns every atomic content node (parents,
-Subpoints, and Examples). A query against `cybed:Role` is
+parent-level bindings across every framework in the corpus at once. A
+query against `cybed:RoleElement` returns every atomic content node
+(parents, Subpoints, and Examples). A query against `cybed:Role` is
 workforce-restricted to NICE / DCWF / ENISA ECSF / CyQUAL / CCSSF /
 OTCCF.
 
@@ -148,8 +148,8 @@ OTCCF.
 
 Framework-agnostic terms. `cybed:OrganizingUnit` is the cross-framework
 abstract; every framework’s parent type subclasses it, and queries
-against it reach all eleven frameworks. `cybed:Role` is reserved for
-workforce frameworks where the unit is genuinely a work role or work
+against it reach every framework in the corpus. `cybed:Role` is reserved
+for workforce frameworks where the unit is genuinely a work role or work
 profile.
 
 - `cybed:Framework`, top-level container for a specific framework.
@@ -241,7 +241,7 @@ subclass `cybed:RoleElement`.
 | Cyber.org K-12 | `cyberorg:StandardGroup` | `cybed:OrganizingUnit` | `cyberorg:Standard` |
 | CSTA K-12 CS | `csta:StandardGroup` | `cybed:OrganizingUnit` | `csta:Standard` |
 | ACM/IEEE CSEC2017 | `csec:KnowledgeArea` | `cybed:OrganizingUnit` | `csec:Essential` |
-| DigComp 2.2 | `digcomp:CompetenceArea` | `cybed:OrganizingUnit` | `digcomp:Competence` |
+| DigComp 3.0 | `digcomp:CompetenceArea` | `cybed:OrganizingUnit` | `digcomp:Competence` |
 | CyQUAL 1.2.0 | `cyqual:WorkRole` | `cybed:Role` | `cyqual:Task`, `cyqual:Requirement` |
 | CyQUAL 1.2.0 | `cyqual:Competency` | `cybed:OrganizingUnit` | `cyqual:Requirement` |
 | CCSSF 2022 | `ccssf:WorkRole`, `ccssf:AdjacentRole` | `cybed:Role` | `ccssf:Task`, `ccssf:Competency`, `ccssf:ToolOrTechnology` |
@@ -253,10 +253,10 @@ subclass `cybed:RoleElement`.
 A node’s IRI is its prefix plus its framework-local id. That works as
 long as a framework numbers its organizing units and its statements out
 of separate id spaces, because then no unit id can equal a statement id
-and no two nodes can land on the same IRI. Nine of the eleven frameworks
+and no two nodes can land on the same IRI. Most frameworks in the corpus
 are like that.
 
-Two are not. DCWF draws work-role codes and task/KSA numbers from one
+A few are not. DCWF draws work-role codes and task/KSA numbers from one
 numeric range, so work role 462 and statement 462 both wanted
 `dcwf:462`. Cyber.org K-12 names a grade-band x sub-concept cell after
 its axes and names the standards inside it the same way, so a cell
@@ -280,8 +280,8 @@ K-12 declares `cell-`.
 Three properties of the rule matter more than the rule itself.
 
 It is one-sided. Statement IRIs do not move. They are the codes people
-cite, there are about 4,500 of them, and a framework’s own numbering is
-what a reader looks up.
+cite, there are 13,962 of them (parent statements, strict count), and a
+framework’s own numbering is what a reader looks up.
 
 It is declared, not inferred. A framework with no `unit_iri_prefix`
 mints the IRIs it has always minted, so the other nine frameworks’
@@ -300,15 +300,15 @@ fails the build if any IRI is typed both `cybed:OrganizingUnit` and
 own subject. There is no exemption list. A framework that would need one
 needs a `unit_iri_prefix` instead.
 
-The three frameworks added in v0.3.0 mint their Tier 2 terms under
-`https://w3id.org/cybed/framework/<slug>#` rather than under the
-steward’s own domain. The other eight sit under a namespace derived from
-the publisher’s site. The difference is deliberate. A term like
-`otccf:JobRole` is a type cybedtools coined to describe what CSA
-published, and it is not an identifier CSA issued. Putting it under the
-package’s own namespace keeps that distinction visible in the URI
-itself, so nobody reading the graph mistakes a package-coined subtype
-for the steward’s vocabulary.
+The national frameworks added after the package’s original release mint
+their Tier 2 terms under `https://w3id.org/cybed/framework/<slug>#`
+rather than under the steward’s own domain. The rest sit under a
+namespace derived from the publisher’s site. The difference is
+deliberate. A term like `otccf:JobRole` is a type cybedtools coined to
+describe what CSA published, and it is not an identifier CSA issued.
+Putting it under the package’s own namespace keeps that distinction
+visible in the URI itself, so nobody reading the graph mistakes a
+package-coined subtype for the steward’s vocabulary.
 
 ## Example JSON-LD documents
 

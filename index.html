@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,9 +98,9 @@
 </blockquote>
 <p>A corpus of cybersecurity workforce and learning frameworks. Each carries a different schema and a different vocabulary. Comparing them (what’s specified where, where they overlap, how their structural commitments differ) has historically meant rebuilding the comparison from scratch every time, in a spreadsheet.</p>
 <p>cybedtools makes the comparison one simple query.</p>
-<p>The package ingests seven workforce competency frameworks (<a href="https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center" class="external-link">NICE</a>, <a href="https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/" class="external-link">DCWF</a>, <a href="https://sfia-online.org/en" class="external-link">SFIA</a>, <a href="https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf" class="external-link">ENISA ECSF</a>, the Czech <a href="https://platform.cyqual.cz/en" class="external-link">CyQUAL</a>, the <a href="https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework" class="external-link">Canadian Cyber Security Skills Framework</a>, and Singapore’s <a href="https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/" class="external-link">OTCCF</a>) and four pedagogical or learning-standards frameworks (<a href="https://cyber.org/k-12-cybersecurity-learning-standards" class="external-link">Cyber.org K-12</a>, <a href="https://csteachers.org/2017standards/interactive/" class="external-link">CSTA K-12 CS</a>, <a href="https://cybered.acm.org/" class="external-link">ACM/IEEE CSEC2017</a>, <a href="https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en" class="external-link">JRC DigComp 2.2</a>). All eleven are expressed in a shared <code>cybed:</code> semantic schema. A small set of R helpers queries across them as if they were one corpus.</p>
+<p>The package ingests eight workforce competency frameworks (<a href="https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center" class="external-link">NICE</a>, <a href="https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/" class="external-link">DCWF</a>, <a href="https://sfia-online.org/en" class="external-link">SFIA</a>, <a href="https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf" class="external-link">ENISA ECSF</a>, the Czech <a href="https://platform.cyqual.cz/en" class="external-link">CyQUAL</a>, the <a href="https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework" class="external-link">Canadian Cyber Security Skills Framework</a>, Singapore’s <a href="https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/" class="external-link">OTCCF</a>, and Saudi Arabia’s <a href="https://nca.gov.sa/en/pages/scywf.html" class="external-link">SCyWF</a>) and six pedagogical, learning-standards or body-of-knowledge frameworks (<a href="https://cyber.org/k-12-cybersecurity-learning-standards" class="external-link">Cyber.org K-12</a>, <a href="https://csteachers.org/2017standards/interactive/" class="external-link">CSTA K-12 CS (2017)</a>, <a href="https://csteachers.org/pk12standards/" class="external-link">CSTA PK-12 CS (2026)</a>, <a href="https://cybered.acm.org/" class="external-link">ACM/IEEE CSEC2017</a>, <a href="https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en" class="external-link">JRC DigComp 3.0</a>, and the UK’s <a href="https://www.cybok.org/" class="external-link">CyBOK</a>). All fourteen are expressed in a shared <code>cybed:</code> semantic schema. A small set of R helpers queries across them as if they were one corpus.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer.</p>
-<p>A native Python package is in development. The name is reserved on <a href="https://pypi.org/project/cybedtools/" class="external-link">PyPI</a>.</p>
+<p>A native Python package mirroring the R API is available: <code>pip install cybedtools</code> (see <a href="https://pypi.org/project/cybedtools/" class="external-link">PyPI</a>).</p>
 <p>The documentation is indexed in <a href="https://context7.com/ryanstraight/cybedtools" class="external-link">Context7</a> and published as <a href="https://ryanstraight.github.io/cybedtools/llms.txt">llms.txt</a> for AI assistants.</p>
 <p>Who it’s for:</p>
 <ul>
@@ -273,7 +273,7 @@ All rights reserved; educational use
 </tr>
 <tr>
 <td>
-DigComp 2.2
+DigComp 3.0
 </td>
 <td>
 pedagogy
@@ -282,10 +282,10 @@ pedagogy
 EU
 </td>
 <td>
-5
+26
 </td>
 <td>
-21
+884
 </td>
 <td>
 CC BY 4.0
@@ -351,9 +351,69 @@ SG
 CSA copyright; non-commercial academic
 </td>
 </tr>
+<tr>
+<td>
+CSTA PK-12 CS (2026)
+</td>
+<td>
+pedagogy
+</td>
+<td>
+US
+</td>
+<td>
+53
+</td>
+<td>
+983
+</td>
+<td>
+CC BY-NC-SA 4.0
+</td>
+</tr>
+<tr>
+<td>
+SCyWF 1.5
+</td>
+<td>
+workforce
+</td>
+<td>
+SA
+</td>
+<td>
+81
+</td>
+<td>
+1,419
+</td>
+<td>
+NCA written permission
+</td>
+</tr>
+<tr>
+<td>
+CyBOK v1.1.0
+</td>
+<td>
+pedagogy
+</td>
+<td>
+UK
+</td>
+<td>
+21
+</td>
+<td>
+596
+</td>
+<td>
+OGL v3.0
+</td>
+</tr>
 </tbody>
 </table>
-<p>The “Top-level units” column reports each framework’s own top-level enumerated unit, and those units are not the same kind of thing. NICE, DCWF, ECSF, CyQUAL, the Canadian framework, and OTCCF declare roles. SFIA declares skills, CSEC2017 declares Knowledge Areas, DigComp 2.2 declares competence areas, and Cyber.org K-12 and CSTA use unnamed groupings that cybedtools labels <code>StandardGroup</code>. All of them subclass <code>cybed:OrganizingUnit</code>, so cross-framework queries reach them uniformly. How the “Elements” column counts, and how <code>framework_summary</code> reports strict, augmented, and per-role totals, is in <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>.</p>
+<p>The “Top-level units” column reports each framework’s own top-level enumerated unit, and those units are not the same kind of thing. NICE, DCWF, ECSF, CyQUAL, the Canadian framework, OTCCF, and SCyWF declare roles. SFIA declares skills, CSEC2017 and CyBOK declare Knowledge Areas, DigComp 3.0 declares competence areas and competences, and Cyber.org K-12 and both CSTA editions use unnamed groupings that cybedtools labels <code>StandardGroup</code>. All of them subclass <code>cybed:OrganizingUnit</code>, so cross-framework queries reach them uniformly. How the “Elements” column counts, and how <code>framework_summary</code> reports strict, augmented, and per-role totals, is in <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>.</p>
 <div class="section level2">
 <h2 id="what-you-could-not-do-before">What you could not do before<a class="anchor" aria-label="anchor" href="#what-you-could-not-do-before"></a>
 </h2>
@@ -389,16 +449,16 @@ CSA copyright; non-commercial academic
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">framework_name</span>, <span class="va">framework_name_2</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
-<span><span class="co">#&gt;   framework_name                                          framework_name_2     n</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                                                   &lt;chr&gt;            &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 CyQUAL 1.2.0                                            DCWF v5.1         1400</span></span>
-<span><span class="co">#&gt; 2 CyQUAL 1.2.0                                            ECSF v1            132</span></span>
-<span><span class="co">#&gt; 3 CyQUAL 1.2.0                                            NICE v2.2.0 (NI…   100</span></span>
-<span><span class="co">#&gt; 4 DCWF v5.1                                               NICE v2.2.0 (NI…   100</span></span>
-<span><span class="co">#&gt; 5 Canadian Cyber Security Skills Framework 2022 (ITSM.00… CyQUAL 1.2.0         2</span></span>
-<span><span class="co">#&gt; 6 Canadian Cyber Security Skills Framework 2022 (ITSM.00… DCWF v5.1            2</span></span></code></pre></div>
+<span><span class="co">#&gt;   framework_name                                 framework_name_2              n</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                          &lt;chr&gt;                     &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 CyQUAL 1.2.0                                   DCWF v5.1                  1400</span></span>
+<span><span class="co">#&gt; 2 NICE v2.2.0 (NIST SP 800-181 Rev 1 components) SCyWF – 1.5: 2026           766</span></span>
+<span><span class="co">#&gt; 3 CyQUAL 1.2.0                                   ECSF v1                     132</span></span>
+<span><span class="co">#&gt; 4 CyQUAL 1.2.0                                   NICE v2.2.0 (NIST SP 800…   100</span></span>
+<span><span class="co">#&gt; 5 DCWF v5.1                                      NICE v2.2.0 (NIST SP 800…   100</span></span>
+<span><span class="co">#&gt; 6 DCWF v5.1                                      SCyWF – 1.5: 2026            78</span></span></code></pre></div>
 <!-- The two percentages in the paragraph below are fixed, not computed at render time: the August 2017 NICE Framework is not in the corpus graph. They were measured on 2026-09-19 against the NIST SP 800-181 supplemental task and KSA workbook, normalised the same way as the chunk above and on the same parents-only basis. -->
-<p>The largest block of shared text in the corpus is between CyQUAL, the Czech national framework, and DCWF, the US Department of Defense framework: 1,400 statements, word for word. Neither names the other as a source. Each shares only 100 statements with the current NICE Framework. What they have in common is the 2017 NICE Framework. Checked against NIST’s 2017 release, nearly all of what the two share is 2017 NICE text, and under 5 percent of that 2017 text survives in NICE v2.2.0. The 2017 edition is better preserved in Prague and at the Pentagon than at NIST. Canada’s framework describes itself as an adaptation of NICE and shares under 1 percent of its statements with anything.</p>
+<p>The largest block of shared text in the corpus is between CyQUAL, the Czech national framework, and DCWF, the US Department of Defense framework: 1,400 statements, word for word. Neither names the other as a source. Each shares only 100 statements with the current NICE Framework. What they have in common is the 2017 NICE Framework. Checked against NIST’s 2017 release, nearly all of what the two share is 2017 NICE text, and under 5 percent of that 2017 text survives in NICE v2.2.0. The 2017 edition is better preserved in Prague and at the Pentagon than at NIST. Canada’s framework describes itself as an adaptation of NICE and shares under 1 percent of its statements with anything. The second-largest block belongs to Saudi Arabia’s SCyWF, which shares 766 statements with NICE v2.2.0.</p>
 </div>
 <div class="section level3">
 <h3 id="which-frameworks-have-nothing-to-say-about-a-topic">Which frameworks have nothing to say about a topic?<a class="anchor" aria-label="anchor" href="#which-frameworks-have-nothing-to-say-about-a-topic"></a>
@@ -431,21 +491,24 @@ CSA copyright; non-commercial academic
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">statements</span>, .after <span class="op">=</span> <span class="va">framework_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">statements</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 11 × 6</span></span>
+<span><span class="co">#&gt; # A tibble: 14 × 6</span></span>
 <span><span class="co">#&gt;    framework_name              statements    ai ethics cryptography supply_chain</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;                            &lt;int&gt; &lt;int&gt;  &lt;int&gt;        &lt;int&gt;        &lt;int&gt;</span></span>
 <span><span class="co">#&gt;  1 DCWF v5.1                         4052    24     12           52           18</span></span>
 <span><span class="co">#&gt;  2 CyQUAL 1.2.0                      3340     1      9           29           18</span></span>
 <span><span class="co">#&gt;  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22</span></span>
 <span><span class="co">#&gt;  4 Operational Technology Cyb…       1612     1      6           31           12</span></span>
-<span><span class="co">#&gt;  5 Canadian Cyber Security Sk…       1345     0      5           36           29</span></span>
-<span><span class="co">#&gt;  6 SFIA 9                             821     6     15            0           11</span></span>
-<span><span class="co">#&gt;  7 Cyber.org K-12 Learning St…        492     0      8           10            0</span></span>
-<span><span class="co">#&gt;  8 ECSF v1                            390     0      4            0            1</span></span>
-<span><span class="co">#&gt;  9 CSTA K-12 Computer Science…        258     2      8            3            0</span></span>
-<span><span class="co">#&gt; 10 CSEC2017 Curricular Guidel…         40     0      3            1            1</span></span>
-<span><span class="co">#&gt; 11 DigComp 2.2                         21     0      0            0            0</span></span></code></pre></div>
-<p>Five of the eleven frameworks contain no statement that mentions artificial intelligence or machine learning. DCWF has 24 such statements, more than the other ten frameworks combined. NICE has three statements that mention ethics, out of 2,225. SFIA, ECSF and DigComp have none that mention cryptography.</p>
+<span><span class="co">#&gt;  5 SCyWF – 1.5: 2026                 1419     8      1           18           12</span></span>
+<span><span class="co">#&gt;  6 Canadian Cyber Security Sk…       1345     0      5           36           29</span></span>
+<span><span class="co">#&gt;  7 2026 CSTA PK-12 Computer S…        983    34     46            9            1</span></span>
+<span><span class="co">#&gt;  8 DigComp 3.0                        884     6     79            0            0</span></span>
+<span><span class="co">#&gt;  9 SFIA 9                             821     6     15            0           11</span></span>
+<span><span class="co">#&gt; 10 CyBOK v1.1.0                       596     1      1           29            0</span></span>
+<span><span class="co">#&gt; 11 Cyber.org K-12 Learning St…        492     0      8           10            0</span></span>
+<span><span class="co">#&gt; 12 ECSF v1                            390     0      4            0            1</span></span>
+<span><span class="co">#&gt; 13 CSTA K-12 Computer Science…        258     2      8            3            0</span></span>
+<span><span class="co">#&gt; 14 CSEC2017 Curricular Guidel…         40     0      3            1            1</span></span></code></pre></div>
+<p>Four of the fourteen frameworks contain no statement that mentions artificial intelligence or machine learning. DCWF has 24 such statements, more than the other seven workforce frameworks combined (18). The 2026 CSTA standards, which add a machine learning subconcept at every foundational level, have 34. NICE has three statements that mention ethics, out of 2,225. SFIA, ECSF and DigComp have none that mention cryptography.</p>
 <p>This measures the words a framework uses. It does not measure what a framework covers. OTCCF is a framework about operational technology and scores zero on the phrase “operational technology”, because CSA writes “OT”. A zero in this table is a reason to go and read the framework.</p>
 </div>
 <div class="section level3">
@@ -464,16 +527,17 @@ CSA copyright; non-commercial academic
 <span>    .by <span class="op">=</span> <span class="va">framework_name</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean_roles</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 5</span></span>
 <span><span class="co">#&gt;   framework_name                   statements mean_roles max_roles used_once_pct</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                                 &lt;int&gt;      &lt;dbl&gt;     &lt;int&gt;         &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 CyQUAL 1.2.0                           3151        5          50            33</span></span>
-<span><span class="co">#&gt; 2 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51</span></span>
-<span><span class="co">#&gt; 3 DCWF v5.1                              4052        2.4        74            55</span></span>
-<span><span class="co">#&gt; 4 ECSF v1                                 390        1           1           100</span></span>
-<span><span class="co">#&gt; 5 Canadian Cyber Security Skills …       1345        1           1           100</span></span>
-<span><span class="co">#&gt; 6 Operational Technology Cybersec…        270        1           1           100</span></span></code></pre></div>
-<p>Three of the role-based frameworks attach one statement to many roles. Three never do. In DCWF, 8 statements are attached to all 74 work roles, which makes them a common core the framework does not name. In CyQUAL the most widely shared statement reaches 50 of 102 roles. In ECSF, CCSSF and OTCCF every statement belongs to exactly one role, so “how many roles need this skill” cannot be answered from those frameworks’ own data, and an element count does not show the difference. OTCCF’s row counts the key tasks attached to its job roles. Its skill statements attach to skills.</p>
+<span><span class="co">#&gt; 2 SCyWF – 1.5: 2026                      1418        3.4        40            36</span></span>
+<span><span class="co">#&gt; 3 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51</span></span>
+<span><span class="co">#&gt; 4 DCWF v5.1                              4052        2.4        74            55</span></span>
+<span><span class="co">#&gt; 5 ECSF v1                                 390        1           1           100</span></span>
+<span><span class="co">#&gt; 6 Canadian Cyber Security Skills …       1345        1           1           100</span></span>
+<span><span class="co">#&gt; 7 Operational Technology Cybersec…        270        1           1           100</span></span></code></pre></div>
+<p>Four of the role-based frameworks attach one statement to many roles. Three never do. In DCWF, 8 statements are attached to all 74 work roles, which makes them a common core the framework does not name. In CyQUAL the most widely shared statement reaches 50 of 102 roles. In SCyWF, 4 statements are attached to all 40 job roles. In ECSF, CCSSF and OTCCF every statement belongs to exactly one role, so “how many roles need this skill” cannot be answered from those frameworks’ own data, and an element count does not show the difference. OTCCF’s row counts the key tasks attached to its job roles. Its skill statements attach to skills.</p>
 </div>
 </div>
 <div class="section level2">
@@ -487,9 +551,9 @@ CSA copyright; non-commercial academic
 <p>DCWF v5.1 expresses 54.8 elements per top-level unit. Cyber.org K-12 v1.0 expresses 4.2. The spread reflects design philosophy more than completeness. NICE and DCWF are granular by intent, as the basis for hiring and training pipelines. ENISA’s ECSF and JRC’s DigComp are high-level by intent, as an interoperability frame and a citizen self-assessment instrument. Per-unit density is a comparison aid across unlike denominators. It is not a quality claim. <code>framework_summary</code> also carries a <code>_strict</code> variant for analyses that prefer each framework’s own count.</p>
 </div>
 <div class="section level3">
-<h3 id="us-frameworks-are-about-48-percent-of-the-corpus-and-nices-reach-is-wider-than-that">US frameworks are about 48 percent of the corpus, and NICE’s reach is wider than that<a class="anchor" aria-label="anchor" href="#us-frameworks-are-about-48-percent-of-the-corpus-and-nices-reach-is-wider-than-that"></a>
+<h3 id="us-frameworks-are-about-43-percent-of-the-corpus-and-nices-reach-is-wider-than-that">US frameworks are about 43 percent of the corpus, and NICE’s reach is wider than that<a class="anchor" aria-label="anchor" href="#us-frameworks-are-about-43-percent-of-the-corpus-and-nices-reach-is-wider-than-that"></a>
 </h3>
-<p>The corpus spans 6 jurisdictions and 14,596 elements, counted with parsed examples included. US frameworks (NICE v2.2.0, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017)) contribute 7,027 of them. The two EU-level frameworks (ECSF v1 and DigComp 2.2) contribute 411, which reflects design intent: ECSF profiles point to e-CF 4.0 competences instead of restating them, and DigComp 2.2’s annex examples are not yet extracted. Counting by jurisdiction understates how far one framework travels. Canada’s framework describes itself as an adaptation of NICE for the Canadian labour market and cites NICE work roles throughout. CyQUAL says its structure and elements were adopted from NICE, and its task list carries the 2017 NICE task codes. Both describe the borrowing openly. The graph makes it countable. Element counts used as a coverage metric are evidence of lineage and design, and they do not measure how much work a framework represents.</p>
+<p>The corpus spans 8 jurisdictions and 18,457 elements, counted with parsed examples included. US frameworks (NICE v2.2.0, DCWF v5.1, Cyber.org K-12 v1.0, CSTA K-12 CS (Rev 2017), CSTA PK-12 CS (2026)) contribute 8,010 of them. The two EU-level frameworks (ECSF v1 and DigComp 3.0) contribute 1,274, which reflects design intent: ECSF profiles point to e-CF 4.0 competences instead of restating them, and DigComp is an intentionally high-level citizen self-assessment instrument. Counting by jurisdiction understates how far one framework travels. Canada’s framework describes itself as an adaptation of NICE for the Canadian labour market and cites NICE work roles throughout. CyQUAL says its structure and elements were adopted from NICE, and its task list carries the 2017 NICE task codes. Both describe the borrowing openly. The graph makes it countable. Element counts used as a coverage metric are evidence of lineage and design, and they do not measure how much work a framework represents.</p>
 </div>
 <div class="section level3">
 <h3 id="five-nice-work-roles-carry-a-disproportionate-share-of-the-specification">Five NICE work roles carry a disproportionate share of the specification<a class="anchor" aria-label="anchor" href="#five-nice-work-roles-carry-a-disproportionate-share-of-the-specification"></a>
@@ -534,18 +598,18 @@ CSA copyright; non-commercial academic
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>elements_per_unit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">element_count</span> <span class="op">/</span> <span class="va">top_level_unit_count</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">elements_per_unit</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 11 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 14 × 4</span></span>
 <span><span class="co">#&gt;   framework_name            top_level_unit_count element_count elements_per_unit</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                                    &lt;int&gt;         &lt;int&gt;             &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 DCWF v5.1                                   74          4052              54.8</span></span>
 <span><span class="co">#&gt; 2 NICE v2.2.0 (NIST SP 800…                   53          2225              42  </span></span>
-<span><span class="co">#&gt; 3 ECSF v1                                     12           390              32.5</span></span>
-<span><span class="co">#&gt; 4 Operational Technology C…                   61          1612              26.4</span></span>
-<span><span class="co">#&gt; 5 Canadian Cyber Security …                   59          1345              22.8</span></span>
-<span><span class="co">#&gt; 6 CyQUAL 1.2.0                               161          3340              20.7</span></span>
-<span><span class="co">#&gt; 7 CSTA K-12 Computer Scien…                   25           258              10.3</span></span>
-<span><span class="co">#&gt; 8 SFIA 9                                     147           821               5.6</span></span>
-<span><span class="co">#&gt; # ℹ 3 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; 3 DigComp 3.0                                 26           884              34  </span></span>
+<span><span class="co">#&gt; 4 ECSF v1                                     12           390              32.5</span></span>
+<span><span class="co">#&gt; 5 CyBOK v1.1.0                                21           596              28.4</span></span>
+<span><span class="co">#&gt; 6 Operational Technology C…                   61          1612              26.4</span></span>
+<span><span class="co">#&gt; 7 Canadian Cyber Security …                   59          1345              22.8</span></span>
+<span><span class="co">#&gt; 8 CyQUAL 1.2.0                               161          3340              20.7</span></span>
+<span><span class="co">#&gt; # ℹ 6 more rows</span></span></code></pre></div>
 <p>Jurisdiction pivots, top-load NICE roles, pairwise framework comparisons, and the librdf single-BGP discipline are covered in the <a href="https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.html"><code>cross-framework-analysis</code></a> vignette. Extending the schema to a new framework is covered in <a href="https://ryanstraight.github.io/cybedtools/articles/adding-a-framework.html"><code>adding-a-framework</code></a>.</p>
 </div>
 <div class="section level2">
@@ -571,10 +635,10 @@ CSA copyright; non-commercial academic
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
 <p>Package code is MIT (see <a href="LICENSE.html"><code>LICENSE.md</code></a>). Each framework retains its upstream license, and source text is not bundled. Users stage source files locally per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>, and each ingestion script writes a per-framework <code>provenance.yml</code>. See <a href="LICENSING.html"><code>LICENSING.md</code></a> for layered guidance on academic vs. commercial use.</p>
-<p>Three frameworks here come on terms narrower than MIT. Two of them are represented by written permission of their stewards, and the Canadian framework is referenced as its steward asked. Those terms were given to cybedtools and do not pass to you.</p>
+<p>Three frameworks here come on terms narrower than MIT, all represented by written permission of their stewards. Those terms were given to cybedtools and do not pass to you.</p>
 <ul>
 <li>Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <a href="https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/" class="external-link uri">https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/</a> CSA’s permission covers the framework’s structure, for non-commercial, academic and research use.</li>
-<li>Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.</li>
+<li>Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security.</li>
 <li>CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, <a href="https://platform.cyqual.cz/" class="external-link uri">https://platform.cyqual.cz/</a>.</li>
 </ul>
 </div>

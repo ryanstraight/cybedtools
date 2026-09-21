@@ -30,6 +30,7 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_role_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/cybed_license.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/cybedtools-package.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.html</loc></url>
@@ -39,12 +40,14 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_licenses.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_metadata.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_similarity.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_summary.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/graph_identity_violations.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/graph_invariant_counts.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_combined_rdf_graph.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/load_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_single_framework_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_unified_rdf_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.html</loc></url>
@@ -56,6 +59,8 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/validate_jsonld_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/write_jsonld_document.html</loc></url>
 </urlset>

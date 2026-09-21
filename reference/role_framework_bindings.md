@@ -11,7 +11,7 @@ cells, CSTA level x concept cells, CSEC2017 Knowledge Areas, and DigComp
 competence areas are not roles and are not returned by this helper. Use
 [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.
+every framework in the corpus.
 
 Roles without a `cybed:partOf` triple, or whose partOf target is not
 typed `cybed:Framework`, are excluded.
@@ -31,7 +31,7 @@ role_framework_bindings(rdf)
 ## Value
 
 A tibble with columns `role`, `role_name`, `framework`,
-`framework_name`.
+`framework_name`, `framework_slug` (added v0.4.0, a stable join key).
 
 ## Note
 
@@ -54,7 +54,9 @@ Other SPARQL helpers:
 [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md),
 [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md),
 [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md),
-[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md),
+[`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md),
+[`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
 
 ## Examples
 

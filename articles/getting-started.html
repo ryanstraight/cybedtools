@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,10 +99,10 @@
 <div class="section level2">
 <h2 id="what-cybedtools-does">What cybedtools does<a class="anchor" aria-label="anchor" href="#what-cybedtools-does"></a>
 </h2>
-<p>Eleven cybersecurity workforce and learning frameworks (NICE, DCWF,
-SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
+<p>Cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA,
+ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework,
 Singapore’s OTCCF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017,
-DigComp 2.2) expressed in a shared <code>cybed:</code> semantic schema.
+DigComp 3.0) expressed in a shared <code>cybed:</code> semantic schema.
 The package adds a comparison layer over existing frameworks, not a
 replacement for them.</p>
 <p>This vignette walks through the two ways to use it: install the
@@ -118,10 +118,10 @@ learning framework.</li>
 <strong><code>cybed:OrganizingUnit</code></strong>: the framework’s
 top-level enumerated unit (work role, work profile, skill, grade-band x
 sub-concept cell, level x concept cell, Knowledge Area, competence
-area). The cross-framework abstract; queries against it reach all eleven
-frameworks. Frameworks where the unit is genuinely a work role, job
-role, or profile (NICE, DCWF, ENISA ECSF, CyQUAL, CCSSF, OTCCF)
-additionally subclass <code>cybed:Role</code>.</li>
+area). The cross-framework abstract; queries against it reach every
+framework in the corpus. Frameworks where the unit is genuinely a work
+role, job role, or profile (NICE, DCWF, ENISA ECSF, CyQUAL, CCSSF,
+OTCCF) additionally subclass <code>cybed:Role</code>.</li>
 <li>
 <strong><code>cybed:RoleElement</code></strong>: the codable atomic
 statement attached to an organizing unit (task, knowledge statement,
@@ -156,7 +156,7 @@ stage reads:</p>
   src["Framework source files&lt;br&gt;NICE CPRT, DCWF XLSX, SFIA SQLite, ECSF JSON, ..."]
   ingest["010-ingest-*.R"]
   csv["Per-framework CSVs&lt;br&gt;+ provenance.yml"]
-  verify["015-verify-ingestion.R&lt;br&gt;six invariants"]
+  verify["015-verify-ingestion.R&lt;br&gt;invariant checks"]
   assemble["020-assemble-jsonld.R"]
   jsonld["JSON-LD&lt;br&gt;per-framework + combined"]
   ntriples["025-export-ntriples.R"]
@@ -198,11 +198,11 @@ retrieval date, and licensing info.</p>
 <p>Before any downstream analysis, verify the ingested data against
 declared invariants:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R</span></code></pre></div>
-<p>The verifier checks six invariant layers: source provenance (SHA256
-match), extraction count bounds, referential integrity, text-integrity
-(UTF-8 validity, non-empty, length sanity), ID uniqueness, and audit
-trail. Hard failures block downstream scripts. Soft flags warn but allow
-continuation.</p>
+<p>The verifier checks several invariant layers: source provenance
+(SHA256 match), extraction count bounds, referential integrity,
+text-integrity (UTF-8 validity, non-empty, length sanity), ID
+uniqueness, and audit trail. Hard failures block downstream scripts.
+Soft flags warn but allow continuation.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Typical output</span></span>
 <span><span class="co"># Summary: 95 pass, 0 soft flags, 0 HARD FAILURES.</span></span>
@@ -237,23 +237,23 @@ subclasses of Tier 1 types.</li>
 <div class="section level2">
 <h2 id="running-the-analytical-queries">Running the analytical queries<a class="anchor" aria-label="anchor" href="#running-the-analytical-queries"></a>
 </h2>
-<p>The package’s six named analyses are implemented in R, not as
+<p>The package’s named analyses are implemented in R, not as
 <code>.rq</code> files. They use single-BGP SPARQL primitives
 (<code><a href="../reference/sparql_pairs.html">sparql_pairs()</a></code>, <code><a href="../reference/sparql_subjects.html">sparql_subjects()</a></code>) composed
 via dplyr. See the <code>cross-framework-analysis</code> vignette for
 the full design rationale and the helper functions exposed.</p>
-<p>Run all six against the combined graph:</p>
+<p>Run all of them against the combined graph:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R</span></code></pre></div>
 <p>Each analysis writes one CSV to
 <code>data/processed/query-results/</code>:</p>
 <ul>
 <li>
 <code>q10-organizing-units-per-framework.csv</code>, cross-framework
-parent count (all eleven frameworks via
+parent count (every framework via
 <code>cybed:OrganizingUnit</code>).</li>
 <li>
 <code>q10b-roles-per-framework.csv</code>, role-restricted parent
-count (the six frameworks that assert <code>cybed:Role</code>).</li>
+count (the frameworks that assert <code>cybed:Role</code>).</li>
 <li>
 <code>q11-elements-per-framework-strict.csv</code>, strict element
 count per framework (parents + Subpoints, Examples excluded).</li>
@@ -300,11 +300,11 @@ helper:</p>
 <span><span class="co"># One row per framework with jurisdiction, sector, and specificity attached.</span></span>
 <span><span class="fu"><a href="../reference/framework_metadata.html">framework_metadata</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">jurisdiction</span>, <span class="va">name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
-<span><span class="co">#&gt;   framework                                name  jurisdiction sector specificity</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
+<span><span class="co">#&gt;   framework                 name  jurisdiction sector specificity framework_slug</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/o… Demo… EU           gener… general-IT  demo-fw-b     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/o… Demo… US           civil… cybersecur… demo-fw-a</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count how many top-level organizing units each framework declares.</span></span>
 <span><span class="co"># organizing_unit_framework_bindings reaches all eleven frameworks via the</span></span>
@@ -359,7 +359,7 @@ frameworks.</li>
 <li>See
 <code><a href="../articles/adding-a-framework.html">vignette("adding-a-framework", package = "cybedtools")</a></code> for
 how to extend the package with a framework beyond the current
-eleven.</li>
+corpus.</li>
 <li>See the <a href="https://ryanstraight.github.io/cybedtools/articles/namespace-architecture.html">namespace-architecture</a>
 article for the two-tier schema design.</li>
 <li>See the <a href="https://ryanstraight.github.io/cybedtools/articles/data-integrity.html">data-integrity</a>

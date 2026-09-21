@@ -1,10 +1,10 @@
 # cybedtools: Cross-framework Analysis of Cybersecurity Workforce and Learning Frameworks
 
-Eleven cybersecurity workforce and learning frameworks (NICE, DCWF,
-SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017,
-DigComp 2.2, CyQUAL, CCSSF, OTCCF) expressed in a shared `cybed:`
-semantic schema, with R helpers that query across them as if they were
-one corpus. The package adds a comparison layer over existing frameworks
+Cybersecurity workforce and learning frameworks (NICE, DCWF, SFIA, ENISA
+ECSF, Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, DigComp 3.0,
+CyQUAL, CCSSF, OTCCF, and more) expressed in a shared `cybed:` semantic
+schema, with R helpers that query across them as if they were one
+corpus. The package adds a comparison layer over existing frameworks
 rather than proposing a replacement.
 
 Use it for cross-framework curricular comparison, workforce-development
@@ -24,7 +24,7 @@ vignette for worked examples.
   running the domain helpers.
 
 - The `cross-framework-analysis` vignette shows worked findings across
-  the full eleven-framework graph.
+  the full corpus graph.
 
 - The `adding-a-framework` vignette covers extending the package with a
   new framework.

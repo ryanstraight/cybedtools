@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,8 +117,8 @@ knowledge statement, skill statement, competence, learning standard),
 sub-point, example, element text, source reference, and structural
 metadata (jurisdiction, sector, specificity). Per-framework vocabularies
 specialize these via subclassing, so a single SPARQL query targeting
-<code>cybed:OrganizingUnit</code> returns parent units across all eleven
-frameworks in one pass.</p>
+<code>cybed:OrganizingUnit</code> returns parent units across every
+framework in the corpus in one pass.</p>
 <p>Schema.org (<code>schema:</code>) and SKOS (<code>skos:</code>)
 provide the outermost vocabulary layer for generic properties such as
 name, description, prefLabel, and altLabel.
@@ -230,17 +230,17 @@ pedagogical-scaffolding fragments).</p>
   class NICE_T,DCWF_E,SFIA_SL,ECSF_E,CYB_S,CSTA_S,CSEC_E,DIG_C,CYQ_E,CCS_E,OTC_E sub
   class SP,EX parsed</code></pre>
 <p>A single SPARQL query against <code>cybed:OrganizingUnit</code>
-returns comparable parent-level bindings across all eleven frameworks at
-once. A query against <code>cybed:RoleElement</code> returns every
-atomic content node (parents, Subpoints, and Examples). A query against
-<code>cybed:Role</code> is workforce-restricted to NICE / DCWF / ENISA
-ECSF / CyQUAL / CCSSF / OTCCF.</p>
+returns comparable parent-level bindings across every framework in the
+corpus at once. A query against <code>cybed:RoleElement</code> returns
+every atomic content node (parents, Subpoints, and Examples). A query
+against <code>cybed:Role</code> is workforce-restricted to NICE / DCWF /
+ENISA ECSF / CyQUAL / CCSSF / OTCCF.</p>
 <div class="section level3">
 <h3 id="tier-1-base-vocabulary-cybed">Tier 1: Base vocabulary (<code>cybed:</code>)<a class="anchor" aria-label="anchor" href="#tier-1-base-vocabulary-cybed"></a>
 </h3>
 <p>Framework-agnostic terms. <code>cybed:OrganizingUnit</code> is the
 cross-framework abstract; every framework’s parent type subclasses it,
-and queries against it reach all eleven frameworks.
+and queries against it reach every framework in the corpus.
 <code>cybed:Role</code> is reserved for workforce frameworks where the
 unit is genuinely a work role or work profile.</p>
 <ul>
@@ -418,7 +418,7 @@ Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
 <td><code>csec:Essential</code></td>
 </tr>
 <tr class="even">
-<td>DigComp 2.2</td>
+<td>DigComp 3.0</td>
 <td><code>digcomp:CompetenceArea</code></td>
 <td><code>cybed:OrganizingUnit</code></td>
 <td><code>digcomp:Competence</code></td>
@@ -475,10 +475,10 @@ Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
 <p>A node’s IRI is its prefix plus its framework-local id. That works as
 long as a framework numbers its organizing units and its statements out
 of separate id spaces, because then no unit id can equal a statement id
-and no two nodes can land on the same IRI. Nine of the eleven frameworks
+and no two nodes can land on the same IRI. Most frameworks in the corpus
 are like that.</p>
-<p>Two are not. DCWF draws work-role codes and task/KSA numbers from one
-numeric range, so work role 462 and statement 462 both wanted
+<p>A few are not. DCWF draws work-role codes and task/KSA numbers from
+one numeric range, so work role 462 and statement 462 both wanted
 <code>dcwf:462</code>. Cyber.org K-12 names a grade-band x sub-concept
 cell after its axes and names the standards inside it the same way, so a
 cell holding exactly one standard wanted that standard’s IRI. Where that
@@ -518,8 +518,8 @@ declares <code>cell-</code>.</p>
 </table>
 <p>Three properties of the rule matter more than the rule itself.</p>
 <p>It is one-sided. Statement IRIs do not move. They are the codes
-people cite, there are about 4,500 of them, and a framework’s own
-numbering is what a reader looks up.</p>
+people cite, there are 13,962 of them (parent statements, strict count),
+and a framework’s own numbering is what a reader looks up.</p>
 <p>It is declared, not inferred. A framework with no
 <code>unit_iri_prefix</code> mints the IRIs it has always minted, so the
 other nine frameworks’ graphs are byte-identical to what they were
@@ -533,15 +533,16 @@ if any IRI is typed both <code>cybed:OrganizingUnit</code> and
 triple points at its own subject. There is no exemption list. A
 framework that would need one needs a <code>unit_iri_prefix</code>
 instead.</p>
-<p>The three frameworks added in v0.3.0 mint their Tier 2 terms under
+<p>The national frameworks added after the package’s original release
+mint their Tier 2 terms under
 <code>https://w3id.org/cybed/framework/&lt;slug&gt;#</code> rather than
-under the steward’s own domain. The other eight sit under a namespace
-derived from the publisher’s site. The difference is deliberate. A term
-like <code>otccf:JobRole</code> is a type cybedtools coined to describe
-what CSA published, and it is not an identifier CSA issued. Putting it
-under the package’s own namespace keeps that distinction visible in the
-URI itself, so nobody reading the graph mistakes a package-coined
-subtype for the steward’s vocabulary.</p>
+under the steward’s own domain. The rest sit under a namespace derived
+from the publisher’s site. The difference is deliberate. A term like
+<code>otccf:JobRole</code> is a type cybedtools coined to describe what
+CSA published, and it is not an identifier CSA issued. Putting it under
+the package’s own namespace keeps that distinction visible in the URI
+itself, so nobody reading the graph mistakes a package-coined subtype
+for the steward’s vocabulary.</p>
 </div>
 </div>
 <div class="section level2">

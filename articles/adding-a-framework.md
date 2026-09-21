@@ -2,12 +2,13 @@
 
 ## Scope of this vignette
 
-Extending `cybedtools` with a framework beyond the current eleven (NICE,
-DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2, CyQUAL,
-CCSSF, OTCCF) is a six-step process. This vignette walks through the
-steps using a hypothetical “Framework X” to make the pattern concrete.
+Extending `cybedtools` with a framework beyond the current corpus (NICE,
+DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0, CyQUAL,
+CCSSF, OTCCF) follows a fixed sequence of steps. This vignette walks
+through the steps using a hypothetical “Framework X” to make the pattern
+concrete.
 
-The six steps:
+The steps:
 
 1.  Pick a slug and framework prefix.
 2.  Stage the source file and write an ingestion script.
@@ -187,10 +188,10 @@ depending on whether the framework is workforce-shaped:
 - Use `build_organizing_unit_node(is_role = FALSE)` when the parent
   units are something else (skills, learning standards clusters,
   knowledge areas, competence areas). SFIA, Cyber.org K-12, CSTA,
-  CSEC2017, and DigComp 2.2 do this.
+  CSEC2017, and DigComp 3.0 do this.
 
 Both paths assert `cybed:OrganizingUnit` so cross-framework queries
-reach all eleven frameworks via the abstract type. Only
+reach every framework in the corpus via the abstract type. Only
 [`build_role_node()`](https://ryanstraight.github.io/cybedtools/reference/build_role_node.md)
 additionally asserts `cybed:Role`, restricting workforce-only queries
 appropriately.
@@ -427,11 +428,11 @@ framework’s text. Record what the steward actually granted in the
 framework’s block in `docs/framework-invariants.yml`, under
 `public_redistribution`. Two values are in use. `full_with_attribution`
 means the statement text may be published as long as the attribution
-travels with it, which is where CyQUAL sits. `structure_only` means
-titles, categories, levels, and mappings may be published and the
-statement text may not, which is where CCSSF and OTCCF sit. Put the
-reasoning in a comment beside the value, including the date of the
-written permission, so the next reader does not have to reconstruct it.
+travels with it, which is where CyQUAL and CCSSF sit. `structure_only`
+means titles, categories, levels, and mappings may be published and the
+statement text may not, which is where OTCCF sits. Put the reasoning in
+a comment beside the value, including the date of the written
+permission, so the next reader does not have to reconstruct it.
 
 Treat the value as binding on anything the package makes public, which
 includes the Concordance site and any data deposit. Analysis on a local

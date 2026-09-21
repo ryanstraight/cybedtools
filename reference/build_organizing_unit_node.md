@@ -4,12 +4,12 @@
 
 Every framework's top-level enumerated unit is an instance of
 `cybed:OrganizingUnit` (subClassOf `skos:Concept`), the cross-framework
-abstract that lets one SPARQL query reach all eleven frameworks' parent
-units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
-unit is genuinely a work role or work profile additionally assert
+abstract that lets one SPARQL query reach every framework's parent units
+uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the unit
+is genuinely a work role or work profile additionally assert
 `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); pass
 `is_role = TRUE` for those. Non-workforce frameworks (SFIA enumerates
-skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 2.2 enumerate other
+skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 enumerate other
 organizing units) assert `cybed:OrganizingUnit` only.
 
 Each unit also carries a per-framework subtype (e.g., `nice:WorkRole`,

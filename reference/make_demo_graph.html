@@ -8,7 +8,7 @@ workforce-shaped: its 2 organizing units are typed cybed:Role
 and cybed:OrganizingUnit, mirroring NICE / DCWF / ENISA ECSF.
 Framework B (EU, general, general-IT) is non-workforce-shaped:
 its 1 organizing unit is typed cybed:OrganizingUnit only,
-mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.
 
 
 The graph also includes 5 atomic elements (typed cybed:RoleElement),
@@ -38,7 +38,7 @@ workforce-shaped: its 2 organizing units are typed cybed:Role
 and cybed:OrganizingUnit, mirroring NICE / DCWF / ENISA ECSF.
 Framework B (EU, general, general-IT) is non-workforce-shaped:
 its 1 organizing unit is typed cybed:OrganizingUnit only,
-mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.
+mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.
 
 
 The graph also includes 5 atomic elements (typed cybed:RoleElement),
@@ -85,7 +85,7 @@ against a graph assembled from staged framework sources."><meta property="og:ima
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,7 +130,7 @@ workforce-shaped: its 2 organizing units are typed <code>cybed:Role</code>
 and <code>cybed:OrganizingUnit</code>, mirroring NICE / DCWF / ENISA ECSF.</p></li>
 <li><p><strong>Framework B</strong> (EU, general, general-IT) is non-workforce-shaped:
 its 1 organizing unit is typed <code>cybed:OrganizingUnit</code> only,
-mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 2.2.</p></li>
+mirroring SFIA / Cyber.org K-12 / CSTA / CSEC2017 / DigComp 3.0.</p></li>
 </ul><p>The graph also includes 5 atomic elements (typed <code>cybed:RoleElement</code>),
 one <code>cybed:Subpoint</code> (an enumerated child of an element, reachable via
 the role's <code>cybed:hasElement</code>), and one <code>cybed:Example</code> (a pedagogical-
@@ -171,24 +171,24 @@ against a graph assembled from staged framework sources.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">rdf</span> <span class="op">&lt;-</span> <span class="fu">make_demo_graph</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="framework_metadata.html">framework_metadata</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   framework                                name  jurisdiction sector specificity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/ontology#framewo… Demo… EU           gener… general-IT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#framewo… Demo… US           civil… cybersecur…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   framework                 name  jurisdiction sector specificity framework_slug</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/o… Demo… EU           gener… general-IT  demo-fw-b     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/o… Demo… US           civil… cybersecur… demo-fw-a     </span>
 <span class="r-in"><span><span class="fu"><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>   <span class="co"># all three units, both frameworks</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   unit                                        framework unit_name framework_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/ontology#role/demo-… https://… IT Gener… Demo Framewor…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   unit                         framework unit_name framework_name framework_slug</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/onto… https://… IT Gener… Demo Framewor… demo-fw-b     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/onto… https://… Incident… Demo Framewor… demo-fw-a     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> https://w3id.org/cybed/onto… https://… Security… Demo Framewor… demo-fw-a     </span>
 <span class="r-in"><span><span class="fu"><a href="role_framework_bindings.html">role_framework_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span>              <span class="co"># only the two workforce-shaped units</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   role                                        framework role_name framework_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/ontology#role/demo-… https://… Incident… Demo Framewor…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/ontology#role/demo-… https://… Security… Demo Framewor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   role                         framework role_name framework_name framework_slug</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> https://w3id.org/cybed/onto… https://… Incident… Demo Framewor… demo-fw-a     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> https://w3id.org/cybed/onto… https://… Security… Demo Framewor… demo-fw-a     </span>
 <span class="r-in"><span><span class="fu"><a href="sparql_pairs.html">sparql_pairs</a></span><span class="op">(</span><span class="va">rdf</span>, <span class="st">"cybed:hasExample"</span><span class="op">)</span>     <span class="co"># the parent -&gt; example link</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   s                                                  o                          </span>

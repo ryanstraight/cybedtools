@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@
 <p>Agentic-tool guidance for <code>cybedtools</code>. Conforms to the vendor-neutral <a href="https://agents.md" class="external-link">agents.md</a> convention. Read by Cursor, Claude Code, OpenAI Codex, Aider, and similar tools. Web-fetching agents that follow the <code>/llms.txt</code> convention should additionally pull <a href="https://ryanstraight.github.io/cybedtools/llms.txt" class="uri">https://ryanstraight.github.io/cybedtools/llms.txt</a> for the full reference index.</p>
 <div class="section level2">
 <h2 id="what-this-package-is">What this package is<a class="anchor" aria-label="anchor" href="#what-this-package-is"></a></h2>
-<p>R package providing a reproducible JSON-LD + SPARQL pipeline for analyzing cybersecurity workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore’s OTCCF) and pedagogical/learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). The intellectual contribution is a framework-agnostic schema (<code>cybed:</code>) that lets one query operate across heterogeneous frameworks. The implementation enforces the schema and provides analytical helpers.</p>
+<p>R package providing a reproducible JSON-LD + SPARQL pipeline for analyzing cybersecurity workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF, CyQUAL, the Canadian Cyber Security Skills Framework, Singapore’s OTCCF, the Saudi Cybersecurity Workforce Framework) and pedagogical/learning-standards frameworks and bodies of knowledge (Cyber.org K-12, CSTA K-12 CS in its 2017 and 2026 editions, ACM/IEEE CSEC2017, JRC DigComp 3.0, the UK’s CyBOK). The intellectual contribution is a framework-agnostic schema (<code>cybed:</code>) that lets one query operate across heterogeneous frameworks. The implementation enforces the schema and provides analytical helpers.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer over them. Agents generating example outputs from this package should not frame those outputs as competing with or replacing NICE, SFIA, or any other upstream framework.</p>
 </div>
 <div class="section level2">
@@ -86,7 +86,7 @@
 </div>
 <div class="section level2">
 <h2 id="test-document-build">Test, document, build<a class="anchor" aria-label="anchor" href="#test-document-build"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Run the test suite (roughly 550 tests)</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Run the test suite</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test()"</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Regenerate man/ + NAMESPACE after roxygen comment changes</span></span>

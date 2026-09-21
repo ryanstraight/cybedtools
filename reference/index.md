@@ -107,6 +107,20 @@ Load assembled JSON-LD or N-Triples into rdflib for SPARQL querying.
 - [`make_demo_graph()`](https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.md)
   **\[stable\]** : Build a small in-memory demo RDF graph
 
+## Data loading (public release)
+
+Download and hash-verify the public per-framework data release into the
+user cache, and load it into an rdf graph. The names and shape match the
+Python package’s cybed_fetch()/load_graph() (0.4.0 API parity, see
+inst/conformance/).
+
+- [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+  **\[experimental\]** : Download and hash-verify per-framework release
+  files into the user cache
+- [`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+  **\[experimental\]** : Load a graph from the cached release files,
+  fetching first if needed
+
 ## SPARQL helpers
 
 Single-BGP query primitives and domain-level helpers. The package’s
@@ -117,30 +131,58 @@ cross-framework-analysis for worked examples.
 - [`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md)
   **\[stable\]** : Run a single-BGP SPARQL select returning
   subject-object pairs
+
 - [`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)
   **\[stable\]** : Run a single-BGP SPARQL select with fixed predicate
   and object
+
 - [`framework_metadata()`](https://ryanstraight.github.io/cybedtools/reference/framework_metadata.md)
   **\[stable\]** : Domain helper: tibble of framework metadata
+
 - [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md)
   **\[stable\]** : Domain helper: organizing-unit-to-framework bindings
   with framework name attached
+
 - [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
   **\[stable\]** : Domain helper: role-to-framework bindings with
   framework name attached
+
 - [`element_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.md)
   **\[stable\]** : Domain helper: element-to-framework bindings with
   framework name attached
+
 - [`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
   **\[stable\]** : Domain helper: subpoint-to-framework bindings with
   framework name attached
+
 - [`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md)
   **\[stable\]** : Domain helper: example-to-framework bindings with
   framework name attached
-- [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+
+- [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
   **\[stable\]** : Domain helper: organizing-unit-to-element bindings
+
+- [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+  **\[deprecated\]** :
+
+  Deprecated alias for
+  [`unit_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_element_bindings.md)
+
+- [`unit_relation_bindings()`](https://ryanstraight.github.io/cybedtools/reference/unit_relation_bindings.md)
+  **\[experimental\]** : Domain helper: unit-to-unit relation bindings
+
 - [`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
   **\[stable\]** : Domain helper: statement text keyed by element
+
+## Similarity
+
+Cross-framework unit-text similarity. The tokenizer, Jaccard scorer and
+stopword list are internal; framework_similarity() is the one exported
+entry point.
+
+- [`framework_similarity()`](https://ryanstraight.github.io/cybedtools/reference/framework_similarity.md)
+  **\[experimental\]** : Cross-framework unit-text similarity, top-n
+  matches per unit
 
 ## Validation
 
@@ -187,7 +229,7 @@ Licence facts for the package code and every framework, with one owner.
 Pre-computed summary tibbles shipped with the package.
 
 - [`framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
-  : Eleven-framework summary tibble
+  : Framework summary tibble
 - [`framework_licenses`](https://ryanstraight.github.io/cybedtools/reference/framework_licenses.md)
   **\[experimental\]** : Licence facts for the package code and every
   framework
