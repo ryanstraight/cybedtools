@@ -42,6 +42,7 @@ ingestion_scripts <- c(
   "scripts/010-ingest-ecsf.R",
   "scripts/010-ingest-cyberorg.R",
   "scripts/010-ingest-csta.R",
+  "scripts/010-ingest-csta2026.R",
   "scripts/010-ingest-csec2017.R",
   "scripts/010-ingest-digcomp.R",
   "scripts/010-ingest-cyqual.R",

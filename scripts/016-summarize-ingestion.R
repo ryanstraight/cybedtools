@@ -225,6 +225,9 @@ render_summary_doc <- function(manifests, summary_tbl) {
         # Role = level x concept clusters (5 levels x 5 concepts = 25)
         5 * 5
       },
+      # Observed level x concept and tier x specialty area groups, measured
+      # by scripts/010-ingest-csta2026.R.
+      `csta-2026` = extraction$organizing_units,
       csec2017 = extraction$knowledge_areas,
       digcomp  = extraction$competence_areas,
       # Work roles only. CyQUAL's 59 competencies are a second organizing
@@ -246,6 +249,7 @@ render_summary_doc <- function(manifests, summary_tbl) {
       ecsf           = extraction$element_count,
       `cyberorg-k12` = extraction$standards_total,
       csta           = extraction$standards_count,
+      `csta-2026`    = extraction$standards_count,
       csec2017       = extraction$essentials_total,
       digcomp        = extraction$competences,
       # Tasks and requirements together are CyQUAL's element population.
