@@ -37,8 +37,8 @@ A single SPARQL query targeting `cybed:RoleElement` returns atomic elements acro
 ```{r}
 #| eval: false
 # Install from GitHub (not yet on CRAN)
-# install.packages("pak")
-pak::pak("ryanstraight/cybedtools")
+# install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
 ```
 
 The package depends on `rdflib` for RDF/SPARQL, `jsonlite` for JSON-LD I/O, and a small subset of the tidyverse (`dplyr`, `purrr`, `tibble`). A native Python package with the same API is on PyPI: `pip install cybedtools`.
