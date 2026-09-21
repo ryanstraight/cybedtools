@@ -21,6 +21,7 @@
 #   otccf:JobRole                                      -> subClassOf cybed:Role
 #   sfia:Skill, csec:KnowledgeArea, digcomp:CompetenceArea,
 #   cyberorg:StandardGroup, csta:StandardGroup,
+#   csta2026:StandardGroup,
 #   nice:CompetencyArea, cyqual:Competency,
 #   otccf:TechnicalSkillCompetency,
 #   otccf:CriticalCoreSkill                            -> subClassOf cybed:OrganizingUnit
@@ -49,6 +50,10 @@ if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION
 } else {
   library(cybedtools)
 }
+
+# The csta-2026 adapter lives in its own file so the test suite can drive it
+# with a synthetic fixture.
+source(here("scripts", "_assemble-csta2026.R"), local = TRUE)
 
 assembly_config <- list(
   raw_dir         = here("data", "raw"),
@@ -754,6 +759,20 @@ assemble_csta <- function() {
 
   list(framework = framework_node, roles = role_nodes, elements = all_element_nodes,
        prefix = "csta")
+}
+
+# The 2026 CSTA PK-12 standards: a separate framework from csta-2017, with
+# its own prefix and identifier scheme. The mapping is documented in
+# scripts/_assemble-csta2026.R.
+assemble_csta2026 <- function() {
+  build_csta2026_parts(
+    standards       = read_framework_table("csta-2026", "standards"),
+    boundaries      = read_framework_table("csta-2026", "boundaries"),
+    examples        = read_framework_table("csta-2026", "examples"),
+    units           = read_framework_table("csta-2026", "units"),
+    prov            = load_framework_provenance("csta-2026"),
+    unit_iri_prefix = unit_iri_prefix_for("csta-2026")
+  )
 }
 
 assemble_csec2017 <- function() {
@@ -1641,6 +1660,7 @@ framework_assemblers <- list(
   ecsf               = assemble_ecsf,
   `cyberorg-k12`     = assemble_cyberorg,
   csta               = assemble_csta,
+  `csta-2026`        = assemble_csta2026,
   csec2017           = assemble_csec2017,
   digcomp            = assemble_digcomp,
   cyqual             = assemble_cyqual,

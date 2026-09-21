@@ -26,7 +26,7 @@ export_config <- list(
   jsonld_dir = here("data", "processed", "jsonld"),
   nt_dir     = here("data", "processed", "ntriples"),
   frameworks = c("nice", "sfia", "dcwf", "ecsf",
-                 "cyberorg-k12", "csta", "csec2017", "digcomp",
+                 "cyberorg-k12", "csta", "csta-2026", "csec2017", "digcomp",
                  "cyqual", "ccssf", "otccf")
 )
 
