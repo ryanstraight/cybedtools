@@ -332,7 +332,7 @@ scywf_parse_card <- function(words) {
     tidyr::unnest(code) |>
     mutate(separator = if_else(str_detect(code, ",$"), ",", ""),
            code = str_remove(code, ",$"),
-           statement_type = c(T = "task", K = "knowledge", S = "skill")[substr(code, 1, 1)])
+           statement_type = unname(c(T = "task", K = "knowledge", S = "skill")[substr(code, 1, 1)]))
   letter_rank <- match(substr(codes$code, 1, 1), c("T", "K", "S"))
   if (is.unsorted(letter_rank)) {
     stop("Card ", id_word$text, ": Task, Knowledge and Skill codes are interleaved.")
