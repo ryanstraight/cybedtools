@@ -130,7 +130,7 @@ cybed_download <- function(url, destfile) {
 #'   carried by [framework_summary]`$framework_slug`, e.g. `"nice-v2"`), or
 #'   `NULL` (the default) for every framework the release manifest ships.
 #' @param version Character scalar release version (e.g. `"1.0.0"`), or
-#'   `NULL` (the default) for the release location's `"latest"` alias.
+#'   `NULL` (the default) for the data release this package version was built against, `cybed_data_release`.
 #' @return Invisibly, a tibble with one row per fetched framework: columns
 #'   `framework_slug`, `path` (the cached file's local path),
 #'   `sha256_verified` (logical, always `TRUE` on return -- a mismatch
@@ -146,9 +146,13 @@ cybed_download <- function(url, destfile) {
 #'   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))
 #' )
 #' }
+#' Data release this package version was built and tested against.
+#' @noRd
+cybed_data_release <- "2026.09.2"
+
 cybed_fetch <- function(frameworks = NULL, version = NULL) {
   base_url <- cybed_release_base_url()
-  version  <- if (is.null(version)) "latest" else version
+  version  <- if (is.null(version)) cybed_data_release else version
   manifest <- cybed_read_manifest(base_url, version)
 
   files <- manifest$files

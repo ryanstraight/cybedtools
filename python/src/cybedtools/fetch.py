@@ -100,6 +100,10 @@ def _release_base_url() -> str:
     return _DEFAULT_BASE_URL
 
 
+DATA_RELEASE = "2026.09.2"
+"""Data release this package version was built and tested against."""
+
+
 def _release_url_for(base_url: str, version: str, filename: str) -> str:
     """Build the URL of one release file (the manifest or a framework's ``.nt.gz``).
 
@@ -261,7 +265,7 @@ def cybed_fetch(
         ships.
     version : str or None
         Release version (e.g. ``"1.0.0"``), or ``None`` (the default) for
-        the release location's ``"latest"`` alias.
+        the data release this package version was built against, ``DATA_RELEASE``.
 
     Returns
     -------
@@ -281,7 +285,7 @@ def cybed_fetch(
         If a downloaded file's SHA-256 does not match the manifest.
     """
     base_url = _release_base_url()
-    resolved_version = version if version is not None else "latest"
+    resolved_version = version if version is not None else DATA_RELEASE
     manifest = _read_manifest(base_url, resolved_version)
 
     files = manifest["files"]
