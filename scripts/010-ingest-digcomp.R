@@ -36,10 +36,14 @@
 #   scripts/020-assemble-jsonld.R) -- deferred, not lost.
 #
 # Errata: the supplement (24 Nov 2025) predates the official errata
-# (updated 2026-01-27). data/raw/digcomp/v3.0/errata.csv lists the 7
-# data-affecting corrections; this ingester applies all 7 deliberately
+# (updated 2026-01-27). data/raw/digcomp/v3.0/errata.csv lists 7
+# data-affecting corrections. This ingester applies E1-E4 deliberately
 # (see apply_learning_outcome_errata() below). After errata: 522 learning
-# outcomes (competence 2.5 drops from 21 to 20).
+# outcomes (competence 2.5 drops from 21 to 20). E5-E7 (LO4.3.22,
+# LO5.2.12, LO5.4.13) are published as instructions without a quoted
+# replacement sentence, so they are left unapplied -- the staged file's
+# wording is carried unchanged rather than composing new sentence text in
+# JRC's name. See docs/ingestion-summary.md.
 #
 # 2.2 raw stays archived at data/raw/digcomp/v2.2/ (not deleted). This
 # script's OUTPUT tables replace data/raw/digcomp/tables/ and
@@ -84,16 +88,18 @@ digcomp_config <- list(
 #' Apply the 7 official DigComp 3.0 errata to the staged learning outcomes
 #'
 #' @description
-#' Six corrections (E2-E7) reword a single outcome's text; each is applied
-#' by exact `outcome_id` match, before any renumbering, so a later
-#' renumbering pass never has to track a moving target. E2, E3 and E4 use
-#' the exact replacement text the errata document quotes verbatim. E5, E6
-#' and E7 name only the phrase to insert, not a full replacement sentence;
-#' this ingester reconstructs the minimal edit the errata's own wording
-#' calls for (E5 mirrors E4's exact wording for its "implementation
-#' strategies variant", as the errata itself labels it) and flags the
-#' reconstruction in the written manifest for owner verification against
-#' the published errata page.
+#' Three corrections (E2-E4) reword a single outcome's text using the
+#' exact replacement text the errata document quotes verbatim. Each is
+#' applied by exact `outcome_id` match, before any renumbering, so a later
+#' renumbering pass never has to track a moving target.
+#'
+#' E5, E6 and E7 (LO4.3.22, LO5.2.12, LO5.4.13) are published as
+#' instructions naming only the phrase to insert, with no replacement
+#' sentence quoted. Composing a new sentence from that instruction would
+#' put cybedtools's words in JRC's mouth rather than JRC's own text, so
+#' these three are left unapplied: the staged file's wording is carried
+#' through unchanged. They are recorded as known-unapplied in the
+#' provenance manifest and in docs/ingestion-summary.md.
 #'
 #' The seventh correction (E1) is structural: LO2.5.09 is a verbatim
 #' duplicate of LO2.5.07 and is deleted, and competence 2.5's remaining
@@ -130,29 +136,14 @@ apply_learning_outcome_errata <- function(outcomes) {
       "Describe strategies to help protect against and respond",
       "effectively to harmful behaviour, content and deceptive design in",
       "digital environments."
-    )) |>
-    # E5: the errata document labels this the "implementation strategies
-    # variant" of E4/LO4.3.18, without quoting a full replacement sentence.
-    # Reconstructed by mirroring E4's exact wording with the matching verb
-    # (Describe -> Implement, third person -> reflexive), flagged below.
-    reword("LO4.3.22", paste(
-      "Implement strategies to help protect oneself against and respond",
-      "effectively to harmful behaviour, content and deceptive design in",
-      "digital environments."
-    )) |>
-    # E6: resolves LO5.2.12's duplication of LO5.2.09 by naming the
-    # accessibility phrase the erratum specifies, worked into the existing
-    # sentence. No full replacement text quoted in the errata; flagged below.
-    reword("LO5.2.12", paste(
-      "Adjust features of one's digital environment, including digital",
-      "assistance tools and assistive technologies, to suit one's own and",
-      "others' needs and preferences."
-    )) |>
-    # E7: no full replacement text quoted in the errata; flagged below.
-    reword("LO5.4.13", paste(
-      "Support others to develop confidence, autonomy and problem-solving",
-      "capabilities in digital environments."
     ))
+    # E5, E6 and E7 (LO4.3.22, LO5.2.12, LO5.4.13) are published as
+    # instructions naming only a phrase to insert, with no replacement
+    # sentence quoted. Composing new sentence text from that instruction
+    # would be cybedtools's words, not JRC's, so these three are left
+    # unapplied and the staged file's wording carries through verbatim.
+    # See docs/ingestion-summary.md and the errata block in
+    # write_provenance_manifest() below.
 
   dup_idx <- which(outcomes$outcome_id == "LO2.5.09")
   if (length(dup_idx) != 1L) {
@@ -209,10 +200,11 @@ write_provenance_manifest <- function(source_prov, jsonld_sha256, tables) {
       extraction_scope = "complete: every competence-area, competence, competence-statement and (post-errata) learning-outcome row from the official JSON-LD data supplement. Proficiency levels and glossary are staged verbatim but not emitted into the graph (deferred, see scripts/020-assemble-jsonld.R)."
     ),
     errata = list(
-      status = "APPLIED",
+      status = "PARTIALLY_APPLIED",
       errata_file = "data/raw/digcomp/v3.0/errata.csv",
-      applied = c("E1", "E2", "E3", "E4", "E5", "E6", "E7"),
-      note = "E1 (structural: delete LO2.5.09, renumber 2.5's outcomes down by one) and E2/E3/E4 (exact quoted replacement text) applied verbatim. E5, E6 and E7 name only the phrase to insert rather than quoting a full replacement sentence; this ingester reconstructed the minimal edit each erratum calls for. RECOMMEND OWNER VERIFICATION of LO4.3.22, LO5.2.12 and LO5.4.13 against the published errata page before treating their wording as JRC's own."
+      applied = c("E1", "E2", "E3", "E4"),
+      unapplied = c("E5", "E6", "E7"),
+      note = "E1 (structural: delete LO2.5.09, renumber 2.5's outcomes down by one) and E2/E3/E4 (exact quoted replacement text) applied verbatim. Errata E5 to E7 are published as instructions without replacement text, so the staged wording is carried unchanged. The learning-outcome count (522) is unaffected: it comes from E1 alone."
     ),
     licensing = list(
       source_license = digcomp_config$license,

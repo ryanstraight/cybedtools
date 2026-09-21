@@ -271,6 +271,12 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **proficiency levels staged:** 8
 - **glossary terms staged:** 126
 
+### Errata
+- **status:** PARTIALLY_APPLIED
+- **applied:** E1, E2, E3, E4
+- **unapplied:** E5, E6, E7
+- **note:** E1 (structural: delete LO2.5.09, renumber 2.5's outcomes down by one) and E2/E3/E4 (exact quoted replacement text) applied verbatim. Errata E5 to E7 are published as instructions without replacement text, so the staged wording is carried unchanged. The learning-outcome count (522) is unaffected: it comes from E1 alone.
+
 ### Licensing
 - **source license:** CC BY 4.0 (European Union, 2025; Commission Decision 2011/833/EU)
 - **citation:** Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R.
@@ -327,6 +333,10 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **tks associations count:** 5,410
 - **competency area ks associations count:** 412
 - **role opm mappings count:** 40
+
+### Errata
+- **applied:** 1
+- **note:** Source-data corrections applied deterministically at ingest. See errata.csv for element ids, published vs corrected values, and rationale.
 
 ### Licensing
 - **source license:** US public domain (17 U.S.C. 105); foreign rights reserved but granted royalty-free worldwide, incl. derivative works; attribute NIST as source

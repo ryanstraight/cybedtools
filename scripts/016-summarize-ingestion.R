@@ -181,6 +181,26 @@ render_summary_doc <- function(manifests, summary_tbl) {
       lines <- c(lines, "")
     }
 
+    # Errata (any framework that stages an errata.csv and records a
+    # manifest $errata block, e.g. digcomp, nice)
+    errata <- m$errata %||% list()
+    if (length(errata) > 0) {
+      lines <- c(lines, "### Errata")
+      status_val <- safe_get(errata, "status")
+      if (!is.na(status_val)) lines <- c(lines, glue("- **status:** {status_val}"))
+      applied_val <- errata$applied
+      if (!is.null(applied_val)) {
+        lines <- c(lines, glue("- **applied:** {paste(applied_val, collapse=', ')}"))
+      }
+      unapplied_val <- errata$unapplied
+      if (!is.null(unapplied_val)) {
+        lines <- c(lines, glue("- **unapplied:** {paste(unapplied_val, collapse=', ')}"))
+      }
+      note_val <- safe_get(errata, "note")
+      if (!is.na(note_val)) lines <- c(lines, glue("- **note:** {note_val}"))
+      lines <- c(lines, "")
+    }
+
     # Licensing
     lic <- m$licensing %||% list()
     if (length(lic) > 0) {
