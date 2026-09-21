@@ -3,9 +3,9 @@
 \docType{data}
 \name{framework_summary}
 \alias{framework_summary}
-\title{Thirteen-framework summary tibble}
+\title{Fourteen-framework summary tibble}
 \format{
-A tibble with 13 rows and 16 columns.
+A tibble with 14 rows and 16 columns.
 \describe{
 \item{framework_slug}{Character. Stable slug used as the URI tail
 (e.g., \code{"nice-v2"}, \code{"sfia-9"}, \code{"otccf-v1.1"}). Unique.}
@@ -16,16 +16,16 @@ carries the full published title.}
 of \code{"workforce"} or \code{"pedagogy"}. Independent of the structural
 \code{cybed:Role} vs \code{cybed:OrganizingUnit} distinction.}
 \item{jurisdiction}{Character. One of \code{"US"}, \code{"EU"}, \code{"CZ"}, \code{"CA"},
-\code{"SG"}, \code{"SA"}, or \code{"global"}.}
+\code{"SG"}, \code{"SA"}, \code{"UK"}, or \code{"global"}.}
 \item{organizing_unit_count}{Integer. Distinct subjects typed
 \code{cybed:OrganizingUnit} and bound to the framework via \code{cybed:partOf}.
 A mixed denominator where a framework publishes more than one kind of
 unit, as described above.}
 \item{role_count}{Integer. Distinct subjects typed \code{cybed:Role} and
 bound to the framework via \code{cybed:partOf}. A subset of
-\code{organizing_unit_count}. \code{NA} for the six frameworks that assert no
+\code{organizing_unit_count}. \code{NA} for the seven frameworks that assert no
 roles at all (SFIA, Cyber.org K-12, CSTA 2017, CSTA 2026, CSEC2017,
-DigComp 3.0).
+DigComp 3.0, CyBOK).
 \code{NA} rather than zero, because "this framework does not use the role
 construct" is a different statement from "this framework has zero
 roles".}
@@ -35,9 +35,10 @@ Equals \code{element_count_with_examples} less \code{subpoint_count} less
 both enumeration splitting and pedagogical scaffolding.}
 \item{subpoint_count}{Integer. Distinct \code{cybed:Subpoint} instances:
 enumeration-list splits parsed out of a parent's text at assembly
-time, plus, for CCSSF only, sub-bullets the source itself prints
-beneath a parent bullet. Zero where the parser is disabled (OTCCF,
-csta-2026, DigComp 3.0, SCyWF) or finds nothing.}
+time, plus sub-points the source itself prints or draws beneath a
+parent: CCSSF's sub-bullets and CyBOK's Indicative Material. Zero where
+the parser is disabled and the source has none (OTCCF, csta-2026,
+DigComp 3.0, SCyWF) or where the parser finds nothing.}
 \item{example_count}{Integer. Distinct \code{cybed:Example} instances:
 Clarification-statement scaffolding for Cyber.org K-12 and CSTA 2017,
 and published implementation examples for CSTA 2026. Zero everywhere
@@ -82,7 +83,7 @@ it. Do not treat this column as a statement of terms; it is a label.}
 }
 }
 \source{
-Computed from the thirteen-framework combined graph produced by
+Computed from the fourteen-framework combined graph produced by
 \code{scripts/025-export-ntriples.R}. See
 \code{data-raw/build-framework-summary.R}.
 }
@@ -121,6 +122,13 @@ verbatim. Its 81 organizing units are 40 job roles, 24 competency areas,
 \code{cybed:Role}. The links from a specialty area to its category and from a
 role to its specialty area are cybedtools-derived, not NCA content.
 
+The Cyber Security Body of Knowledge (\code{cybok-v1.1.0}, CyBOK v1.1.0, July
+2021) was added after v0.3.0 under the Open Government Licence v3.0. Its
+organizing units are its Knowledge Areas, which assert no \code{cybed:Role}.
+Its parent elements are the Topics of each KA's Knowledge Tree, and the
+Indicative Material the trees draw under each Topic is carried as
+\code{cybed:Subpoint}. Those Subpoints are source-drawn, not parser output.
+
 Statement codes are unique only within a framework. NICE, CCSSF and
 SCyWF all print codes in the T0516 shape, and they denote different
 statements. SCyWF shares 296 codes with NICE v2.2.0 and prints different
@@ -136,7 +144,8 @@ the framework: parents, plus \code{cybed:Subpoint} children, plus
 is with-examples less both the Subpoint and the Example populations.
 OTCCF, csta-2026, DigComp 3.0 and SCyWF have zero Subpoints (parser
 disabled for all four on fidelity grounds. See
-docs/framework-invariants.yml). Only OTCCF and SCyWF have zero of both
+docs/framework-invariants.yml). CyBOK runs with the parser disabled too,
+and its Subpoints are the Indicative Material its Knowledge Trees draw. Only OTCCF and SCyWF have zero of both
 children, so strict equals with-examples there. DigComp 3.0 still has a nonzero \code{example_count} with the parser
 off: its Learning Outcomes attach as \code{cybed:Example} children of each
 Competence unit, so strict is less than with-examples there.
