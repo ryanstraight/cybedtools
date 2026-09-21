@@ -244,36 +244,53 @@ class FetchedFramework:
     """One row of a :func:`cybed_fetch` result."""
 
     framework_slug: str
+    release_slug: str
     path: str
     sha256_verified: bool
 
 
 def cybed_fetch(
-    frameworks: list[str] | None = None, version: str | None = None
+    frameworks: str | list[str] | None = None, version: str | None = None
 ) -> pd.DataFrame:
     """Download and hash-verify per-framework release files into the user cache.
 
     Mirrors ``R/cybed-fetch.R``'s ``cybed_fetch()``. Already-cached files
     whose hash still matches the manifest are not re-downloaded.
 
+    Two framework-slug vocabularies exist in this package. ``framework_summary()``
+    and ``framework_licenses()`` use **versioned** slugs (``"nice-v2"``,
+    ``"otccf-v1.1"``), minted into every framework node's IRI. The public data
+    release's files use **short** slugs (``"nice"``, ``"otccf"``), assigned by
+    ``docs/data-release.yml`` and recorded in the release manifest. This
+    function, :func:`cybedtools.cybed_license`, and
+    :func:`cybedtools.framework_similarity` accept either form for a
+    slug argument and resolve it to the canonical versioned slug. The
+    returned DataFrame names both forms explicitly (``framework_slug`` and
+    ``release_slug``) rather than silently substituting one for the other.
+
     Parameters
     ----------
-    frameworks : list[str] or None
-        Framework slugs to fetch (as carried by
-        ``framework_summary()["framework_slug"]``, e.g. ``"nice-v2"``, or the release file slug, e.g. ``"nice"``), or
-        ``None`` (the default) for every framework the release manifest
-        ships.
+    frameworks : str, list[str], or None
+        Framework slug(s) to fetch, either the versioned form carried by
+        ``framework_summary()["framework_slug"]`` (e.g. ``"nice-v2"``) or the
+        short release-file slug (e.g. ``"nice"``). A bare string is treated
+        as a single slug, not an iterable of characters. ``None`` (the
+        default) fetches every framework the release manifest ships.
     version : str or None
-        Release version (e.g. ``"1.0.0"``), or ``None`` (the default) for
-        the data release this package version was built against, ``DATA_RELEASE``.
+        Release version, either ``"2026.09.2"`` or ``"data-v2026.09.2"`` (a
+        leading ``"data-v"``, matching a GitHub release tag, is stripped), or
+        ``None`` (the default) for the data release this package version was
+        built against, ``DATA_RELEASE``.
 
     Returns
     -------
     pandas.DataFrame
-        One row per fetched framework: columns ``framework_slug``, ``path``
-        (the cached file's local path, as a string), ``sha256_verified``
-        (bool, always ``True`` on return -- a mismatch raises instead of
-        returning ``False``).
+        One row per fetched framework: columns ``framework_slug`` (the
+        canonical versioned slug, e.g. ``"nice-v2"``), ``release_slug`` (the
+        short release-file slug, e.g. ``"nice"``), ``path`` (the cached
+        file's local path, as a string), ``sha256_verified`` (bool, always
+        ``True`` on return -- a mismatch raises instead of returning
+        ``False``).
 
     Raises
     ------
@@ -286,6 +303,7 @@ def cybed_fetch(
     """
     base_url = _release_base_url()
     resolved_version = version if version is not None else DATA_RELEASE
+    resolved_version = resolved_version.removeprefix("data-v")
     manifest = _read_manifest(base_url, resolved_version)
 
     files = manifest["files"]
@@ -296,7 +314,12 @@ def cybed_fetch(
     summary_to_release = {
         entry.get("license_slug") or entry["slug"]: entry["slug"] for entry in files
     }
-    raw = frameworks if frameworks is not None else manifest_slugs
+    if frameworks is None:
+        raw: list[str] = manifest_slugs
+    elif isinstance(frameworks, str):
+        raw = [frameworks]
+    else:
+        raw = list(frameworks)
     requested = [
         s if s in manifest_slugs else summary_to_release.get(s, s) for s in raw
     ]
@@ -333,12 +356,18 @@ def cybed_fetch(
                 )
 
         rows.append(
-            FetchedFramework(framework_slug=slug, path=str(dest), sha256_verified=True)
+            FetchedFramework(
+                framework_slug=entry.get("license_slug") or slug,
+                release_slug=slug,
+                path=str(dest),
+                sha256_verified=True,
+            )
         )
 
     return pd.DataFrame(
         {
             "framework_slug": [row.framework_slug for row in rows],
+            "release_slug": [row.release_slug for row in rows],
             "path": [row.path for row in rows],
             "sha256_verified": pd.array(
                 [row.sha256_verified for row in rows], dtype="boolean"
@@ -348,7 +377,7 @@ def cybed_fetch(
 
 
 def load_graph(
-    frameworks: list[str] | None = None,
+    frameworks: str | list[str] | None = None,
     version: str | None = None,
     *,
     backend: GraphBackend = "rdflib",

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import rdflib
 
+import pytest
+
 from cybedtools._conformance import assert_matches_golden, conformance_dir
-from cybedtools.similarity import _jaccard, _tokenize, framework_similarity
+from cybedtools.similarity import CybedtoolsFrameworkNotFoundError, _jaccard, _tokenize, framework_similarity
 
 
 def _load_fixture_graph() -> rdflib.Graph:
@@ -21,12 +23,28 @@ def test_framework_similarity_matches_golden() -> None:
     assert_matches_golden(actual, "framework_similarity", sort_by=["from_unit", "rank"])
 
 
-def test_framework_similarity_no_units_on_either_side_is_empty() -> None:
-    """A slug with no organizing units returns the zero-row frame with the contract's columns."""
+def test_framework_similarity_unknown_slug_raises_never_empty() -> None:
+    """An unknown slug (in either vocabulary) raises rather than returning an empty result."""
     graph = _load_fixture_graph()
-    result = framework_similarity(graph, from_="no-such-framework", to="fixture-wf2", n=5)
-    assert list(result.columns) == ["from_unit", "to_unit", "score", "strength", "rank"]
-    assert len(result) == 0
+    with pytest.raises(CybedtoolsFrameworkNotFoundError):
+        framework_similarity(graph, from_="no-such-framework", to="fixture-wf2", n=5)
+    with pytest.raises(CybedtoolsFrameworkNotFoundError):
+        framework_similarity(graph, from_="fixture-wf1", to="no-such-framework", n=5)
+
+
+def test_framework_similarity_accepts_short_release_slug_alias() -> None:
+    """The short-release-slug resolver `framework_similarity()` uses accepts either form.
+
+    The fixture graph uses non-versioned slugs directly, so the alias
+    resolver itself (also exercised end-to-end in test_data.py's
+    cybed_license alias tests) is pinned here against a known-slugs list
+    carrying real versioned framework slugs.
+    """
+    from cybedtools._slug_alias import resolve_framework_slug
+
+    assert resolve_framework_slug("nice", ["nice-v2"]) == "nice-v2"
+    # csta-2026 is its own framework, not an edition of csta.
+    assert resolve_framework_slug("csta", ["csta-2017", "csta-2026"]) == "csta-2017"
 
 
 def test_framework_similarity_same_slug_on_both_sides_finds_self_matches() -> None:

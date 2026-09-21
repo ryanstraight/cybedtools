@@ -46,3 +46,14 @@ def test_cybed_license_non_string_slug_raises() -> None:
     """A non-string, non-None slug raises CybedtoolsScalarInputError."""
     with pytest.raises(CybedtoolsScalarInputError):
         cybed_license(123)  # type: ignore[arg-type]
+
+
+def test_cybed_license_accepts_the_short_release_slug_as_an_alias() -> None:
+    """cybed_license() accepts either the versioned or short release slug."""
+    assert cybed_license("nice").equals(cybed_license("nice-v2"))
+    assert cybed_license("otccf").equals(cybed_license("otccf-v1.1"))
+    assert cybed_license("cybok").equals(cybed_license("cybok-v1.1.0"))
+    # csta-2026 is its own framework, not an edition of csta: the short
+    # slug "csta" resolves to csta-2017, never csta-2026.
+    assert cybed_license("csta").equals(cybed_license("csta-2017"))
+    assert not cybed_license("csta").equals(cybed_license("csta-2026"))

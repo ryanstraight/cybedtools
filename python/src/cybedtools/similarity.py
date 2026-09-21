@@ -17,9 +17,10 @@ from dataclasses import dataclass
 
 import pandas as pd
 
+from cybedtools._slug_alias import CybedtoolsFrameworkNotFoundError, resolve_framework_slug
 from cybedtools.queries import element_text, organizing_unit_framework_bindings, unit_element_bindings
 
-__all__ = ["framework_similarity"]
+__all__ = ["CybedtoolsFrameworkNotFoundError", "framework_similarity"]
 
 _TOKEN_SPLIT_RE = re.compile(r"[^a-z0-9]+")
 
@@ -183,13 +184,20 @@ def framework_similarity(graph: object, from_: str, to: str, n: int = 5) -> pd.D
         :func:`cybedtools.load_graph`.
     from_ : str
         The `framework_slug` whose organizing units are the rows being
-        matched.
+        matched, either the versioned slug (``"nice-v2"``) or the short
+        release-file slug (``"nice"``; see :func:`cybedtools.cybed_fetch`).
     to : str
-        The `framework_slug` whose organizing units are the candidates.
-        May equal `from_`, to find near-duplicate units within one
-        framework.
+        The `framework_slug` whose organizing units are the candidates, in
+        either vocabulary. May equal `from_`, to find near-duplicate units
+        within one framework.
     n : int
         Matches to keep per from-unit (default 5).
+
+    Raises
+    ------
+    CybedtoolsFrameworkNotFoundError
+        If `from_` or `to` does not resolve (in either vocabulary) to a
+        framework present in `graph`.
 
     Returns
     -------
@@ -207,6 +215,10 @@ def framework_similarity(graph: object, from_: str, to: str, n: int = 5) -> pd.D
     if not isinstance(to, str):
         msg = "`to` must be a string."
         raise CybedtoolsScalarInputError(msg)
+
+    known_slugs = organizing_unit_framework_bindings(graph)["framework_slug"].dropna().unique().tolist()
+    from_ = resolve_framework_slug(from_, known_slugs, arg="from_")
+    to = resolve_framework_slug(to, known_slugs, arg="to")
 
     empty = pd.DataFrame(
         {
