@@ -46,6 +46,8 @@ cybedtools v0.2.0 introduced the reclassification of both forms of clarification
 
 The parent-only-vs-full-document contrast is the finding.
 
+This query stays on the 2017 CSTA edition rather than the 2026 edition added to the corpus since this page was written, because the two CSTA editions share no identifier scheme and re-anchoring the comparison is a separate piece of work.
+
 ## The result
 
 ```{r}

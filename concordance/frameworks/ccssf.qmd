@@ -1,0 +1,132 @@
+---
+title: "CCSSF 2022"
+subtitle: "Canadian Cyber Security Skills Framework"
+jurisdiction: "CA"
+framework-type: "Workforce"
+organizing-units: 59
+elements: 1345
+license: "Government of Canada, with permission"
+date: 2026-09-21
+categories: [workforce, ca]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Canadian Centre for Cyber Security |
+| Canonical page | [Cyber Centre publications](https://www.cyber.gc.ca/en/publications) |
+| Version | 2022 edition (ITSM.00.039) |
+| Source format | PDF, supplied directly by the Cyber Centre with Annexes A through F |
+| License | Copyright Government of Canada, no licence notice in the document itself. Used with the Canadian Centre for Cyber Security's written permission for full-text publication with attribution |
+| `framework_summary` slug | `ccssf-2022` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ccssf-structure-title">
+  <title id="ccssf-structure-title">CCSSF structural mapping</title>
+  <defs><marker id="ccssf-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#ccssf-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#ccssf-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">ccssf:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Work role">
+    <rect x="70" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Work role</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(22 core roles across 4 activity areas, plus adjacent roles)</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">ccssf:WorkRole</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role = cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Task, Competency, Tool or Technology">
+    <rect x="90" y="212" width="280" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Task, Competency, Tool/Technology</text>
+    <text class="lt" x="230" y="257" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-work-role connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Work-role-to-element connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Work roles | 59 |
+| Strict elements | 1,148 |
+| Subpoints (parsed enumeration lists) | 197 |
+| With-examples elements | 1,345 |
+| Elements per work role, strict | 19.5 |
+| Elements per work role, with-examples | 22.8 |
+
+Twenty-two core cyber security roles sit under four activity areas
+(Annexes A through D: Oversee & govern, Design & develop, Operate &
+maintain, Protect & defend). Annex E's cyber-adjacent roles add
+further work roles from a single wide table rather than a per-role
+block. Annex F, a talent-alliance membership list, is not a role
+structure and is not ingested.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition, supplied directly by the Cyber Centre's Cyber Skills Development Team with its full annexes.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-ccssf.R` parses each role block's field labels (Functional description, Tasks, Competencies, Tools & technology, and the rest) and the Annex E table into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+The document carries no copyright line, Creative Commons statement, Open Government Licence reference, or all-rights-reserved statement of its own; it carries only Government of Canada publication identifiers and TLP:CLEAR / UNCLASSIFIED disclosure markings, which are not licences. The Canadian Centre for Cyber Security gave cybedtools written permission on 2026-09-21 for full-text publication with attribution.
+:::
+
+:::
+
+## Caveats
+
+- CCSSF is an **explicit adaptation of the US NICE Workforce Framework for Cybersecurity**, and cites NICE work-role IDs throughout. Those citations are captured as their own crosswalk table rather than folded into the element counts above.
+- Each core role's field labels (Development pathway, Consequence of error or risk, Future trends affecting key competencies, and the rest) are **preserved as the document's own vocabulary**, not normalised into cybed's generic element types beyond the Task/Competency/Tool-or-Technology split shown here.
+- Annex F is **a membership list, not a role structure**, and carries no framework content of its own.
+
+## Related
+
+- [NICE Framework v2](nice-v2.qmd), the framework CCSSF explicitly adapts.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

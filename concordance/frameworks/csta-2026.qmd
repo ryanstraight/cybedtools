@@ -1,0 +1,134 @@
+---
+title: "CSTA PK-12 CS (2026)"
+subtitle: "2026 CSTA PK-12 Computer Science Standards"
+jurisdiction: "US"
+framework-type: "Pedagogy"
+organizing-units: 53
+elements: 983
+license: "CC BY-NC-SA 4.0"
+date: 2026-09-21
+categories: [pedagogy, us]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Computer Science Teachers Association (CSTA) |
+| Canonical page | [CSTA PK-12 CS Standards](https://csteachers.org/pk12standards/) |
+| Version | 2026 edition |
+| Released | 2026 |
+| Source format | JSON behind CSTA's interactive Standards Explorer, plus the standards PDF |
+| License | Creative Commons BY-NC-SA 4.0, attribution, non-commercial use, share-alike, by the PDF's own licence page |
+| `framework_summary` slug | `csta-2026` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="csta2026-structure-title">
+  <title id="csta2026-structure-title">CSTA PK-12 CS (2026) structural mapping</title>
+  <defs><marker id="csta2026-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#csta2026-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#csta2026-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csta2026:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Standard group">
+    <rect x="70" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Standard group</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(level x concept, or level x specialty area)</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">csta2026:StandardGroup</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="230" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Standard">
+    <rect x="150" y="212" width="160" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Standard</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">csta2026:Standard</text>
+    <text class="lt" x="230" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-standard-group connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Standard-group-to-standard connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Foundational-tier groups key on level x concept x subconcept; specialty-tier groups key on level x specialty area x subarea. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+| Measure | Value |
+|---|---|
+| Standard groups | 53 |
+| Strict elements (standards) | 331 |
+| With-examples elements | 983 |
+| Elements per standard group, strict | 6.2 |
+| Elements per standard group, with-examples | 18.5 |
+
+Each standard carries boundary-statement paragraphs and implementation
+examples, both promoted to `cybed:Example` nodes, which is most of the
+gap between the strict and with-examples counts. Practices,
+dispositions, progressions, and interdisciplinary connections are
+staged in the source JSON but not yet carried into the graph.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+The JSON behind CSTA's official interactive Standards Explorer for the 2026 PK-12 CS Standards, plus the standards PDF.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-csta2026.R` normalises the foundational and specialty tiers onto one (level, concept) unit scheme and parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Creative Commons BY-NC-SA 4.0, by the source PDF's own licence page: attribution, non-commercial use, and share-alike for any derivation. The share-alike term propagates to any file containing CSTA-derived content. The package does not bundle the source. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- csta-2026 is a **framework of its own, not a revision of the 2017 edition**. The two editions share no identifier scheme, and CSTA's own crosswalk between them is many-to-many. Cross-version comparisons need the crosswalk, not identifier matching.
+- The **share-alike term is the strictest licence condition in the corpus**. Any derivative work containing csta-2026-derived content must itself be shared under CC BY-NC-SA 4.0.
+- Foundational and specialty tiers use **different grouping logic** (concept/subconcept versus specialty area/subarea), normalised here onto one `csta2026:StandardGroup` type. Analyses that care about the distinction should filter on the source tier field.
+
+## Related
+
+- [CSTA K-12 CS (Rev 2017)](csta-2017.qmd), the prior edition, kept
+  side by side rather than replaced in place.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)
