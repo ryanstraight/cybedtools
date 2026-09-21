@@ -14,7 +14,7 @@ If you are using cybedtools for academic research:
 If you are integrating cybedtools into a commercial product:
 
 - The MIT license on the code accommodates this.
-- Framework content is mixed. Some frameworks (NICE, DCWF) are public domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE, OTCCF) impose non-commercial or attribution constraints. Two (CyQUAL, OTCCF) are included by written permission of their stewards, and CCSSF is referenced as the Canadian Centre for Cyber Security asked. The terms given to cybedtools do not pass to you. Read the per-framework licenses in [`docs/framework-data-sources.md`](docs/framework-data-sources.md) before redistributing framework text. **It is incumbent upon you to obtain proper licensing**.
+- Framework content is mixed. Some frameworks (NICE, DCWF) are public domain. Others (SFIA, Cyber.org K-12, CSTA, ACM/IEEE, OTCCF) impose non-commercial or attribution constraints. Three (CyQUAL, OTCCF, CCSSF) are included by written permission of their stewards. CCSSF's credit reads "Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security." The terms given to cybedtools do not pass to you. Read the per-framework licenses in [`docs/framework-data-sources.md`](docs/framework-data-sources.md) before redistributing framework text. **It is incumbent upon you to obtain proper licensing**.
 
 ## Scope of the MIT license
 

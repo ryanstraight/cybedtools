@@ -354,7 +354,7 @@ build_framework_node(
 
 ## What if the steward limits what may be republished?
 
-Permission to build a graph is not always permission to publish the framework's text. Record what the steward actually granted in the framework's block in `docs/framework-invariants.yml`, under `public_redistribution`. Two values are in use. `full_with_attribution` means the statement text may be published as long as the attribution travels with it, which is where CyQUAL sits. `structure_only` means titles, categories, levels, and mappings may be published and the statement text may not, which is where CCSSF and OTCCF sit. Put the reasoning in a comment beside the value, including the date of the written permission, so the next reader does not have to reconstruct it.
+Permission to build a graph is not always permission to publish the framework's text. Record what the steward actually granted in the framework's block in `docs/framework-invariants.yml`, under `public_redistribution`. Two values are in use. `full_with_attribution` means the statement text may be published as long as the attribution travels with it, which is where CyQUAL and CCSSF sit. `structure_only` means titles, categories, levels, and mappings may be published and the statement text may not, which is where OTCCF sits. Put the reasoning in a comment beside the value, including the date of the written permission, so the next reader does not have to reconstruct it.
 
 Treat the value as binding on anything the package makes public, which includes the Concordance site and any data deposit. Analysis on a local graph is unaffected. If a steward's terms do not fit either value, add a new one and say so in the comment rather than rounding down to the nearest existing label.
 

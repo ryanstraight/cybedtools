@@ -405,11 +405,11 @@ frameworks:
       Text-length soft flags are expected on element-text and adjacent-comp:
       the source genuinely prints short runs ("None.", "VA tools",
       "BCP/DRP").
-      Licensing: Copyright Government of Canada. Referenced as the Canadian
-      Centre for Cyber Security asked. Not granted permission; supplied
-      directly by the Cyber Skills Development Team, 2026-09-16, on
-      condition that ITSM.00.039 is referenced wherever the material is
-      used.
+      Licensing: Copyright Government of Canada. Used with permission of
+      the Canadian Centre for Cyber Security. Full-text publication with
+      attribution granted by the Cyber Skills Development Team,
+      2026-09-16 (initial supply) and confirmed 2026-09-21, on condition
+      that ITSM.00.039 is referenced wherever the material is used.
 
   otccf:
     version: "OTCCF version 1.1"

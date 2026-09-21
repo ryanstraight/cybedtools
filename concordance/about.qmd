@@ -91,7 +91,7 @@ The frameworks displayed on this site are the work of their respective authoring
 Three frameworks are here on their stewards' terms. Two of them gave written permission, and the Canadian framework is referenced as its steward asked. Each asked to be credited in a particular way.
 
 - CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, <https://platform.cyqual.cz/>. Thanks to the CyQUAL team for confirming the open-data terms and for repairing the export so it could be used.
-- Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. Thanks to the Centre's Cyber Skills Development Team for supplying the full framework with its annexes.
+- Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security. Thanks to the Centre's Cyber Skills Development Team for supplying the full framework with its annexes.
 - Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/
 
 CSA's permission covers the OTCCF's structure, for non-commercial, academic and research use. This site shows OTCCF roles, skills, levels, and mappings, and does not reproduce its statement text. Terms for all three are in the package's [LICENSING](https://github.com/ryanstraight/cybedtools/blob/main/LICENSING.md) file.

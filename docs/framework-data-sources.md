@@ -253,7 +253,7 @@ cybedtools therefore uses SFIA for local analysis only. It publishes no SFIA sta
 
 ## Frameworks added by steward permission
 
-Three of the four frameworks below are included with the written permission of their stewards, and the Canadian framework is referenced as its steward asked. Each has its own terms, stated under **License**, and those terms apply to you as well if you stage the source and build the graph. As with every framework here, cybedtools ships the ingestion code and not the source text. You retrieve the source yourself.
+All four frameworks below are included with the written permission of their stewards. Each has its own terms, stated under **License**, and those terms apply to you as well if you stage the source and build the graph. As with every framework here, cybedtools ships the ingestion code and not the source text. You retrieve the source yourself.
 
 Statement codes are unique only within a framework. CyQUAL keeps the task codes of the 2017 NICE Framework (its `T0516` is NICE's 2017 `T0516`), and it also uses the `T1xxx` range for its own additions, a range NIST later reused for different statements. SCyWF prints codes of the same shape. It shares 296 codes with NICE v2.2.0 and prints different text under every one of them, while 762 of its statements are worded exactly as some NICE v2.2.0 statement under a different code. A code that appears in two frameworks is not evidence that the statements match. Align frameworks through statement text or a published crosswalk, never by joining on a bare code. In the graph every identifier sits under its framework's own namespace, so graph queries cannot confuse them. The risk is in tables.
 

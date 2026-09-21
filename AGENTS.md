@@ -60,7 +60,7 @@ repo. Stage them under `data/raw/<slug>/` per
 ## Test, document, build
 
 ```sh
-# Run the test suite (roughly 550 tests)
+# Run the test suite
 Rscript -e "devtools::test()"
 
 # Regenerate man/ + NAMESPACE after roxygen comment changes

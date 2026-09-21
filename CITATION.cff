@@ -36,12 +36,13 @@ keywords:
 abstract: >-
   cybedtools provides a reproducible R pipeline for ingesting, semantically
   representing (via a two-tier JSON-LD schema), and querying (via SPARQL)
-  eleven major cybersecurity-related competency and learning-standards
-  frameworks: NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
-  ACM/IEEE CSEC2017, DigComp 3.0, CyQUAL, CCSSF, and OTCCF. The cybed:
-  vocabulary uses
+  cybersecurity-related competency and learning-standards frameworks,
+  including NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
+  ACM/IEEE CSEC2017, DigComp 3.0, CyQUAL, CCSSF, and OTCCF. See
+  framework_summary() in the package for the current list and counts. The
+  cybed: vocabulary uses
   cybed:OrganizingUnit as the cross-framework abstract for parent units
   and cybed:Role as a workforce-restricted subtype, with cybed:Subpoint
   and cybed:Example separating framework-as-specified enumerations from
-  pedagogical-scaffolding examples. Includes a six-layer data-integrity
+  pedagogical-scaffolding examples. Includes a layered data-integrity
   verification rig and per-framework provenance manifests.

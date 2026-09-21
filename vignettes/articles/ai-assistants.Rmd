@@ -106,7 +106,7 @@ framework_metadata(rdf_full) |>
   select(name, jurisdiction, sector)
 ```
 
-Package code is MIT. Framework content keeps its upstream terms. `docs/framework-invariants.yml` records a `public_redistribution` policy per framework: SFIA is `local_only`, CSEC2017, CCSSF and OTCCF are `structure_only`, CyQUAL is `full_with_attribution`. OTCCF and CyQUAL are in the package by the written permission of their stewards. CCSSF is not: its attribution is "Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked." Do not reproduce statement text from a framework marked `local_only` or `structure_only`. Titles, counts, categories and mappings are fine. See `LICENSE.md` and `LICENSING.md`.
+Package code is MIT. Framework content keeps its upstream terms. `docs/framework-invariants.yml` records a `public_redistribution` policy per framework: SFIA is `local_only`, CSEC2017 and OTCCF are `structure_only`, CyQUAL and CCSSF are `full_with_attribution`. OTCCF, CyQUAL and CCSSF are in the package by the written permission of their stewards. CCSSF's attribution is "Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security." Do not reproduce statement text from a framework marked `local_only` or `structure_only`. Titles, counts, categories and mappings are fine. See `LICENSE.md` and `LICENSING.md`.
 
 ### Cite the package and the stewards
 
