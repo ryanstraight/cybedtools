@@ -98,7 +98,7 @@ CSA's permission covers the OTCCF's structure, for non-commercial, academic and 
 
 ## AI disclosure
 
-The development and delivery of both cybedtools and Concordance was substantially accelerated by Anthropic's Claude Code. Creation was undertaken using the Opus 4.7 model under the author's direction.
+The development and delivery of both cybedtools and Concordance was substantially accelerated by Anthropic's Claude Code, under the author's direction.
 
 ## License
 
