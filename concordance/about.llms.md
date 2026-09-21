@@ -29,16 +29,11 @@ Every number, table, and lookup widget on this site is derived from the same pac
 ## Install cybedtools
 
 ``` r
-# Option A: remotes
 install.packages("remotes")
 remotes::install_github("ryanstraight/cybedtools")
-
-# Option B: pak (faster on first install)
-install.packages("pak")
-pak::pkg_install("ryanstraight/cybedtools")
 ```
 
-The package depends on `rdflib`, `jsonlite`, `dplyr`, `purrr`, and `tibble`. See [Start](start/install.llms.md) for the full staging pipeline (framework source data, ingestion, graph assembly, query loading).
+Python: `pip install cybedtools`. See [Start](start/install.llms.md) for fetching the data release and a first query.
 
 ## How to cite
 

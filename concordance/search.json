@@ -830,7 +830,7 @@
     "href": "about.html#install-cybedtools",
     "title": "About Concordance",
     "section": "Install cybedtools",
-    "text": "Install cybedtools\n# Option A: remotes\ninstall.packages(\"remotes\")\nremotes::install_github(\"ryanstraight/cybedtools\")\n\n# Option B: pak (faster on first install)\ninstall.packages(\"pak\")\npak::pkg_install(\"ryanstraight/cybedtools\")\nThe package depends on rdflib, jsonlite, dplyr, purrr, and tibble. See Start for the full staging pipeline (framework source data, ingestion, graph assembly, query loading)."
+    "text": "Install cybedtools\ninstall.packages(\"remotes\")\nremotes::install_github(\"ryanstraight/cybedtools\")\nPython: pip install cybedtools. See Start for fetching the data release and a first query."
   },
   {
     "objectID": "about.html#how-to-cite",
@@ -1411,7 +1411,7 @@
     "href": "start/install.html#install",
     "title": "Quick start",
     "section": "Install",
-    "text": "Install\nR\ninstall.packages(\"pak\")\npak::pak(\"ryanstraight/cybedtools\")\nPython\npip install cybedtools"
+    "text": "Install\nR\ninstall.packages(\"remotes\")\nremotes::install_github(\"ryanstraight/cybedtools\")\nPython\npip install cybedtools"
   },
   {
     "objectID": "start/install.html#fetch-the-data-and-load-a-graph",

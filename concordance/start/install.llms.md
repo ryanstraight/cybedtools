@@ -9,8 +9,8 @@ Install the package, fetch the data, run your first query
 ### R
 
 ``` downlit
-install.packages("pak")
-pak::pak("ryanstraight/cybedtools")
+install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
 ```
 
 ### Python
