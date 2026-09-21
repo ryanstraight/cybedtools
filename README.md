@@ -60,8 +60,9 @@ It does not propose a replacement framework or attempt to re-author
 framework content. Existing frameworks retain their structure and
 vocabulary. The package adds a comparison layer.
 
-A native Python package is in development. The name is reserved on
-[PyPI](https://pypi.org/project/cybedtools/).
+A native Python package mirroring the R API is available:
+`pip install cybedtools` (see
+[PyPI](https://pypi.org/project/cybedtools/)).
 
 The documentation is indexed in
 [Context7](https://context7.com/ryanstraight/cybedtools) and published
