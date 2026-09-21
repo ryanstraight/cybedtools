@@ -59,7 +59,7 @@ How does total element coverage in cybedtools split across the US and EU framewo
 
 Total element counts are an obvious cross-framework metric to reach for. They are also the easiest to misread. A reader who sees one jurisdiction's element count vastly exceeding another's may infer that the lagging jurisdiction is undercovered. The actual story is more often that the two jurisdictions chose different design philosophies for their workforce taxonomies.
 
-The cybedtools corpus pulls `r n_us` US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), `r n_eu` EU frameworks (ENISA ECSF, DigComp 2.2), `r n_global` global frameworks (SFIA, ACM/IEEE CSEC2017), and one each from the Czech Republic (CyQUAL), Canada (CCSSF), and Singapore (OTCCF). The element-count ratio between the US and EU rows is large and worth naming, but the framing matters more than the figure.
+The cybedtools corpus pulls `r n_us` US frameworks (NICE, DCWF, Cyber.org K-12, CSTA), `r n_eu` EU frameworks (ENISA ECSF, DigComp 3.0), `r n_global` global frameworks (SFIA, ACM/IEEE CSEC2017), and one each from the Czech Republic (CyQUAL), Canada (CCSSF), and Singapore (OTCCF). The element-count ratio between the US and EU rows is large and worth naming, but the framing matters more than the figure.
 
 ## The result
 
@@ -112,11 +112,11 @@ The `r n_us` US frameworks contribute `r cm(us_total)` elements. The `r n_eu` EU
 
 ### The ratio reflects design philosophy, not effort
 
-NICE and DCWF were built to specify the US federal civilian and defense cyber workforces at hiring-pipeline granularity. The element count is the point. ECSF was authored as an EU-wide interoperability frame at profile granularity, deliberately light at the per-profile level. DigComp 2.2 specifies citizen-level digital competence, three nesting levels deep but deliberately compact. The frameworks were built to do different jobs.
+NICE and DCWF were built to specify the US federal civilian and defense cyber workforces at hiring-pipeline granularity. The element count is the point. ECSF was authored as an EU-wide interoperability frame at profile granularity, deliberately light at the per-profile level. DigComp 3.0 specifies citizen-level digital competence, two organizing-unit tiers deep but deliberately compact per unit. The frameworks were built to do different jobs.
 
-### Two materialization gaps sit on the EU side
+### A materialization gap sits on the EU side
 
-ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools v0.3.0 graph. DigComp 2.2's Annex examples (the framework's signature 2022 update) are not extracted as queryable nodes either. Both gaps mean cybedtools' EU element count understates what those frameworks actually specify.
+ECSF profiles point at the European e-Competence Framework (e-CF 4.0) at fine granularity, and those cross-references are not expanded into RDF triples in the cybedtools graph. DigComp 3.0's proficiency-level descriptors and glossary are staged from the source but likewise not emitted as queryable nodes. Both gaps mean cybedtools' EU element count understates what those frameworks actually specify.
 
 ### Reading the ratio as a coverage gap is wrong
 

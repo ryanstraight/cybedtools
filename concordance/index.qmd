@@ -33,7 +33,7 @@ page <- c(
   "cyberorg-k12-v1.0" = "frameworks/cyberorg-k12.html",
   "csta-2017"         = "frameworks/csta-2017.html",
   "csec2017-v1"       = "frameworks/csec2017.html",
-  "digcomp-2.2"       = "frameworks/digcomp-22.html",
+  "digcomp-3.0"       = "frameworks/digcomp-30.html",
   "cyqual-v1.2.0"     = paste0(docs_url, "#cyqual-czech-republic-national-cybersecurity-qualifications-framework"),
   "ccssf-2022"        = paste0(docs_url, "#ccssf-canada-canadian-cyber-security-skills-framework"),
   "otccf-v1.1"        = paste0(docs_url, "#otccf-singapore-operational-technology-cybersecurity-competency-framework")
@@ -46,7 +46,7 @@ short <- c(
   "cyberorg-k12-v1.0" = "Cyber.org K-12",
   "csta-2017"         = "CSTA K-12 CS",
   "csec2017-v1"       = "ACM/IEEE CSEC2017",
-  "digcomp-2.2"       = "DigComp 2.2",
+  "digcomp-3.0"       = "DigComp 3.0",
   "cyqual-v1.2.0"     = "CyQUAL 1.2.0",
   "ccssf-2022"        = "CCSSF 2022",
   "otccf-v1.1"        = "OTCCF v1.1"

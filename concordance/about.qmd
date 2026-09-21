@@ -86,7 +86,7 @@ The frameworks displayed on this site are the work of their respective authoring
 - The Cyber Innovation Center and the Cyber.org K-12 standards team for the K-12 Cybersecurity Learning Standards.
 - The Computer Science Teachers Association for the K-12 CS Standards (Rev 2017).
 - The ACM, IEEE-CS, AIS SIGSEC, and IFIP WG 11.8 Joint Task Force for CSEC2017.
-- Vuorikari, Kluzer, and Punie (Joint Research Centre, European Commission) for DigComp 2.2.
+- Cosgrove and Cachia (Joint Research Centre, European Commission) for DigComp 3.0, building on the original framework authored by Vuorikari, Kluzer, and Punie.
 
 Three frameworks are here on their stewards' terms. Two of them gave written permission, and the Canadian framework is referenced as its steward asked. Each asked to be credited in a particular way.
 

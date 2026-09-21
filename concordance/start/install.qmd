@@ -77,20 +77,23 @@ framework_summary |>
 Output:
 
 ```
-# A tibble: 11 × 3
+# A tibble: 14 × 3
    framework_name          organizing_unit_count elements_per_organizing_unit_with_examples
    <chr>                                   <int>                                      <dbl>
  1 DCWF v5.1                                  74                                       54.8
  2 NICE v2.2.0                                53                                       42
- 3 ECSF v1                                    12                                       32.5
- 4 OTCCF v1.1                                 61                                       26.4
- 5 CCSSF 2022                                 59                                       22.8
- 6 CyQUAL 1.2.0                              161                                       20.7
- 7 CSTA K-12 CS (Rev 2017)                    25                                       10.3
- 8 SFIA 9                                    147                                        5.6
- 9 ACM/IEEE CSEC2017                           8                                        5
-10 Cyber.org K-12 v1.0                       116                                        4.2
-11 DigComp 2.2                                 5                                        4.2
+ 3 DigComp 3.0                                26                                       34
+ 4 ECSF v1                                    12                                       32.5
+ 5 CyBOK v1.1.0                                21                                       28.4
+ 6 OTCCF v1.1                                 61                                       26.4
+ 7 CCSSF 2022                                 59                                       22.8
+ 8 CyQUAL 1.2.0                              161                                       20.7
+ 9 CSTA PK-12 CS (2026)                       53                                       18.5
+10 SCyWF 1.5                                   81                                       17.5
+11 CSTA K-12 CS (Rev 2017)                    25                                       10.3
+12 SFIA 9                                    147                                        5.6
+13 ACM/IEEE CSEC2017                           8                                        5
+14 Cyber.org K-12 v1.0                       116                                        4.2
 ```
 
 ## Next steps
