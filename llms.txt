@@ -381,8 +381,8 @@ framework text needs to be staged for this path.
 
 ``` r
 
-# install.packages("pak")
-pak::pak("ryanstraight/cybedtools")
+# install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
 ```
 
 ### Python

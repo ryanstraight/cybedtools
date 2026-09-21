@@ -38,8 +38,8 @@ elements across every framework in one pass; targeting
 ``` r
 
 # Install from GitHub (not yet on CRAN)
-# install.packages("pak")
-pak::pak("ryanstraight/cybedtools")
+# install.packages("remotes")
+remotes::install_github("ryanstraight/cybedtools")
 ```
 
 The package depends on `rdflib` for RDF/SPARQL, `jsonlite` for JSON-LD

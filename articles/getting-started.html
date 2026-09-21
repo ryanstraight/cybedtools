@@ -139,8 +139,8 @@ returns atomic elements across every framework in one pass; targeting
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install from GitHub (not yet on CRAN)</span></span>
-<span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div>
 <p>The package depends on <code>rdflib</code> for RDF/SPARQL,
 <code>jsonlite</code> for JSON-LD I/O, and a small subset of the
 tidyverse (<code>dplyr</code>, <code>purrr</code>, <code>tibble</code>).
