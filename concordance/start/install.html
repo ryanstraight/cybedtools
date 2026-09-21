@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.3">
-
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
 <title>Quick start – Concordance</title>
 <style>
 /* Default styles provided by pandoc.
@@ -60,7 +57,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -74,15 +70,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5d91a59e15987bf42699e33880ff57bc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c4f94be5947e02ecdd6b4a44e42e483d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6a50bd621f08fdc5c26e43d254df0a90.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9bfc61b20ce54e18ae6b25bf56d136e1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6a50bd621f08fdc5c26e43d254df0a90.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-273c3291f8b805a9dd7c5711ffec43e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-92a3b9ee01463d23e3e1a80a2a8bc61d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-273c3291f8b805a9dd7c5711ffec43e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap-273c3291f8b805a9dd7c5711ffec43e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
   "collapse-after": 3,
@@ -107,8 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
+}</script><style>html{ scroll-behavior: smooth; }</style>
 <!-- Concordance brand head additions.
 
      Quarto wires the SVG favicon link via website.favicon, and OG/Twitter
@@ -118,9 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
      Paths are absolute against site-url because Quarto include-in-header
      content is included verbatim and does not get path-rewritten per
-     page depth. If site-url changes, update these URLs to match. -->
-
-<link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
+     page depth. If site-url changes, update these URLs to match. --><link rel="icon" type="image/png" sizes="16x16" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-48.png">
 <link rel="icon" type="image/png" sizes="64x64" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/favicon-64.png">
@@ -129,8 +121,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="apple-touch-icon" sizes="180x180" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/favicon/apple-touch-icon.png">
 <link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
 <meta name="theme-color" content="#0F172A">
-
-
 <meta property="og:title" content="Quick start – Concordance">
 <meta property="og:description" content="Install the package, stage framework data, run your first query">
 <meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/start/assets/branding/concordance-og-1200x630.png">
@@ -140,7 +130,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/start/assets/branding/concordance-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -306,14 +295,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content">
-    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content">
-    </a>
+    <img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo light-content"><img src="../assets/branding/concordance-lockup-horizontal-paper.svg" alt="Concordance" class="navbar-logo dark-content"></a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -321,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="../why.html"> 
 <span class="menu-text">Why</span></a>
   </li>  
@@ -333,8 +318,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-use-cases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Use cases</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-use-cases">
+<li>
     <a class="dropdown-item" href="../use-cases/index.html">
  <span class="dropdown-text">Overview</span></a>
   </li>  
@@ -351,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Workforce policy analyst</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item">
     <a class="nav-link" href="../frameworks/index.html"> 
 <span class="menu-text">Frameworks</span></a>
@@ -364,8 +349,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-under-the-hood" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Under the hood</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-under-the-hood">
+<li>
     <a class="dropdown-item" href="../queries/index.html">
  <span class="dropdown-text">How the analysis works</span></a>
   </li>  
@@ -378,10 +363,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Package reference</span></a>
   </li>  
     </ul>
-  </li>
+</li>
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -396,107 +381,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#install-cybedtools" id="toc-install-cybedtools" class="nav-link active" data-scroll-target="#install-cybedtools">Install cybedtools</a></li>
+<li><a href="#install-cybedtools" id="toc-install-cybedtools" class="nav-link active" data-scroll-target="#install-cybedtools">Install cybedtools</a></li>
   <li><a href="#stage-the-framework-data" id="toc-stage-the-framework-data" class="nav-link" data-scroll-target="#stage-the-framework-data">Stage the framework data</a></li>
   <li><a href="#run-the-pipeline" id="toc-run-the-pipeline" class="nav-link" data-scroll-target="#run-the-pipeline">Run the pipeline</a></li>
   <li><a href="#first-query" id="toc-first-query" class="nav-link" data-scroll-target="#first-query">First query</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
-  </ul>
-</nav>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-  <symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>Workforce</title>
-    <rect x="3" y="8" width="18" height="12" rx="1.5"></rect>
-    <path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path>
-    <line x1="3" y1="13.5" x2="21" y2="13.5"></line>
-    <rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect>
-  </symbol>
-
-  <symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>Pedagogy</title>
-    <path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path>
-    <path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path>
-    <path d="M22 9 V14"></path>
-    <circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle>
-  </symbol>
-
-  <symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>US</title>
-    <rect x="3" y="6" width="18" height="12" rx="1"></rect>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-    <line x1="3" y1="14" x2="21" y2="14"></line>
-    <rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect>
-  </symbol>
-
-  <symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-    <title>EU</title>
-    <circle cx="12" cy="12" r="9"></circle>
-    <circle cx="12" cy="5" r="1" fill="currentColor"></circle>
-    <circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle>
-    <circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle>
-    <circle cx="12" cy="19" r="1" fill="currentColor"></circle>
-    <circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle>
-    <circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle>
-  </symbol>
-
-  <symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>Global</title>
-    <circle cx="12" cy="12" r="9"></circle>
-    <ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse>
-    <line x1="12" y1="3" x2="12" y2="21"></line>
-  </symbol>
-
-  <symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>Source</title>
-    <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-    <path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path>
-    <line x1="10" y1="13" x2="14" y2="13"></line>
-  </symbol>
-
-  <symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>Ingestion</title>
-    <circle cx="12" cy="12" r="3.5"></circle>
-    <line x1="12" y1="2" x2="12" y2="5"></line>
-    <line x1="12" y1="19" x2="12" y2="22"></line>
-    <line x1="22" y1="12" x2="19" y2="12"></line>
-    <line x1="5" y1="12" x2="2" y2="12"></line>
-    <line x1="19.07" y1="4.93" x2="17" y2="7"></line>
-    <line x1="7" y1="17" x2="4.93" y2="19.07"></line>
-    <line x1="19.07" y1="19.07" x2="17" y2="17"></line>
-    <line x1="7" y1="7" x2="4.93" y2="4.93"></line>
-  </symbol>
-
-  <symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <title>License</title>
-    <path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path>
-    <rect x="9" y="11" width="6" height="5" rx="0.6"></rect>
-    <path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path>
-  </symbol>
-
-
-</svg>
-
-<script>
+<main class="content" id="quarto-document-content"><svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="icon-workforce" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Workforce</title>
+<rect x="3" y="8" width="18" height="12" rx="1.5"></rect><path d="M9 8 V6 Q9 5 10 5 H14 Q15 5 15 6 V8"></path><line x1="3" y1="13.5" x2="21" y2="13.5"></line><rect x="11" y="12.6" width="2" height="1.8" rx="0.3" fill="currentColor" stroke="none"></rect></symbol><symbol id="icon-pedagogy" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Pedagogy</title>
+<path d="M2 9 L12 4.5 L22 9 L12 13.5 Z"></path><path d="M8 12.5 Q8 16.5 12 16.5 Q16 16.5 16 12.5"></path><path d="M22 9 V14"></path><circle cx="22" cy="14.8" r="1" fill="currentColor" stroke="none"></circle></symbol><symbol id="icon-us" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>US</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="3" y1="14" x2="21" y2="14"></line><rect x="3" y="6" width="7.5" height="5" fill="currentColor" opacity="0.2" stroke="none"></rect></symbol><symbol id="icon-eu" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><title>EU</title>
+<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="8.5" r="1" fill="currentColor"></circle><circle cx="17.6" cy="15.5" r="1" fill="currentColor"></circle><circle cx="12" cy="19" r="1" fill="currentColor"></circle><circle cx="6.4" cy="15.5" r="1" fill="currentColor"></circle><circle cx="6.4" cy="8.5" r="1" fill="currentColor"></circle></symbol><symbol id="icon-cz" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>CZ</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="11" y1="12" x2="21" y2="12"></line><path d="M3 6 L11 12 L3 18 Z" fill="currentColor" opacity="0.2" stroke="none"></path><path d="M3 6 L11 12 L3 18"></path></symbol><symbol id="icon-ca" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>CA</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="8" y1="6" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="18"></line><rect x="3" y="6" width="5" height="12" fill="currentColor" opacity="0.2" stroke="none"></rect><rect x="16" y="6" width="5" height="12" fill="currentColor" opacity="0.2" stroke="none"></rect><path d="M12 9 L13 11.2 L14.6 10.6 L14 12.4 L15.6 12.6 L12.8 14.2 L13.1 15 L11 14.7 L10.9 15 L10.7 14.7 L8.6 15 L8.9 14.2 L6.1 12.6 L7.7 12.4 L7.1 10.6 L8.7 11.2 Z" fill="currentColor" stroke="none"></path></symbol><symbol id="icon-sg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>SG</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="12" x2="21" y2="12"></line><rect x="3" y="6" width="18" height="6" fill="currentColor" opacity="0.2" stroke="none"></rect><path d="M9.6 8.1 A2.6 2.6 0 1 0 9.6 11.9 A2 2 0 1 1 9.6 8.1 Z" fill="currentColor" stroke="none"></path><circle cx="13.2" cy="8.3" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="15.4" cy="8.3" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="12.5" cy="10.2" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="16.1" cy="10.2" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="14.3" cy="11.3" r="0.6" fill="currentColor" stroke="none"></circle></symbol><symbol id="icon-global" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Global</title>
+<circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="9" ry="3.4"></ellipse><line x1="12" y1="3" x2="12" y2="21"></line></symbol><symbol id="icon-archive" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Source</title>
+<rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8 V20 Q5 21 6 21 H18 Q19 21 19 20 V8"></path><line x1="10" y1="13" x2="14" y2="13"></line></symbol><symbol id="icon-gear" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>Ingestion</title>
+<circle cx="12" cy="12" r="3.5"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="22" y1="12" x2="19" y2="12"></line><line x1="5" y1="12" x2="2" y2="12"></line><line x1="19.07" y1="4.93" x2="17" y2="7"></line><line x1="7" y1="17" x2="4.93" y2="19.07"></line><line x1="19.07" y1="19.07" x2="17" y2="17"></line><line x1="7" y1="7" x2="4.93" y2="4.93"></line></symbol><symbol id="icon-license" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>License</title>
+<path d="M12 3 L20 6 V12 Q20 17 12 21 Q4 17 4 12 V6 Z"></path><rect x="9" y="11" width="6" height="5" rx="0.6"></rect><path d="M10.5 11 V9 Q10.5 7.5 12 7.5 Q13.5 7.5 13.5 9 V11"></path></symbol><symbol id="icon-sa" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>SA</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><rect x="3" y="6" width="18" height="12" fill="currentColor" opacity="0.2" stroke="none"></rect><line x1="7" y1="12" x2="17" y2="12"></line><line x1="14" y1="9" x2="17" y2="12"></line><line x1="14" y1="15" x2="17" y2="12"></line></symbol><symbol id="icon-uk" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><title>UK</title>
+<rect x="3" y="6" width="18" height="12" rx="1"></rect><line x1="3" y1="6" x2="21" y2="18"></line><line x1="21" y1="6" x2="3" y2="18"></line><line x1="12" y1="6" x2="12" y2="18"></line><line x1="3" y1="12" x2="21" y2="12"></line></symbol></svg><script>
 (function () {
   function init() {
     var els = document.querySelectorAll('.schema-diagram .cyb-node, .schema-diagram .cyb-edge-label');
@@ -543,10 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     init();
   }
 })();
-</script>
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+</script><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Quick start</h1>
 <p class="subtitle lead">Install the package, stage framework data, run your first query</p>
 </div>
@@ -562,30 +477,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
-<section id="install-cybedtools" class="level2">
-<h2 class="anchored" data-anchor-id="install-cybedtools">Install cybedtools</h2>
+</header><section id="install-cybedtools" class="level2"><h2 class="anchored" data-anchor-id="install-cybedtools">Install cybedtools</h2>
 <p>Install from GitHub via <code>remotes</code> or <code>pak</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option A: remotes</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ryanstraight/cybedtools"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Option B: pak (faster on first install)</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ryanstraight/cybedtools"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="stage-the-framework-data" class="level2">
-<h2 class="anchored" data-anchor-id="stage-the-framework-data">Stage the framework data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Option A: remotes</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Option B: pak (faster on first install)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html">pkg_install</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section><section id="stage-the-framework-data" class="level2"><h2 class="anchored" data-anchor-id="stage-the-framework-data">Stage the framework data</h2>
 <p><code>cybedtools</code> does not redistribute framework source text. Each framework’s license governs how its source data is obtained and stored. <code>docs/framework-data-sources.md</code> documents the canonical retrieval URL, license, and SHA256 reference checksum for each framework in the corpus.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># After install, see where to put each framework's source data:</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">"doc"</span>, <span class="st">"framework-data-sources.md"</span>, <span class="at">package =</span> <span class="st">"cybedtools"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readLines</span>() <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">40</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For NICE and DCWF (US Government works, public domain), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework.</p>
-</section>
-<section id="run-the-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="run-the-pipeline">Run the pipeline</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># After install, see where to put each framework's source data:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"doc"</span>, <span class="st">"framework-data-sources.md"</span>, package <span class="op">=</span> <span class="st">"cybedtools"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For NICE and DCWF (US Government works, not subject to US copyright under 17 U.S.C. 105), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework. CyQUAL, CCSSF, and OTCCF are in the corpus on their stewards’ terms, 2 by written permission and CCSSF referenced as its steward asked, and each carries its own terms. Read the per-framework entries before staging those three.</p>
+</section><section id="run-the-pipeline" class="level2"><h2 class="anchored" data-anchor-id="run-the-pipeline">Run the pipeline</h2>
 <p>Once source data is staged in <code>data/raw/</code>, run the pipeline scripts in order. Each script is numbered for reproducibility:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-staging-check.R         <span class="co"># confirm source data present</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-nice.R           <span class="co"># parse NICE -&gt; JSON-LD</span></span>
@@ -594,35 +501,109 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/025-export-ntriples.R       <span class="co"># combined RDF graph</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/030-load-graph.R            <span class="co"># smoke-test SPARQL load</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The combined graph lands at <code>data/processed/ntriples/_combined.nt</code>. Every query on this site reads from that file.</p>
-</section>
-<section id="first-query" class="level2">
-<h2 class="anchored" data-anchor-id="first-query">First query</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cybedtools)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Per-framework summary, lazy-loaded with the package</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>framework_summary <span class="sc">|&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    framework_name,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    organizing_unit_count,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    elements_per_organizing_unit_with_examples</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(elements_per_organizing_unit_with_examples))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Output:</p>
-<pre><code># A tibble: 8 × 3
-  framework_name              organizing_unit_count elements_per_organizing_unit_with_examples
-  &lt;chr&gt;                                       &lt;int&gt;                                      &lt;dbl&gt;
-1 NICE Workforce Framework v2                    41                                       51.6
-2 DCWF v5.1                                      74                                       39.8
-3 ENISA ECSF v1                                  12                                       32.5
-4 CSTA K-12 CS Rev 2017                          25                                       10.2
-5 SFIA 9                                        147                                        5.6
-6 ACM/IEEE CSEC2017                               8                                        5.0
-7 Cyber.org K-12 v1.0                           116                                        4.3
-8 DigComp 2.2                                     5                                        4.2</code></pre>
-</section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+</section><section id="first-query" class="level2"><h2 class="anchored" data-anchor-id="first-query">First query</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Per-framework summary, lazy-loaded with the package</span></span>
+<span><span class="va">framework_summary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">framework_name</span>,</span>
+<span>    <span class="va">organizing_unit_count</span>,</span>
+<span>    <span class="va">elements_per_organizing_unit_with_examples</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">elements_per_organizing_unit_with_examples</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 24%">
+<col style="width: 48%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">framework_name</th>
+<th style="text-align: right;">organizing_unit_count</th>
+<th style="text-align: right;">elements_per_organizing_unit_with_examples</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DCWF v5.1</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">54.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NICE v2.2.0</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">42.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DigComp 3.0</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">34.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ECSF v1</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">32.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CyBOK v1.1.0</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">28.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OTCCF v1.1</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">26.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CCSSF 2022</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">22.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CyQUAL 1.2.0</td>
+<td style="text-align: right;">161</td>
+<td style="text-align: right;">20.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CSTA PK-12 CS (2026)</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">18.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SCyWF 1.5</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">17.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CSTA K-12 CS (Rev 2017)</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">10.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SFIA 9</td>
+<td style="text-align: right;">147</td>
+<td style="text-align: right;">5.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ACM/IEEE CSEC2017</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cyber.org K-12 v1.0</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">4.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="next-steps" class="level2"><h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
 <li>Read <a href="../concepts/vocabulary.html">the concepts</a> page for the two-tier schema architecture.</li>
 <li>Browse <a href="../frameworks/index.html">the framework pages</a> for per-framework provenance and structure.</li>
@@ -630,10 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
-</section>
-
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1052,8 +1030,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   });
   </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
 </div>   
@@ -1065,8 +1042,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
   </div>
 </footer>
-
-
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>

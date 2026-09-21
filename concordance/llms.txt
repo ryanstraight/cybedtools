@@ -1,0 +1,38 @@
+# Concordance
+
+> Cybersecurity Framework Concordance. Interactive views over a corpus of cybersecurity workforce and learning frameworks, queried through a shared semantic schema.
+
+## Pages
+
+- [Why this exists](https://ryanstraight.github.io/cybedtools/concordance/why.llms.md)
+- [I teach to Cyber.org. What CSTA standards am I covering?](https://ryanstraight.github.io/cybedtools/concordance/use-cases/k12-teacher.llms.md)
+- [Mapping our cybersecurity AAS to NICE work roles](https://ryanstraight.github.io/cybedtools/concordance/use-cases/curriculum-coordinator.llms.md)
+- [How is element coverage distributed across US and EU frameworks?](https://ryanstraight.github.io/cybedtools/concordance/queries/us-eu-asymmetry.llms.md)
+- [Where do NICE work roles align with ENISA ECSF role profiles?](https://ryanstraight.github.io/cybedtools/concordance/queries/nice-ecsf-alignment.llms.md)
+- [Where do Cyber.org K-12 and CSTA standards lexically align?](https://ryanstraight.github.io/cybedtools/concordance/queries/k12-alignment.llms.md)
+- [How does element density vary across frameworks?](https://ryanstraight.github.io/cybedtools/concordance/queries/density-spread.llms.md)
+- [index](https://ryanstraight.github.io/cybedtools/concordance/index.llms.md)
+- [SCyWF 1.5](https://ryanstraight.github.io/cybedtools/concordance/frameworks/scywf.llms.md)
+- [NICE Framework v2](https://ryanstraight.github.io/cybedtools/concordance/frameworks/nice-v2.llms.md)
+- [ENISA ECSF v1](https://ryanstraight.github.io/cybedtools/concordance/frameworks/ecsf-v1.llms.md)
+- [DCWF v5.1](https://ryanstraight.github.io/cybedtools/concordance/frameworks/dcwf-v51.llms.md)
+- [CyBOK v1.1.0](https://ryanstraight.github.io/cybedtools/concordance/frameworks/cybok.llms.md)
+- [CSTA PK-12 CS (2026)](https://ryanstraight.github.io/cybedtools/concordance/frameworks/csta-2026.llms.md)
+- [ACM/IEEE CSEC2017](https://ryanstraight.github.io/cybedtools/concordance/frameworks/csec2017.llms.md)
+- [The two-tier vocabulary](https://ryanstraight.github.io/cybedtools/concordance/concepts/vocabulary.llms.md)
+- [About Concordance](https://ryanstraight.github.io/cybedtools/concordance/about.llms.md)
+- [CCSSF 2022](https://ryanstraight.github.io/cybedtools/concordance/frameworks/ccssf.llms.md)
+- [CSTA K-12 CS Standards](https://ryanstraight.github.io/cybedtools/concordance/frameworks/csta-2017.llms.md)
+- [Cyber.org K-12](https://ryanstraight.github.io/cybedtools/concordance/frameworks/cyberorg-k12.llms.md)
+- [CyQUAL 1.2.0](https://ryanstraight.github.io/cybedtools/concordance/frameworks/cyqual.llms.md)
+- [DigComp 3.0](https://ryanstraight.github.io/cybedtools/concordance/frameworks/digcomp-30.llms.md)
+- [Frameworks](https://ryanstraight.github.io/cybedtools/concordance/frameworks/index.llms.md)
+- [OTCCF v1.1](https://ryanstraight.github.io/cybedtools/concordance/frameworks/otccf.llms.md)
+- [SFIA 9](https://ryanstraight.github.io/cybedtools/concordance/frameworks/sfia-9.llms.md)
+- [LICENSE](https://ryanstraight.github.io/cybedtools/concordance/LICENSE.llms.md)
+- [Queries](https://ryanstraight.github.io/cybedtools/concordance/queries/index.llms.md)
+- [Where do NICE work roles align with CSEC2017 Knowledge Areas?](https://ryanstraight.github.io/cybedtools/concordance/queries/nice-csec2017-alignment.llms.md)
+- [Which NICE work roles concentrate the most element coverage?](https://ryanstraight.github.io/cybedtools/concordance/queries/top-work-roles.llms.md)
+- [Quick start](https://ryanstraight.github.io/cybedtools/concordance/start/install.llms.md)
+- [Use cases](https://ryanstraight.github.io/cybedtools/concordance/use-cases/index.llms.md)
+- [Surfacing NICE-to-ECSF candidate equivalence pairs](https://ryanstraight.github.io/cybedtools/concordance/use-cases/policy-analyst.llms.md)
