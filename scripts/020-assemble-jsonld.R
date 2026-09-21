@@ -860,6 +860,12 @@ assemble_csec2017 <- function() {
 #' level, many-to-many), so they attach as `cybed:Example` via
 #' `cybed:hasExample` on the Competence unit, never on a Statement.
 #'
+#' Sub-point parser disabled: Competence Statement text yields fragments
+#' like "clickbait", "validating", and "AI systems" rather than
+#' framework-as-specified enumerations, the same fidelity problem OTCCF and
+#' csta-2026 have. Every Competence Statement is emitted as a parent
+#' `cybed:RoleElement`, with no `cybed:Subpoint` children.
+#'
 #' Proficiency levels and the glossary are staged (see
 #' scripts/010-ingest-digcomp.R) but not emitted here: neither is a
 #' competence-scoped statement or citizen-facing example, and no existing
@@ -909,11 +915,20 @@ assemble_digcomp <- function() {
       ))
     })
 
-  expanded <- expand_with_subpoints(
-    element_nodes    = parent_element_nodes,
-    framework_prefix = "digcomp",
-    framework_id     = framework_id,
-    framework_slug   = "digcomp"
+  # Sub-point parser disabled for digcomp, as for OTCCF and csta-2026: its
+  # Competence Statement text yields fragments like "clickbait",
+  # "validating", "AI systems" rather than framework-as-specified
+  # enumerations, so a parser split would be a unit the package invented
+  # rather than one JRC printed. Shape matches what expand_with_subpoints()
+  # returns so the rest of the adapter is unchanged.
+  expanded <- list(
+    nodes         = parent_element_nodes,
+    subnode_index = tibble::tibble(
+      parent_id  = character(0),
+      subnode_id = character(0),
+      ordinal    = integer(0),
+      node_type  = character(0)
+    )
   )
 
   # Examples = Learning Outcomes (522, post-errata), attached to their

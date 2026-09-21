@@ -37,11 +37,12 @@
 #' the framework: parents, plus `cybed:Subpoint` children, plus
 #' `cybed:Example` children. `element_count_strict` counts parents only, that
 #' is with-examples less both the Subpoint and the Example populations.
-#' Only DCWF and OTCCF have zero of both children (parser disabled for
-#' OTCCF; see docs/framework-invariants.yml), so strict equals
-#' with-examples there. DigComp 3.0 (unlike 2.2) has both: its parser runs
-#' over the 362 Competence Statements, and its Learning Outcomes are
-#' attached `cybed:Example` children.
+#' OTCCF, csta-2026, and DigComp 3.0 have zero Subpoints (parser disabled
+#' for all three on fidelity grounds. See docs/framework-invariants.yml).
+#' Only OTCCF has zero of both children, so strict equals with-examples
+#' there. DigComp 3.0 still has a nonzero `example_count` with the parser
+#' off: its Learning Outcomes attach as `cybed:Example` children of each
+#' Competence unit, so strict is less than with-examples there.
 #'
 #' **Corrected 2026-08-14**: `element_count_strict` previously subtracted
 #' only `example_count`, so any framework with nonzero Subpoints carried an
