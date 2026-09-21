@@ -262,7 +262,7 @@ render_summary_doc <- function(manifests, summary_tbl) {
       otccf    = extraction$job_roles,
       # Job roles only. SCyWF's competency areas, specialty areas and
       # categories are further organizing units, not roles. The graph
-      # carries all 81 units; this column tracks roles.
+      # carries all 81 units. This column tracks roles.
       scywf    = extraction$job_roles,
       NA
     )

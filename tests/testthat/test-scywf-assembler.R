@@ -83,7 +83,7 @@ test_that("row partition keeps rows contiguous and centres lines on anchors", {
   # A three-line row centred on 114, then a one-line row.
   expect_identical(env$scywf_partition_rows(c(100, 114, 128, 150), c(114, 150)),
                    c(1L, 1L, 1L, 2L))
-  # Input order does not matter; the result follows the input.
+  # Input order does not matter. The result follows the input.
   expect_identical(env$scywf_partition_rows(c(40, 10, 20), c(15, 40)),
                    c(2L, 1L, 1L))
   expect_error(env$scywf_partition_rows(c(10), c(10, 20)), "Cannot partition")
