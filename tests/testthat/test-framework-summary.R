@@ -7,7 +7,7 @@
 
 test_that("framework_summary has the expected shape", {
   expect_s3_class(framework_summary, "tbl_df")
-  expect_equal(nrow(framework_summary), 12L)
+  expect_equal(nrow(framework_summary), 13L)
   expect_named(
     framework_summary,
     c("framework_slug", "framework_name", "framework_type", "jurisdiction",
@@ -19,13 +19,13 @@ test_that("framework_summary has the expected shape", {
   )
 })
 
-test_that("framework slugs are unique and cover all twelve frameworks", {
+test_that("framework slugs are unique and cover all thirteen frameworks", {
   expect_equal(anyDuplicated(framework_summary$framework_slug), 0L)
   expect_setequal(
     framework_summary$framework_slug,
     c("nice-v2", "dcwf-v5.1", "ecsf-v1", "sfia-9", "cyberorg-k12-v1.0",
       "csta-2017", "csec2017-v1", "digcomp-3.0", "cyqual-v1.2.0",
-      "ccssf-2022", "otccf-v1.1", "csta-2026")
+      "ccssf-2022", "otccf-v1.1", "csta-2026", "scywf-1.5")
   )
 })
 
@@ -125,9 +125,9 @@ test_that("seven of the original eight frameworks' pre-existing values are uncha
   )
 })
 
-test_that("role densities are pinned for the six role-asserting frameworks", {
+test_that("role densities are pinned for the six v0.3.0 role-asserting frameworks", {
   role_rows <- framework_summary[!is.na(framework_summary$role_count), ]
-  expect_equal(nrow(role_rows), 6L)
+  expect_equal(nrow(role_rows), 7L)
 
   expect_equal(
     role_rows$role_count[match(
@@ -164,4 +164,24 @@ test_that("the csta-2026 row carries its measured counts", {
   expect_equal(row$element_count_with_examples,
                row$element_count_strict + row$subpoint_count + row$example_count)
   expect_equal(row$license, "CC BY-NC-SA 4.0")
+})
+
+test_that("the scywf row carries its measured counts", {
+  row <- framework_summary[framework_summary$framework_slug == "scywf-1.5", ]
+  expect_equal(nrow(row), 1L)
+  expect_equal(row$framework_name, "SCyWF 1.5")
+  expect_equal(row$framework_type, "workforce")
+  expect_equal(row$jurisdiction, "SA")
+  # 40 job roles + 24 competency areas + 12 specialty areas + 5 categories.
+  expect_equal(row$organizing_unit_count, 81L)
+  expect_equal(row$role_count, 40L)
+  expect_equal(row$element_count_strict, 1419L)
+  expect_equal(row$subpoint_count, 0L)
+  expect_equal(row$example_count, 0L)
+  expect_equal(row$element_count_with_examples, 1419L)
+  expect_equal(row$unit_relation_count, 0L)
+  expect_equal(row$elements_per_organizing_unit_strict, 17.5)
+  # 1,418 distinct statements reach a role. S1505 is on no role card.
+  expect_equal(row$elements_per_role_strict, 35.5)
+  expect_equal(row$license, "NCA written permission")
 })

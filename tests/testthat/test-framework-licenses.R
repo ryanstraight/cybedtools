@@ -45,7 +45,7 @@ test_that("public_redistribution uses the declared vocabulary", {
 test_that("public_redistribution agrees with docs/framework-invariants.yml", {
   # Hard-coded from docs/framework-invariants.yml, which is the declaring
   # document. A framework carrying no `public_redistribution` key there means
-  # "unrestricted"; only ten frameworks declare one. The test suite does not
+  # "unrestricted"; only eleven frameworks declare one. The test suite does not
   # otherwise read that YAML, so the map is pinned here rather than parsed.
   # If the YAML changes, this map changes with it.
   expected <- c(
@@ -60,7 +60,8 @@ test_that("public_redistribution agrees with docs/framework-invariants.yml", {
     "digcomp-3.0"       = "full_with_attribution",
     "cyqual-v1.2.0"     = "full_with_attribution",
     "ccssf-2022"        = "structure_only",
-    "otccf-v1.1"        = "structure_only"
+    "otccf-v1.1"        = "structure_only",
+    "scywf-1.5"         = "full_with_attribution"
   )
 
   fw <- framework_licenses[framework_licenses$layer == "framework", ]
@@ -91,7 +92,7 @@ test_that("only attribution may be NA, and granted is logical", {
 test_that("granted is TRUE only where a steward gave written permission", {
   expect_setequal(
     framework_licenses$slug[framework_licenses$granted],
-    c("cyqual-v1.2.0", "otccf-v1.1")
+    c("cyqual-v1.2.0", "otccf-v1.1", "scywf-1.5")
   )
 })
 
@@ -161,4 +162,16 @@ test_that("the csta-2026 row cites the document's licence page and DOI", {
   expect_match(row$license, "p. iv", fixed = TRUE)
   expect_match(row$attribution, "Computer Science Teachers Association", fixed = TRUE)
   expect_match(row$attribution, "10.1145/3820482", fixed = TRUE)
+})
+
+test_that("the scywf row names NCA, links the official page and records the grant", {
+  row <- cybed_license("scywf-1.5")
+  expect_equal(row$public_redistribution, "full_with_attribution")
+  expect_true(row$granted)
+  expect_equal(row$terms_url, "https://nca.gov.sa/en/pages/scywf.html")
+  expect_match(row$attribution, "National Cybersecurity Authority (NCA)", fixed = TRUE)
+  expect_match(row$attribution, "https://nca.gov.sa/en/pages/scywf.html", fixed = TRUE)
+  expect_match(row$attribution, "SCyWF - 1.5 : 2026", fixed = TRUE)
+  expect_match(row$license, "verbatim", fixed = TRUE)
+  expect_match(row$license, "derived", fixed = TRUE)
 })
