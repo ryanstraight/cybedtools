@@ -68,9 +68,9 @@ long_literal_allow_predicates:
 
 # Release 2. One gzip-compressed N-Triples file per slug, named by slug.
 # Every framework whose policy in docs/framework-invariants.yml permits
-# public redistribution now ships. csec2017 and otccf ship structure_only
-# (the export's predicate-omission gate handles that automatically); every
-# other slug here is full_with_attribution. ccssf moves from held to shipped
+# public redistribution and whose steward has confirmed in writing ships.
+# otccf ships structure_only (the export's predicate-omission gate handles
+# that automatically); every other slug here is full_with_attribution. ccssf moves from held to shipped
 # because the Canadian Centre for Cyber Security's 2026-09-21 permission
 # supersedes the 2026-09-19 reference-only reading. csta-2026, scywf, and
 # cybok move from held to shipped because they joined the ingestion pipeline
@@ -85,16 +85,15 @@ shipped:
   - csta
   - otccf
   - ccssf
-  - csec2017
   - csta-2026
   - scywf
   - cybok
 
 # Cleared by policy for a structure-only file, withheld from this release
 # anyway. A deposit cannot be withdrawn, so a framework ships only once its
-# steward has confirmed in writing. Empty for 2026.09.2: every previously
-# held framework is now confirmed or ready (see `shipped` above).
-held: {}
+# steward has confirmed in writing.
+held:
+  csec2017: "Steward confirmation pending from all four copyright holders."
 
 # Refused by policy, in every release. The export stops if a slug listed here
 # has any policy other than local_only, and stops if a local_only slug appears
