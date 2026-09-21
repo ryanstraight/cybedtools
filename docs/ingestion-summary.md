@@ -60,8 +60,8 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **spot check:** seed=2,026, elements_checked=15, exact_matches=15, discrepancies=0
 
 ### Licensing
-- **source license:** Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. Supplied directly by the Cyber Skills Development Team, 2026-09-16.
-- **redistribution:** Not granted permission; use with attribution. Reference the publication (ITSM.00.039) wherever the material or a derivative of it is used.
+- **source license:** Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security. Supplied directly by the Cyber Skills Development Team, 2026-09-16.
+- **redistribution:** Full-text publication with attribution (owner decision 2026-09-21, written permission received from the Canadian Centre for Cyber Security). Reference the publication (ITSM.00.039) wherever the material or a derivative of it is used.
 
 ## CSEC2017 (`csec2017`)
 
@@ -490,7 +490,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | Framework | Version | Date | Top-level units | Elements | License |
 |---|---|---|---|---|---|
 | ASD Cyber Skills Framework | v2 (October 2022, originally v1.0 Jul... | 2022-10-01 | - | - | MIXED, confirmed by direct page-by-pa... |
-| CCSSF | 2022 | 2023-04-19 | 59 | 1,222 | Copyright Government of Canada. Refer... |
+| CCSSF | 2022 | 2023-04-19 | 59 | 1,222 | Copyright Government of Canada. Used ... |
 | CSEC2017 | CSEC2017 Curricular Guidelines v1.0 | 2017-12-31 | 8 | 38 | Copyright 2017 ACM/IEEE/AIS/IFIP, all... |
 | CSTA K-12 CS | CSTA K-12 Computer Science Standards ... | 2017 | 25 | 120 | CC BY-NC-SA 4.0 |
 | CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | 53 | 331 | CC BY-NC-SA 4.0 |

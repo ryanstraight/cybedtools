@@ -566,10 +566,10 @@ If you use cybedtools in published work, see [`CITATION.cff`](CITATION.cff) or r
 
 Package code is MIT (see [`LICENSE.md`](LICENSE.md)). Each framework retains its upstream license, and source text is not bundled. Users stage source files locally per [`docs/framework-data-sources.md`](docs/framework-data-sources.md), and each ingestion script writes a per-framework `provenance.yml`. See [`LICENSING.md`](LICENSING.md) for layered guidance on academic vs. commercial use.
 
-Three frameworks here come on terms narrower than MIT. Two of them are represented by written permission of their stewards, and the Canadian framework is referenced as its steward asked. Those terms were given to cybedtools and do not pass to you.
+Three frameworks here come on terms narrower than MIT, all represented by written permission of their stewards. Those terms were given to cybedtools and do not pass to you.
 
 - Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: <https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/> CSA's permission covers the framework's structure, for non-commercial, academic and research use.
-- Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.
+- Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security.
 - CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, <https://platform.cyqual.cz/>.
 
 ## Code of Conduct

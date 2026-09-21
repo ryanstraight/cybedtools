@@ -277,9 +277,9 @@ A separate hazard runs the other way, inside a single framework rather than acro
 
 **Source.** The Canadian Cyber Security Skills Framework (ITSM.00.039), Canadian Centre for Cyber Security. The public page carries the main document. The full document with Annexes A to E, which hold the role detail, is available from the Centre's Cyber Skills Development Team on request.
 
-**License.** Copyright Government of Canada. The Centre supplied the full document for this use and asks that the material be referenced when used. The document itself carries no license notice, so do not assume the Open Government Licence applies. The document is marked "TLP:CLEAR" and "UNCLASSIFIED / NON CLASSIFIÉ" on every page. Both are disclosure markings under the Traffic Light Protocol and the Government of Canada's security classification scheme, and neither is a copyright licence, so they do not widen what the Centre granted.
+**License.** Copyright Government of Canada. The Centre supplied the full document for this use and, on 2026-09-21, gave cybedtools written permission for full-text publication with attribution (owner decision, superseding the earlier reference-only reading of its reply). The document itself carries no license notice, so do not assume the Open Government Licence applies. The document is marked "TLP:CLEAR" and "UNCLASSIFIED / NON CLASSIFIÉ" on every page. Both are disclosure markings under the Traffic Light Protocol and the Government of Canada's security classification scheme, and neither is a copyright licence, so they do not widen what the Centre granted.
 
-**Attribution.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked.
+**Attribution.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security.
 
 **Stage.** Save the PDF as `data/raw/ccssf/Canadian Cyber Security Skills Framework 2022 -ENG.pdf`.
 

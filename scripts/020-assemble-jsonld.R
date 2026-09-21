@@ -1265,7 +1265,7 @@ assemble_ccssf <- function() {
     attribution      = paste(
       "Canadian Centre for Cyber Security, The Canadian Cyber Security Skills",
       "Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada.",
-      "Referenced as the Canadian Centre for Cyber Security asked."
+      "Used with permission of the Canadian Centre for Cyber Security."
     )
   )
 

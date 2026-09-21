@@ -59,7 +59,7 @@ test_that("public_redistribution agrees with docs/framework-invariants.yml", {
     "csec2017-v1"       = "structure_only",
     "digcomp-3.0"       = "full_with_attribution",
     "cyqual-v1.2.0"     = "full_with_attribution",
-    "ccssf-2022"        = "structure_only",
+    "ccssf-2022"        = "full_with_attribution",
     "otccf-v1.1"        = "structure_only",
     "scywf-1.5"         = "full_with_attribution",
     "cybok-v1.1.0"      = "full_with_attribution"
@@ -93,7 +93,7 @@ test_that("only attribution may be NA, and granted is logical", {
 test_that("granted is TRUE only where a steward gave written permission", {
   expect_setequal(
     framework_licenses$slug[framework_licenses$granted],
-    c("cyqual-v1.2.0", "otccf-v1.1", "scywf-1.5")
+    c("cyqual-v1.2.0", "otccf-v1.1", "scywf-1.5", "ccssf-2022")
   )
 })
 
@@ -105,19 +105,23 @@ test_that("framework_summary's license column is the join of license_short", {
   )
 })
 
-test_that("the CCSSF row never claims permission", {
-  # Decided 2026-09-19: the steward said only that the material is
-  # copyrighted under the Government of Canada and should be referenced when
-  # used. Public text must not characterise that as permission until the
-  # steward confirms.
+test_that("the CCSSF row claims permission, granted 2026-09-21", {
+  # Owner decision 2026-09-21: the Canadian Centre for Cyber Security gave
+  # cybedtools written permission for full-text publication with
+  # attribution, superseding the 2026-09-19 decision (the steward's earlier
+  # reply asked only that its material be referenced, which was not itself
+  # an affirmative grant).
   ccssf <- framework_licenses[framework_licenses$slug == "ccssf-2022", ]
   expect_equal(nrow(ccssf), 1L)
-  expect_false(ccssf$granted)
-  expect_false(
+  expect_true(ccssf$granted)
+  expect_true(
     any(grepl("permission", unlist(ccssf), ignore.case = TRUE))
   )
-  expect_equal(ccssf$license_short, "Government of Canada copyright")
-  expect_equal(ccssf$public_redistribution, "structure_only")
+  expect_false(
+    any(grepl("referenced as.*asked", unlist(ccssf), ignore.case = TRUE))
+  )
+  expect_equal(ccssf$license_short, "Government of Canada, with permission")
+  expect_equal(ccssf$public_redistribution, "full_with_attribution")
 })
 
 test_that("the OTCCF row carries CSA's prescribed attribution verbatim", {

@@ -340,11 +340,11 @@ frameworks:
     jurisdiction: "CA"
     sector: "civilian"
     specificity: "cybersecurity-specific"
-    # Consent is implied, not affirmative, so statement text is withheld from
-    # publication: pending written confirmation from the Canadian Centre for
-    # Cyber Security; revisit when received. Structure (role titles,
-    # activity areas, competency titles, mappings) may be published.
-    public_redistribution: structure_only
+    # Owner decision 2026-09-21: the Canadian Centre for Cyber Security gave
+    # written permission for full-text publication with attribution,
+    # superseding the earlier structure-only withholding pending
+    # confirmation.
+    public_redistribution: full_with_attribution
     expected:
       # Exact bounds: the source is a fixed PDF edition whose annex structure
       # the ingester asserts against the document's own declared counts. Any

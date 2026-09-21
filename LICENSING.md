@@ -40,7 +40,7 @@ When redistributing or building on this toolkit, respect the upstream framework 
 
 ## Frameworks included by steward permission
 
-Two frameworks are in cybedtools because their stewards said yes in writing, and the Canadian framework is here referenced as its steward asked. The terms differ, and none of them is as broad as MIT. Full detail, including how to obtain each source, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
+Three frameworks are in cybedtools because their stewards said yes in writing. The terms differ, and none of them is as broad as MIT. Full detail, including how to obtain each source, is in [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
 
 **OTCCF, Cyber Security Agency of Singapore.** Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/
 
@@ -48,7 +48,7 @@ The document names Mercer Singapore as a joint developer alongside CSA, with Ski
 
 CSA's permission is for referencing and integrating the OTCCF's structure, for non-commercial, academic and research purposes, and it requires that the ingestion scripts and structural mappings not misrepresent or alter the intent of the OTCCF's job roles, skills, or competency mappings as published by CSA. cybedtools makes public only the OTCCF's structure (roles, skill titles, categories, proficiency levels, role-to-skill mappings) and not its statement text. Eight of its thirty skills and all of its Critical Core Skills originate with SkillsFuture Singapore, and the graph marks them. Commercial use of the OTCCF portion is outside what CSA granted.
 
-**CCSSF, Canadian Centre for Cyber Security.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked. The Centre asks that its material be referenced when used.
+**CCSSF, Canadian Centre for Cyber Security.** Canadian Centre for Cyber Security, The Canadian Cyber Security Skills Framework (ITSM.00.039), 2022 edition. Copyright Government of Canada. Used with permission of the Canadian Centre for Cyber Security, granted 2026-09-21 for full-text publication with attribution.
 
 **CyQUAL, Masaryk University.** CyQUAL, the Czech national cybersecurity qualifications framework, developed at Masaryk University. Open data, version 1.2.0, https://platform.cyqual.cz/. Published as open data. Attribution to CyQUAL and to Masaryk University is required.
 
