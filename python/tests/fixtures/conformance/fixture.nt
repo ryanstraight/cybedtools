@@ -1,0 +1,72 @@
+<https://w3id.org/cybed/ontology#element/fixture-el-role1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role1> <https://w3id.org/cybed/ontology#elementText> "Monitors network traffic for security incidents and analyzes alerts" .
+<https://w3id.org/cybed/ontology#element/fixture-el-role1> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf1> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role2> <https://w3id.org/cybed/ontology#elementText> "Configures firewalls and defends the network perimeter" .
+<https://w3id.org/cybed/ontology#element/fixture-el-role2> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf1> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role3> <https://w3id.org/cybed/ontology#elementText> "Monitors network traffic for incidents and coordinates incident response" .
+<https://w3id.org/cybed/ontology#element/fixture-el-role3> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf2> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-role4> <https://w3id.org/cybed/ontology#elementText> "Hunts for adversaries hiding in network traffic and endpoint logs" .
+<https://w3id.org/cybed/ontology#element/fixture-el-role4> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf2> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Example> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1> <https://w3id.org/cybed/ontology#elementText> "Clarification statement: includes GDPR-relevant scenarios" .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-ped1> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Subpoint> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> <https://w3id.org/cybed/ontology#elaborates> <https://w3id.org/cybed/ontology#element/fixture-el-unit5> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> <https://w3id.org/cybed/ontology#elementText> "chiffrement et contr\u00F4le d'acc\u00E8s" .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-ped1> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#RoleElement> .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5> <https://w3id.org/cybed/ontology#elementText> "Prot\u00E9ger les donn\u00E9es personnelles et respecter la vie priv\u00E9e" .
+<https://w3id.org/cybed/ontology#element/fixture-el-unit5> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-ped1> .
+<https://w3id.org/cybed/ontology#framework/fixture-ped1> <http://schema.org/name> "Fixture Pedagogy Framework One" .
+<https://w3id.org/cybed/ontology#framework/fixture-ped1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Framework> .
+<https://w3id.org/cybed/ontology#framework/fixture-ped1> <https://w3id.org/cybed/ontology#jurisdiction> "global" .
+<https://w3id.org/cybed/ontology#framework/fixture-ped1> <https://w3id.org/cybed/ontology#sector> "education" .
+<https://w3id.org/cybed/ontology#framework/fixture-ped1> <https://w3id.org/cybed/ontology#specificity> "cybersecurity-specific" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf1> <http://schema.org/name> "Fixture Workforce Framework One" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Framework> .
+<https://w3id.org/cybed/ontology#framework/fixture-wf1> <https://w3id.org/cybed/ontology#jurisdiction> "US" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf1> <https://w3id.org/cybed/ontology#sector> "civilian" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf1> <https://w3id.org/cybed/ontology#specificity> "cybersecurity-specific" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf2> <http://schema.org/name> "Fixture Workforce Framework Two" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Framework> .
+<https://w3id.org/cybed/ontology#framework/fixture-wf2> <https://w3id.org/cybed/ontology#jurisdiction> "EU" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf2> <https://w3id.org/cybed/ontology#sector> "civilian" .
+<https://w3id.org/cybed/ontology#framework/fixture-wf2> <https://w3id.org/cybed/ontology#specificity> "cybersecurity-specific" .
+<https://w3id.org/cybed/ontology#relation/fixture-role-1--fixture-role-3--requires> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#UnitRelation> .
+<https://w3id.org/cybed/ontology#relation/fixture-role-1--fixture-role-3--requires> <https://w3id.org/cybed/ontology#fromUnit> <https://w3id.org/cybed/ontology#role/fixture-role-1> .
+<https://w3id.org/cybed/ontology#relation/fixture-role-1--fixture-role-3--requires> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf1> .
+<https://w3id.org/cybed/ontology#relation/fixture-role-1--fixture-role-3--requires> <https://w3id.org/cybed/ontology#relationLabel> "requires" .
+<https://w3id.org/cybed/ontology#relation/fixture-role-1--fixture-role-3--requires> <https://w3id.org/cybed/ontology#toUnit> <https://w3id.org/cybed/ontology#role/fixture-role-3> .
+<https://w3id.org/cybed/ontology#role/fixture-role-1> <http://schema.org/name> "Security Analyst" .
+<https://w3id.org/cybed/ontology#role/fixture-role-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#OrganizingUnit> .
+<https://w3id.org/cybed/ontology#role/fixture-role-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Role> .
+<https://w3id.org/cybed/ontology#role/fixture-role-1> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role1> .
+<https://w3id.org/cybed/ontology#role/fixture-role-1> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf1> .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <http://schema.org/name> "Network Defender" .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#OrganizingUnit> .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Role> .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role1> .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role2> .
+<https://w3id.org/cybed/ontology#role/fixture-role-2> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf1> .
+<https://w3id.org/cybed/ontology#role/fixture-role-3> <http://schema.org/name> "Incident Handler" .
+<https://w3id.org/cybed/ontology#role/fixture-role-3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#OrganizingUnit> .
+<https://w3id.org/cybed/ontology#role/fixture-role-3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Role> .
+<https://w3id.org/cybed/ontology#role/fixture-role-3> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role3> .
+<https://w3id.org/cybed/ontology#role/fixture-role-3> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf2> .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <http://schema.org/name> "Threat Hunter" .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#OrganizingUnit> .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#Role> .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role1> .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-role4> .
+<https://w3id.org/cybed/ontology#role/fixture-role-4> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-wf2> .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <http://schema.org/name> "Grade Band Data Protection Cell" .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/cybed/ontology#OrganizingUnit> .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-unit5.sub.1> .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <https://w3id.org/cybed/ontology#hasElement> <https://w3id.org/cybed/ontology#element/fixture-el-unit5> .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <https://w3id.org/cybed/ontology#hasExample> <https://w3id.org/cybed/ontology#element/fixture-el-unit5.example.1> .
+<https://w3id.org/cybed/ontology#unit/fixture-unit-5> <https://w3id.org/cybed/ontology#partOf> <https://w3id.org/cybed/ontology#framework/fixture-ped1> .

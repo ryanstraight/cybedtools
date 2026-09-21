@@ -278,5 +278,16 @@ write_golden(
 write_golden(cybed_license(), "cybed_license", c("slug"))
 write_golden(cybedtools::framework_summary, "framework_summary",
              c("framework_slug"))
+write_golden(role_framework_bindings(rdf), "role_framework_bindings",
+             c("role", "framework"))
+write_golden(organizing_unit_framework_bindings(rdf), "organizing_unit_framework_bindings",
+             c("unit", "framework"))
+write_golden(element_framework_bindings(rdf), "element_framework_bindings",
+             c("element", "framework"))
+write_golden(example_framework_bindings(rdf), "example_framework_bindings",
+             c("example", "framework"))
+write_golden(subpoint_framework_bindings(rdf), "subpoint_framework_bindings",
+             c("subpoint", "framework"))
+write_golden(element_text(rdf), "element_text", c("element"))
 
 message("\nDone. ", length(list.files(goldens_dir)), " golden file(s) written.")

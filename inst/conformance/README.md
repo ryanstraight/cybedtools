@@ -44,6 +44,28 @@ Rebuilds `fixture.nt`, the mock release, and every golden CSV from the
 in-memory fixture-graph builder in that script (the single source of
 truth for the fixture; `fixture.nt` is its serialization).
 
+After regenerating, sync the copies the Python port tests against, from the
+repository root:
+
+```sh
+cp inst/conformance/goldens/*.csv python/tests/fixtures/conformance/goldens/
+cp inst/conformance/fixture.nt python/tests/fixtures/conformance/fixture.nt
+```
+
+Then run both suites:
+
+```r
+devtools::test()
+```
+
+```sh
+cd python && .venv/Scripts/python.exe -m pytest tests/
+```
+
+`python/tests/test_conformance.py::test_fixture_copy_matches_source` fails
+loudly if the packaged copy under `python/tests/fixtures/conformance/`
+drifts from this directory, so a missed copy step does not pass silently.
+
 ## The golden format contract (exact, for a Python port)
 
 Every file in `goldens/` is:
@@ -105,6 +127,41 @@ independent of `fixture.nt`, for the same reason: it is precomputed from
 the full eleven-framework corpus at package-build time, not derivable from
 a small hand fixture). Columns and types match `?framework_summary`. Sort
 key: `framework_slug`.
+
+### `role_framework_bindings.csv`
+
+Columns: `role` (string, IRI), `role_name` (string, may be empty),
+`framework` (string, IRI), `framework_name` (string, may be empty),
+`framework_slug` (string). Sort key: `role`, then `framework`.
+
+### `organizing_unit_framework_bindings.csv`
+
+Columns: `unit` (string, IRI), `unit_name` (string, may be empty),
+`framework` (string, IRI), `framework_name` (string, may be empty),
+`framework_slug` (string). Sort key: `unit`, then `framework`.
+
+### `element_framework_bindings.csv`
+
+Columns: `element` (string, IRI), `framework` (string, IRI),
+`framework_name` (string, may be empty), `framework_slug` (string). Sort
+key: `element`, then `framework`.
+
+### `example_framework_bindings.csv`
+
+Columns: `example` (string, IRI), `framework` (string, IRI),
+`framework_name` (string, may be empty), `framework_slug` (string). Sort
+key: `example`, then `framework`.
+
+### `subpoint_framework_bindings.csv`
+
+Columns: `subpoint` (string, IRI), `framework` (string, IRI),
+`framework_name` (string, may be empty), `framework_slug` (string). Sort
+key: `subpoint`, then `framework`.
+
+### `element_text.csv`
+
+Columns: `element` (string, IRI), `text` (string, the statement literal;
+includes the fixture's non-ASCII French text). Sort key: `element`.
 
 ## Deliberately out of scope for these goldens
 
