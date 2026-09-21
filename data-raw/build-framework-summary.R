@@ -172,7 +172,8 @@ display <- tibble::tribble(
   "https://w3id.org/cybed/ontology#framework/cyqual-v1.2.0",     9L,             "CyQUAL 1.2.0",            "workforce",
   "https://w3id.org/cybed/ontology#framework/ccssf-2022",        10L,            "CCSSF 2022",              "workforce",
   "https://w3id.org/cybed/ontology#framework/otccf-v1.1",        11L,            "OTCCF v1.1",              "workforce",
-  "https://w3id.org/cybed/ontology#framework/csta-2026",         12L,            "CSTA PK-12 CS (2026)",    "pedagogy"
+  "https://w3id.org/cybed/ontology#framework/csta-2026",         12L,            "CSTA PK-12 CS (2026)",    "pedagogy",
+  "https://w3id.org/cybed/ontology#framework/scywf-1.5",         13L,            "SCyWF 1.5",               "workforce"
 )
 
 # Licence labels, derived. framework_licenses is the single owner of licence
@@ -291,7 +292,7 @@ role_dependent <- c("role_count", "elements_per_role_strict",
 non_role_cols  <- setdiff(names(framework_summary), role_dependent)
 
 stopifnot(
-  "framework_summary should have 12 rows" = nrow(framework_summary) == 12L,
+  "framework_summary should have 13 rows" = nrow(framework_summary) == 13L,
   "no NA values expected outside the role-dependent columns" =
     !any(is.na(framework_summary[non_role_cols])),
   "the role-dependent columns must be NA together or present together" =
@@ -354,11 +355,34 @@ if (!is.null(previous_summary)) {
   # widen this vector to a pattern, and do not remove the guard.
   guard_exempt <- "license"
 
+  # Acknowledged changes: one framework, named columns, a stated cause. Not
+  # an exemption, and never a pattern. Each entry lets exactly these cells
+  # move for exactly this framework and is printed below when it does.
+  #
+  # digcomp-3.0: commit 5a9bafe disabled the sub-point parser for DigComp
+  # 3.0 on fidelity grounds (its Competence Statement text split into
+  # fragments JRC did not publish) and updated the invariants and roxygen
+  # counts, but the shipped summary was not rebuilt with it. Its 97
+  # Subpoints go to 0, which moves the two with-examples columns with them.
+  # Parents (362) and Examples (522) are unchanged.
+  acknowledged_drift <- list(
+    `digcomp-3.0` = c("subpoint_count", "element_count_with_examples",
+                      "elements_per_organizing_unit_with_examples")
+  )
+
   drifted <- character(0)
+  acknowledged <- character(0)
   for (cl in setdiff(old_cols, guard_exempt)) {
     ov <- old_df[[cl]]
     nv <- new_df[[cl]]
     bad <- which(!mapply(identical, as.list(ov), as.list(nv)))
+    ack <- bad[vapply(old_slugs[bad], \(sl) cl %in% acknowledged_drift[[sl]], logical(1))]
+    if (length(ack) > 0L) {
+      acknowledged <- c(acknowledged, sprintf("  %s: %s was %s, now %s", cl,
+                                              old_slugs[ack], format(ov[ack]),
+                                              format(nv[ack])))
+    }
+    bad <- setdiff(bad, ack)
     if (length(bad) > 0L) {
       drifted <- c(drifted, sprintf(
         "  %s: %s",
@@ -377,6 +401,13 @@ if (!is.null(previous_summary)) {
       paste(drifted, collapse = "\n"),
       call. = FALSE
     )
+  }
+  if (length(acknowledged) > 0L) {
+    cat("Acknowledged changes (see acknowledged_drift):
+",
+        paste(acknowledged, collapse = "
+"), "
+", sep = "")
   }
   cat("Regression guard passed: all pre-existing columns unchanged for the original eight frameworks",
       if (length(guard_exempt)) paste0(" (exempt: ", paste(guard_exempt, collapse = ", "), ")"),

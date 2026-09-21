@@ -3,7 +3,7 @@
 # Roxygen documentation for shipped package data. Source script that
 # produces these artifacts lives in data-raw/.
 
-#' Twelve-framework summary tibble
+#' Thirteen-framework summary tibble
 #'
 #' One row per framework in the cybedtools corpus. All count columns are
 #' computed from the staged combined N-Triples graph at package-build time
@@ -27,8 +27,18 @@
 #' for the specialty tier. Its Examples are CSTA's published implementation
 #' examples.
 #'
-#' Statement codes are unique only within a framework. NICE and CCSSF both
-#' print codes in the T0516 shape, and they denote different statements.
+#' The Saudi Cybersecurity Workforce Framework (`scywf-1.5`, SCyWF - 1.5 :
+#' 2026) was added after v0.3.0 by written permission of the National
+#' Cybersecurity Authority (NCA), which requires its content to be carried
+#' verbatim. Its 81 organizing units are 40 job roles, 24 competency areas,
+#' 12 specialty areas and 5 categories. Only the job roles assert
+#' `cybed:Role`. The links from a specialty area to its category and from a
+#' role to its specialty area are cybedtools-derived, not NCA content.
+#'
+#' Statement codes are unique only within a framework. NICE, CCSSF and
+#' SCyWF all print codes in the T0516 shape, and they denote different
+#' statements. SCyWF shares 296 codes with NICE v2.2.0 and prints different
+#' text under every one of them.
 #' Never join two frameworks on a bare statement code. Join on the full IRI,
 #' or carry a framework column alongside the code.
 #'
@@ -37,10 +47,10 @@
 #' the framework: parents, plus `cybed:Subpoint` children, plus
 #' `cybed:Example` children. `element_count_strict` counts parents only, that
 #' is with-examples less both the Subpoint and the Example populations.
-#' OTCCF, csta-2026, and DigComp 3.0 have zero Subpoints (parser disabled
-#' for all three on fidelity grounds. See docs/framework-invariants.yml).
-#' Only OTCCF has zero of both children, so strict equals with-examples
-#' there. DigComp 3.0 still has a nonzero `example_count` with the parser
+#' OTCCF, csta-2026, DigComp 3.0 and SCyWF have zero Subpoints (parser
+#' disabled for all four on fidelity grounds. See
+#' docs/framework-invariants.yml). Only OTCCF and SCyWF have zero of both
+#' children, so strict equals with-examples there. DigComp 3.0 still has a nonzero `example_count` with the parser
 #' off: its Learning Outcomes attach as `cybed:Example` children of each
 #' Competence unit, so strict is less than with-examples there.
 #'
@@ -64,7 +74,8 @@
 #' several frameworks mixes more than one kind of unit: NICE contributes 42
 #' work roles plus 11 competency areas, CyQUAL 102 work roles plus 59
 #' competencies, OTCCF 15 job roles plus 30 Technical Skills and
-#' Competencies plus 16 Critical Core Skills. A density taken over that
+#' Competencies plus 16 Critical Core Skills, SCyWF 40 job roles plus 24
+#' competency areas, 12 specialty areas and 5 categories. A density taken over that
 #' mixed denominator is not like-for-like against a framework whose units
 #' are all roles, such as DCWF's 74. The `role_count` and
 #' `elements_per_role_*` columns added in v0.3.0 give the role-only cut.
@@ -80,7 +91,7 @@
 #' For structural questions, query `cybed:Role` and `cybed:OrganizingUnit`
 #' directly.
 #'
-#' @format A tibble with 12 rows and 16 columns.
+#' @format A tibble with 13 rows and 16 columns.
 #' \describe{
 #'   \item{framework_slug}{Character. Stable slug used as the URI tail
 #'     (e.g., `"nice-v2"`, `"sfia-9"`, `"otccf-v1.1"`). Unique.}
@@ -91,7 +102,7 @@
 #'     of `"workforce"` or `"pedagogy"`. Independent of the structural
 #'     `cybed:Role` vs `cybed:OrganizingUnit` distinction.}
 #'   \item{jurisdiction}{Character. One of `"US"`, `"EU"`, `"CZ"`, `"CA"`,
-#'     `"SG"`, or `"global"`.}
+#'     `"SG"`, `"SA"`, or `"global"`.}
 #'   \item{organizing_unit_count}{Integer. Distinct subjects typed
 #'     `cybed:OrganizingUnit` and bound to the framework via `cybed:partOf`.
 #'     A mixed denominator where a framework publishes more than one kind of
@@ -111,8 +122,8 @@
 #'   \item{subpoint_count}{Integer. Distinct `cybed:Subpoint` instances:
 #'     enumeration-list splits parsed out of a parent's text at assembly
 #'     time, plus, for CCSSF only, sub-bullets the source itself prints
-#'     beneath a parent bullet. Zero where the parser is disabled (OTCCF)
-#'     or finds nothing.}
+#'     beneath a parent bullet. Zero where the parser is disabled (OTCCF,
+#'     csta-2026, DigComp 3.0, SCyWF) or finds nothing.}
 #'   \item{example_count}{Integer. Distinct `cybed:Example` instances:
 #'     Clarification-statement scaffolding for Cyber.org K-12 and CSTA 2017,
 #'     and published implementation examples for CSTA 2026. Zero everywhere
@@ -156,7 +167,7 @@
 #'     it. Do not treat this column as a statement of terms; it is a label.}
 #' }
 #'
-#' @source Computed from the twelve-framework combined graph produced by
+#' @source Computed from the thirteen-framework combined graph produced by
 #'   `scripts/025-export-ntriples.R`. See
 #'   `data-raw/build-framework-summary.R`.
 #' @examples
@@ -203,7 +214,7 @@
 #'     occurs.}
 #' }
 #'
-#' @format A tibble with 13 rows and 10 columns.
+#' @format A tibble with 14 rows and 10 columns.
 #' \describe{
 #'   \item{layer}{Character. `"code"` for the package's own code, or
 #'     `"framework"` for a framework's source content. Exactly one `"code"`
