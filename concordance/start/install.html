@@ -122,11 +122,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="manifest" href="https://ryanstraight.github.io/cybedtools/concordance/assets/branding/site.webmanifest">
 <meta name="theme-color" content="#0F172A">
 <meta property="og:title" content="Quick start – Concordance">
-<meta property="og:description" content="Install the package, stage framework data, run your first query">
+<meta property="og:description" content="Install the package, fetch the data, run your first query">
 <meta property="og:image" content="https://ryanstraight.github.io/cybedtools/concordance/start/assets/branding/concordance-og-1200x630.png">
 <meta property="og:site_name" content="Concordance">
 <meta name="twitter:title" content="Quick start – Concordance">
-<meta name="twitter:description" content="Install the package, stage framework data, run your first query">
+<meta name="twitter:description" content="Install the package, fetch the data, run your first query">
 <meta name="twitter:image" content="https://ryanstraight.github.io/cybedtools/concordance/start/assets/branding/concordance-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -393,11 +393,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#install-cybedtools" id="toc-install-cybedtools" class="nav-link active" data-scroll-target="#install-cybedtools">Install cybedtools</a></li>
-  <li><a href="#stage-the-framework-data" id="toc-stage-the-framework-data" class="nav-link" data-scroll-target="#stage-the-framework-data">Stage the framework data</a></li>
-  <li><a href="#run-the-pipeline" id="toc-run-the-pipeline" class="nav-link" data-scroll-target="#run-the-pipeline">Run the pipeline</a></li>
-  <li><a href="#first-query" id="toc-first-query" class="nav-link" data-scroll-target="#first-query">First query</a></li>
+<li>
+<a href="#install" id="toc-install" class="nav-link active" data-scroll-target="#install">Install</a>
+  <ul class="collapse">
+<li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  </ul>
+</li>
+  <li><a href="#fetch-the-data-and-load-a-graph" id="toc-fetch-the-data-and-load-a-graph" class="nav-link" data-scroll-target="#fetch-the-data-and-load-a-graph">Fetch the data and load a graph</a></li>
+  <li><a href="#first-queries" id="toc-first-queries" class="nav-link" data-scroll-target="#first-queries">First queries</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  <li><a href="#rebuilding-the-graph-from-source-maintainers" id="toc-rebuilding-the-graph-from-source-maintainers" class="nav-link" data-scroll-target="#rebuilding-the-graph-from-source-maintainers">Rebuilding the graph from source (maintainers)</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -463,7 +469,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 })();
 </script><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Quick start</h1>
-<p class="subtitle lead">Install the package, stage framework data, run your first query</p>
+<p class="subtitle lead">Install the package, fetch the data, run your first query</p>
 </div>
 
 
@@ -477,36 +483,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="install-cybedtools" class="level2"><h2 class="anchored" data-anchor-id="install-cybedtools">Install cybedtools</h2>
-<p>Install from GitHub via <code>remotes</code> or <code>pak</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Option A: remotes</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span>
+</header><section id="install" class="level2"><h2 class="anchored" data-anchor-id="install">Install</h2>
+<section id="r" class="level3"><h3 class="anchored" data-anchor-id="r">R</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html">pak</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section><section id="python" class="level3"><h3 class="anchored" data-anchor-id="python">Python</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install cybedtools</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section></section><section id="fetch-the-data-and-load-a-graph" class="level2"><h2 class="anchored" data-anchor-id="fetch-the-data-and-load-a-graph">Fetch the data and load a graph</h2>
+<p><code>cybedtools</code> ships no framework text in the installed package. <code>cybed_fetch()</code> downloads and hash-verifies the public per-framework data release into a local cache (never re-downloading a file whose hash still matches), and <code>load_graph()</code> calls it internally and parses the result into one graph object. Both accept either the versioned framework slug (e.g.&nbsp;<code>"nice-v2"</code>) or the short release-file slug (e.g.&nbsp;<code>"nice"</code>); see <code>cybed_fetch()</code>’s documentation for the two-vocabulary mapping. The data release backing the current package version is archived on Zenodo: <a href="https://doi.org/10.5281/zenodo.22884320">10.5281/zenodo.22884320</a>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">R</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Python</a></li>
+</ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Option B: pak (faster on first install)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html">pkg_install</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section><section id="stage-the-framework-data" class="level2"><h2 class="anchored" data-anchor-id="stage-the-framework-data">Stage the framework data</h2>
-<p><code>cybedtools</code> does not redistribute framework source text. Each framework’s license governs how its source data is obtained and stored. <code>docs/framework-data-sources.md</code> documents the canonical retrieval URL, license, and SHA256 reference checksum for each framework in the corpus.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># After install, see where to put each framework's source data:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"doc"</span>, <span class="st">"framework-data-sources.md"</span>, package <span class="op">=</span> <span class="st">"cybedtools"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For NICE and DCWF (US Government works, not subject to US copyright under 17 U.S.C. 105), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework. CyQUAL, CCSSF, and OTCCF are in the corpus on their stewards’ terms, 2 by written permission and CCSSF referenced as its steward asked, and each carries its own terms. Read the per-framework entries before staging those three.</p>
-</section><section id="run-the-pipeline" class="level2"><h2 class="anchored" data-anchor-id="run-the-pipeline">Run the pipeline</h2>
-<p>Once source data is staged in <code>data/raw/</code>, run the pipeline scripts in order. Each script is numbered for reproducibility:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-staging-check.R         <span class="co"># confirm source data present</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-nice.R           <span class="co"># parse NICE -&gt; JSON-LD</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-dcwf.R           <span class="co"># ... and so on per framework</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R       <span class="co"># uniform parser pass</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/025-export-ntriples.R       <span class="co"># combined RDF graph</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/030-load-graph.R            <span class="co"># smoke-test SPARQL load</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The combined graph lands at <code>data/processed/ntriples/_combined.nt</code>. Every query on this site reads from that file.</p>
-</section><section id="first-query" class="level2"><h2 class="anchored" data-anchor-id="first-query">First query</h2>
+<span><span class="va">rdf</span> <span class="op">&lt;-</span> <span class="fu">load_graph</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cybedtools <span class="im">import</span> load_graph</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> load_graph()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section><section id="first-queries" class="level2"><h2 class="anchored" data-anchor-id="first-queries">First queries</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Python</a></li>
+</ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools">cybedtools</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Per-framework summary, lazy-loaded with the package</span></span>
+<span><span class="co"># 1. What's in the corpus?</span></span>
 <span><span class="va">framework_summary</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span></span>
 <span>    <span class="va">framework_name</span>,</span>
@@ -603,12 +618,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 2. Which elements does an organizing unit carry?</span></span>
+<span><span class="fu">unit_element_bindings</span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Where do two frameworks say the same thing?</span></span>
+<span><span class="fu">framework_similarity</span><span class="op">(</span><span class="va">rdf</span>, from <span class="op">=</span> <span class="st">"nice"</span>, to <span class="op">=</span> <span class="st">"ecsf"</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cybedtools <span class="im">import</span> framework_summary, unit_element_bindings, framework_similarity</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. What's in the corpus?</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>framework_summary()[</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"framework_name"</span>, <span class="st">"organizing_unit_count"</span>, <span class="st">"elements_per_organizing_unit_with_examples"</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>].sort_values(<span class="st">"elements_per_organizing_unit_with_examples"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Which elements does an organizing unit carry?</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>unit_element_bindings(graph).head(<span class="dv">10</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Where do two frameworks say the same thing?</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>framework_similarity(graph, from_<span class="op">=</span><span class="st">"nice"</span>, to<span class="op">=</span><span class="st">"ecsf"</span>, n<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
 </section><section id="next-steps" class="level2"><h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
 <ul>
 <li>Read <a href="../concepts/vocabulary.html">the concepts</a> page for the two-tier schema architecture.</li>
 <li>Browse <a href="../frameworks/index.html">the framework pages</a> for per-framework provenance and structure.</li>
 <li>Step through <a href="../queries/index.html">the canonical queries</a> for worked examples.</li>
-</ul>
+</ul></section><section id="rebuilding-the-graph-from-source-maintainers" class="level2"><h2 class="anchored" data-anchor-id="rebuilding-the-graph-from-source-maintainers">Rebuilding the graph from source (maintainers)</h2>
+<p>Fetching the public release (above) is the path for using the corpus. Rebuilding it from primary sources is a separate, maintainer-only path, run from a clone of the repository: <code>cybedtools</code> does not redistribute framework source text, so each framework’s license governs how its source data is obtained and staged. <code>docs/framework-data-sources.md</code> documents the canonical retrieval URL, license, and SHA-256 reference checksum for each framework in the corpus.</p>
+<p>For NICE and DCWF (US Government works, not subject to US copyright under 17 U.S.C. 105), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework. CyQUAL, CCSSF, OTCCF, SCyWF, and CyBOK are in the corpus on their stewards’ terms, several by written permission, and each carries its own terms. Read the per-framework entries before staging those.</p>
+<p><code>scripts/000-build.R</code> is the pipeline’s entry point: it runs every stage below in order.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># After staging source data under data/raw/&lt;framework&gt;/:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-build.R</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalently, stage by stage:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-nice.R           <span class="co"># parse NICE -&gt; tidy CSVs</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-dcwf.R           <span class="co"># ... and so on per framework</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R      <span class="co"># cross-check ingestion output</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R       <span class="co"># uniform JSON-LD assembly</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/025-export-ntriples.R       <span class="co"># combined N-Triples graph</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/026-verify-graph.R          <span class="co"># graph invariants</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/030-export-release.R        <span class="co"># public per-framework data release</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R            <span class="co"># canonical query outputs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The combined graph lands at <code>data/processed/ntriples/_combined.nt</code>, and the public release (what <code>cybed_fetch()</code> downloads) lands at <code>data/processed/release/&lt;version&gt;/</code>. Every query on this site reads from the combined graph.</p>
 
 
 </section><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -1032,13 +1086,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
-<p>Con<span class="cord">cord</span>ance · Content <a href="LICENSE.html">CC BY 4.0</a> · Code <a href="LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
+<p>Con<span class="cord">cord</span>ance · Content <a href="..\LICENSE.html">CC BY 4.0</a> · Code <a href="..\LICENSE.html">MIT</a> · <a href="https://doi.org/10.5281/zenodo.20076116">Concept DOI</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Built with <a href="https://quarto.org"><img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
+<p>Built with <a href="https://quarto.org"><img src="../assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto"></a> &amp; <a href="https://claude.ai"><img src="../assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude"></a> &amp; ❤️</p>
 </div>
   </div>
 </footer>

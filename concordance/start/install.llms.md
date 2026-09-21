@@ -2,56 +2,52 @@
 
 # Quick start
 
-Install the package, stage framework data, run your first query
+Install the package, fetch the data, run your first query
 
-## Install cybedtools
+## Install
 
-Install from GitHub via `remotes` or `pak`:
+### R
 
 ``` downlit
-# Option A: remotes
-install.packages("remotes")
-remotes::install_github("ryanstraight/cybedtools")
-
-# Option B: pak (faster on first install)
 install.packages("pak")
-pak::pkg_install("ryanstraight/cybedtools")
+pak::pak("ryanstraight/cybedtools")
 ```
 
-## Stage the framework data
-
-`cybedtools` does not redistribute framework source text. Each framework’s license governs how its source data is obtained and stored. `docs/framework-data-sources.md` documents the canonical retrieval URL, license, and SHA256 reference checksum for each framework in the corpus.
-
-``` downlit
-# After install, see where to put each framework's source data:
-system.file("doc", "framework-data-sources.md", package = "cybedtools") |>
-  readLines() |> head(40)
-```
-
-For NICE and DCWF (US Government works, not subject to US copyright under 17 U.S.C. 105), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework. CyQUAL, CCSSF, and OTCCF are in the corpus on their stewards’ terms, 2 by written permission and CCSSF referenced as its steward asked, and each carries its own terms. Read the per-framework entries before staging those three.
-
-## Run the pipeline
-
-Once source data is staged in `data/raw/`, run the pipeline scripts in order. Each script is numbered for reproducibility:
+### Python
 
 ``` bash
-Rscript scripts/000-staging-check.R         # confirm source data present
-Rscript scripts/010-ingest-nice.R           # parse NICE -> JSON-LD
-Rscript scripts/010-ingest-dcwf.R           # ... and so on per framework
-Rscript scripts/020-assemble-jsonld.R       # uniform parser pass
-Rscript scripts/025-export-ntriples.R       # combined RDF graph
-Rscript scripts/030-load-graph.R            # smoke-test SPARQL load
+pip install cybedtools
 ```
 
-The combined graph lands at `data/processed/ntriples/_combined.nt`. Every query on this site reads from that file.
+## Fetch the data and load a graph
 
-## First query
+`cybedtools` ships no framework text in the installed package. `cybed_fetch()` downloads and hash-verifies the public per-framework data release into a local cache (never re-downloading a file whose hash still matches), and `load_graph()` calls it internally and parses the result into one graph object. Both accept either the versioned framework slug (e.g. `"nice-v2"`) or the short release-file slug (e.g. `"nice"`); see `cybed_fetch()`’s documentation for the two-vocabulary mapping. The data release backing the current package version is archived on Zenodo: [10.5281/zenodo.22884320](https://doi.org/10.5281/zenodo.22884320).
+
+## R
+
+``` downlit
+library(cybedtools)
+
+rdf <- load_graph()
+```
+
+## Python
+
+``` python
+from cybedtools import load_graph
+
+graph = load_graph()
+```
+
+## First queries
+
+## R
 
 ``` downlit
 library(cybedtools)
 library(dplyr)
 
-# Per-framework summary, lazy-loaded with the package
+# 1. What's in the corpus?
 framework_summary |>
   select(
     framework_name,
@@ -78,10 +74,61 @@ framework_summary |>
 | ACM/IEEE CSEC2017 | 8 | 5.0 |
 | Cyber.org K-12 v1.0 | 116 | 4.2 |
 
+``` downlit
+# 2. Which elements does an organizing unit carry?
+unit_element_bindings(rdf) |>
+  head(10)
+
+# 3. Where do two frameworks say the same thing?
+framework_similarity(rdf, from = "nice", to = "ecsf", n = 3)
+```
+
+## Python
+
+``` python
+from cybedtools import framework_summary, unit_element_bindings, framework_similarity
+
+# 1. What's in the corpus?
+framework_summary()[
+    ["framework_name", "organizing_unit_count", "elements_per_organizing_unit_with_examples"]
+].sort_values("elements_per_organizing_unit_with_examples", ascending=False)
+
+# 2. Which elements does an organizing unit carry?
+unit_element_bindings(graph).head(10)
+
+# 3. Where do two frameworks say the same thing?
+framework_similarity(graph, from_="nice", to="ecsf", n=3)
+```
+
 ## Next steps
 
 - Read [the concepts](../concepts/vocabulary.llms.md) page for the two-tier schema architecture.
 - Browse [the framework pages](../frameworks/index.llms.md) for per-framework provenance and structure.
 - Step through [the canonical queries](../queries/index.llms.md) for worked examples.
+
+## Rebuilding the graph from source (maintainers)
+
+Fetching the public release (above) is the path for using the corpus. Rebuilding it from primary sources is a separate, maintainer-only path, run from a clone of the repository: `cybedtools` does not redistribute framework source text, so each framework’s license governs how its source data is obtained and staged. `docs/framework-data-sources.md` documents the canonical retrieval URL, license, and SHA-256 reference checksum for each framework in the corpus.
+
+For NICE and DCWF (US Government works, not subject to US copyright under 17 U.S.C. 105), the package ships pointers to the canonical NIST CPRT and DoD CIO downloads. For SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, and DigComp, follow the steward’s redistribution policy as documented per framework. CyQUAL, CCSSF, OTCCF, SCyWF, and CyBOK are in the corpus on their stewards’ terms, several by written permission, and each carries its own terms. Read the per-framework entries before staging those.
+
+`scripts/000-build.R` is the pipeline’s entry point: it runs every stage below in order.
+
+``` bash
+# After staging source data under data/raw/<framework>/:
+Rscript scripts/000-build.R
+
+# Equivalently, stage by stage:
+Rscript scripts/010-ingest-nice.R           # parse NICE -> tidy CSVs
+Rscript scripts/010-ingest-dcwf.R           # ... and so on per framework
+Rscript scripts/015-verify-ingestion.R      # cross-check ingestion output
+Rscript scripts/020-assemble-jsonld.R       # uniform JSON-LD assembly
+Rscript scripts/025-export-ntriples.R       # combined N-Triples graph
+Rscript scripts/026-verify-graph.R          # graph invariants
+Rscript scripts/030-export-release.R        # public per-framework data release
+Rscript scripts/040-run-sparql.R            # canonical query outputs
+```
+
+The combined graph lands at `data/processed/ntriples/_combined.nt`, and the public release (what `cybed_fetch()` downloads) lands at `data/processed/release/<version>/`. Every query on this site reads from the combined graph.
 
 Back to top
