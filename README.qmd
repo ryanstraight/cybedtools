@@ -548,12 +548,83 @@ Jurisdiction pivots, top-load NICE roles, pairwise framework comparisons, and th
 
 ## Getting started
 
+Install the package, then fetch the public data release: hash-verified per-framework files, downloaded once and cached locally. No source framework text needs to be staged for this path.
+
+### R
+
 ```r
-# install.packages("remotes")
-remotes::install_github("ryanstraight/cybedtools")
+# install.packages("pak")
+pak::pak("ryanstraight/cybedtools")
 ```
 
-The package **does not** redistribute source framework text. To run the pipeline end-to-end, clone the repository and stage each framework's source file at `data/raw/<framework>/` per [`docs/framework-data-sources.md`](docs/framework-data-sources.md):
+### Python
+
+```sh
+pip install cybedtools
+```
+
+### Fetch data and load a graph
+
+R:
+
+```r
+library(cybedtools)
+
+# Downloads and hash-verifies every shipped framework's release file into
+# the R user cache directory, then parses them into one rdf object.
+rdf <- load_graph()
+
+framework_summary
+```
+
+Python:
+
+```python
+from cybedtools import load_graph, framework_summary
+
+graph = load_graph()
+framework_summary()
+```
+
+`load_graph()` calls `cybed_fetch()` internally (a no-op for files already cached with a verified hash). Both accept either the versioned framework slug (`"nice-v2"`) or the short release-file slug (`"nice"`); see `cybed_fetch()`'s documentation for the two-vocabulary mapping. The data release backing this package version is archived on Zenodo: [10.5281/zenodo.22884320](https://doi.org/10.5281/zenodo.22884320).
+
+### Three queries
+
+R:
+
+```r
+# 1. What's in the corpus?
+framework_summary |>
+  dplyr::select(framework_slug, framework_name, jurisdiction, organizing_unit_count)
+
+# 2. Which elements does an organizing unit carry?
+unit_element_bindings(rdf) |>
+  head(10)
+
+# 3. Where do two frameworks say the same thing?
+framework_similarity(rdf, from = "nice", to = "ecsf", n = 3)
+```
+
+Python:
+
+```python
+# 1. What's in the corpus?
+framework_summary()[["framework_slug", "framework_name", "jurisdiction", "organizing_unit_count"]]
+
+# 2. Which elements does an organizing unit carry?
+from cybedtools import unit_element_bindings
+unit_element_bindings(graph).head(10)
+
+# 3. Where do two frameworks say the same thing?
+from cybedtools import framework_similarity
+framework_similarity(graph, from_="nice", to="ecsf", n=3)
+```
+
+The [function reference](https://ryanstraight.github.io/cybedtools/reference/) indexes the full public API for both languages.
+
+## Rebuilding the graph from source (maintainers)
+
+Fetching the public release (above) is the path for using the corpus. Rebuilding it from primary sources is a separate, maintainer-only path: the package does not redistribute source framework text, so this requires cloning the repository and staging each framework's source file at `data/raw/<framework>/` per [`docs/framework-data-sources.md`](docs/framework-data-sources.md).
 
 ```sh
 git clone https://github.com/ryanstraight/cybedtools
@@ -563,7 +634,7 @@ cd cybedtools
 Rscript scripts/000-build.R   # ingestion + verification + assembly + export
 ```
 
-The [`getting-started`](https://ryanstraight.github.io/cybedtools/articles/getting-started.html) vignette walks through each stage, and the [function reference](https://ryanstraight.github.io/cybedtools/reference/) indexes the public API.
+`scripts/000-build.R` is the pipeline's entry point: it runs ingestion, verification, JSON-LD assembly, and N-Triples export in order (see `scripts/README.md` for the full stage list). The [`getting-started`](https://ryanstraight.github.io/cybedtools/articles/getting-started.html) vignette walks through each stage.
 
 ## Citing
 

@@ -22,6 +22,8 @@ from importlib.resources import files
 
 import pandas as pd
 
+from cybedtools._slug_alias import framework_slug_alias_map
+
 __all__ = ["cybed_license", "framework_licenses", "framework_summary"]
 
 
@@ -114,10 +116,12 @@ def cybed_license(slug: str | None = None) -> pd.DataFrame:
     Parameters
     ----------
     slug : str or None
-        Either ``"cybedtools"`` for the package's own code, or a framework
-        slug as carried by ``framework_summary()["framework_slug"]`` (for
-        example ``"nice-v2"``, ``"otccf-v1.1"``). ``None``, the default,
-        returns every row.
+        Either ``"cybedtools"`` for the package's own code, a framework slug
+        as carried by ``framework_summary()["framework_slug"]`` (for example
+        ``"nice-v2"``, ``"otccf-v1.1"``), or the short release-file slug
+        (e.g. ``"nice"``, ``"otccf"``) documented on :func:`cybed_fetch`.
+        Either form resolves to the same row. ``None``, the default, returns
+        every row.
 
     Returns
     -------
@@ -143,7 +147,14 @@ def cybed_license(slug: str | None = None) -> pd.DataFrame:
             f"Received: {type(slug).__name__}."
         )
 
-    row = licenses[licenses["slug"] == slug]
+    known = licenses["slug"].tolist()
+    if slug in known:
+        resolved = slug
+    else:
+        alias_map = framework_slug_alias_map([s for s in known if s != "cybedtools"])
+        resolved = alias_map.get(slug, slug)
+
+    row = licenses[licenses["slug"] == resolved]
 
     if row.empty:
         known = ", ".join(licenses["slug"].tolist())

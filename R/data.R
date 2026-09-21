@@ -11,6 +11,11 @@
 #' (workforce vs pedagogy), and license are hand-curated because they
 #' originate outside the JSON-LD graph.
 #'
+#' `framework_slug` is the **versioned** slug vocabulary. A second, **short**
+#' vocabulary is used by the public data release's files (e.g. `"nice"` for
+#' `"nice-v2"`); see the "Two slug vocabularies" section of [cybed_fetch()]
+#' for the full mapping and which functions accept either form.
+#'
 #' Several frameworks were added in v0.3.0 on steward terms: CyQUAL
 #' (Czech Republic, open data, attribution to CyQUAL and Masaryk
 #' University), CCSSF (Canada, Government of Canada copyright, used with

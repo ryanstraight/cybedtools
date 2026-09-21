@@ -8,9 +8,11 @@ cybed_license(slug = NULL)
 }
 \arguments{
 \item{slug}{Character scalar, or \code{NULL}. Either \code{"cybedtools"} for the
-package's own code, or a framework slug as carried by
+package's own code, a framework slug as carried by
 \link{framework_summary}\verb{$framework_slug} (for example \code{"nice-v2"},
-\code{"otccf-v1.1"}). \code{NULL}, the default, returns every row.}
+\code{"otccf-v1.1"}), or the short release-file slug (e.g. \code{"nice"},
+\code{"otccf"}) documented on \code{\link[=cybed_fetch]{cybed_fetch()}}. Either form resolves to the
+same row. \code{NULL}, the default, returns every row.}
 }
 \value{
 A tibble. One row per licence layer when \code{slug} is \code{NULL}, and a

@@ -94,6 +94,30 @@ def test_cybed_fetch_hash_mismatch_deletes_file(
     assert not any(cache_root.glob(f"{bad_slug}*"))
 
 
+def test_cybed_fetch_bare_string_is_one_slug_not_iterable_of_characters(mock_release_url: str) -> None:
+    """A bare str `frameworks` argument is one slug, not an iterable of characters."""
+    result = cybed_fetch(frameworks="fixture-wf1", version="1.0.0")
+    assert list(result["framework_slug"]) == ["fixture-wf1"]
+
+
+def test_cybed_fetch_result_carries_both_slug_columns(mock_release_url: str) -> None:
+    """The result names both the versioned and short release slug explicitly."""
+    result = cybed_fetch(frameworks=["fixture-wf1"], version="1.0.0")
+    assert "framework_slug" in result.columns
+    assert "release_slug" in result.columns
+    # The mock manifest carries no license_slug, so both fall back to the
+    # same (release) slug -- still two explicit columns.
+    assert result["framework_slug"].iloc[0] == "fixture-wf1"
+    assert result["release_slug"].iloc[0] == "fixture-wf1"
+
+
+def test_cybed_fetch_accepts_data_v_prefixed_version(mock_release_url: str) -> None:
+    """A `data-v`-prefixed version (matching a GitHub release tag) is accepted."""
+    plain = cybed_fetch(frameworks=["fixture-wf1"], version="1.0.0")
+    prefixed = cybed_fetch(frameworks=["fixture-wf1"], version="data-v1.0.0")
+    assert plain["path"].iloc[0] == prefixed["path"].iloc[0]
+
+
 def test_load_graph_returns_populated_rdflib_graph(mock_release_url: str) -> None:
     """load_graph() parses the fetched framework files into one rdflib.Graph."""
     import rdflib

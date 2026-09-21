@@ -35,9 +35,11 @@ license_table <- function() {
 #' says which of the two a given row carries.
 #'
 #' @param slug Character scalar, or `NULL`. Either `"cybedtools"` for the
-#'   package's own code, or a framework slug as carried by
+#'   package's own code, a framework slug as carried by
 #'   [framework_summary]`$framework_slug` (for example `"nice-v2"`,
-#'   `"otccf-v1.1"`). `NULL`, the default, returns every row.
+#'   `"otccf-v1.1"`), or the short release-file slug (e.g. `"nice"`,
+#'   `"otccf"`) documented on [cybed_fetch()]. Either form resolves to the
+#'   same row. `NULL`, the default, returns every row.
 #' @return A tibble. One row per licence layer when `slug` is `NULL`, and a
 #'   single-row tibble otherwise.
 #' @family licensing
@@ -68,7 +70,14 @@ cybed_license <- function(slug = NULL) {
     )
   }
 
-  row <- licenses[licenses$slug == slug, , drop = FALSE]
+  resolved <- if (slug %in% licenses$slug) {
+    slug
+  } else {
+    alias_map <- framework_slug_alias_map()
+    if (slug %in% names(alias_map)) unname(alias_map[[slug]]) else slug
+  }
+
+  row <- licenses[licenses$slug == resolved, , drop = FALSE]
 
   if (nrow(row) == 0L) {
     rlang::abort(

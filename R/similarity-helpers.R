@@ -214,8 +214,12 @@ similarity_strength <- function(x) {
 #' @param rdf An rdf object.
 #' @param from,to Character scalars, the `framework_slug` values (from
 #'   [organizing_unit_framework_bindings()]) whose organizing units are
-#'   compared. May be identical, to find near-duplicate units within one
-#'   framework.
+#'   compared, either as the versioned slug (`"nice-v2"`) or the short
+#'   release-file slug (`"nice"`; see [cybed_fetch()]). May be identical, to
+#'   find near-duplicate units within one framework. An unknown slug (in
+#'   either vocabulary, and not present in `rdf`) errors with class
+#'   `cybedtools_framework_not_found` rather than silently returning an
+#'   empty result.
 #' @param n Integer, matches to keep per from-unit (default `5`).
 #' @return A tibble with one row per (from unit, match): columns
 #'   `from_unit`, `to_unit` (both full IRIs), `score` (numeric in `[0, 1]`),
@@ -242,6 +246,10 @@ framework_similarity <- function(rdf, from, to, n = 5) {
   stopifnot(is.character(to), length(to) == 1L)
 
   units <- organizing_unit_framework_bindings(rdf)
+  known_slugs <- unique(units$framework_slug)
+  from <- resolve_framework_slug(from, known_slugs, arg = "from")
+  to   <- resolve_framework_slug(to, known_slugs, arg = "to")
+
   texts <- element_text(rdf)
 
   child_text <- unit_element_bindings(rdf) |>

@@ -80,9 +80,9 @@ website:
   page-footer:
     border: true
     left: |
-      Con<span class="cord">cord</span>ance · Content [CC BY 4.0](LICENSE.html) · Code [MIT](LICENSE.html) · [Concept DOI](https://doi.org/10.5281/zenodo.20076116)
+      Con<span class="cord">cord</span>ance · Content [CC BY 4.0](/LICENSE.html) · Code [MIT](/LICENSE.html) · [Concept DOI](https://doi.org/10.5281/zenodo.20076116)
     right: |
-      Built with [<img src="assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto">](https://quarto.org) & [<img src="assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude">](https://claude.ai) & ❤️
+      Built with [<img src="/assets/branding/quarto-logo.svg" class="footer-icon" alt="Quarto">](https://quarto.org) & [<img src="/assets/branding/claude-favicon.ico" class="footer-icon" alt="Claude">](https://claude.ai) & ❤️
 
 format:
   html:

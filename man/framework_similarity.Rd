@@ -11,8 +11,12 @@ framework_similarity(rdf, from, to, n = 5)
 
 \item{from, to}{Character scalars, the \code{framework_slug} values (from
 \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}}) whose organizing units are
-compared. May be identical, to find near-duplicate units within one
-framework.}
+compared, either as the versioned slug (\code{"nice-v2"}) or the short
+release-file slug (\code{"nice"}; see \code{\link[=cybed_fetch]{cybed_fetch()}}). May be identical, to
+find near-duplicate units within one framework. An unknown slug (in
+either vocabulary, and not present in \code{rdf}) errors with class
+\code{cybedtools_framework_not_found} rather than silently returning an
+empty result.}
 
 \item{n}{Integer, matches to keep per from-unit (default \code{5}).}
 }

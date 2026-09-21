@@ -424,3 +424,50 @@ test_that("footgun tripwire: no cur_data() and no framework-named parameters in 
                                basename(f)))
   }
 })
+
+# ---------------------------------------------------------------------------
+# Slug alias resolution (R/slug-alias.R), used by framework_similarity() and
+# cybed_license()
+# ---------------------------------------------------------------------------
+
+test_that("framework_slug_alias_map derives the short slug the release export uses", {
+  alias_map <- cybedtools:::framework_slug_alias_map()
+  expect_equal(unname(alias_map["nice"]), "nice-v2")
+  expect_equal(unname(alias_map["otccf"]), "otccf-v1.1")
+  expect_equal(unname(alias_map["cybok"]), "cybok-v1.1.0")
+  # csta-2026 is a framework in its own right, not an edition of csta.
+  expect_equal(unname(alias_map["csta"]), "csta-2017")
+  expect_equal(unname(alias_map["csta-2026"]), "csta-2026")
+})
+
+test_that("resolve_framework_slug accepts either vocabulary and errors on an unknown slug", {
+  known <- c("nice-v2", "csta-2017", "csta-2026")
+  expect_equal(cybedtools:::resolve_framework_slug("nice-v2", known), "nice-v2")
+  expect_equal(cybedtools:::resolve_framework_slug("nice", known), "nice-v2")
+  expect_equal(cybedtools:::resolve_framework_slug("csta", known), "csta-2017")
+
+  expect_error(
+    cybedtools:::resolve_framework_slug("not-a-real-framework", known),
+    class = "cybedtools_framework_not_found"
+  )
+})
+
+test_that("framework_similarity errors with a classed condition on an unknown slug, never an empty result", {
+  skip_if_not_installed("rdflib")
+  conformance_dir <- system.file("conformance", package = "cybedtools")
+  if (!nzchar(conformance_dir)) {
+    conformance_dir <- testthat::test_path("..", "..", "inst", "conformance")
+  }
+  skip_if_not(file.exists(file.path(conformance_dir, "fixture.nt")),
+              "conformance fixture not found")
+  rdf <- rdflib::rdf_parse(file.path(conformance_dir, "fixture.nt"), format = "ntriples")
+
+  expect_error(
+    framework_similarity(rdf, from = "not-a-real-framework", to = "fixture-wf2"),
+    class = "cybedtools_framework_not_found"
+  )
+  expect_error(
+    framework_similarity(rdf, from = "fixture-wf1", to = "not-a-real-framework"),
+    class = "cybedtools_framework_not_found"
+  )
+})
