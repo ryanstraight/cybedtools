@@ -8,11 +8,11 @@ load_graph(frameworks = NULL, version = NULL)
 }
 \arguments{
 \item{frameworks}{Character vector of framework slugs to fetch (as
-carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}), or
+carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}, or the release file slug, e.g. \code{"nice"}), or
 \code{NULL} (the default) for every framework the release manifest ships.}
 
 \item{version}{Character scalar release version (e.g. \code{"1.0.0"}), or
-\code{NULL} (the default) for the release location's \code{"latest"} alias.}
+\code{NULL} (the default) for the data release this package version was built against, \code{cybed_data_release}.}
 }
 \value{
 An rdf object (\code{\link[rdflib:rdf]{rdflib::rdf()}}) with every requested framework's
@@ -29,7 +29,7 @@ hash) and parses them into one shared rdf object.
 \donttest{
 tryCatch(
   {
-    rdf <- load_graph(frameworks = "nice-v2")
+    rdf <- load_graph(frameworks = "nice")
     framework_metadata(rdf)
   },
   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))

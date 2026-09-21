@@ -260,7 +260,7 @@ def cybed_fetch(
     ----------
     frameworks : list[str] or None
         Framework slugs to fetch (as carried by
-        ``framework_summary()["framework_slug"]``, e.g. ``"nice-v2"``), or
+        ``framework_summary()["framework_slug"]``, e.g. ``"nice-v2"``, or the release file slug, e.g. ``"nice"``), or
         ``None`` (the default) for every framework the release manifest
         ships.
     version : str or None
@@ -291,7 +291,15 @@ def cybed_fetch(
     files = manifest["files"]
     manifest_slugs = [entry["slug"] for entry in files]
 
-    requested = frameworks if frameworks is not None else manifest_slugs
+    # Release files use short slugs ("nice"); framework_summary uses versioned
+    # ones ("nice-v2"), carried in the manifest as license_slug. Accept either.
+    summary_to_release = {
+        entry.get("license_slug") or entry["slug"]: entry["slug"] for entry in files
+    }
+    raw = frameworks if frameworks is not None else manifest_slugs
+    requested = [
+        s if s in manifest_slugs else summary_to_release.get(s, s) for s in raw
+    ]
     unknown = sorted(set(requested) - set(manifest_slugs))
     if unknown:
         raise CybedtoolsFrameworkNotFoundError(

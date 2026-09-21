@@ -1,3 +1,6 @@
+# Data release this package version was built and tested against.
+cybed_data_release <- "2026.09.2"
+
 # R/cybed-fetch.R
 #
 # User-facing data loader for the public per-framework data release
@@ -127,7 +130,7 @@ cybed_download <- function(url, destfile) {
 #' re-downloaded.
 #'
 #' @param frameworks Character vector of framework slugs to fetch (as
-#'   carried by [framework_summary]`$framework_slug`, e.g. `"nice-v2"`), or
+#'   carried by [framework_summary]`$framework_slug`, e.g. `"nice-v2"`, or the release file slug, e.g. `"nice"`), or
 #'   `NULL` (the default) for every framework the release manifest ships.
 #' @param version Character scalar release version (e.g. `"1.0.0"`), or
 #'   `NULL` (the default) for the data release this package version was built against, `cybed_data_release`.
@@ -142,14 +145,10 @@ cybed_download <- function(url, destfile) {
 #' # Requires network access (or a `cybedtools.release_url` override
 #' # pointing at a local mock release for testing).
 #' tryCatch(
-#'   cybed_fetch(frameworks = "nice-v2"),
+#'   cybed_fetch(frameworks = "nice"),
 #'   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))
 #' )
 #' }
-#' Data release this package version was built and tested against.
-#' @noRd
-cybed_data_release <- "2026.09.2"
-
 cybed_fetch <- function(frameworks = NULL, version = NULL) {
   base_url <- cybed_release_base_url()
   version  <- if (is.null(version)) cybed_data_release else version
@@ -158,10 +157,24 @@ cybed_fetch <- function(frameworks = NULL, version = NULL) {
   files <- manifest$files
   manifest_slugs <- vapply(files, function(x) x$slug, character(1))
 
+  # Release files use short slugs ("nice"); framework_summary uses versioned
+  # ones ("nice-v2"), carried in the manifest as license_slug. Accept either.
+  summary_slugs <- vapply(
+    files,
+    function(x) if (is.null(x$license_slug)) x$slug else x$license_slug,
+    character(1)
+  )
+
   if (is.null(frameworks)) {
     frameworks <- manifest_slugs
   }
-  unknown <- setdiff(frameworks, manifest_slugs)
+  resolved <- ifelse(
+    frameworks %in% manifest_slugs,
+    frameworks,
+    manifest_slugs[match(frameworks, summary_slugs)]
+  )
+  unknown <- frameworks[is.na(resolved)]
+  frameworks <- resolved
   if (length(unknown)) {
     rlang::abort(
       c(
@@ -233,7 +246,7 @@ cybed_fetch <- function(frameworks = NULL, version = NULL) {
 #' \donttest{
 #' tryCatch(
 #'   {
-#'     rdf <- load_graph(frameworks = "nice-v2")
+#'     rdf <- load_graph(frameworks = "nice")
 #'     framework_metadata(rdf)
 #'   },
 #'   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))
