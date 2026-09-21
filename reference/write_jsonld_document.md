@@ -50,7 +50,7 @@ doc <- list(
   ))
 )
 write_jsonld_document(doc, tmp)
-#> JSON-LD written: /tmp/Rtmpd6EFEH/file1b5317f3914b.jsonld
+#> JSON-LD written: /tmp/Rtmpg9vSRj/file1a686c4ad53.jsonld
 file.exists(tmp)
 #> [1] TRUE
 unlink(tmp)
