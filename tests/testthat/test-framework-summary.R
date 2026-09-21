@@ -7,7 +7,7 @@
 
 test_that("framework_summary has the expected shape", {
   expect_s3_class(framework_summary, "tbl_df")
-  expect_equal(nrow(framework_summary), 11L)
+  expect_equal(nrow(framework_summary), 12L)
   expect_named(
     framework_summary,
     c("framework_slug", "framework_name", "framework_type", "jurisdiction",
@@ -19,13 +19,13 @@ test_that("framework_summary has the expected shape", {
   )
 })
 
-test_that("framework slugs are unique and cover all eleven frameworks", {
+test_that("framework slugs are unique and cover all twelve frameworks", {
   expect_equal(anyDuplicated(framework_summary$framework_slug), 0L)
   expect_setequal(
     framework_summary$framework_slug,
     c("nice-v2", "dcwf-v5.1", "ecsf-v1", "sfia-9", "cyberorg-k12-v1.0",
       "csta-2017", "csec2017-v1", "digcomp-2.2", "cyqual-v1.2.0",
-      "ccssf-2022", "otccf-v1.1")
+      "ccssf-2022", "otccf-v1.1", "csta-2026")
   )
 })
 
@@ -53,7 +53,8 @@ test_that("role_count is NA exactly for the frameworks that assert no roles", {
   na_slugs <- framework_summary$framework_slug[is.na(framework_summary$role_count)]
   expect_setequal(
     na_slugs,
-    c("sfia-9", "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1", "digcomp-2.2")
+    c("sfia-9", "cyberorg-k12-v1.0", "csta-2017", "csec2017-v1", "digcomp-2.2",
+      "csta-2026")
   )
   # The role-dependent columns are NA together.
   expect_equal(is.na(framework_summary$elements_per_role_strict),
@@ -147,4 +148,18 @@ test_that("role densities are pinned for the six role-asserting frameworks", {
       role_rows$framework_slug)],
     c(44.7, 54.8, 32.5, 30.9, 22.8, 18.0)
   )
+})
+
+test_that("the csta-2026 row carries its measured counts", {
+  row <- framework_summary[framework_summary$framework_slug == "csta-2026", ]
+  expect_equal(nrow(row), 1L)
+  expect_equal(row$framework_type, "pedagogy")
+  expect_equal(row$jurisdiction, "US")
+  expect_equal(row$organizing_unit_count, 53L)
+  expect_true(is.na(row$role_count))
+  expect_equal(row$element_count_strict, 331L)
+  expect_equal(row$example_count, 652L)
+  expect_equal(row$element_count_with_examples,
+               row$element_count_strict + row$subpoint_count + row$example_count)
+  expect_equal(row$license, "CC BY-NC-SA 4.0")
 })

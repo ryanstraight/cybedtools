@@ -45,7 +45,7 @@ test_that("public_redistribution uses the declared vocabulary", {
 test_that("public_redistribution agrees with docs/framework-invariants.yml", {
   # Hard-coded from docs/framework-invariants.yml, which is the declaring
   # document. A framework carrying no `public_redistribution` key there means
-  # "unrestricted"; only nine frameworks declare one. The test suite does not
+  # "unrestricted"; only ten frameworks declare one. The test suite does not
   # otherwise read that YAML, so the map is pinned here rather than parsed.
   # If the YAML changes, this map changes with it.
   expected <- c(
@@ -55,6 +55,7 @@ test_that("public_redistribution agrees with docs/framework-invariants.yml", {
     "sfia-9"            = "local_only",
     "cyberorg-k12-v1.0" = "full_with_attribution",
     "csta-2017"         = "full_with_attribution",
+    "csta-2026"         = "full_with_attribution",
     "csec2017-v1"       = "structure_only",
     "digcomp-2.2"       = "full_with_attribution",
     "cyqual-v1.2.0"     = "full_with_attribution",
@@ -150,4 +151,14 @@ test_that("cybed_license returns the whole tibble, one row, or a classed error",
     cybed_license(c("nice-v2", "sfia-9")),
     class = "cybedtools_scalar_input"
   )
+})
+
+test_that("the csta-2026 row cites the document's licence page and DOI", {
+  row <- cybed_license("csta-2026")
+  expect_equal(row$license_short, "CC BY-NC-SA 4.0")
+  expect_equal(row$public_redistribution, "full_with_attribution")
+  expect_false(row$granted)
+  expect_match(row$license, "p. iv", fixed = TRUE)
+  expect_match(row$attribution, "Computer Science Teachers Association", fixed = TRUE)
+  expect_match(row$attribution, "10.1145/3820482", fixed = TRUE)
 })

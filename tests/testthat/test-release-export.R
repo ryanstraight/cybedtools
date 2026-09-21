@@ -502,6 +502,23 @@ test_that("a licence row is found by exact slug and by version suffix", {
                    "cybedtools")
 })
 
+test_that("a framework named as its own slug is never a version of another", {
+  env <- source_release_common()
+  licenses <- data.frame(slug = c("csta-2017", "csta-2026"),
+                         stringsAsFactors = FALSE)
+  # Without knowing csta-2026 is a framework of its own, the lookup cannot
+  # choose between the two and refuses.
+  expect_error(
+    env$release_license_row(licenses, "csta"),
+    class = "cybedtools_release_license_missing"
+  )
+  reserved <- c("csta", "csta-2026")
+  expect_identical(env$release_license_row(licenses, "csta", reserved)$slug,
+                   "csta-2017")
+  expect_identical(env$release_license_row(licenses, "csta-2026", reserved)$slug,
+                   "csta-2026")
+})
+
 test_that("a slug missing from framework_licenses aborts", {
   env <- source_release_common()
   licenses <- data.frame(slug = c("nice-v2", "otccf-v1.1"),
@@ -517,9 +534,14 @@ test_that("every shipped slug resolves in the real licence table", {
   config_path <- testthat::test_path("..", "..", "docs", "data-release.yml")
   skip_if(!file.exists(config_path), "Release config not available.")
 
+  invariants_path <- testthat::test_path("..", "..", "docs", "framework-invariants.yml")
+  skip_if(!file.exists(invariants_path), "Invariants file not available.")
+
   config <- yaml::read_yaml(config_path)
+  reserved <- names(yaml::read_yaml(invariants_path)$frameworks)
   for (slug in as.character(config$shipped)) {
-    row <- env$release_license_row(cybedtools::framework_licenses, slug)
+    row <- env$release_license_row(cybedtools::framework_licenses, slug,
+                                   reserved = reserved)
     expect_equal(nrow(row), 1L)
   }
 })
