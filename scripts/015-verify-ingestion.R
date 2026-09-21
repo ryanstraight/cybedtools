@@ -444,6 +444,29 @@ framework_actual_counts <- function(framework, tables_dir) {
         }
       )
     },
+    scywf = {
+      stmts    <- safe_read(file.path(tables_dir, "statements.csv"))
+      links    <- safe_read(file.path(tables_dir, "role-statements.csv"))
+      unres    <- safe_read(file.path(tables_dir, "unresolved-codes.csv"))
+      verbatim <- safe_read(file.path(tables_dir, "verbatim-check.csv"))
+      list(
+        categories                 = safe_read(file.path(tables_dir, "categories.csv")) |> nrow_or_null(),
+        specialty_areas            = safe_read(file.path(tables_dir, "specialty-areas.csv")) |> nrow_or_null(),
+        job_roles                  = safe_read(file.path(tables_dir, "roles.csv")) |> nrow_or_null(),
+        tasks                      = if (is.null(stmts)) NULL else sum(stmts$statement_type == "task"),
+        knowledge                  = if (is.null(stmts)) NULL else sum(stmts$statement_type == "knowledge"),
+        skills                     = if (is.null(stmts)) NULL else sum(stmts$statement_type == "skill"),
+        statements                 = nrow_or_null(stmts),
+        role_statement_links       = nrow_or_null(links),
+        unresolved_card_codes      = nrow_or_null(unres),
+        # Appendix B statements printed on no role card.
+        orphan_statements          = if (is.null(stmts) || is.null(links)) NULL
+                                     else sum(!stmts$statement_id %in% links$statement_id),
+        competency_areas           = safe_read(file.path(tables_dir, "competency-areas.csv")) |> nrow_or_null(),
+        role_competency_area_links = safe_read(file.path(tables_dir, "role-competency-areas.csv")) |> nrow_or_null(),
+        verbatim_failures          = if (is.null(verbatim)) NULL else sum(!verbatim$found)
+      )
+    },
     digcomp = {
       areas <- safe_read(file.path(tables_dir, "competence-areas.csv"))
       competences <- safe_read(file.path(tables_dir, "competences.csv"))
@@ -595,6 +618,11 @@ text_fields_by_framework <- function(framework) {
       list(label = "adjacent-resp",    file = "adjacent-roles.csv",                   column = "responsibility"),
       list(label = "adjacent-comp",    file = "adjacent-role-competencies-long.csv",  column = "competency")
     ),
+    scywf = list(
+      list(label = "role-desc",        file = "roles.csv",            column = "description"),
+      list(label = "statement-text",   file = "statements.csv",       column = "text"),
+      list(label = "ca-desc",          file = "competency-areas.csv", column = "description")
+    ),
     otccf = list(
       list(label = "role-desc",        file = "job-roles.csv",                column = "role_description"),
       list(label = "role-element",     file = "role-elements-long.csv",       column = "element_text"),
@@ -658,6 +686,13 @@ verify_id_uniqueness <- function(framework, results) {
       list(file = "roles.csv",          id_col = "role_id",          label = "ccssf-role-id"),
       list(file = "adjacent-roles.csv", id_col = "adjacent_role_id", label = "ccssf-adjacent-role-id")
     ),
+    scywf = list(
+      list(file = "roles.csv",            id_col = "role_id",           label = "scywf-role-id"),
+      list(file = "statements.csv",       id_col = "statement_id",      label = "scywf-statement-code"),
+      list(file = "competency-areas.csv", id_col = "ca_id",             label = "scywf-ca-code"),
+      list(file = "categories.csv",       id_col = "category_id",       label = "scywf-category-id"),
+      list(file = "specialty-areas.csv",  id_col = "specialty_area_id", label = "scywf-specialty-area-id")
+    ),
     otccf = list(
       list(file = "job-roles.csv", id_col = "role_slug",  label = "otccf-role-slug"),
       list(file = "tscs.csv",      id_col = "tsc_slug",   label = "otccf-tsc-slug"),
@@ -696,6 +731,48 @@ verify_id_uniqueness <- function(framework, results) {
     }
   }
 
+  results
+}
+
+# ---------------------------------------------------------------------------
+# Invariant 6: verbatim carriage (frameworks licensed on that condition)
+# ---------------------------------------------------------------------------
+
+#' SCyWF is carried under a permission that requires verbatim text. Its
+#' ingest looks every carried string up in an independent extraction of the
+#' PDF and writes the result to verbatim-check.csv. A missing string, a
+#' missing check file, or a role-card code with no Appendix B statement is a
+#' HARD failure here, not a soft count drift.
+verify_verbatim_carriage <- function(framework_slug, results) {
+  if (!identical(framework_slug, "scywf")) return(results)
+  tables_dir <- file.path(verify_config$raw_dir, framework_slug, "tables")
+
+  check_path <- file.path(tables_dir, "verbatim-check.csv")
+  if (!file.exists(check_path)) {
+    return(record_check(results, framework_slug, "verbatim.check", "hard",
+                        "verbatim-check.csv missing: the ingest did not run its check"))
+  }
+  check <- read_csv(check_path, show_col_types = FALSE,
+                    col_types = cols(.default = col_character(), found = col_logical()))
+  failed <- check[!check$found, , drop = FALSE]
+  if (nrow(check) == 0 || nrow(failed) > 0) {
+    results <- record_check(results, framework_slug, "verbatim.check", "hard",
+                            glue("{nrow(failed)} of {nrow(check)} carried strings not found"),
+                            list(examples = head(paste(failed$field, failed$id), 5)))
+  } else {
+    results <- record_check(results, framework_slug, "verbatim.check", "pass",
+                            glue("all {nrow(check)} carried strings found verbatim"))
+  }
+
+  unresolved_path <- file.path(tables_dir, "unresolved-codes.csv")
+  unresolved <- if (file.exists(unresolved_path)) read_csv(unresolved_path, show_col_types = FALSE) else NULL
+  if (is.null(unresolved) || nrow(unresolved) > 0) {
+    results <- record_check(results, framework_slug, "verbatim.card-codes", "hard",
+                            "role-card codes without an Appendix B statement, or no record of the check")
+  } else {
+    results <- record_check(results, framework_slug, "verbatim.card-codes", "pass",
+                            "every role-card code resolves to an Appendix B statement")
+  }
   results
 }
 
@@ -801,6 +878,7 @@ main <- function() {
     results <- verify_counts(fw, invariants, results)
     results <- verify_text_integrity(fw, results)
     results <- verify_id_uniqueness(fw, results)
+    results <- verify_verbatim_carriage(fw, results)
   }
 
   results_tbl <- print_results(results)

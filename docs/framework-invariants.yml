@@ -512,6 +512,64 @@ frameworks:
       mappings do not misrepresent or alter the intent of the framework as
       published.
 
+  scywf:
+    version: "SCyWF - 1.5 : 2026"
+    version_date: "2026"
+    structural_type: "role-first"
+    jurisdiction: "SA"
+    sector: "civilian"
+    specificity: "cybersecurity-specific"
+    # Written permission from the National Cybersecurity Authority (NCA),
+    # 2026-09-20: full content with attribution, carried verbatim. See
+    # framework_licenses.
+    public_redistribution: full_with_attribution
+    expected:
+      # Exact bounds: the source is a fixed PDF (SHA256 in provenance.yml),
+      # parsed deterministically from word coordinates and checked string by
+      # string against an independent extraction. Any drift means a different
+      # edition or a parser change, which is a human-review event, not a
+      # tolerance to absorb. Measured 2026-09-21 from scywf_en.pdf.
+      categories:               [5, 5]      # stated by the document, p. 9
+      specialty_areas:          [12, 12]    # stated by the document, p. 9
+      job_roles:                [40, 40]    # stated by the document, p. 9
+      tasks:                    [646, 646]  # Table 9
+      knowledge:                [430, 430]  # Table 10
+      skills:                   [343, 343]  # Table 11
+      statements:               [1419, 1419]
+      role_statement_links:     [4794, 4794] # every code printed on a role card
+      unresolved_card_codes:    [0, 0]      # card codes with no Appendix B statement
+      orphan_statements:        [1, 1]      # S1505 is on no role card
+      competency_areas:         [24, 24]    # Table 12
+      role_competency_area_links: [84, 84]
+      verbatim_failures:        [0, 0]      # carried strings missing from the check text
+    notes: |
+      The Saudi Cybersecurity Workforce Framework, issued by the National
+      Cybersecurity Authority of the Kingdom of Saudi Arabia. The ingested
+      edition is SCyWF - 1.5 : 2026, by owner decision: NCA's grant named
+      an earlier edition (SCyWF - 1 : 2020) that is no longer published.
+      NICE-style: 40 job roles (scywf:JobRole, cybed:Role) keyed by NCA's
+      printed Job Role ID, and Task, Knowledge and Skill statements keyed by
+      NCA's printed codes. Role cards print codes only, so role-to-statement
+      links come from the cards and statement text from Appendix B.
+      SCyWF reuses NICE-shaped codes (T0036, K0001, S0001). A shared code
+      does not mean a shared statement: the text under a code shared with
+      NICE v2.2.0 differs every time. The two frameworks are never joined on
+      a bare code.
+      Categories and specialty areas are organizing units. Category ICSOT and
+      specialty area ICSOT share one ID, so both kinds carry an IRI
+      discriminator (category-, specialty-). Job role IDs, CA codes and
+      statement codes cannot collide, so no framework-wide unit_iri_prefix
+      is declared. The hierarchy edges (scywf:inSpecialtyArea,
+      scywf:inCategory) are cybedtools-derived, not NCA content.
+      The 24 competency areas of Appendix C are non-role organizing units
+      with no statement membership, which NCA does not publish. Roles reach
+      them through cybed:relatedUnit from the CA codes on their cards.
+      Sub-point parsing is disabled: NCA's permission requires verbatim
+      carriage, and a parser-split fragment would be text NCA did not print.
+      The Career Progression companion (SCyWF-CP 1:2026) is staged, not
+      ingested. The category and specialty area descriptions of Tables 1
+      and 2 are not carried yet.
+
 # Graph invariants describe the post-expansion counts after the v0.1.1
 # sub-point parser runs over each framework's elementText literals. These
 # differ from the per-framework source-data invariants above, which
@@ -566,6 +624,10 @@ frameworks:
 # CCSSF's 30 source-printed sub-bullets moved from the parent population to
 # cybed:Subpoint in the same pass, which is why its parent count drops by 30
 # and its strict total by 8.
+# SCyWF joined 2026-09-21 as a thirteenth framework, adding 81 organizing units
+# (40 Role-typed job roles + 24 competency areas + 12 specialty areas + 5
+# categories) and 1,419 elements, all parents: the sub-point parser is
+# disabled for scywf, as for OTCCF, csta-2026 and digcomp.
 # DigComp 3.0 joined 2026-09-21, replacing digcomp-2.2 in place, adding 26
 # organizing units (5 areas + 21 competences) and 884 elements (362
 # Competence Statement parents + 522 Learning Outcome Examples). Sub-point
@@ -573,18 +635,18 @@ frameworks:
 # OTCCF and csta-2026 get.
 graph_invariants:
   combined:
-    organizing_unit_count: [793, 797]   # all 12 frameworks' parents (+53 from CSTA 2026, +21 from DigComp 3.0's new Competence tier)
-    role_count:            [304, 304]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15
-    total_elements_with_subpoints: [14689, 14897] # parents + Subpoints across all 12 (+331 from CSTA 2026 and +362 from DigComp 3.0, both parser-disabled)
-    total_elements_full:   [16363, 16571] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652 + DigComp 3.0 522)
+    organizing_unit_count: [874, 878]   # all 13 frameworks' parents (+53 from CSTA 2026, +21 from DigComp 3.0's new Competence tier, +81 from SCyWF)
+    role_count:            [344, 344]   # NICE 42 + DCWF 74 + ECSF 12 + CyQUAL 102 + CCSSF 59 + OTCCF 15 + SCyWF 40
+    total_elements_with_subpoints: [16108, 16316] # parents + Subpoints across all 13 (+331 from CSTA 2026, +362 from DigComp 3.0 and +1,419 from SCyWF, all parser-disabled)
+    total_elements_full:   [17782, 17990] # adds Examples (Cyber.org K-12 ~369 + CSTA 2017 ~114 + CSTA 2026 652 + DigComp 3.0 522)
     example_count:         [1649, 1672] # ~369 Cyber.org K-12 + ~114 CSTA 2017 + 652 CSTA 2026 + 522 DigComp 3.0
     # cybed:UnitRelation nodes. OTCCF is the only framework publishing
     # qualified unit-to-unit statements so far.
     unit_relation_count:   [310, 310]   # OTCCF 190 TSC + 120 distinct core-skill statements
-    framework_count:       [12, 12]
+    framework_count:       [13, 13]
   per_framework:
-    # Nine of the twelve frameworks run with the parser enabled. OTCCF,
-    # csta-2026, and digcomp-3.0 run with it off (see their
+    # Nine of the thirteen frameworks run with the parser enabled. OTCCF,
+    # csta-2026, digcomp-3.0 and scywf-1.5 run with it off (see their
     # parser_enabled: false below). The 2026-05-08
     # parser refinement (sentence-boundary stop + connective filter)
     # brought SFIA and CSEC2017 from initial 30%+ false-positive rates to
@@ -724,5 +786,15 @@ graph_invariants:
       example_elements:              [522, 522]
       total_elements_with_subpoints: [362, 362]
       total_elements_full:           [884, 884]
+      strict_inflation:              [1.00, 1.00]
+      parser_enabled:                false
+    scywf-1.5:
+      # Exact: a fixed source. Parser disabled, so parents are the whole
+      # element population: 646 tasks + 430 knowledge + 343 skills.
+      parent_elements:               [1419, 1419]
+      subpoint_elements:             [0, 0]
+      example_elements:              [0, 0]
+      total_elements_with_subpoints: [1419, 1419]
+      total_elements_full:           [1419, 1419]
       strict_inflation:              [1.00, 1.00]
       parser_enabled:                false
