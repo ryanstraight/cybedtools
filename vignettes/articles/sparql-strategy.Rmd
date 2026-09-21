@@ -8,6 +8,35 @@ description: >
 ```{r}
 #| include: false
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+
+# Every figure in "What these queries surface" comes from framework_summary,
+# lazy-loaded package data, so this chunk always evaluates without a staged
+# graph. Nothing below is hand-typed.
+fs_sq <- cybedtools::framework_summary
+
+density_max_row_sq <- fs_sq[which.max(fs_sq$elements_per_organizing_unit_with_examples), ]
+density_min_row_sq <- fs_sq[which.min(fs_sq$elements_per_organizing_unit_with_examples), ]
+density_ratio_sq <- round(
+  density_max_row_sq$elements_per_organizing_unit_with_examples /
+    density_min_row_sq$elements_per_organizing_unit_with_examples
+)
+
+strict_max_row_sq <- fs_sq[which.max(fs_sq$elements_per_organizing_unit_strict), ]
+strict_min_row_sq <- fs_sq[which.min(fs_sq$elements_per_organizing_unit_strict), ]
+strict_ratio_sq <- round(
+  strict_max_row_sq$elements_per_organizing_unit_strict /
+    strict_min_row_sq$elements_per_organizing_unit_strict
+)
+
+juris_totals_sq <- stats::aggregate(
+  element_count_with_examples ~ jurisdiction, data = fs_sq, FUN = sum
+)
+us_total_sq  <- juris_totals_sq$element_count_with_examples[juris_totals_sq$jurisdiction == "US"]
+all_total_sq <- sum(juris_totals_sq$element_count_with_examples)
+us_share_pct_sq <- round(100 * us_total_sq / all_total_sq)
+
+role_frameworks_sq <- fs_sq$framework_name[!is.na(fs_sq$role_count)]
+role_frameworks_list_sq <- paste(role_frameworks_sq, collapse = ", ")
 ```
 
 The queries operate against the unified RDF graph produced by the loaders in `R/rdf-graph.R` and, for query execution, the combined N-Triples file produced by `scripts/025-export-ntriples.R`.
@@ -19,15 +48,15 @@ The package supports two kinds of question:
 - **Within-framework questions** (such as "which task statements in NICE involve cloud or container technologies?").
 - **Across-framework questions** (such as "how do role and element counts vary by jurisdiction or sector?").
 
-The cybed: base vocabulary is the selection path for both. A single helper call targeting `cybed:OrganizingUnit` returns comparable parent-level bindings across all eleven frameworks; targeting `cybed:Role` restricts to the six that declare roles (NICE, DCWF, ECSF, CyQUAL, CCSSF, OTCCF); targeting `cybed:RoleElement` returns atomic content nodes (parents, Subpoints, and Examples).
+The cybed: base vocabulary is the selection path for both. A single helper call targeting `cybed:OrganizingUnit` returns comparable parent-level bindings across every framework in the corpus; targeting `cybed:Role` restricts to the frameworks that declare roles (`r role_frameworks_list_sq`); targeting `cybed:RoleElement` returns atomic content nodes (parents, Subpoints, and Examples).
 
 ### What these queries surface
 
-Three findings the package's analytical layer produces directly from the eleven-framework graph:
+Findings the package's analytical layer produces directly from the corpus graph:
 
-- Element density per framework varies by ~13x with Cyber.org K-12 / CSTA pedagogical Examples included (DCWF 54.8 elements per work role, DigComp 4.2 per competence area). Without Examples the spread widens to ~38x because Cyber.org K-12's 116 cells contain only 123 numbered standards. Per-unit density is a comparison aid across heterogeneous denominators, not a quality claim.
-- US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) hold about half the corpus by element count, and an order of magnitude more than the two EU-level frameworks (ECSF, DigComp). That gap reflects design philosophy (ECSF is profile-level by intent, DigComp is a citizen self-assessment instrument), and two of the three national frameworks added in 0.3.0 are built on NICE by their own account, so jurisdiction alone understates US-authored content.
-- The five highest-element-load NICE work roles concentrate disproportionate competency specification (Security Control Assessment 304, Secure Systems Development 237, Cybersecurity Architecture 218, Defensive Cybersecurity 205, Systems Security Management 201).
+- Element density per framework varies by roughly `r density_ratio_sq`x with Cyber.org K-12 / CSTA pedagogical Examples included (`r density_max_row_sq$framework_name` at `r density_max_row_sq$elements_per_organizing_unit_with_examples` elements per top-level unit, `r density_min_row_sq$framework_name` at `r density_min_row_sq$elements_per_organizing_unit_with_examples`). Without Examples the spread is roughly `r strict_ratio_sq`x (`r strict_max_row_sq$framework_name` at `r strict_max_row_sq$elements_per_organizing_unit_strict`, `r strict_min_row_sq$framework_name` at `r strict_min_row_sq$elements_per_organizing_unit_strict`). Per-unit density is a comparison aid across heterogeneous denominators, not a quality claim.
+- US frameworks (NICE, DCWF, Cyber.org K-12, CSTA) hold about `r us_share_pct_sq` percent of the corpus by element count, well above the EU-level frameworks (ECSF, DigComp). That gap reflects design philosophy (ECSF is profile-level by intent, DigComp is a citizen self-assessment instrument), and some of the national frameworks added after the original release are built on NICE by their own account, so jurisdiction alone understates US-authored content.
+- A small number of NICE work roles concentrate disproportionate competency specification. See the [`cross-framework-analysis`](cross-framework-analysis.html) vignette's "Largest organizing units" recipe and the README's live figures for the current ranking.
 
 See the [`cross-framework-analysis`](cross-framework-analysis.html) vignette for the worked R that produces them.
 
@@ -62,7 +91,7 @@ Each domain helper makes one to four single-BGP queries and joins the results vi
 
 - **A1. Framework metadata inventory.** One row per framework with jurisdiction, sector, specificity. Uses `framework_metadata()`.
 - **A2. Organizing units per framework and elements per framework.** Aggregated in R from `organizing_unit_framework_bindings()` and `element_framework_bindings()`. For workforce-restricted aggregations, swap in `role_framework_bindings()`.
-- **A3. Element density.** Elements per top-level unit per framework, joining `role_element_bindings()` with `organizing_unit_framework_bindings()`. Surfaces the cross-framework structural-density spread (with-examples count): DCWF around 54.8 per work role, NICE around 42.0 per organizing unit (its work roles and competency areas together), ECSF around 32.5 per role profile, OTCCF around 26.4, CCSSF around 22.8, CyQUAL around 20.7, CSTA around 10.3 per level-x-concept cell, SFIA around 5.6 per skill, CSEC2017 around 5.0 per Knowledge Area, Cyber.org K-12 around 4.2 per grade-band-x-sub-concept cell, DigComp around 4.2 per competence area.
+- **A3. Element density.** Elements per top-level unit per framework, joining `role_element_bindings()` with `organizing_unit_framework_bindings()`. Surfaces the cross-framework structural-density spread (with-examples count), from the granular workforce frameworks at the high end to the high-level interoperability and self-assessment frameworks at the low end. Current per-framework figures are in `cybedtools::framework_summary` and the density chart in the [`cross-framework-analysis`](cross-framework-analysis.html) vignette.
 - **A4. Missing required properties.** Quality control. Surface RoleElement subjects without `cybed:elementText` (use `sparql_subjects()` and dplyr `anti_join`).
 
 ### Family B: Cross-framework pivots
@@ -72,7 +101,7 @@ Each domain helper makes one to four single-BGP queries and joins the results vi
 - **B3. Element volume by specificity.** Same shape, on `framework_metadata()$specificity`.
 - **B4. Framework-vs-framework structural comparison.** Filter `role_framework_bindings()` to two frameworks and compare role counts, element-per-role distributions.
 
-The runner (`scripts/040-run-sparql.R`) implements six named analyses (q10 through q15) that map onto these families and write one CSV per analysis to `data/processed/query-results/`.
+The runner (`scripts/040-run-sparql.R`) implements the named analyses (q10 through q15) that map onto these families and write one CSV per analysis to `data/processed/query-results/`.
 
 ## Implementation notes
 

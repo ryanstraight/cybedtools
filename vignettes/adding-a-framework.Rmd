@@ -20,9 +20,9 @@ knitr::opts_chunk$set(
 
 ## Scope of this vignette
 
-Extending `cybedtools` with a framework beyond the current eleven (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0, CyQUAL, CCSSF, OTCCF) is a six-step process. This vignette walks through the steps using a hypothetical "Framework X" to make the pattern concrete.
+Extending `cybedtools` with a framework beyond the current corpus (NICE, DCWF, SFIA, ECSF, Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0, CyQUAL, CCSSF, OTCCF) follows a fixed sequence of steps. This vignette walks through the steps using a hypothetical "Framework X" to make the pattern concrete.
 
-The six steps:
+The steps:
 
 1. Pick a slug and framework prefix.
 2. Stage the source file and write an ingestion script.
@@ -170,7 +170,7 @@ In `scripts/020-assemble-jsonld.R`, add an assembler function and register it. T
 - Use `build_role_node()` (which delegates to `build_organizing_unit_node(is_role = TRUE)`) when the framework's parent units are work roles or work profiles. NICE, DCWF, and ENISA ECSF do this.
 - Use `build_organizing_unit_node(is_role = FALSE)` when the parent units are something else (skills, learning standards clusters, knowledge areas, competence areas). SFIA, Cyber.org K-12, CSTA, CSEC2017, and DigComp 3.0 do this.
 
-Both paths assert `cybed:OrganizingUnit` so cross-framework queries reach all eleven frameworks via the abstract type. Only `build_role_node()` additionally asserts `cybed:Role`, restricting workforce-only queries appropriately.
+Both paths assert `cybed:OrganizingUnit` so cross-framework queries reach every framework in the corpus via the abstract type. Only `build_role_node()` additionally asserts `cybed:Role`, restricting workforce-only queries appropriately.
 
 The example below assumes Framework X is workforce-shaped:
 

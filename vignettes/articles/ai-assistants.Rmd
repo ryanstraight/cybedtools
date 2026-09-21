@@ -8,6 +8,14 @@ description: >
 ```{r}
 #| include: false
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+
+# framework_summary ships as lazy-loaded package data, so this always
+# evaluates without a staged graph. Keeps the role-framework list below
+# from drifting out of sync with a re-ingested framework.
+fs_ai <- cybedtools::framework_summary
+role_fw_names_ai   <- fs_ai$framework_name[!is.na(fs_ai$role_count)]
+role_fw_list_ai    <- paste(role_fw_names_ai, collapse = ", ")
+nonrole_fw_count_ai <- sum(is.na(fs_ai$role_count))
 ```
 
 This article has two readers: a person who wants an assistant to write cybedtools code, and the assistant itself, reading its Markdown twin. An assistant working from general R and SPARQL knowledge will get several things about this package wrong.
@@ -95,7 +103,7 @@ organizing_unit_framework_bindings(rdf_full)
 role_framework_bindings(rdf_full)
 ```
 
-`cybed:OrganizingUnit` reaches all eleven frameworks. `cybed:Role` reaches the six that declare roles: NICE, DCWF, ECSF, CyQUAL, CCSSF, and OTCCF. A query written against `cybed:Role` when the question is corpus-wide drops five frameworks without saying so.
+`cybed:OrganizingUnit` reaches every framework in the corpus. `cybed:Role` reaches only the frameworks that declare roles: `r role_fw_list_ai`. A query written against `cybed:Role` when the question is corpus-wide silently drops the other `r nonrole_fw_count_ai` frameworks.
 
 ### Respect the upstream licenses
 
