@@ -19,13 +19,14 @@ load_graph(frameworks = NULL, version = NULL)
 
   Character vector of framework slugs to fetch (as carried by
   [framework_summary](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)`$framework_slug`,
-  e.g. `"nice-v2"`), or `NULL` (the default) for every framework the
-  release manifest ships.
+  e.g. `"nice-v2"`, or the release file slug, e.g. `"nice"`), or `NULL`
+  (the default) for every framework the release manifest ships.
 
 - version:
 
   Character scalar release version (e.g. `"1.0.0"`), or `NULL` (the
-  default) for the release location's `"latest"` alias.
+  default) for the data release this package version was built against,
+  `cybed_data_release`.
 
 ## Value
 
@@ -44,15 +45,14 @@ Other data loading:
 # \donttest{
 tryCatch(
   {
-    rdf <- load_graph(frameworks = "nice-v2")
+    rdf <- load_graph(frameworks = "nice")
     framework_metadata(rdf)
   },
   cybedtools_download_failed = function(cnd) message("No network: ", conditionMessage(cnd))
 )
-#> Warning: downloaded length 0 != reported length 9
-#> Warning: cannot open URL 'https://github.com/ryanstraight/cybedtools/releases/download/data-vlatest/manifest.json': HTTP status was '404 Not Found'
-#> No network: Could not download a release file.
-#> ✖ URL: https://github.com/ryanstraight/cybedtools/releases/download/data-vlatest/manifest.json.
-#> ℹ Set `options(cybedtools.release_url = ...)` or the CYBEDTOOLS_RELEASE_URL environment variable to point at a reachable release (a `file://` URL works for local testing).
+#> # A tibble: 1 × 6
+#>   framework                 name  jurisdiction sector specificity framework_slug
+#>   <chr>                     <chr> <chr>        <chr>  <chr>       <chr>         
+#> 1 https://w3id.org/cybed/o… NICE… US           civil… cybersecur… nice-v2       
 # }
 ```

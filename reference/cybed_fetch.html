@@ -103,13 +103,13 @@ re-downloaded.</p>
 
 <dl><dt id="arg-frameworks">frameworks<a class="anchor" aria-label="anchor" href="#arg-frameworks"></a></dt>
 <dd><p>Character vector of framework slugs to fetch (as
-carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code>, e.g. <code>"nice-v2"</code>), or
+carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code>, e.g. <code>"nice-v2"</code>, or the release file slug, e.g. <code>"nice"</code>), or
 <code>NULL</code> (the default) for every framework the release manifest ships.</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
 <dd><p>Character scalar release version (e.g. <code>"1.0.0"</code>), or
-<code>NULL</code> (the default) for the release location's <code>"latest"</code> alias.</p></dd>
+<code>NULL</code> (the default) for the data release this package version was built against, <code>cybed_data_release</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -131,14 +131,9 @@ aborts instead of returning <code>FALSE</code>).</p>
 <span class="r-in"><span><span class="co"># Requires network access (or a `cybedtools.release_url` override</span></span></span>
 <span class="r-in"><span><span class="co"># pointing at a local mock release for testing).</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">cybed_fetch</span><span class="op">(</span>frameworks <span class="op">=</span> <span class="st">"nice-v2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">cybed_fetch</span><span class="op">(</span>frameworks <span class="op">=</span> <span class="st">"nice"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  cybedtools_download_failed <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">cnd</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"No network: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">conditionMessage</a></span><span class="op">(</span><span class="va">cnd</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>downloaded length 0 != reported length 9</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://github.com/ryanstraight/cybedtools/releases/download/data-vlatest/manifest.json': HTTP status was '404 Not Found'</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No network: Could not download a release file.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> URL: https://github.com/ryanstraight/cybedtools/releases/download/data-vlatest/manifest.json.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Set `options(cybedtools.release_url = ...)` or the CYBEDTOOLS_RELEASE_URL environment variable to point at a reachable release (a `file://` URL works for local testing).</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
