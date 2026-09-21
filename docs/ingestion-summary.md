@@ -1,13 +1,13 @@
 ---
 title: Ingestion Summary
 type: status
-date: 2026-09-18
+date: 2026-09-21
 status: auto-generated
 ---
 
 # Ingestion Summary
 
-Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-09-18.
+Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-09-21.
 
 **Frameworks staged: 15**
 
@@ -137,6 +137,13 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 - **practices:** 12
 - **practice categories:** 4
 - **dispositions:** 7
+- **organizing units:** 53
+- **foundational units:** 40
+- **specialty units:** 13
+- **boundary statements:** 660
+- **implementation examples:** 652
+- **standards with examples:** 326
+- **ai standards:** 107
 
 ### Licensing
 - **source license:** CC BY-NC-SA 4.0
@@ -420,7 +427,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | CCSSF | 2022 | 2023-04-19 | 59 | 1,222 | Copyright Government of Canada. Refer... |
 | CSEC2017 | CSEC2017 Curricular Guidelines v1.0 | 2017-12-31 | 8 | 38 | Copyright 2017 ACM/IEEE/AIS/IFIP, all... |
 | CSTA K-12 CS | CSTA K-12 Computer Science Standards ... | 2017 | 25 | 120 | CC BY-NC-SA 4.0 |
-| CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | - | - | CC BY-NC-SA 4.0 |
+| CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | 53 | 331 | CC BY-NC-SA 4.0 |
 | Cyber.org K-12 | Cyber.org K-12 Learning Standards v1.0 | 2021-09-09 | 116 | 123 | CC BY-NC 4.0 |
 | CyBOK | CyBOK crosswalk (Tier A: cross-refere... | 2021-10-01 | - | - | Open Government Licence (Crown Copyri... |
 | CyQUAL | 1.2.0 | NA | 102 | 2,488 | Published as open data by CyQUAL (Mas... |

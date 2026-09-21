@@ -1,5 +1,12 @@
 # cybedtools 0.3.1
 
+## New framework
+
+- **CSTA PK-12 CS (2026)**, the 2026 CSTA PK-12 Computer Science Standards (DOI 10.1145/3820482), joins as a twelfth framework with the slug `csta-2026` and the prefix `csta2026:`. It sits alongside the 2017 edition rather than replacing it. The two share no identifier scheme, and `csta-2017` comes out byte-identical. 331 standards, keyed by CSTA's codes verbatim, are grouped into 53 `csta2026:StandardGroup` units: level x concept for the 196 foundational standards and tier x specialty area for the 135 specialty standards. Units are built from the pairs that occur, so X+CS, published at Specialty I only, has one unit. Every standard carries `csta2026:tier`, `csta2026:subconcept` and, in the specialty tier, `csta2026:specialtyArea`, so the 27 Cybersecurity (`CYB`) standards can be selected directly. Boundary statements are `csta2026:boundaryStatement` literals on the standard. CSTA's 652 implementation examples are `cybed:Example` nodes reached through `cybed:hasExample`, as the 2017 clarifications are. Practices, dispositions and progressions are not modelled yet. Licence CC BY-NC-SA 4.0, read from the document's own licence page. The framework is held from data release 2026.09.1, which was cut before it joined.
+- `framework_summary` and `framework_licenses` gain a `csta-2026` row. Every value in the eleven existing rows is unchanged.
+- The release export's licence lookup no longer treats `csta-2026` as a version of `csta`. A slug that is a framework in its own right is excluded from another slug's version-suffix match.
+- `scripts/015-verify-ingestion.R` checks the SHA256 of every file a manifest lists under `source.files`, not only a single `retrieval.file_sha256`.
+
 ## Fixes
 
 - **CCSSF attribution no longer claims permission.** The Canadian Centre for Cyber Security's reply asked that its material be referenced when used; it did not grant permission. Every remaining "used with permission" wording for CCSSF (`creditText`, `license`, ingestion comments, `docs/ingestion-summary.md`, `docs/framework-invariants.yml`, and the framework's provenance manifest) now reads "Copyright Government of Canada. Referenced as the Canadian Centre for Cyber Security asked." No other framework's attribution changed, and the assembled graph is byte-identical for all ten other frameworks; only the two CCSSF `creditText`/`license` triples differ.

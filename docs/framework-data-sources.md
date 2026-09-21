@@ -28,7 +28,7 @@ Per-framework parser output in v0.2.0:
 | ACM/IEEE CSEC2017 | enabled |         2 |        0 | Connective filter handles source-truncated standards. Re-spot-check 0/2. The two Subpoints (least privilege, open design) are real.                                                       |
 | DigComp 2.2      | enabled |         0 |        0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
 
-The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. Current per-framework counts for all eleven are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
+The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. CSTA PK-12 CS (2026) has 45 subpoints, split from "including" and "such as" lists in its standard text, and 652 examples, which are CSTA's published implementation examples rather than parser output. Current per-framework counts for all twelve are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
 
 The parser algorithm:
 
@@ -41,7 +41,7 @@ The parser algorithm:
 
 **Known parser limitation.** The introducer-phrase set is exact: prose using less common framings such as "may include", "can include", "typically include", "for instance", or bullet-list enumerations under headings (e.g., SFIA's "Activities may include but are not limited to:" guidance-note pattern) is not extracted. A future revision of any framework that adopts one of these untracked patterns will silently produce zero Subpoints for that framework's affected elements. Verify with `parse_subpoints()` against representative source text before assuming exhaustive extraction.
 
-Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARSER` to a comma-separated list of slugs (e.g., `nice,cyberorg-k12`) before invoking `scripts/020-assemble-jsonld.R`. The default ingestion runs the parser against ten of the eleven frameworks. OTCCF is the exception: its `parser_enabled` flag in `docs/framework-invariants.yml` is `false`, because fragments split out of CSA's statements would be units CSA did not publish.
+Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARSER` to a comma-separated list of slugs (e.g., `nice,cyberorg-k12`) before invoking `scripts/020-assemble-jsonld.R`. The default ingestion runs the parser against eleven of the twelve frameworks. OTCCF is the exception: its `parser_enabled` flag in `docs/framework-invariants.yml` is `false`, because fragments split out of CSA's statements would be units CSA did not publish.
 
 ## Supported framework versions (cybedtools 0.3.0)
 
@@ -53,6 +53,7 @@ Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARS
 | SFIA             | 9                            | 2024-10    | SQLite (extract)    |
 | Cyber.org K-12   | v1.0                         | 2021-09-09 | PDF                 |
 | CSTA K-12 CS     | Revised 2017                 | 2017       | XLSX                |
+| CSTA PK-12 CS    | 2026                         | 2026-07    | JSON (Standards Explorer) + PDF |
 | ACM/IEEE CSEC    | 2017 v1.0                    | 2017-12-31 | PDF                 |
 | DigComp          | 2.2                          | 2022-03-17 | PDF                 |
 | CyQUAL           | 1.2.0 (open data export)     | retrieved 2026-09-16 | JSON      |
@@ -71,7 +72,7 @@ Each ingestion script targets a specific upstream schema. When a publisher relea
 
 If you need a newer upstream version that the current cybedtools release does not yet support, open an issue at <https://github.com/ryanstraight/cybedtools/issues> with a sample of the new schema. Schema-revision PRs are welcome.
 
-Active publisher revisions to watch (as of cybedtools 0.3.0): NICE Framework v2.2.0 components have shipped via NIST CPRT and are now ingested, CSA has said an OTCCF update is in progress, the Canadian Centre for Cyber Security has said an updated CCSSF edition is in preparation, CSTA has signaled a major revision in development (no published target date as of this writing; verify against CSTA's roadmap), SFIA 10 is in consultation, and DigComp 3.0 has been released.
+Active publisher revisions to watch (as of cybedtools 0.3.0): NICE Framework v2.2.0 components have shipped via NIST CPRT and are now ingested, CSA has said an OTCCF update is in progress, the Canadian Centre for Cyber Security has said an updated CCSSF edition is in preparation, CSTA published its 2026 PK-12 standards, which are now ingested as a separate framework alongside the 2017 edition, SFIA 10 is in consultation, and DigComp 3.0 has been released.
 
 ## Structural typing: cybed:OrganizingUnit and cybed:Role
 
@@ -87,13 +88,14 @@ Per-framework structural typing:
 | SFIA              | `sfia:Skill`                   | no                 | 147 skills at up to 7 responsibility levels       |
 | Cyber.org K-12    | `cyberorg:StandardGroup`    | no                 | 116 grade-band x sub-concept cells (4 grade bands x 29 sub-concepts; Cyber.org's documentation does not name the cell, so cybedtools labels it `cyberorg:StandardGroup` descriptively) |
 | CSTA K-12 CS      | `csta:StandardGroup`      | no                 | 25 level x concept cells (5 levels x 5 concepts; CSTA's published terminology uses level / concept / subconcept / practice but does not name the cell, so cybedtools labels it `csta:StandardGroup` descriptively)  |
+| CSTA PK-12 CS (2026) | `csta2026:StandardGroup` | no              | 53 groups: 40 level x concept groups in the foundational tier (8 levels x 5 concepts) and 13 tier x specialty area groups in the specialty tier (6 areas at Specialty I and II, plus X+CS at Specialty I only) |
 | CSEC2017          | `csec:KnowledgeArea`           | no                 | 8 Knowledge Areas (curricular thought-model groupings) |
 | DigComp 2.2       | `digcomp:CompetenceArea`       | no                 | 5 competence areas                                |
 | CyQUAL 1.2.0      | `cyqual:WorkRole`, `cyqual:Competency` | yes (work roles) | 102 work roles plus 59 competencies, 161 organizing units in all |
 | CCSSF 2022        | `ccssf:WorkRole`, `ccssf:AdjacentRole` | yes            | 22 core work roles and 37 cyber adjacent roles     |
 | OTCCF v1.1        | `otccf:JobRole`, `otccf:TechnicalSkillCompetency` | yes (job roles) | 15 job roles plus the skill units they map to, 61 organizing units in all |
 
-Cross-framework SPARQL queries target `cybed:OrganizingUnit` to reach all eleven frameworks uniformly. Workforce-restricted queries target `cybed:Role` to reach only NICE / DCWF / ECSF / CyQUAL / CCSSF / OTCCF. Framework-specific queries target the per-framework subtype. The `framework_summary` tibble's `organizing_unit_count` column reports the cross-framework count (every framework's parents). Since v0.3.0 the tibble also carries `role_count`, which is the count of units typed `cybed:Role` and is `NA` for the five frameworks that assert no roles.
+Cross-framework SPARQL queries target `cybed:OrganizingUnit` to reach all twelve frameworks uniformly. Workforce-restricted queries target `cybed:Role` to reach only NICE / DCWF / ECSF / CyQUAL / CCSSF / OTCCF. Framework-specific queries target the per-framework subtype. The `framework_summary` tibble's `organizing_unit_count` column reports the cross-framework count (every framework's parents). Since v0.3.0 the tibble also carries `role_count`, which is the count of units typed `cybed:Role` and is `NA` for the six frameworks that assert no roles.
 
 ## NICE (US, NIST)
 
@@ -183,7 +185,21 @@ cybedtools therefore uses SFIA for local analysis only. It publishes no SFIA sta
 
 **Ingest.** `Rscript scripts/010-ingest-csta.R`
 
-**Notes.** Single sheet, nine columns. 120 standards across five levels (1A, 1B, 2, 3A, 3B) and five concepts. Cybersecurity-relevant content concentrates in "Impacts of Computing" and "Networks & the Internet." 114 of the 120 standards carry pedagogical clarification text in a separate `clarification` column; the cybedtools assembler extracts each non-empty clarification as a `cybed:Example` node linked to the parent standard via `cybed:hasExample`. CSTA has signaled a major revision in development; verify against CSTA's published roadmap before assuming a target release window.
+**Notes.** Single sheet, nine columns. 120 standards across five levels (1A, 1B, 2, 3A, 3B) and five concepts. Cybersecurity-relevant content concentrates in "Impacts of Computing" and "Networks & the Internet." 114 of the 120 standards carry pedagogical clarification text in a separate `clarification` column; the cybedtools assembler extracts each non-empty clarification as a `cybed:Example` node linked to the parent standard via `cybed:hasExample`. CSTA has since published the 2026 PK-12 standards, which cybedtools ingests as the separate framework `csta-2026` described below. The 2017 edition stays in the pipeline unchanged.
+
+## CSTA PK-12 CS 2026 (US, PK-12 computer science standards)
+
+**Source.** Computer Science Teachers Association, 2026 CSTA PK-12 Computer Science Standards (July 2026, DOI 10.1145/3820482, ISBN 979-8-4007-2780-1). The standards document is published at <https://csteachers.org/2026-csta-pk-12-computer-science-standards/> and the interactive Standards Explorer at <https://csteachers.org/pk12standards/view/>.
+
+**License.** CC BY-NC-SA 4.0 (attribution, non-commercial, share-alike), read from the document's own licence page (PDF p. iv): "These Standards are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License." Every page footer repeats the label. The Explorer JSON carries the same standard text and is published by CSTA, so it is treated under the same terms.
+
+**Attribution.** CSTA's suggested citation, from the same page: "Computer Science Teachers Association. (2026). 2026 CSTA PK-12 computer science standards. https://csteachers.org/pk12standards/" with DOI 10.1145/3820482.
+
+**Stage.** CSTA publishes no bulk CSV or XLSX for the 2026 edition. Stage the JSON behind the Standards Explorer as `data/raw/csta-2026/csta-2026-standards-api.json`, alongside the standards PDF and a `provenance.yml` that lists each staged file under `source.files` with its SHA256. The ingest never fetches anything. It stops unless every listed file is present with its recorded hash.
+
+**Ingest.** `Rscript scripts/010-ingest-csta2026.R`
+
+**Notes.** A separate framework from the 2017 edition, with its own slug (`csta-2026`), prefix (`csta2026:`) and identifier scheme. The two editions share no codes, and CSTA's official crosswalk between them is many-to-many, so it belongs to concordance work rather than to the ingest. 331 standards: 196 foundational across ten levels (EK, E1 to E5, MS, HS) and five concepts, and 135 specialty standards across Specialty I and II in seven specialty areas. CSTA's prose names six specialty areas and adds X+CS as interdisciplinary standards, while its identifier table and the Explorer treat X+CS as a seventh area code. X+CS is published at Specialty I only. Each standard is a `cybed:RoleElement` keyed by CSTA's code verbatim, grouped into 53 `csta2026:StandardGroup` units built from the (level, concept) pairs that occur. Each standard carries its tier, subconcept and, for the specialty tier, its specialty area code (27 standards carry `CYB`, the Cybersecurity area). Boundary statements, which set the limits of what a standard asks for, stay on the standard as `csta2026:boundaryStatement` literals. The 652 implementation examples are `cybed:Example` nodes reached through `cybed:hasExample`. The examples appear in the Explorer but not in the print PDF. Practices, dispositions, progressions and interdisciplinary connections are staged but not yet modelled. The first public data release was cut before this framework joined, so `docs/data-release.yml` holds it for the next release.
 
 ## ACM/IEEE CSEC2017 (global, higher-education cybersecurity curriculum)
 
