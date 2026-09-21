@@ -75,7 +75,7 @@ load_combined_rdf_graph <- function(file_path = NULL) {
 #'
 #' @param framework_slug Character, one of `"nice"`, `"sfia"`, `"dcwf"`,
 #'   `"ecsf"`, `"cyberorg-k12"`, `"csta"`, `"csta-2026"`, `"csec2017"`,
-#'   `"digcomp"`, `"cyqual"`, `"ccssf"`, `"otccf"`, or `"scywf"`.
+#'   `"digcomp"`, `"cyqual"`, `"ccssf"`, `"otccf"`, `"scywf"`, or `"cybok"`.
 #' @param jsonld_dir Character path to the directory containing per-framework
 #'   JSON-LD files. Defaults to `data/processed/jsonld/`.
 #' @return An rdf object.
@@ -168,7 +168,7 @@ load_unified_rdf_graph <- function(framework_slugs = c("nice", "sfia", "dcwf",
                                                         "csta", "csta-2026",
                                                         "csec2017", "digcomp",
                                                         "cyqual", "ccssf",
-                                                        "otccf", "scywf"),
+                                                        "otccf", "scywf", "cybok"),
                                    jsonld_dir = NULL) {
   if (is.null(jsonld_dir)) {
     jsonld_dir <- here::here("data", "processed", "jsonld")

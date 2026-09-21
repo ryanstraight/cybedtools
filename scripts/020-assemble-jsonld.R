@@ -11,8 +11,8 @@
 # SCyWF job roles) additionally assert cybed:Role via build_role_node(). Frameworks
 # that relate one unit to another (OTCCF's roles to the skills they
 # require) also return cybed:UnitRelation nodes. Non-workforce frameworks
-# (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0
-# enumerate other organizing units) call build_organizing_unit_node()
+# (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0 and
+# CyBOK enumerate other organizing units) call build_organizing_unit_node()
 # directly with is_role = FALSE.
 #
 # Per-framework subtype mapping:
@@ -27,7 +27,7 @@
 #   otccf:TechnicalSkillCompetency,
 #   otccf:CriticalCoreSkill,
 #   scywf:CompetencyArea, scywf:SpecialtyArea,
-#   scywf:Category                                     -> subClassOf cybed:OrganizingUnit
+#   scywf:Category, cybok:KnowledgeArea                -> subClassOf cybed:OrganizingUnit
 #
 # Output: data/processed/jsonld/<framework>.jsonld per framework + a
 # combined multi-framework graph at data/processed/jsonld/_combined.jsonld.
@@ -59,6 +59,8 @@ if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION
 source(here("scripts", "_assemble-csta2026.R"), local = TRUE)
 # The SCyWF adapter likewise, for the same reason.
 source(here("scripts", "_assemble-scywf.R"), local = TRUE)
+# And the CyBOK adapter.
+source(here("scripts", "_assemble-cybok.R"), local = TRUE)
 
 assembly_config <- list(
   raw_dir         = here("data", "raw"),
@@ -1777,6 +1779,17 @@ assemble_scywf <- function() {
   )
 }
 
+# The Cyber Security Body of Knowledge. The mapping is documented in
+# scripts/_assemble-cybok.R.
+assemble_cybok <- function() {
+  build_cybok_parts(
+    knowledge_areas     = read_framework_table("cybok", "knowledge-areas"),
+    topics              = read_framework_table("cybok", "topics"),
+    indicative_material = read_framework_table("cybok", "indicative-material"),
+    prov                = load_framework_provenance("cybok")
+  )
+}
+
 framework_assemblers <- list(
   nice               = assemble_nice,
   sfia               = assemble_sfia,
@@ -1790,7 +1803,8 @@ framework_assemblers <- list(
   cyqual             = assemble_cyqual,
   ccssf              = assemble_ccssf,
   otccf              = assemble_otccf,
-  scywf              = assemble_scywf
+  scywf              = assemble_scywf,
+  cybok              = assemble_cybok
 )
 
 main <- function() {

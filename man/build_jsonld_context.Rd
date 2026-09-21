@@ -10,7 +10,8 @@ build_jsonld_context(framework_prefix)
 \item{framework_prefix}{Character, one of the valid framework prefixes.
 Workforce: \code{"nice"}, \code{"dcwf"}, \code{"ecf"}, \code{"sfia"}, \code{"ecsf"}, \code{"cyqual"},
 \code{"ccssf"}, \code{"otccf"}, \code{"scywf"}.
-Pedagogical: \code{"cyberorg"}, \code{"csta"}, \code{"csta2026"}, \code{"csec"}, \code{"digcomp"}.}
+Pedagogical: \code{"cyberorg"}, \code{"csta"}, \code{"csta2026"}, \code{"csec"}, \code{"digcomp"},
+\code{"cybok"}.}
 }
 \value{
 Named list suitable for use as JSON-LD \verb{@context}.

@@ -8,7 +8,8 @@
 # Two-tier namespace architecture (see the namespace-architecture article):
 #   Tier 1: `cybed:` (framework-agnostic base vocabulary)
 #   Tier 2: per-framework prefixes (nice, dcwf, ecf, sfia, ecsf, cyqual,
-#           ccssf, otccf, scywf, cyberorg, csta, csta2026, csec, digcomp), each defining
+#           ccssf, otccf, scywf, cyberorg, csta, csta2026, csec, digcomp,
+#           cybok), each defining
 #           subclasses of Tier 1 types
 
 # ---------------------------------------------------------------------------
@@ -46,15 +47,21 @@ cybed_namespaces <- list(
   # of the National Cybersecurity Authority. Its package-coined terms
   # (scywf:JobRole, the group subtypes and the derived hierarchy predicates)
   # are minted under the cybed namespace for the same reason as above.
-  scywf     = "https://w3id.org/cybed/framework/scywf#"
+  scywf     = "https://w3id.org/cybed/framework/scywf#",
+  # Cyber Security Body of Knowledge (NCSC, Open Government Licence v3.0).
+  # CyBOK publishes no vocabulary of its own, so its package-coined terms
+  # (cybok:KnowledgeArea, cybok:Topic, cybok:IndicativeMaterial and
+  # cybok:category) are minted under the cybed namespace as above.
+  cybok     = "https://w3id.org/cybed/framework/cybok#"
 )
 
 # Valid framework prefixes (Tier 2). Workforce + pedagogical.
 valid_framework_prefixes <- c(
   # Workforce competency frameworks
   "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf", "scywf",
-  # Pedagogical learning-standards / curriculum frameworks
-  "cyberorg", "csta", "csta2026", "csec", "digcomp"
+  # Pedagogical learning-standards / curriculum frameworks and bodies of
+  # knowledge
+  "cyberorg", "csta", "csta2026", "csec", "digcomp", "cybok"
 )
 
 #' Build a standard JSON-LD `@context` block
@@ -69,7 +76,8 @@ valid_framework_prefixes <- c(
 #' @param framework_prefix Character, one of the valid framework prefixes.
 #'   Workforce: `"nice"`, `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`, `"cyqual"`,
 #'   `"ccssf"`, `"otccf"`, `"scywf"`.
-#'   Pedagogical: `"cyberorg"`, `"csta"`, `"csta2026"`, `"csec"`, `"digcomp"`.
+#'   Pedagogical: `"cyberorg"`, `"csta"`, `"csta2026"`, `"csec"`, `"digcomp"`,
+#'   `"cybok"`.
 #' @return Named list suitable for use as JSON-LD `@context`.
 #' @family JSON-LD construction
 #' @export

@@ -64,7 +64,7 @@ release_config <- list(
   release_dir = here("data", "processed", "release"),
   frameworks  = c("nice", "sfia", "dcwf", "ecsf",
                   "cyberorg-k12", "csta", "csta-2026", "csec2017", "digcomp",
-                  "cyqual", "ccssf", "otccf", "scywf")
+                  "cyqual", "ccssf", "otccf", "scywf", "cybok")
 )
 
 rdf_type_iri <- "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
