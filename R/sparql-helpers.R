@@ -196,7 +196,7 @@ framework_metadata <- function(rdf) {
 #' Knowledge Areas, and DigComp competence areas are not roles and are
 #' not returned by this helper. Use [organizing_unit_framework_bindings()]
 #' for the cross-framework "top-level enumerated unit" cut that includes
-#' all eleven frameworks.
+#' every framework in the corpus.
 #'
 #' Roles without a `cybed:partOf` triple, or whose partOf target is not
 #' typed `cybed:Framework`, are excluded.
@@ -251,8 +251,8 @@ role_framework_bindings <- function(rdf) {
 #' @description
 #' `r lifecycle::badge("stable")`
 #'
-#' One row per (organizing unit, framework) pair across all eleven
-#' frameworks. Queries on the cross-framework abstract type
+#' One row per (organizing unit, framework) pair across every framework in
+#' the corpus. Queries on the cross-framework abstract type
 #' `cybed:OrganizingUnit`, which every framework's top-level enumerated
 #' unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
 #' level x concept cells, Knowledge Areas, competence areas). Use this
@@ -431,7 +431,7 @@ example_framework_bindings <- function(rdf) {
 #' `cybed:Subpoint` (the generic enumeration-list-splitting subtype --
 #' "such as X, Y, and Z" / "including A and B" -- parsed out of a single
 #' native unit's text at JSON-LD assembly time, applied uniformly across
-#' all eleven frameworks) and its `partOf` target is typed
+#' the corpus) and its `partOf` target is typed
 #' `cybed:Framework`. Subpoints without a valid framework partOf are
 #' excluded.
 #'
@@ -555,11 +555,12 @@ element_text <- function(rdf) {
 #' One row per (parent, element) pair derived from `cybed:hasElement`
 #' triples. Despite the "role" naming, the `role` column is NOT restricted
 #' to `cybed:Role` subjects -- `cybed:hasElement` is the universal parent-
-#' child link used across all eleven frameworks, so this returns element
-#' bindings for every `cybed:OrganizingUnit` (SFIA skills, Cyber.org K-12
-#' and CSTA standards, etc.), not just NICE/DCWF/ECSF work roles. Confirmed
-#' 2026-08-14 stress test: of 428 distinct values in the `role` column,
-#' only 127 (30%) are actual `cybed:Role` subjects. Low practical risk when
+#' child link used across every framework in the corpus, so this returns
+#' element bindings for every `cybed:OrganizingUnit` (SFIA skills,
+#' Cyber.org K-12 and CSTA standards, etc.), not just NICE/DCWF/ECSF work
+#' roles. Confirmed by a 2026-08-14 stress test: most distinct values in
+#' the `role` column are not actual `cybed:Role` subjects. Low practical
+#' risk when
 #' immediately joined against [role_framework_bindings()] or
 #' [organizing_unit_framework_bindings()] (the mismatches drop out), but a
 #' standalone aggregate over this tibble's `role` column (e.g. "average

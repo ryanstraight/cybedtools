@@ -77,6 +77,7 @@ Eleven frameworks, up from eight. Two national frameworks join by written permis
 - New `unit_relation_count`.
 - The build now stops, naming the framework, if the graph and the display table disagree about which frameworks exist. Before, a framework missing from the table was dropped without a message.
 - Documentation now says exactly what `element_count_strict` counts (parent elements only) and notes that `docs/framework-invariants.yml` uses "strict" differently.
+- **Corrected 2026-08-14**: `element_count_strict` previously subtracted only `example_count`, so any framework with nonzero Subpoints carried an inflated "strict" value that silently included non-parent content (NICE +4, SFIA +158, ECSF +16, CSTA +20, CSEC2017 +2). That is what produced the NICE 2,115-vs-NIST's-2,111 discrepancy caught in the Concordance manuscript audit.
 
 ## Framework data
 

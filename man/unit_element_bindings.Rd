@@ -24,11 +24,12 @@ v0.4.0.
 One row per (parent, element) pair derived from \code{cybed:hasElement}
 triples. Despite the "role" naming, the \code{role} column is NOT restricted
 to \code{cybed:Role} subjects -- \code{cybed:hasElement} is the universal parent-
-child link used across all eleven frameworks, so this returns element
-bindings for every \code{cybed:OrganizingUnit} (SFIA skills, Cyber.org K-12
-and CSTA standards, etc.), not just NICE/DCWF/ECSF work roles. Confirmed
-2026-08-14 stress test: of 428 distinct values in the \code{role} column,
-only 127 (30\%) are actual \code{cybed:Role} subjects. Low practical risk when
+child link used across every framework in the corpus, so this returns
+element bindings for every \code{cybed:OrganizingUnit} (SFIA skills,
+Cyber.org K-12 and CSTA standards, etc.), not just NICE/DCWF/ECSF work
+roles. Confirmed by a 2026-08-14 stress test: most distinct values in
+the \code{role} column are not actual \code{cybed:Role} subjects. Low practical
+risk when
 immediately joined against \code{\link[=role_framework_bindings]{role_framework_bindings()}} or
 \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}} (the mismatches drop out), but a
 standalone aggregate over this tibble's \code{role} column (e.g. "average

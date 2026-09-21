@@ -20,7 +20,7 @@ One row per (subpoint, framework) pair where the subpoint is typed
 \code{cybed:Subpoint} (the generic enumeration-list-splitting subtype --
 "such as X, Y, and Z" / "including A and B" -- parsed out of a single
 native unit's text at JSON-LD assembly time, applied uniformly across
-all eleven frameworks) and its \code{partOf} target is typed
+the corpus) and its \code{partOf} target is typed
 \code{cybed:Framework}. Subpoints without a valid framework partOf are
 excluded.
 

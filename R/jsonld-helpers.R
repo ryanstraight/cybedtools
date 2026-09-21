@@ -219,7 +219,7 @@ build_framework_node <- function(framework_id,
 #'
 #' Every framework's top-level enumerated unit is an instance of
 #' `cybed:OrganizingUnit` (subClassOf `skos:Concept`), the cross-framework
-#' abstract that lets one SPARQL query reach all eleven frameworks' parent
+#' abstract that lets one SPARQL query reach every framework's parent
 #' units uniformly. Workforce frameworks (NICE, DCWF, ENISA ECSF) where the
 #' unit is genuinely a work role or work profile additionally assert
 #' `cybed:Role` (itself `subClassOf cybed:OrganizingUnit`); pass `is_role =

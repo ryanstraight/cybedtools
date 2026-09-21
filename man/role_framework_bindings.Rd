@@ -25,7 +25,7 @@ K-12 grade-band x sub-concept cells, CSTA level x concept cells, CSEC2017
 Knowledge Areas, and DigComp competence areas are not roles and are
 not returned by this helper. Use \code{\link[=organizing_unit_framework_bindings]{organizing_unit_framework_bindings()}}
 for the cross-framework "top-level enumerated unit" cut that includes
-all eleven frameworks.
+every framework in the corpus.
 
 Roles without a \code{cybed:partOf} triple, or whose partOf target is not
 typed \code{cybed:Framework}, are excluded.

@@ -16,8 +16,8 @@ A tibble with columns \code{unit}, \code{unit_name}, \code{framework},
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
-One row per (organizing unit, framework) pair across all eleven
-frameworks. Queries on the cross-framework abstract type
+One row per (organizing unit, framework) pair across every framework in
+the corpus. Queries on the cross-framework abstract type
 \code{cybed:OrganizingUnit}, which every framework's top-level enumerated
 unit asserts (work roles, work profiles, skills, grade-band x sub-concept cells,
 level x concept cells, Knowledge Areas, competence areas). Use this
