@@ -14,7 +14,7 @@ Description: A reproducible pipeline for ingesting, representing, and
     'DCWF', 'SFIA', 'ENISA ECSF', 'CyQUAL', 'CCSSF', 'OTCCF') and
     cybersecurity-related pedagogical frameworks ('Cyber.org K-12',
     'CSTA K-12 CS', 'ACM/IEEE CSEC2017',
-    'DigComp 2.2'). Provides a framework-agnostic 'JSON-LD' schema
+    'DigComp 3.0'). Provides a framework-agnostic 'JSON-LD' schema
     ('cybed:') and 'SPARQL' query patterns for cross-framework analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8

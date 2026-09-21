@@ -38,7 +38,7 @@ abstract: >-
   representing (via a two-tier JSON-LD schema), and querying (via SPARQL)
   eleven major cybersecurity-related competency and learning-standards
   frameworks: NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
-  ACM/IEEE CSEC2017, DigComp 2.2, CyQUAL, CCSSF, and OTCCF. The cybed:
+  ACM/IEEE CSEC2017, DigComp 3.0, CyQUAL, CCSSF, and OTCCF. The cybed:
   vocabulary uses
   cybed:OrganizingUnit as the cross-framework abstract for parent units
   and cybed:Role as a workforce-restricted subtype, with cybed:Subpoint
