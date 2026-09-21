@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cybedtools"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python interface to the cybedtools cross-framework cybersecurity workforce and learning frameworks graph, mirroring the R package's API: data loading, reference tables, query helpers, similarity, and release fetching."
 readme = "README.md"
 license = "MIT"

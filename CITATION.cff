@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
 title: "cybedtools: A Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks"
-version: 0.4.0
+version: 0.4.1
 # Zenodo concept DOI: the parent identifier that resolves to the latest
 # released version (currently 10.5281/zenodo.20076116, verified against
 # the Zenodo project's "Cite all versions" link). This DOI does not
@@ -34,15 +34,15 @@ keywords:
   - cybersecurity education
   - competency mapping
 abstract: >-
-  cybedtools provides a reproducible R pipeline for ingesting, semantically
-  representing (via a two-tier JSON-LD schema), and querying (via SPARQL)
-  cybersecurity-related competency and learning-standards frameworks,
-  including NICE, DCWF, SFIA, ENISA ECSF, Cyber.org K-12, CSTA K-12 CS,
-  ACM/IEEE CSEC2017, DigComp 3.0, CyQUAL, CCSSF, and OTCCF. See
-  framework_summary() in the package for the current list and counts. The
-  cybed: vocabulary uses
+  cybedtools is an R package and a Python package (on PyPI), sharing one
+  API and a shared conformance-test suite, for building and querying a
+  cross-framework RDF/JSON-LD graph of cybersecurity workforce and
+  learning frameworks. The two-tier cybed: vocabulary uses
   cybed:OrganizingUnit as the cross-framework abstract for parent units
   and cybed:Role as a workforce-restricted subtype, with cybed:Subpoint
   and cybed:Example separating framework-as-specified enumerations from
-  pedagogical-scaffolding examples. Includes a layered data-integrity
-  verification rig and per-framework provenance manifests.
+  pedagogical-scaffolding examples. Per-framework data releases are
+  fetched and hash-verified with cybed_fetch(); see framework_summary()
+  in the package for the current list of frameworks and counts. Includes
+  a layered data-integrity verification rig and per-framework provenance
+  manifests.

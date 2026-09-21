@@ -2,20 +2,21 @@ Package: cybedtools
 Type: Package
 Title: A Package for Reproducible Analysis of Cybersecurity Workforce
     and Learning Frameworks
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: person(
     "Ryan", "Straight",
     email = "ryanstraight@arizona.edu",
     role = c("aut", "cre", "cph"),
     comment = c(ORCID = "0000-0002-6251-5662")
   )
-Description: A reproducible pipeline for ingesting, representing, and
-    analyzing cybersecurity workforce competency frameworks ('NICE',
-    'DCWF', 'SFIA', 'ENISA ECSF', 'CyQUAL', 'CCSSF', 'OTCCF') and
-    cybersecurity-related pedagogical frameworks ('Cyber.org K-12',
-    'CSTA K-12 CS', 'ACM/IEEE CSEC2017',
-    'DigComp 3.0'). Provides a framework-agnostic 'JSON-LD' schema
-    ('cybed:') and 'SPARQL' query patterns for cross-framework analysis.
+Description: Builds and queries a cross-framework 'RDF'/'JSON-LD' graph
+    of cybersecurity workforce and learning frameworks, with a shared
+    'API' and conformance tests against a companion 'Python' package
+    (on 'PyPI'). Per-framework data releases are fetched and
+    hash-verified with cybed_fetch(). Provides a framework-agnostic
+    'JSON-LD' schema ('cybed:') and 'SPARQL' query patterns for
+    cross-framework analysis; see framework_summary() for the current
+    list of frameworks and counts.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
