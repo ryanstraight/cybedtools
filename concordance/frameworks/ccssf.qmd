@@ -3,8 +3,7 @@ title: "CCSSF 2022"
 subtitle: "Canadian Cyber Security Skills Framework"
 jurisdiction: "CA"
 framework-type: "Workforce"
-organizing-units: 59
-elements: 1345
+framework-slug: "ccssf-2022"
 license: "Government of Canada, with permission"
 date: 2026-09-21
 categories: [workforce, ca]
@@ -73,21 +72,46 @@ categories: [workforce, ca]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Work roles | 59 |
-| Strict elements | 1,148 |
-| Subpoints (parsed enumeration lists) | 197 |
-| With-examples elements | 1,345 |
-| Elements per work role, strict | 19.5 |
-| Elements per work role, with-examples | 22.8 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "ccssf-2022", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$ccssf
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
 
-Twenty-two core cyber security roles sit under four activity areas
-(Annexes A through D: Oversee & govern, Design & develop, Operate &
-maintain, Protect & defend). Annex E's cyber-adjacent roles add
-further work roles from a single wide table rather than a per-role
-block. Annex F, a talent-alliance membership list, is not a role
-structure and is not ingested.
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Work roles",
+    "Strict elements",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per work role, strict",
+    "Elements per work role, with-examples"
+  ),
+  Value = c(
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_role_strict),
+    d1(n$elements_per_role_with_examples)
+  )
+) |>
+  knitr::kable()
+```
+
+`r cm(u$core_role_count)` core cyber security roles sit under
+`r cm(u$activity_area_count)` activity areas (Annexes A through D:
+Oversee & govern, Design & develop, Operate & maintain, Protect &
+defend). Annex E's `r cm(u$adjacent_role_count)` cyber-adjacent roles
+add further work roles from a single wide table rather than a
+per-role block. Annex F, a talent-alliance membership list, is not a
+role structure and is not ingested.
 
 ## Provenance
 

@@ -3,8 +3,7 @@ title: "ENISA ECSF v1"
 subtitle: "European Cybersecurity Skills Framework"
 jurisdiction: "EU"
 framework-type: "Workforce"
-organizing-units: 12
-elements: 390
+framework-slug: "ecsf-v1"
 license: "ENISA re-use notice"
 date: 2026-05-08
 categories: [workforce, eu]
@@ -75,14 +74,37 @@ categories: [workforce, eu]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Profiles | 12 |
-| Strict elements | 374 |
-| Subpoints (parsed enumeration lists) | 16 |
-| With-examples elements | 390 |
-| Elements per profile, strict | 31.2 |
-| Elements per profile, with-examples | 32.5 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "ecsf-v1", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Profiles",
+    "Strict elements",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per profile, strict",
+    "Elements per profile, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 ## Provenance
 

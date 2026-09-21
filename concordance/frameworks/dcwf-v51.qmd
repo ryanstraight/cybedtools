@@ -3,8 +3,7 @@ title: "DCWF v5.1"
 subtitle: "DoD Cyber Workforce Framework (DoDD 8140)"
 jurisdiction: "US"
 framework-type: "Workforce"
-organizing-units: 74
-elements: 4052
+framework-slug: "dcwf-v5.1"
 license: "Public domain"
 date: 2026-05-08
 categories: [workforce, us]
@@ -21,7 +20,7 @@ categories: [workforce, us]
 | Aligned to | NICE Framework |
 | Source format | DoD CIO Work Role Tool (XLSX) |
 | License | A US Government work prepared by DoD personnel, so not subject to copyright in the United States under 17 U.S.C. 105. The v5.1 workbook carries no distribution statement |
-| `framework_summary` slug | `dcwf-v51` |
+| `framework_summary` slug | `dcwf-v5.1` |
 
 ## Structure in cybed: terms
 
@@ -84,21 +83,45 @@ categories: [workforce, us]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Work roles | 74 |
-| Strict elements | 2,945 |
-| Subpoints (parsed enumeration lists) | 1,107 |
-| With-examples elements | 4,052 |
-| Elements per work role, strict | 39.8 |
-| Elements per work role, with-examples | 54.8 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "dcwf-v5.1", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$n_other_frameworks
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Work roles",
+    "Strict elements",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per work role, strict",
+    "Elements per work role, with-examples"
+  ),
+  Value = c(
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_role_strict),
+    d1(n$elements_per_role_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 DCWF has no `cybed:Example` nodes -- its numbered statements carry no
 separate prose-embedded clarifications the way Cyber.org K-12 or CSTA
-do. But 1,107 of its Task/KSA statements phrase part of their content
+do. But `r cm(n$subpoint_count)` of its Task/KSA statements phrase part of their content
 as an enumerated list ("including X and Y", "(e.g., X, Y, and Z)"),
 and the uniform Subpoint parser splits those out the same way it does
-across the other ten frameworks, so strict and with-examples do not
+across the other `r cm(u)` frameworks in the corpus, so strict and with-examples do not
 coincide here. This is DCWF's second correction of the day: a parser
 bug fixed 2026-08-14 (a dead `e.g.` introducer pattern, plus a
 soft-wrap newline being read as a false sentence boundary) meant most

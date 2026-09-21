@@ -3,8 +3,7 @@ title: "CyBOK v1.1.0"
 subtitle: "Cyber Security Body of Knowledge"
 jurisdiction: "UK"
 framework-type: "Pedagogy"
-organizing-units: 21
-elements: 596
+framework-slug: "cybok-v1.1.0"
 license: "OGL v3.0"
 date: 2026-09-21
 categories: [pedagogy, uk]
@@ -75,14 +74,37 @@ categories: [pedagogy, uk]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Knowledge Areas | 21 |
-| Strict elements (Topics) | 119 |
-| Subpoints (Indicative Material, parsed from Knowledge Trees) | 477 |
-| With-examples elements | 596 |
-| Elements per Knowledge Area, strict | 5.7 |
-| Elements per Knowledge Area, with-examples | 28.4 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "cybok-v1.1.0", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Knowledge Areas",
+    "Strict elements (Topics)",
+    "Subpoints (Indicative Material, parsed from Knowledge Trees)",
+    "With-examples elements",
+    "Elements per Knowledge Area, strict",
+    "Elements per Knowledge Area, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 CyBOK publishes no CSV, JSON, or XML: every count here comes from
 reading a Knowledge Tree as a drawing. Node labels come from the PDF

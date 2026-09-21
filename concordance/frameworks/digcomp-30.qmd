@@ -3,8 +3,7 @@ title: "DigComp 3.0"
 subtitle: "European Digital Competence Framework for Citizens"
 jurisdiction: "EU"
 framework-type: "Pedagogy"
-organizing-units: 26
-elements: 884
+framework-slug: "digcomp-3.0"
 license: "CC BY 4.0"
 date: 2026-09-21
 categories: [pedagogy, eu]
@@ -87,26 +86,52 @@ categories: [pedagogy, eu]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Competence Areas | 5 |
-| Competences | 21 |
-| Organizing units (areas + competences) | 26 |
-| Strict elements (Competence Statements) | 362 |
-| Examples (Learning Outcomes, post-errata) | 522 |
-| With-examples elements | 884 |
-| Elements per organizing unit, strict | 13.9 |
-| Elements per organizing unit, with-examples | 34.0 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "digcomp-3.0", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$digcomp
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Competence Areas",
+    "Competences",
+    "Organizing units (areas + competences)",
+    "Strict elements (Competence Statements)",
+    "Examples (Learning Outcomes, post-errata)",
+    "With-examples elements",
+    "Elements per organizing unit, strict",
+    "Elements per organizing unit, with-examples"
+  ),
+  Value = c(
+    cm(u$competence_area_count),
+    cm(u$competence_count),
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$example_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 DigComp 3.0 replaces 2.2's un-staged "examples of knowledge, skills
-and attitudes" with two typed layers: 362 coarse Competence
-Statements (one per competence times a four-level proficiency band)
-and 523 fine-grained Learning Outcomes, each typed Knowledge, Skill,
-or Attitude. Applying the framework's own published errata removes
-one duplicate outcome, leaving 522. Competence areas and competences
-carry identical numbering and membership to 2.2; four of five area
-names and thirteen of twenty-one competence names were revised for
-3.0. Proficiency-level descriptors and the glossary are staged from
+and attitudes" with two typed layers: `r cm(n$element_count_strict)`
+coarse Competence Statements (one per competence times a four-level
+proficiency band) and fine-grained Learning Outcomes, each typed
+Knowledge, Skill, or Attitude. Applying the framework's own published
+errata removes a duplicate outcome, leaving `r cm(n$example_count)`.
+Competence areas and competences carry identical numbering and
+membership to 2.2; a minority of area and competence names were
+revised for 3.0. Proficiency-level descriptors and the glossary are staged from
 the source but not emitted into the graph.
 
 ## Provenance

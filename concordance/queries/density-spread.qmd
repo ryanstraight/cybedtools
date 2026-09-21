@@ -174,5 +174,5 @@ The `framework_summary` tibble ships with the package as a lazy-loaded data obje
 
 - [How is element coverage distributed across US and EU frameworks?](us-eu-asymmetry.qmd), the jurisdictional distribution and what it reframes.
 - [Which NICE work roles concentrate the most element coverage?](top-work-roles.qmd), power-law shape inside NICE.
-- [How does the four-framework K-12 alignment compare?](k12-alignment.qmd), pedagogy lens.
+- [How does the Cyber.org/CSTA K-12 alignment compare?](k12-alignment.qmd), pedagogy lens.
 - [The vocabulary](../concepts/vocabulary.qmd), why `cybed:OrganizingUnit` is the right denominator.

@@ -11,6 +11,9 @@ n_fw <- nrow(fs)
 role_slugs <- c("nice-v2", "dcwf-v5.1", "ecsf-v1", "cyqual-v1.2.0", "ccssf-2022", "otccf-v1.1")
 n_role_fw <- sum(fs$framework_slug %in% role_slugs)
 n_nonrole_fw <- n_fw - n_role_fw
+u_sfia <- readRDS(here::here("_data", "unit_subtypes.rds"))$sfia
+n_csec_ka <- fs$organizing_unit_count[fs$framework_slug == "csec2017-v1"]
+n_ecsf_profiles <- fs$organizing_unit_count[fs$framework_slug == "ecsf-v1"]
 ```
 
 ## The design problem
@@ -19,10 +22,10 @@ n_nonrole_fw <- n_fw - n_role_fw
 what counts as a structural element. NICE has work roles, tasks,
 knowledge statements, and skill statements, plus competency areas as a
 second grouping axis. DigComp has competence
-areas and proficiency levels. SFIA has skills and seven levels of
+areas and proficiency levels. SFIA has skills and `r u_sfia$level_count` levels of
 responsibility. Cyber.org K-12 has grade-band-by-sub-concept cells
 plus prose clarification statements. CSTA has level-by-concept cells
-plus practices. CSEC2017 has eight knowledge areas. ECSF has twelve
+plus practices. CSEC2017 has `r n_csec_ka` knowledge areas. ECSF has `r n_ecsf_profiles`
 profiles. DCWF aligns to NICE work roles with overlap. CyQUAL has
 qualification units and proficiency levels. CCSSF has work roles and
 skills. OTCCF has job roles, skills, and role-to-role relations.

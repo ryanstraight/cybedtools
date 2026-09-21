@@ -32,6 +32,9 @@ n_gained <- n_full_hit - n_parent_hit
 n_nomatch <- n_cyberorg - n_full_hit
 pct_nomatch <- round(n_nomatch / n_cyberorg * 100)
 n_moderate <- sum(alignment$full_strength %in% c("strong", "moderate"))
+n_csta_subpoints <- cybedtools::framework_summary$subpoint_count[
+  cybedtools::framework_summary$framework_slug == "csta-2017"
+]
 ```
 
 ## The question
@@ -190,7 +193,7 @@ The parent pull is read straight out of the prep script, so this block cannot dr
 #| echo: true
 ```
 
-The `anti_join` is required, not optional. `cybed:Subpoint` children retain their parent's framework-native subtype (`csta:Standard`, `cyberorg:Standard`), so a plain type query catches parsed sub-points alongside genuine parents. CSTA carries 20 Subpoints this way. Cyber.org carries none, so its pool was clean by coincidence rather than by construction.
+The `anti_join` is required, not optional. `cybed:Subpoint` children retain their parent's framework-native subtype (`csta:Standard`, `cyberorg:Standard`), so a plain type query catches parsed sub-points alongside genuine parents. CSTA carries `r n_csta_subpoints` Subpoints this way. Cyber.org carries none, so its pool was clean by coincidence rather than by construction.
 
 Element text is then pulled and scoped to the frameworks whose statement text may be published, via the site's publication guard:
 

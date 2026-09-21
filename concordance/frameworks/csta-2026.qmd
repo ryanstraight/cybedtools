@@ -3,8 +3,7 @@ title: "CSTA PK-12 CS (2026)"
 subtitle: "2026 CSTA PK-12 Computer Science Standards"
 jurisdiction: "US"
 framework-type: "Pedagogy"
-organizing-units: 53
-elements: 983
+framework-slug: "csta-2026"
 license: "CC BY-NC-SA 4.0"
 date: 2026-09-21
 categories: [pedagogy, us]
@@ -76,13 +75,35 @@ categories: [pedagogy, us]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Standard groups | 53 |
-| Strict elements (standards) | 331 |
-| With-examples elements | 983 |
-| Elements per standard group, strict | 6.2 |
-| Elements per standard group, with-examples | 18.5 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "csta-2026", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Standard groups",
+    "Strict elements (standards)",
+    "With-examples elements",
+    "Elements per standard group, strict",
+    "Elements per standard group, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 Each standard carries boundary-statement paragraphs and implementation
 examples, both promoted to `cybed:Example` nodes, which is most of the

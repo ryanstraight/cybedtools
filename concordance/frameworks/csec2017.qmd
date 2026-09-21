@@ -3,8 +3,7 @@ title: "ACM/IEEE CSEC2017"
 subtitle: "Cybersecurity Curricula 2017"
 jurisdiction: "Global"
 framework-type: "Pedagogy"
-organizing-units: 8
-elements: 40
+framework-slug: "csec2017-v1"
 license: "ACM/IEEE educational use"
 date: 2026-05-08
 categories: [pedagogy, global]
@@ -76,14 +75,37 @@ categories: [pedagogy, global]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Knowledge Areas | 8 |
-| Strict elements (topics) | 38 |
-| Subpoints (parsed enumeration lists) | 2 |
-| With-examples elements | 40 |
-| Topics per Knowledge Area, strict | 4.8 |
-| Topics per Knowledge Area, with-examples | 5.0 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "csec2017-v1", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Knowledge Areas",
+    "Strict elements (topics)",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Topics per Knowledge Area, strict",
+    "Topics per Knowledge Area, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 The Knowledge Area / Topic structure is the framework's
 coarse-grained surface. Beneath each topic, CSEC2017 defines further

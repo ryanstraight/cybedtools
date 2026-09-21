@@ -16,6 +16,14 @@ best  <- readRDS(here("_data", "nice_ecsf_best.rds")) |>
   mutate(pct = round(similarity * 100, 1))
 top3  <- readRDS(here("_data", "nice_ecsf_alignment.rds"))
 
+# Cross-reference for the NICE-to-CSEC2017 comparison figure below, computed
+# from the same cached best-match table the curriculum-coordinator page
+# uses, not hand-typed, so the two pages cannot drift apart.
+csec_best <- readRDS(here("_data", "nice_csec2017_best.rds")) |>
+  mutate(pct = round(similarity * 100, 1))
+csec_med_pct <- round(median(csec_best$pct))
+ecsf_vs_csec_ratio <- round(median(best$pct) / csec_med_pct)
+
 fs <- cybedtools::framework_summary
 n_nice <- nrow(best)
 n_ecsf <- fs$organizing_unit_count[fs$framework_slug == "ecsf-v1"]
@@ -95,7 +103,7 @@ best |>
   knitr::kable()
 ```
 
-Best-match overlap runs from `r min(best$pct)`% to `r max(best$pct)`% across all `r n_nice` NICE work roles, median `r median(best$pct)`%, with the strongest pair (NICE `r top_pair$nice_name` to ECSF `r top_pair$ecsf_name`) at `r top_pair$pct`%. The NICE-to-CSEC2017 median for comparison was 4%. The workforce-vocabulary alignment here runs roughly three times that, though the absolute overlap remains modest enough to support candidate-identification rather than equivalence claims. Both vocabularies describe workforce positions. The difference between them is jurisdiction and granularity, not framework purpose.
+Best-match overlap runs from `r min(best$pct)`% to `r max(best$pct)`% across all `r n_nice` NICE work roles, median `r median(best$pct)`%, with the strongest pair (NICE `r top_pair$nice_name` to ECSF `r top_pair$ecsf_name`) at `r top_pair$pct`%. The NICE-to-CSEC2017 median for comparison was `r csec_med_pct`%. The workforce-vocabulary alignment here runs roughly `r ecsf_vs_csec_ratio` times that, though the absolute overlap remains modest enough to support candidate-identification rather than equivalence claims. Both vocabularies describe workforce positions. The difference between them is jurisdiction and granularity, not framework purpose.
 
 `r n_ecsf_hit` of ECSF's `r n_ecsf` role profiles appear as someone's top match. `r n_ecsf - n_ecsf_hit` never do (Cybersecurity Implementer, Cybersecurity Educator, Cybersecurity Researcher, Cybersecurity Risk Manager, Digital Forensics Investigator). The dominance of `r paste(sprintf("%s (%d NICE roles)", ecsf_counts$ecsf_name[1:3], ecsf_counts$n[1:3]), collapse = ", ")` reflects ECSF's deliberately-coarser role catalog. ECSF profiles cover broader role families that several NICE-position-specific roles fold into.
 

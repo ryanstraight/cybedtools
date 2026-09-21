@@ -3,8 +3,7 @@ title: "SCyWF 1.5"
 subtitle: "Saudi Cybersecurity Workforce Framework"
 jurisdiction: "SA"
 framework-type: "Workforce"
-organizing-units: 81
-elements: 1419
+framework-slug: "scywf-1.5"
 license: "NCA written permission"
 date: 2026-09-21
 categories: [workforce, sa]
@@ -84,16 +83,40 @@ categories: [workforce, sa]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Organizing units (categories, specialty areas, job roles) | 81 |
-| Job roles | 40 |
-| Strict elements (Task, Knowledge, Skill statements) | 1,419 |
-| Elements per organizing unit | 17.5 |
-| Elements per job role | 35.5 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "scywf-1.5", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$scywf
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
 
-The document states its own size: five categories, twelve specialty
-areas, and forty job roles. Job-role cards in the source name only
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (categories, specialty areas, job roles)",
+    "Job roles",
+    "Strict elements (Task, Knowledge, Skill statements)",
+    "Elements per organizing unit",
+    "Elements per job role"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_role_strict)
+  )
+) |>
+  knitr::kable()
+```
+
+The document states its own size: `r cm(u$category_count)`
+categories, `r cm(u$specialty_area_count)` specialty areas, and
+`r cm(n$role_count)` job roles. Job-role cards in the source name only
 Task, Knowledge, and Skill statement codes; the statement text itself
 lives in separate appendix tables keyed by those codes, which this
 ingestion joins back to each role.

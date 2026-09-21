@@ -3,8 +3,7 @@ title: "CyQUAL 1.2.0"
 subtitle: "Czech Republic National Cybersecurity Qualifications Framework"
 jurisdiction: "CZ"
 framework-type: "Workforce"
-organizing-units: 161
-elements: 3340
+framework-slug: "cyqual-v1.2.0"
 license: "Open data, attribution required"
 date: 2026-09-21
 categories: [workforce, cz]
@@ -84,16 +83,41 @@ categories: [workforce, cz]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Organizing units (categories, specialization areas, work roles) | 161 |
-| Work roles | 102 |
-| Strict elements (tasks and requirements) | 2,488 |
-| Subpoints (parsed enumeration lists) | 852 |
-| With-examples elements | 3,340 |
-| Elements per organizing unit, strict | 15.5 |
-| Elements per work role, strict | 22.9 |
-| Elements per work role, with-examples | 30.9 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "cyqual-v1.2.0", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (categories, specialization areas, work roles)",
+    "Work roles",
+    "Strict elements (tasks and requirements)",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per organizing unit, strict",
+    "Elements per work role, strict",
+    "Elements per work role, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_role_strict),
+    d1(n$elements_per_role_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 The source hierarchy is category to specialization area to work role,
 with tasks and requirements attached to work roles through two join
