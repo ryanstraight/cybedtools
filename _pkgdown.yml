@@ -125,6 +125,16 @@ reference:
       - load_combined_ntriples_graph
       - make_demo_graph
 
+  - title: Data loading (public release)
+    desc: >-
+      Download and hash-verify the public per-framework data release into
+      the user cache, and load it into an rdf graph. The names and shape
+      match the Python package's cybed_fetch()/load_graph() (0.4.0 API
+      parity, see inst/conformance/).
+    contents:
+      - cybed_fetch
+      - load_graph
+
   - title: SPARQL helpers
     desc: >-
       Single-BGP query primitives and domain-level helpers. The package's
@@ -140,8 +150,18 @@ reference:
       - element_framework_bindings
       - subpoint_framework_bindings
       - example_framework_bindings
+      - unit_element_bindings
       - role_element_bindings
+      - unit_relation_bindings
       - element_text
+
+  - title: Similarity
+    desc: >-
+      Cross-framework unit-text similarity. The tokenizer, Jaccard scorer
+      and stopword list are internal; framework_similarity() is the one
+      exported entry point.
+    contents:
+      - framework_similarity
 
   - title: Validation
     contents:

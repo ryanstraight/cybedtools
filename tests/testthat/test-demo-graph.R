@@ -39,7 +39,7 @@ test_that("make_demo_graph yields the documented v0.2.0 structure", {
 
   # 6 cybed:hasElement triples: 5 original + 1 Subpoint added as a
   # cluster child. The Example is deliberately NOT in cybed:hasElement.
-  reb <- role_element_bindings(rdf)
+  reb <- unit_element_bindings(rdf)
   expect_equal(nrow(reb), 6)
   expect_false(any(grepl("\\.example\\.\\d+$", reb$element)))
 })

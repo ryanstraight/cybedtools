@@ -1,0 +1,5 @@
+from_unit,to_unit,score,strength,rank
+https://w3id.org/cybed/ontology#role/fixture-role-1,https://w3id.org/cybed/ontology#role/fixture-role-4,0.4666666667,strong,1
+https://w3id.org/cybed/ontology#role/fixture-role-1,https://w3id.org/cybed/ontology#role/fixture-role-3,0.3333333333,strong,2
+https://w3id.org/cybed/ontology#role/fixture-role-2,https://w3id.org/cybed/ontology#role/fixture-role-4,0.3684210526,strong,1
+https://w3id.org/cybed/ontology#role/fixture-role-2,https://w3id.org/cybed/ontology#role/fixture-role-3,0.25,moderate,2

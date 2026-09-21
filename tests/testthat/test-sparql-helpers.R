@@ -50,7 +50,8 @@ test_that("framework_metadata yields one row per framework with all metadata", {
 
   expect_s3_class(result, "tbl_df")
   expect_named(result,
-               c("framework", "name", "jurisdiction", "sector", "specificity"))
+               c("framework", "name", "jurisdiction", "sector", "specificity",
+                 "framework_slug"))
   expect_equal(nrow(result), 2)
 
   fw_a <- result[result$jurisdiction == "US", ]
@@ -88,7 +89,8 @@ test_that("role_framework_bindings returns one row per bound role", {
   # role_orphan (no partOf) and role_bad (partOf points at non-Framework)
   # must be excluded.
   expect_equal(nrow(result), 3)
-  expect_named(result, c("role", "framework", "role_name", "framework_name"))
+  expect_named(result, c("role", "framework", "role_name", "framework_name",
+                          "framework_slug"))
 
   expect_false(any(grepl("fixture-orphan",       result$role)))
   expect_false(any(grepl("fixture-bad-partof",   result$role)))
@@ -128,7 +130,8 @@ test_that("element_framework_bindings returns one row per bound element", {
   # Five parent elements + five Subpoints + one Example all have partOf;
   # el_orphan must be excluded.
   expect_equal(nrow(result), 11)
-  expect_named(result, c("element", "framework", "framework_name"))
+  expect_named(result, c("element", "framework", "framework_name",
+                          "framework_slug"))
   expect_false(any(grepl("fixture-el-orphan", result$element)))
 })
 
@@ -147,25 +150,25 @@ test_that("element_framework_bindings splits correctly across frameworks", {
 })
 
 # ---------------------------------------------------------------------------
-# Domain helper: role_element_bindings
+# Domain helper: unit_element_bindings
 # ---------------------------------------------------------------------------
 
-test_that("role_element_bindings returns one row per cybed:hasElement triple", {
+test_that("unit_element_bindings returns one row per cybed:hasElement triple", {
   skip_if_no_rdflib()
   rdf <- make_fixture_graph()
 
-  result <- role_element_bindings(rdf)
+  result <- unit_element_bindings(rdf)
 
   # 5 original hasElement triples + 5 sub-points-as-cluster-children = 10
   expect_equal(nrow(result), 10)
-  expect_named(result, c("role", "element"))
+  expect_named(result, c("role", "element", "framework_slug"))
 })
 
-test_that("role_element_bindings counts elements per role correctly", {
+test_that("unit_element_bindings counts elements per role correctly", {
   skip_if_no_rdflib()
   rdf <- make_fixture_graph()
 
-  result  <- role_element_bindings(rdf)
+  result  <- unit_element_bindings(rdf)
   per_role <- as.data.frame(table(result$role), stringsAsFactors = FALSE)
   names(per_role) <- c("role", "n")
 
@@ -181,11 +184,11 @@ test_that("role_element_bindings counts elements per role correctly", {
   expect_equal(b1, 5)
 })
 
-test_that("role_element_bindings is empty when no hasElement triples exist", {
+test_that("unit_element_bindings is empty when no hasElement triples exist", {
   skip_if_no_rdflib()
   rdf <- rdflib::rdf()
 
-  result <- role_element_bindings(rdf)
+  result <- unit_element_bindings(rdf)
   expect_equal(nrow(result), 0)
 })
 
@@ -315,7 +318,7 @@ test_that("sub-points are reachable from clusters via cybed:hasElement (cluster 
   skip_if_no_rdflib()
   rdf <- make_fixture_graph()
 
-  bindings <- role_element_bindings(rdf)
+  bindings <- unit_element_bindings(rdf)
 
   # role_a1's children should include both parents AND sub-points
   a1_children <- bindings$element[grepl("fixture-a1$", bindings$role)]
@@ -369,7 +372,8 @@ test_that("organizing_unit_framework_bindings returns the same rows as role_fram
   # Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0) contribute units that
   # are not cybed:Role.
   expect_equal(nrow(ofb), nrow(rfb))
-  expect_named(ofb, c("unit", "framework", "unit_name", "framework_name"))
+  expect_named(ofb, c("unit", "framework", "unit_name", "framework_name",
+                       "framework_slug"))
 })
 
 test_that("organizing_unit_framework_bindings excludes orphan and bad-partof units", {
@@ -399,7 +403,8 @@ test_that("example_framework_bindings returns the single fixture Example", {
   efb <- example_framework_bindings(rdf)
 
   expect_equal(nrow(efb), 1)
-  expect_named(efb, c("example", "framework", "framework_name"))
+  expect_named(efb, c("example", "framework", "framework_name",
+                       "framework_slug"))
   expect_match(efb$example,        "fixture-el-a2\\.example\\.1$")
   expect_equal(efb$framework_name, "Fixture Framework A")
 })
@@ -412,7 +417,8 @@ test_that("subpoint_framework_bindings returns all five fixture Subpoints", {
 
   # FW A: a1.sub.1, a1.sub.2 (2); FW B: b1.sub.1-3 (3); 5 total.
   expect_equal(nrow(sfb), 5)
-  expect_named(sfb, c("subpoint", "framework", "framework_name"))
+  expect_named(sfb, c("subpoint", "framework", "framework_name",
+                       "framework_slug"))
   per_fw <- table(sfb$framework_name)
   expect_equal(unname(per_fw["Fixture Framework A"]), 2)
   expect_equal(unname(per_fw["Fixture Framework B"]), 3)
@@ -435,7 +441,7 @@ test_that("Examples are excluded from default cybed:hasElement traversals", {
   skip_if_no_rdflib()
   rdf <- make_fixture_graph()
 
-  bindings <- role_element_bindings(rdf)
+  bindings <- unit_element_bindings(rdf)
 
   # The fixture's single Example (fixture-el-a2.example.1) is reachable
   # only via el_a2's cybed:hasExample. It must NOT appear as an element
@@ -523,4 +529,48 @@ test_that("sub-points round-trip through JSON-LD assemble + parse", {
   elaborates <- sparql_pairs(rdf, "cybed:elaborates")
   expect_equal(nrow(elaborates), 3)
   expect_true(all(elaborates$o == "https://nice.nist.gov/framework/terms#P1"))
+})
+
+# ---------------------------------------------------------------------------
+# role_element_bindings() deprecation (v0.4.0)
+# ---------------------------------------------------------------------------
+
+test_that("role_element_bindings warns and is otherwise identical to unit_element_bindings", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  expect_warning(
+    deprecated <- role_element_bindings(rdf),
+    class = "warning"
+  )
+  current <- unit_element_bindings(rdf)
+
+  expect_equal(deprecated, current)
+})
+
+# ---------------------------------------------------------------------------
+# Domain helper: unit_relation_bindings (v0.4.0)
+# ---------------------------------------------------------------------------
+
+test_that("unit_relation_bindings returns one row per UnitRelation node", {
+  skip_if_no_rdflib()
+  rdf <- make_fixture_graph()
+
+  result <- unit_relation_bindings(rdf)
+
+  expect_named(result, c("from_unit", "relation", "to_unit", "framework_slug"))
+  expect_equal(nrow(result), 2)
+  expect_true(all(result$relation == "requires"))
+  expect_true(all(grepl("fixture-a1$", result$from_unit)))
+  expect_true(all(grepl("fixture-a2$", result$to_unit)))
+  expect_true(all(result$framework_slug == "fixture-fw-a"))
+})
+
+test_that("unit_relation_bindings is empty when no UnitRelation nodes exist", {
+  skip_if_no_rdflib()
+  rdf <- rdflib::rdf()
+
+  result <- unit_relation_bindings(rdf)
+  expect_equal(nrow(result), 0)
+  expect_named(result, c("from_unit", "relation", "to_unit", "framework_slug"))
 })
