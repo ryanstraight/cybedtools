@@ -7,12 +7,16 @@
 load_graph(frameworks = NULL, version = NULL)
 }
 \arguments{
-\item{frameworks}{Character vector of framework slugs to fetch (as
-carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}, or the release file slug, e.g. \code{"nice"}), or
-\code{NULL} (the default) for every framework the release manifest ships.}
+\item{frameworks}{Character vector of framework slugs to fetch, either the
+versioned form carried by \link{framework_summary}\verb{$framework_slug} (e.g.
+\code{"nice-v2"}) or the short release-file slug (e.g. \code{"nice"}; see "Two
+slug vocabularies" above), or \code{NULL} (the default) for every framework
+the release manifest ships.}
 
-\item{version}{Character scalar release version (e.g. \code{"1.0.0"}), or
-\code{NULL} (the default) for the data release this package version was built against, \code{cybed_data_release}.}
+\item{version}{Character scalar release version, either \code{"2026.09.2"} or
+\code{"data-v2026.09.2"} (a leading \code{"data-v"}, matching a GitHub release
+tag, is stripped), or \code{NULL} (the default) for the data release this
+package version was built against, \code{cybed_data_release}.}
 }
 \value{
 An rdf object (\code{\link[rdflib:rdf]{rdflib::rdf()}}) with every requested framework's

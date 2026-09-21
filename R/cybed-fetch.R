@@ -129,15 +129,32 @@ cybed_download <- function(url, destfile) {
 #' Already-cached files whose hash still matches the manifest are not
 #' re-downloaded.
 #'
-#' @param frameworks Character vector of framework slugs to fetch (as
-#'   carried by [framework_summary]`$framework_slug`, e.g. `"nice-v2"`, or the release file slug, e.g. `"nice"`), or
-#'   `NULL` (the default) for every framework the release manifest ships.
-#' @param version Character scalar release version (e.g. `"1.0.0"`), or
-#'   `NULL` (the default) for the data release this package version was built against, `cybed_data_release`.
+#' @section Two slug vocabularies:
+#' Two framework-slug vocabularies exist in this package. [framework_summary]
+#' and [framework_licenses] use **versioned** slugs (`"nice-v2"`,
+#' `"otccf-v1.1"`), minted into every framework node's IRI. The public data
+#' release's files use **short** slugs (`"nice"`, `"otccf"`), assigned by
+#' `docs/data-release.yml` and recorded in the release manifest. This
+#' function, [cybed_license()], and [framework_similarity()] accept either
+#' form for a `frameworks`/`slug`/`from`/`to` argument and resolve it to the
+#' canonical versioned slug. The returned tibble names both forms explicitly
+#' (`framework_slug` and `release_slug`) rather than silently substituting
+#' one for the other.
+#'
+#' @param frameworks Character vector of framework slugs to fetch, either the
+#'   versioned form carried by [framework_summary]`$framework_slug` (e.g.
+#'   `"nice-v2"`) or the short release-file slug (e.g. `"nice"`; see "Two
+#'   slug vocabularies" above), or `NULL` (the default) for every framework
+#'   the release manifest ships.
+#' @param version Character scalar release version, either `"2026.09.2"` or
+#'   `"data-v2026.09.2"` (a leading `"data-v"`, matching a GitHub release
+#'   tag, is stripped), or `NULL` (the default) for the data release this
+#'   package version was built against, `cybed_data_release`.
 #' @return Invisibly, a tibble with one row per fetched framework: columns
-#'   `framework_slug`, `path` (the cached file's local path),
-#'   `sha256_verified` (logical, always `TRUE` on return -- a mismatch
-#'   aborts instead of returning `FALSE`).
+#'   `framework_slug` (the canonical versioned slug, e.g. `"nice-v2"`),
+#'   `release_slug` (the short release-file slug, e.g. `"nice"`), `path`
+#'   (the cached file's local path), `sha256_verified` (logical, always
+#'   `TRUE` on return -- a mismatch aborts instead of returning `FALSE`).
 #' @family data loading
 #' @export
 #' @examples
@@ -152,6 +169,7 @@ cybed_download <- function(url, destfile) {
 cybed_fetch <- function(frameworks = NULL, version = NULL) {
   base_url <- cybed_release_base_url()
   version  <- if (is.null(version)) cybed_data_release else version
+  version  <- sub("^data-v", "", version)
   manifest <- cybed_read_manifest(base_url, version)
 
   files <- manifest$files
@@ -219,7 +237,8 @@ cybed_fetch <- function(frameworks = NULL, version = NULL) {
     }
 
     tibble::tibble(
-      framework_slug  = slug,
+      framework_slug  = if (is.null(entry$license_slug)) slug else entry$license_slug,
+      release_slug    = slug,
       path            = dest,
       sha256_verified = TRUE
     )

@@ -181,6 +181,16 @@ test_that("the scywf row names NCA, links the official page and records the gran
   expect_match(row$license, "derived", fixed = TRUE)
 })
 
+test_that("cybed_license accepts the short release slug as an alias for the versioned slug", {
+  expect_identical(cybed_license("nice"), cybed_license("nice-v2"))
+  expect_identical(cybed_license("otccf"), cybed_license("otccf-v1.1"))
+  expect_identical(cybed_license("cybok"), cybed_license("cybok-v1.1.0"))
+  # csta-2026 is its own framework, not an edition of csta: the short slug
+  # "csta" resolves to csta-2017, never csta-2026.
+  expect_identical(cybed_license("csta"), cybed_license("csta-2017"))
+  expect_false(identical(cybed_license("csta"), cybed_license("csta-2026")))
+})
+
 test_that("the cybok row carries the OGL and CyBOK's prescribed attribution", {
   row <- cybed_license("cybok-v1.1.0")
   expect_equal(row$public_redistribution, "full_with_attribution")

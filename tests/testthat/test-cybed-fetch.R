@@ -166,6 +166,36 @@ test_that("load_graph fetches and parses the requested frameworks into one graph
   expect_setequal(meta$framework_slug, c("fixture-wf1", "fixture-wf2"))
 })
 
+test_that("cybed_fetch's result carries both framework_slug and release_slug", {
+  skip_if_no_mock_release()
+  skip_if_not_installed("withr")
+  fresh_cache_dir()
+
+  with_mock_release({
+    result <- cybed_fetch(frameworks = "fixture-wf1", version = "1.0.0")
+  })
+
+  expect_true(all(c("framework_slug", "release_slug") %in% names(result)))
+  # The mock manifest carries no license_slug, so both columns fall back to
+  # the same (release) slug -- still two explicit columns, never a silent
+  # substitution.
+  expect_equal(result$framework_slug, "fixture-wf1")
+  expect_equal(result$release_slug, "fixture-wf1")
+})
+
+test_that("cybed_fetch accepts a data-v-prefixed version", {
+  skip_if_no_mock_release()
+  skip_if_not_installed("withr")
+  fresh_cache_dir()
+
+  with_mock_release({
+    plain  <- cybed_fetch(frameworks = "fixture-wf1", version = "1.0.0")
+    prefixed <- cybed_fetch(frameworks = "fixture-wf1", version = "data-v1.0.0")
+  })
+
+  expect_equal(plain$path, prefixed$path)
+})
+
 test_that("cybed_release_base_url honors the option over the environment variable and default", {
   old_opt <- getOption("cybedtools.release_url")
   old_env <- Sys.getenv("CYBEDTOOLS_RELEASE_URL", unset = NA_character_)

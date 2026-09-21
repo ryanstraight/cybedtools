@@ -7,18 +7,23 @@
 cybed_fetch(frameworks = NULL, version = NULL)
 }
 \arguments{
-\item{frameworks}{Character vector of framework slugs to fetch (as
-carried by \link{framework_summary}\verb{$framework_slug}, e.g. \code{"nice-v2"}, or the release file slug, e.g. \code{"nice"}), or
-\code{NULL} (the default) for every framework the release manifest ships.}
+\item{frameworks}{Character vector of framework slugs to fetch, either the
+versioned form carried by \link{framework_summary}\verb{$framework_slug} (e.g.
+\code{"nice-v2"}) or the short release-file slug (e.g. \code{"nice"}; see "Two
+slug vocabularies" above), or \code{NULL} (the default) for every framework
+the release manifest ships.}
 
-\item{version}{Character scalar release version (e.g. \code{"1.0.0"}), or
-\code{NULL} (the default) for the data release this package version was built against, \code{cybed_data_release}.}
+\item{version}{Character scalar release version, either \code{"2026.09.2"} or
+\code{"data-v2026.09.2"} (a leading \code{"data-v"}, matching a GitHub release
+tag, is stripped), or \code{NULL} (the default) for the data release this
+package version was built against, \code{cybed_data_release}.}
 }
 \value{
 Invisibly, a tibble with one row per fetched framework: columns
-\code{framework_slug}, \code{path} (the cached file's local path),
-\code{sha256_verified} (logical, always \code{TRUE} on return -- a mismatch
-aborts instead of returning \code{FALSE}).
+\code{framework_slug} (the canonical versioned slug, e.g. \code{"nice-v2"}),
+\code{release_slug} (the short release-file slug, e.g. \code{"nice"}), \code{path}
+(the cached file's local path), \code{sha256_verified} (logical, always
+\code{TRUE} on return -- a mismatch aborts instead of returning \code{FALSE}).
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -34,6 +39,20 @@ do not match its manifest hash is deleted and the call aborts with class
 Already-cached files whose hash still matches the manifest are not
 re-downloaded.
 }
+\section{Two slug vocabularies}{
+
+Two framework-slug vocabularies exist in this package. \link{framework_summary}
+and \link{framework_licenses} use \strong{versioned} slugs (\code{"nice-v2"},
+\code{"otccf-v1.1"}), minted into every framework node's IRI. The public data
+release's files use \strong{short} slugs (\code{"nice"}, \code{"otccf"}), assigned by
+\code{docs/data-release.yml} and recorded in the release manifest. This
+function, \code{\link[=cybed_license]{cybed_license()}}, and \code{\link[=framework_similarity]{framework_similarity()}} accept either
+form for a \code{frameworks}/\code{slug}/\code{from}/\code{to} argument and resolve it to the
+canonical versioned slug. The returned tibble names both forms explicitly
+(\code{framework_slug} and \code{release_slug}) rather than silently substituting
+one for the other.
+}
+
 \examples{
 \donttest{
 # Requires network access (or a `cybedtools.release_url` override
