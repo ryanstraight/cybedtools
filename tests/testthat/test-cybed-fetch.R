@@ -181,3 +181,33 @@ test_that("cybed_release_base_url honors the option over the environment variabl
   options(cybedtools.release_url = "file:///option-wins")
   expect_equal(cybedtools:::cybed_release_base_url(), "file:///option-wins")
 })
+
+test_that("the default base URL points at this repo's GitHub release assets", {
+  old_opt <- getOption("cybedtools.release_url")
+  old_env <- Sys.getenv("CYBEDTOOLS_RELEASE_URL", unset = NA_character_)
+  on.exit({
+    options(cybedtools.release_url = old_opt)
+    if (is.na(old_env)) Sys.unsetenv("CYBEDTOOLS_RELEASE_URL") else Sys.setenv(CYBEDTOOLS_RELEASE_URL = old_env)
+  }, add = TRUE)
+  options(cybedtools.release_url = NULL)
+  Sys.unsetenv("CYBEDTOOLS_RELEASE_URL")
+
+  expect_equal(
+    cybedtools:::cybed_release_base_url(),
+    "https://github.com/ryanstraight/cybedtools/releases/download/data-v{version}"
+  )
+})
+
+test_that("cybed_release_url substitutes {version} in place for a GitHub release base, and appends a version segment for every other base", {
+  expect_equal(
+    cybedtools:::cybed_release_url(
+      "https://github.com/ryanstraight/cybedtools/releases/download/data-v{version}",
+      "2026.09.1", "manifest.json"
+    ),
+    "https://github.com/ryanstraight/cybedtools/releases/download/data-v2026.09.1/manifest.json"
+  )
+  expect_equal(
+    cybedtools:::cybed_release_url("file:///mock-release", "1.0.0", "fixture-wf1.nt.gz"),
+    "file:///mock-release/1.0.0/fixture-wf1.nt.gz"
+  )
+})

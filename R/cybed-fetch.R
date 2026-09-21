@@ -10,9 +10,16 @@
 #'
 #' Resolution order: the `cybedtools.release_url` option, then the
 #' `CYBEDTOOLS_RELEASE_URL` environment variable, then a built-in default
-#' pointing at the package's published data release location. Set either
-#' the option or the environment variable to a `file://` URL (a local mock
+#' pointing at this repository's GitHub release assets. Set either the
+#' option or the environment variable to a `file://` URL (a local mock
 #' release directory) in tests, so no test call ever reaches the network.
+#'
+#' The default carries a literal `{version}` placeholder, because a GitHub
+#' release's assets sit directly under its own tag
+#' (`releases/download/data-v<version>/`, no further version segment) while
+#' every other supported layout (a mirror, or a mock release directory used
+#' in tests) nests each version in its own subdirectory below one fixed
+#' base. `cybed_release_url()` is what tells the two apart.
 #'
 #' @return Character scalar, a URL with no trailing slash.
 #' @noRd
@@ -25,7 +32,29 @@ cybed_release_base_url <- function() {
   if (!is.na(env) && nzchar(env)) {
     return(sub("/+$", "", env))
   }
-  "https://ryanstraight.github.io/cybedtools/data-release"
+  "https://github.com/ryanstraight/cybedtools/releases/download/data-v{version}"
+}
+
+#' Build the URL of one release file (the manifest or a framework's `.nt.gz`)
+#'
+#' A GitHub release's assets are tagged `data-v<version>` and sit directly
+#' under that tag with no further version segment, so a base URL carrying
+#' the `{version}` placeholder has the version substituted in place rather
+#' than appended. Every other base URL (a mirror, or a mock release
+#' directory such as `inst/conformance/mock-release/<version>/`) nests each
+#' version below the fixed base, as before.
+#'
+#' @param base_url Character scalar, from `cybed_release_base_url()`.
+#' @param version Character scalar release version (or `"latest"`).
+#' @param filename Character scalar, e.g. `"manifest.json"` or `"<slug>.nt.gz"`.
+#' @return Character scalar URL.
+#' @noRd
+cybed_release_url <- function(base_url, version, filename) {
+  if (grepl("{version}", base_url, fixed = TRUE)) {
+    base_url <- sub("{version}", version, base_url, fixed = TRUE)
+    return(paste0(base_url, "/", filename))
+  }
+  paste0(base_url, "/", version, "/", filename)
 }
 
 #' The package's cache directory
@@ -47,7 +76,7 @@ cybed_cache_dir <- function() {
 #' @return A list, the parsed manifest.
 #' @noRd
 cybed_read_manifest <- function(base_url, version) {
-  url <- paste0(base_url, "/", version, "/manifest.json")
+  url <- cybed_release_url(base_url, version, "manifest.json")
   tmp <- tempfile(fileext = ".json")
   on.exit(unlink(tmp), add = TRUE)
   cybed_download(url, tmp)
@@ -153,7 +182,7 @@ cybed_fetch <- function(frameworks = NULL, version = NULL) {
       !identical(digest::digest(dest, algo = "sha256", file = TRUE), entry$sha256)
 
     if (needs_download) {
-      url <- paste0(base_url, "/", version, "/", entry$file)
+      url <- cybed_release_url(base_url, version, entry$file)
       cybed_download(url, dest)
       actual <- digest::digest(dest, algo = "sha256", file = TRUE)
       if (!identical(actual, entry$sha256)) {
