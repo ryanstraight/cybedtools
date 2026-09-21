@@ -307,7 +307,41 @@ framework_licenses <- tibble::tribble(
   "Derived from the Operational Technology Cybersecurity Competency Framework (OTCCF), published by the Cyber Security Agency of Singapore (CSA). Available at: https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/",
   "structure_only",
   "https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/",
-  TRUE, as.Date("2026-09-18")
+  TRUE, as.Date("2026-09-18"),
+
+  # SCyWF. NCA's written grant of 2026-09-20 covers the full content with
+  # attribution, on three conditions recorded below. NCA prescribed no
+  # attribution wording, so the attribution is composed here from what the
+  # grant requires: NCA named as issuing body and source, with the official
+  # page link.
+  "framework", "scywf-1.5", "SCyWF 1.5",
+  "NCA written permission",
+  paste0(
+    "The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026) PDF ",
+    "carries no copyright line and no licence notice. Its only markings are ",
+    "\"TLP: Clear\" and \"Document Classification: Public\", which are ",
+    "disclosure markings rather than licences. The National Cybersecurity ",
+    "Authority (NCA) of the Kingdom of Saudi Arabia granted cybedtools ",
+    "written permission on 2026-09-20 to ingest and redistribute the ",
+    "framework's content, on three conditions. (1) NCA is cited as issuing ",
+    "body and source, with a link to the official SCyWF page. (2) Everything ",
+    "taken from the document (identifiers, titles, statement text) is ",
+    "carried verbatim, with no normalised labels, paraphrase, in-house ",
+    "translation or composed text presented as NCA content. (3) Anything ",
+    "cybedtools derives, such as hierarchy edges or cross-framework ",
+    "mappings, is marked as derived and not presented as NCA content. NCA ",
+    "prescribed no ",
+    "attribution wording, so the attribution below is composed to meet the ",
+    "first condition. The grant named an earlier edition (SCyWF - 1 : 2020) ",
+    "that NCA no longer publishes. The current edition is ingested by owner ",
+    "decision. The document's own disclaimer makes its Arabic version ",
+    "binding for matters of meaning and interpretation. cybedtools ingests ",
+    "the English version."
+  ),
+  "The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html",
+  "full_with_attribution",
+  "https://nca.gov.sa/en/pages/scywf.html",
+  TRUE, as.Date("2026-09-21")
 )
 
 # Integrity checks. These duplicate the test suite deliberately: the build
