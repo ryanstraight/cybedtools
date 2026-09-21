@@ -532,12 +532,61 @@ cybok_tree_tables <- function(tree, acronym) {
 # Verification
 # ---------------------------------------------------------------------------
 
+#' Documented, closed exceptions to the verbatim check.
+#'
+#' Two Applied Cryptography Indicative Material terms are carried as the
+#' printed form the tree diagram shows -- "Message Authentication Code (MAC)
+#' schemes" and "Authenticated Encryption (AE) schemes" -- even though the
+#' tree's own PDF text layer AND the independent xpdf verification extraction
+#' both drop the same spaces. That agreement is itself the evidence: it is a
+#' PDF encoding fault in the source document, not an extraction bug, so a
+#' looser matching rule would not be the correct fix. This list is the only
+#' place that difference is allowed; nothing else may take this path. Owner
+#' decision 2026-09-21.
+#'
+#' @param path Staged exceptions CSV: field, id, encoded_text (what both
+#'   extractions actually produce), corrected_text (what is carried),
+#'   rationale.
+cybok_read_verbatim_exceptions <- function(path) {
+  if (!file.exists(path)) {
+    return(tibble(field = character(), id = character(),
+                  encoded_text = character(), corrected_text = character(),
+                  rationale = character()))
+  }
+  read_csv(path, show_col_types = FALSE)
+}
+
+#' Apply the documented exceptions to the carried Indicative Material terms
+#' (im$term), by topic_id + ordinal ("AC-02.4"). Called after the A-to-Z
+#' cross-check is resolved, so resolution matching still sees the strings as
+#' both extractions actually produced them.
+cybok_apply_verbatim_exceptions <- function(im, exceptions) {
+  ex <- exceptions[exceptions$field == "indicative_material", ]
+  if (nrow(ex) == 0) return(im)
+  key <- paste0(im$topic_id, ".", im$ordinal)
+  i <- match(key, ex$id)
+  im$term <- ifelse(!is.na(i), ex$corrected_text[i], im$term)
+  im
+}
+
 #' Look every carried string up in the independent extraction of its own
-#' source document, after the two documented normalisations.
-cybok_verbatim_check <- function(checks, reference_texts) {
+#' source document, after the two documented normalisations. A row listed in
+#' `exceptions` is instead looked up by its documented encoded form, and
+#' flagged in the `verbatim_exception` column so the exception is visible in
+#' the written table, not just satisfied silently.
+cybok_verbatim_check <- function(checks, reference_texts, exceptions = NULL) {
   ref <- map_chr(reference_texts, cybok_normalise_text)
+  if (is.null(exceptions) || nrow(exceptions) == 0) {
+    return(checks |>
+      mutate(verbatim_exception = FALSE,
+             found = map2_lgl(text, source_file, \(t, s) grepl(t, ref[[s]], fixed = TRUE))))
+  }
+  ex_key <- paste(exceptions$field, exceptions$id)
+  i <- match(paste(checks$field, checks$id), ex_key)
+  lookup_text <- ifelse(!is.na(i), exceptions$encoded_text[i], checks$text)
   checks |>
-    mutate(found = map2_lgl(text, source_file, \(t, s) grepl(t, ref[[s]], fixed = TRUE)))
+    mutate(verbatim_exception = !is.na(i),
+           found = map2_lgl(lookup_text, source_file, \(t, s) grepl(t, ref[[s]], fixed = TRUE)))
 }
 
 #' Resolve A-to-Z rows against the trees' Topics and Indicative Material.
@@ -666,6 +715,13 @@ main <- function() {
 
   atoz_res <- cybok_resolve_atoz(atoz, bind_rows(topics, ci$topics), bind_rows(im, ci$im))
 
+  # Documented verbatim-check exceptions (owner decision 2026-09-21): applied
+  # to im$term only after the A-to-Z cross-check above, so resolution matching
+  # still sees both extractions' actual (space-dropped) strings.
+  verbatim_exceptions <- cybok_read_verbatim_exceptions(
+    file.path(staging, "tables", "verbatim-exceptions.csv"))
+  im <- cybok_apply_verbatim_exceptions(im, verbatim_exceptions)
+
   # Verbatim check.
   refs <- set_names(map(file.path(staging, check_of$filename), read_file), check_of$text_of)
   tree_of <- function(acr) kas$tree_file[match(acr, kas$ka_acronym)]
@@ -679,7 +735,7 @@ main <- function() {
     tibble(field = "indicative_material", id = paste0(im$topic_id, ".", im$ordinal),
            text = im$term, source_file = tree_of(im$ka_acronym))
   )
-  check <- cybok_verbatim_check(checks, refs)
+  check <- cybok_verbatim_check(checks, refs, verbatim_exceptions)
 
   # Crosswalks staged earlier in this directory.
   xw_sfia <- read_csv(file.path(staging, "tables", "cybok-sfia-mapping.csv"),
