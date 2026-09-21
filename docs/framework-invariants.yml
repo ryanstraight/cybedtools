@@ -513,7 +513,7 @@ frameworks:
       published.
 
   scywf:
-    version: "SCyWF - 1.5 : 2026"
+    version: "SCyWF – 1.5: 2026"
     version_date: "2026"
     structural_type: "role-first"
     jurisdiction: "SA"
@@ -545,7 +545,7 @@ frameworks:
     notes: |
       The Saudi Cybersecurity Workforce Framework, issued by the National
       Cybersecurity Authority of the Kingdom of Saudi Arabia. The ingested
-      edition is SCyWF - 1.5 : 2026, by owner decision: NCA's grant named
+      edition is SCyWF – 1.5: 2026, by owner decision: NCA's grant named
       an earlier edition (SCyWF - 1 : 2020) that is no longer published.
       NICE-style: 40 job roles (scywf:JobRole, cybed:Role) keyed by NCA's
       printed Job Role ID, and Task, Knowledge and Skill statements keyed by

@@ -225,7 +225,7 @@ fixture_scywf_parts <- function(env) {
       ordinal = c(1L, 1L)
     ),
     prov = list(
-      framework_version = "SCyWF - 1.5 : 2026",
+      framework_version = "SCyWF – 1.5: 2026",
       framework_date    = "2026",
       publisher         = "National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia",
       licensing = list(
@@ -247,7 +247,7 @@ test_that("the framework node carries NCA as publisher and its attribution", {
   parts <- fixture_scywf_parts(env)
   fw <- parts$framework
   expect_identical(as.character(fw[["@id"]]), "cybed:framework/scywf-1.5")
-  expect_identical(fw[["schema:version"]], "SCyWF - 1.5 : 2026")
+  expect_identical(fw[["schema:version"]], "SCyWF – 1.5: 2026")
   expect_identical(fw[["cybed:jurisdiction"]], "SA")
   expect_match(fw[["schema:publisher"]], "National Cybersecurity Authority", fixed = TRUE)
   expect_match(fw[["schema:creditText"]], "https://nca.gov.sa/en/pages/scywf.html", fixed = TRUE)

@@ -59,7 +59,7 @@ Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARS
 | CyQUAL           | 1.2.0 (open data export)     | retrieved 2026-09-16 | JSON      |
 | CCSSF            | 2022 edition (ITSM.00.039)   | 2023-04-19 | PDF                 |
 | OTCCF            | v1.1                         | 2021-10-08 | PDF                 |
-| SCyWF            | SCyWF - 1.5 : 2026           | 2026       | PDF                 |
+| SCyWF            | SCyWF – 1.5: 2026           | 2026       | PDF                 |
 
 `NEWS.md` records which framework versions a given cybedtools release supports; this table tracks the current release.
 
@@ -287,11 +287,11 @@ A separate hazard runs the other way, inside a single framework rather than acro
 
 ## SCyWF (Saudi Arabia, Saudi Cybersecurity Workforce Framework)
 
-**Source.** National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia, The Saudi Cybersecurity Workforce Framework, edition SCyWF - 1.5 : 2026, English PDF, 128 pages, from the official SCyWF page at <https://nca.gov.sa/en/pages/scywf.html>. The companion Career Progression document (SCyWF-CP 1:2026) is staged alongside it and not ingested yet.
+**Source.** National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia, The Saudi Cybersecurity Workforce Framework, edition SCyWF – 1.5: 2026, English PDF, 128 pages, from the official SCyWF page at <https://nca.gov.sa/en/pages/scywf.html>. The companion Career Progression document (SCyWF-CP 1:2026) is staged alongside it and not ingested yet.
 
 **License.** The document carries no copyright line and no licence notice, only the disclosure markings "TLP: Clear" and "Document Classification: Public". NCA granted cybedtools written permission (2026-09-20) to ingest and redistribute the framework's content with attribution, on three conditions. NCA is cited as issuing body and source, with a link to the official page. Everything taken from the document (identifiers, titles, statement text) is carried verbatim, with no normalised labels, paraphrase, in-house translation or composed text presented as NCA content. Anything cybedtools derives, such as hierarchy edges or cross-framework mappings, is marked as derived. The grant named an earlier edition (SCyWF - 1 : 2020) that NCA no longer publishes, and the current edition is ingested by owner decision. The document's own disclaimer makes its Arabic version binding for matters of meaning and interpretation. cybedtools ingests the English version. If you build on the SCyWF portion, the same conditions apply to you.
 
-**Attribution.** The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html
+**Attribution.** The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html
 
 **Stage.** Save the PDF as `data/raw/scywf/scywf_en.pdf`, and a second extraction of it made with xpdf `pdftotext -raw -enc UTF-8` as `scywf_en_raw.txt`, with a `provenance.yml` that lists each staged file under `source.files` with its SHA256. The ingest never fetches anything and stops unless every listed file matches.
 

@@ -619,11 +619,11 @@ statements |>
 #>   framework_name                                 framework_name_2              n
 #>   <chr>                                          <chr>                     <int>
 #> 1 CyQUAL 1.2.0                                   DCWF v5.1                  1400
-#> 2 NICE v2.2.0 (NIST SP 800-181 Rev 1 components) SCyWF - 1.5 : 2026          766
+#> 2 NICE v2.2.0 (NIST SP 800-181 Rev 1 components) SCyWF – 1.5: 2026           766
 #> 3 CyQUAL 1.2.0                                   ECSF v1                     132
 #> 4 CyQUAL 1.2.0                                   NICE v2.2.0 (NIST SP 800…   100
 #> 5 DCWF v5.1                                      NICE v2.2.0 (NIST SP 800…   100
-#> 6 DCWF v5.1                                      SCyWF - 1.5 : 2026           78
+#> 6 DCWF v5.1                                      SCyWF – 1.5: 2026            78
 ```
 
 <!-- The two percentages in the paragraph below are fixed, not computed at render time: the August 2017 NICE Framework is not in the corpus graph. They were measured on 2026-09-19 against the NIST SP 800-181 supplemental task and KSA workbook, normalised the same way as the chunk above and on the same parents-only basis. -->
@@ -678,7 +678,7 @@ imap(topics, \(pattern, topic) {
 #>  2 CyQUAL 1.2.0                      3340     1      9           29           18
 #>  3 NICE v2.2.0 (NIST SP 800-1…       2225     2      3           26           22
 #>  4 Operational Technology Cyb…       1612     1      6           31           12
-#>  5 SCyWF - 1.5 : 2026                1419     8      1           18           12
+#>  5 SCyWF – 1.5: 2026                 1419     8      1           18           12
 #>  6 Canadian Cyber Security Sk…       1345     0      5           36           29
 #>  7 2026 CSTA PK-12 Computer S…        983    34     46            9            1
 #>  8 DigComp 3.0                        884     6     79            0            0
@@ -721,7 +721,7 @@ role_element_bindings(rdf) |>
 #>   framework_name                   statements mean_roles max_roles used_once_pct
 #>   <chr>                                 <int>      <dbl>     <int>         <dbl>
 #> 1 CyQUAL 1.2.0                           3151        5          50            33
-#> 2 SCyWF - 1.5 : 2026                     1418        3.4        40            36
+#> 2 SCyWF – 1.5: 2026                      1418        3.4        40            36
 #> 3 NICE v2.2.0 (NIST SP 800-181 Re…       1877        2.9        41            51
 #> 4 DCWF v5.1                              4052        2.4        74            55
 #> 5 ECSF v1                                 390        1           1           100

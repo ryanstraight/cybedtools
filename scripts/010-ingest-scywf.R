@@ -1,6 +1,6 @@
 # 010-ingest-scywf.R
 #
-# Ingest the Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026) from
+# Ingest the Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026) from
 # the National Cybersecurity Authority (NCA) PDF.
 #
 # Source: scywf_en.pdf (128 pages), staged under data/raw/scywf/ with a

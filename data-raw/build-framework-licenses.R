@@ -317,7 +317,7 @@ framework_licenses <- tibble::tribble(
   "framework", "scywf-1.5", "SCyWF 1.5",
   "NCA written permission",
   paste0(
-    "The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026) PDF ",
+    "The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026) PDF ",
     "carries no copyright line and no licence notice. Its only markings are ",
     "\"TLP: Clear\" and \"Document Classification: Public\", which are ",
     "disclosure markings rather than licences. The National Cybersecurity ",
@@ -338,7 +338,7 @@ framework_licenses <- tibble::tribble(
     "binding for matters of meaning and interpretation. cybedtools ingests ",
     "the English version."
   ),
-  "The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html",
+  "The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html",
   "full_with_attribution",
   "https://nca.gov.sa/en/pages/scywf.html",
   TRUE, as.Date("2026-09-21")

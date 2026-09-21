@@ -385,7 +385,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 ## SCyWF (`scywf`)
 
 - **Publisher:** National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia
-- **Version:** SCyWF - 1.5 : 2026
+- **Version:** SCyWF – 1.5: 2026
 - **Version date:** 2026
 
 ### Source
@@ -415,8 +415,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 
 ### Licensing
 - **source license:** Used with written permission of the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia, granted 2026-09-20. The document itself carries no copyright line and no licence notice, only the markings "TLP: Clear" and "Document Classification: Public", which are disclosure markings, not licences. Its p.3 disclaimer makes the Arabic version binding for all matters of meaning or interpretation. cybedtools ingests the English version.
-- **edition string note:** The title page sets the edition as SCyWF, an en dash, then "1.5: 2026". cybedtools records the edition as SCyWF - 1.5 : 2026 by owner decision.
-- **attribution:** The Saudi Cybersecurity Workforce Framework (SCyWF - 1.5 : 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html
+- **attribution:** The Saudi Cybersecurity Workforce Framework (SCyWF – 1.5: 2026). Issued by the National Cybersecurity Authority (NCA), Kingdom of Saudi Arabia. Source: https://nca.gov.sa/en/pages/scywf.html
 - **status:** full_with_attribution
 - **permission granted:** 2026-09-20
 
@@ -486,7 +485,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | ECSF | ECSF v1 | 2022-09-19 | 12 | 374 | Report PDF: CC BY 4.0 (ENISA, 2022, I... |
 | NICE | NICE v2.2.0 (NIST SP 800-181 Rev 1 co... | 2026-04-28 | 42 | 2,211 | US public domain (17 U.S.C. 105); for... |
 | OTCCF | 1.1 | 2021-10-08 | 15 | 1,612 | Copyright Cyber Security Agency of Si... |
-| SCyWF | SCyWF - 1.5 : 2026 | 2026 | 40 | 1,419 | Used with written permission of the N... |
+| SCyWF | SCyWF – 1.5: 2026 | 2026 | 40 | 1,419 | Used with written permission of the N... |
 | SFIA | SFIA 9 | 2024-10 | 147 | 672 | SFIA Foundation licence required for ... |
 | UKCSC | live site content (framework is unver... | NA | - | - | ALL RIGHTS RESERVED -- NOT openly lic... |
 

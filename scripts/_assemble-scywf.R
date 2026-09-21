@@ -1,5 +1,5 @@
 # JSON-LD adapter for the Saudi Cybersecurity Workforce Framework
-# (SCyWF - 1.5 : 2026), issued by the National Cybersecurity Authority (NCA).
+# (SCyWF – 1.5: 2026), issued by the National Cybersecurity Authority (NCA).
 #
 # Sourced by scripts/020-assemble-jsonld.R, which reads the staged tables and
 # calls build_scywf_parts(). Kept in its own file so the test suite can drive

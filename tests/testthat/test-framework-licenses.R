@@ -171,7 +171,7 @@ test_that("the scywf row names NCA, links the official page and records the gran
   expect_equal(row$terms_url, "https://nca.gov.sa/en/pages/scywf.html")
   expect_match(row$attribution, "National Cybersecurity Authority (NCA)", fixed = TRUE)
   expect_match(row$attribution, "https://nca.gov.sa/en/pages/scywf.html", fixed = TRUE)
-  expect_match(row$attribution, "SCyWF - 1.5 : 2026", fixed = TRUE)
+  expect_match(row$attribution, "SCyWF – 1.5: 2026", fixed = TRUE)
   expect_match(row$license, "verbatim", fixed = TRUE)
   expect_match(row$license, "derived", fixed = TRUE)
 })
