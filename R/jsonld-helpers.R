@@ -8,7 +8,7 @@
 # Two-tier namespace architecture (see the namespace-architecture article):
 #   Tier 1: `cybed:` (framework-agnostic base vocabulary)
 #   Tier 2: per-framework prefixes (nice, dcwf, ecf, sfia, ecsf, cyqual,
-#           ccssf, otccf, cyberorg, csta, csta2026, csec, digcomp), each defining
+#           ccssf, otccf, scywf, cyberorg, csta, csta2026, csec, digcomp), each defining
 #           subclasses of Tier 1 types
 
 # ---------------------------------------------------------------------------
@@ -41,13 +41,18 @@ cybed_namespaces <- list(
   # edition, with their own identifier scheme. Their package-coined terms
   # (csta2026:StandardGroup and the per-standard literal properties) are
   # minted under the cybed namespace for the same reason as above.
-  csta2026  = "https://w3id.org/cybed/framework/csta2026#"
+  csta2026  = "https://w3id.org/cybed/framework/csta2026#",
+  # Saudi Cybersecurity Workforce Framework, ingested by written permission
+  # of the National Cybersecurity Authority. Its package-coined terms
+  # (scywf:JobRole, the group subtypes and the derived hierarchy predicates)
+  # are minted under the cybed namespace for the same reason as above.
+  scywf     = "https://w3id.org/cybed/framework/scywf#"
 )
 
 # Valid framework prefixes (Tier 2). Workforce + pedagogical.
 valid_framework_prefixes <- c(
   # Workforce competency frameworks
-  "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf",
+  "nice", "dcwf", "ecf", "sfia", "ecsf", "cyqual", "ccssf", "otccf", "scywf",
   # Pedagogical learning-standards / curriculum frameworks
   "cyberorg", "csta", "csta2026", "csec", "digcomp"
 )
@@ -63,7 +68,7 @@ valid_framework_prefixes <- c(
 #'
 #' @param framework_prefix Character, one of the valid framework prefixes.
 #'   Workforce: `"nice"`, `"dcwf"`, `"ecf"`, `"sfia"`, `"ecsf"`, `"cyqual"`,
-#'   `"ccssf"`, `"otccf"`.
+#'   `"ccssf"`, `"otccf"`, `"scywf"`.
 #'   Pedagogical: `"cyberorg"`, `"csta"`, `"csta2026"`, `"csec"`, `"digcomp"`.
 #' @return Named list suitable for use as JSON-LD `@context`.
 #' @family JSON-LD construction

@@ -7,8 +7,8 @@
 # Per-framework adapters translate each framework's native structure into
 # the cybed:OrganizingUnit / cybed:RoleElement abstractions. Workforce
 # frameworks where the unit is genuinely a work role or work profile
-# (NICE, DCWF, CyQUAL and CCSSF work roles, ENISA ECSF profiles, OTCCF job
-# roles) additionally assert cybed:Role via build_role_node(). Frameworks
+# (NICE, DCWF, CyQUAL and CCSSF work roles, ENISA ECSF profiles, OTCCF and
+# SCyWF job roles) additionally assert cybed:Role via build_role_node(). Frameworks
 # that relate one unit to another (OTCCF's roles to the skills they
 # require) also return cybed:UnitRelation nodes. Non-workforce frameworks
 # (SFIA enumerates skills; Cyber.org K-12, CSTA, CSEC2017, DigComp 3.0
@@ -18,14 +18,16 @@
 # Per-framework subtype mapping:
 #   nice:WorkRole, dcwf:WorkRole, ecsf:RoleProfile,
 #   cyqual:WorkRole, ccssf:WorkRole, ccssf:AdjacentRole,
-#   otccf:JobRole                                      -> subClassOf cybed:Role
+#   otccf:JobRole, scywf:JobRole                       -> subClassOf cybed:Role
 #   sfia:Skill, csec:KnowledgeArea,
 #   digcomp:CompetenceArea, digcomp:Competence,
 #   cyberorg:StandardGroup, csta:StandardGroup,
 #   csta2026:StandardGroup,
 #   nice:CompetencyArea, cyqual:Competency,
 #   otccf:TechnicalSkillCompetency,
-#   otccf:CriticalCoreSkill                            -> subClassOf cybed:OrganizingUnit
+#   otccf:CriticalCoreSkill,
+#   scywf:CompetencyArea, scywf:SpecialtyArea,
+#   scywf:Category                                     -> subClassOf cybed:OrganizingUnit
 #
 # Output: data/processed/jsonld/<framework>.jsonld per framework + a
 # combined multi-framework graph at data/processed/jsonld/_combined.jsonld.
@@ -55,6 +57,8 @@ if (requireNamespace("pkgload", quietly = TRUE) && file.exists(here("DESCRIPTION
 # The csta-2026 adapter lives in its own file so the test suite can drive it
 # with a synthetic fixture.
 source(here("scripts", "_assemble-csta2026.R"), local = TRUE)
+# The SCyWF adapter likewise, for the same reason.
+source(here("scripts", "_assemble-scywf.R"), local = TRUE)
 
 assembly_config <- list(
   raw_dir         = here("data", "raw"),
@@ -1757,6 +1761,22 @@ assemble_otccf <- function() {
        prefix    = "otccf")
 }
 
+# The Saudi Cybersecurity Workforce Framework. The mapping, and which edges
+# are cybedtools-derived rather than NCA content, is documented in
+# scripts/_assemble-scywf.R.
+assemble_scywf <- function() {
+  build_scywf_parts(
+    categories            = read_framework_table("scywf", "categories"),
+    specialty_areas       = read_framework_table("scywf", "specialty-areas"),
+    roles                 = read_framework_table("scywf", "roles"),
+    statements            = read_framework_table("scywf", "statements"),
+    role_statements       = read_framework_table("scywf", "role-statements"),
+    competency_areas      = read_framework_table("scywf", "competency-areas"),
+    role_competency_areas = read_framework_table("scywf", "role-competency-areas"),
+    prov                  = load_framework_provenance("scywf")
+  )
+}
+
 framework_assemblers <- list(
   nice               = assemble_nice,
   sfia               = assemble_sfia,
@@ -1769,7 +1789,8 @@ framework_assemblers <- list(
   digcomp            = assemble_digcomp,
   cyqual             = assemble_cyqual,
   ccssf              = assemble_ccssf,
-  otccf              = assemble_otccf
+  otccf              = assemble_otccf,
+  scywf              = assemble_scywf
 )
 
 main <- function() {

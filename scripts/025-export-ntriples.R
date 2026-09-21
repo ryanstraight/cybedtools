@@ -27,7 +27,7 @@ export_config <- list(
   nt_dir     = here("data", "processed", "ntriples"),
   frameworks = c("nice", "sfia", "dcwf", "ecsf",
                  "cyberorg-k12", "csta", "csta-2026", "csec2017", "digcomp",
-                 "cyqual", "ccssf", "otccf")
+                 "cyqual", "ccssf", "otccf", "scywf")
 )
 
 convert_one <- function(framework_slug) {
