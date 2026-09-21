@@ -28,7 +28,7 @@ Per-framework parser output in v0.2.0:
 | ACM/IEEE CSEC2017 | enabled |         2 |        0 | Connective filter handles source-truncated standards. Re-spot-check 0/2. The two Subpoints (least privilege, open design) are real.                                                       |
 | DigComp 2.2 (historical, replaced by 3.0) | enabled | 0 | 0 | Clean numbered standards; no enumerations to lift.                                                                                                                                          |
 
-The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. CSTA PK-12 CS (2026)'s parser is also off, on the same fidelity grounds as OTCCF (2026-09-21): 0 subpoints, and 652 examples, which are CSTA's published implementation examples rather than parser output. DigComp 3.0 replaced DigComp 2.2 in place (2026-09-21); its parser is off on the same fidelity grounds, and its Learning Outcomes are attached examples, not parser output. SCyWF's parser is off too, because NCA's permission requires verbatim carriage: 0 subpoints and 0 examples. Current per-framework counts for all thirteen are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
+The table above is the v0.2.0 measurement and is kept as a dated snapshot. The three frameworks added in v0.3.0 are not in it. Their current counts, from `framework_summary`, are CyQUAL 852 subpoints and 0 examples, CCSSF 197 subpoints and 0 examples, and OTCCF 0 of either, since its parser is off. CSTA PK-12 CS (2026)'s parser is also off, on the same fidelity grounds as OTCCF (2026-09-21): 0 subpoints, and 652 examples, which are CSTA's published implementation examples rather than parser output. DigComp 3.0 replaced DigComp 2.2 in place (2026-09-21); its parser is off on the same fidelity grounds, and its Learning Outcomes are attached examples, not parser output. SCyWF's parser is off too, because NCA's permission requires verbatim carriage: 0 subpoints and 0 examples. CyBOK's parser is off as well. Its subpoints are the Indicative Material its Knowledge Trees draw under each Topic, not parser output. Current per-framework counts for all fourteen are in `framework_summary$subpoint_count` and `framework_summary$example_count`.
 
 The parser algorithm:
 
@@ -60,6 +60,7 @@ Per-framework opt-out: set the environment variable `CYBED_DISABLE_SUBPOINT_PARS
 | CCSSF            | 2022 edition (ITSM.00.039)   | 2023-04-19 | PDF                 |
 | OTCCF            | v1.1                         | 2021-10-08 | PDF                 |
 | SCyWF            | SCyWF – 1.5: 2026           | 2026       | PDF                 |
+| CyBOK            | v1.1.0 (KAs versioned separately) | 2021-07 | PDF              |
 
 `NEWS.md` records which framework versions a given cybedtools release supports; this table tracks the current release.
 
@@ -96,8 +97,9 @@ Per-framework structural typing:
 | CCSSF 2022        | `ccssf:WorkRole`, `ccssf:AdjacentRole` | yes            | 22 core work roles and 37 cyber adjacent roles     |
 | OTCCF v1.1        | `otccf:JobRole`, `otccf:TechnicalSkillCompetency` | yes (job roles) | 15 job roles plus the skill units they map to, 61 organizing units in all |
 | SCyWF 1.5         | `scywf:JobRole`, `scywf:CompetencyArea`, `scywf:SpecialtyArea`, `scywf:Category` | yes (job roles) | 40 job roles plus 24 competency areas, 12 specialty areas and 5 categories, 81 organizing units in all |
+| CyBOK v1.1.0      | `cybok:KnowledgeArea`         | no                 | 21 Knowledge Areas, each carrying one of 5 categories as a literal |
 
-Cross-framework SPARQL queries target `cybed:OrganizingUnit` to reach all thirteen frameworks uniformly. Workforce-restricted queries target `cybed:Role` to reach only NICE / DCWF / ECSF / CyQUAL / CCSSF / OTCCF / SCyWF. Framework-specific queries target the per-framework subtype. The `framework_summary` tibble's `organizing_unit_count` column reports the cross-framework count (every framework's parents). Since v0.3.0 the tibble also carries `role_count`, which is the count of units typed `cybed:Role` and is `NA` for the six frameworks that assert no roles.
+Cross-framework SPARQL queries target `cybed:OrganizingUnit` to reach all fourteen frameworks uniformly. Workforce-restricted queries target `cybed:Role` to reach only NICE / DCWF / ECSF / CyQUAL / CCSSF / OTCCF / SCyWF. Framework-specific queries target the per-framework subtype. The `framework_summary` tibble's `organizing_unit_count` column reports the cross-framework count (every framework's parents). Since v0.3.0 the tibble also carries `role_count`, which is the count of units typed `cybed:Role` and is `NA` for the seven frameworks that assert no roles.
 
 ## NICE (US, NIST)
 
@@ -235,6 +237,20 @@ cybedtools therefore uses SFIA for local analysis only. It publishes no SFIA sta
 
 **Cybersecurity scope caveat.** DigComp's specificity tag is "general-digital-competence" reflecting the framework's overall scope, but Area 4 ("Safety, wellbeing and responsible use") covers protecting devices, personal data and privacy, wellbeing, and environmental impacts, all of which overlap cybersecurity content. Researchers doing topic-level cross-framework comparisons should treat DigComp Area 4 competences and their Learning Outcomes as cybersecurity-relevant for those purposes, even though the framework as a whole is broader.
 
+## CyBOK (UK, Cyber Security Body of Knowledge)
+
+**Source.** The Cyber Security Body of Knowledge v1.1.0 (July 2021), from the CyBOK knowledge base page at <https://www.cybok.org/knowledgebase1_1/>. CyBOK publishes PDFs only, with no CSV, JSON or XML release. Three kinds of document are staged: the Introduction to CyBOK Knowledge Area (<https://www.cybok.org/media/downloads/Introduction_v1.1.0.pdf>), the Knowledge Tree of each of the 21 Knowledge Areas, and the alphabetical Indicative Material index (<https://www.cybok.org/media/downloads/A_to_Z_CyBOK_KA_1_1_July_2021.pdf>). CyBOK versions each Knowledge Area separately, from 1.0.0 (Applied Cryptography, Formal Methods for Security) to 2.0.0 (Network Security). `data/raw/cybok/provenance.yml` records every file's URL, version and SHA256, and the URL of the full KA document each tree belongs to.
+
+**License.** Open Government Licence v3.0. From the Introduction's copyright page: "© Crown Copyright, The National Cyber Security Centre 2021. This information is licensed under the Open Government Licence v3.0." The A-to-Z document and every Knowledge Tree carry the same notice. The licence permits copying, publishing, adapting and commercial use with attribution. It is an open licence, not a grant to cybedtools.
+
+**Attribution.** As the Introduction prescribes: CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/.
+
+**Stage.** Save the Introduction and the A-to-Z PDF under `data/raw/cybok/`, the 21 Knowledge Tree PDFs and the Introduction's own tree under `data/raw/cybok/trees/`, and a second extraction of each PDF made with xpdf `pdftotext -raw -enc UTF-8` under `data/raw/cybok/text/`, with a `provenance.yml` that lists each file under `source.files` with its SHA256. The ingest never fetches anything and stops unless every listed file matches. The two crosswalk CSVs staged earlier (CyBOK to SFIA, CyBOK to ECSF) stay in `data/raw/cybok/tables/`.
+
+**Ingest.** `Rscript scripts/010-ingest-cybok.R`
+
+**Notes.** CyBOK is a body of knowledge, not a workforce framework. It asserts no roles and no proficiency levels, so nothing in its graph asserts `cybed:Role`. Its 21 Knowledge Areas are `cybok:KnowledgeArea` organizing units, keyed by the acronyms the A-to-Z uses (RMG, AAA and so on), with their names as printed in Figure 2 of the Introduction. Each carries its category, one of the five of Figure 2, as the literal `cybok:category`, and its own document version as `schema:version`. CyBOK defines the two lower levels itself: the nodes directly under the root of a Knowledge Tree are Topics, and the nodes one layer further down are Indicative Material. Topics are `cybok:Topic` elements, numbered by cybedtools in tree order (`cybok:RMG-01`), because CyBOK prints no Topic codes. Indicative Material is `cybed:Subpoint` of its Topic, also typed `cybok:IndicativeMaterial`. Those Subpoints are nodes the tree draws, not parser output, and the parser is off. Which Topic a node hangs from is read from the tree drawing itself: the page is rendered, the node boxes are blanked out, and the remaining lines are split into connected components. Node position alone is not enough, because the Distributed Systems Security tree draws a Topic in the column where other Topics' children sit. The only text normalisation is whitespace and line-break hyphenation, and every carried string is looked up in the independent xpdf extraction. The A-to-Z index is used as a cross-check only. It files some terms under Topics worded differently from the trees, and lists some terms the current trees do not carry. `tables/a-to-z-resolution.csv` reports every row, and `tables/a-to-z.csv` is the A-to-Z table as printed. The Introduction's own tree (acronym CI in the A-to-Z) is parsed for that check and not ingested. The first public data release was cut before this framework joined, so `docs/data-release.yml` holds it for the next release.
+
 ## Frameworks added by steward permission
 
 Three of the four frameworks below are included with the written permission of their stewards, and the Canadian framework is referenced as its steward asked. Each has its own terms, stated under **License**, and those terms apply to you as well if you stage the source and build the graph. As with every framework here, cybedtools ships the ingestion code and not the source text. You retrieve the source yourself.
@@ -302,4 +318,3 @@ A separate hazard runs the other way, inside a single framework rather than acro
 ## Frameworks not in this release
 
 - **e-CF (European e-Competence Framework, CWA 16234-1).** Not currently ingested. e-CF 2.0 RDF is freely available via [EU Joinup](https://joinup.ec.europa.eu/); e-CF 4.0 (the current version, 2020) is behind a CEN paywall unless an institutional license provides direct access.
-- **CyBOK (Cybersecurity Body of Knowledge).** Not currently ingested. Published by the National Cyber Security Centre (UK) under CC BY-SA 4.0 and freely downloadable from <https://www.cybok.org/>.

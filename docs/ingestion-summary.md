@@ -180,23 +180,40 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 
 ## CyBOK (`cybok`)
 
-- **Publisher:** NA
-- **Version:** CyBOK crosswalk (Tier A: cross-reference data only, not full CyBOK ingestion)
-- **Version date:** 2021-10-01
+- **Publisher:** CyBOK project, University of Bristol, for the National Cyber Security Centre
+- **Version:** CyBOK v1.1.0
+- **Version date:** 2021-07
 
 ### Source
-- **Type:** NA
+- **Type:** official_pdf
 
 ### Retrieval
-- **Retrieved:** 2026-08-14 by `manual extraction, staged for scripts/020-assemble-jsonld.R`
+- **Retrieved:** 2026-09-21 by `manual staging (curl from www.cybok.org, URLs read from the CyBOK v1.1 knowledge base page)`
 
 ### Extracted scales
 - **cybok sfia mapping:** row_count=104, knowledge_area_count=21, distinct_sfia_codes=56
 - **cybok ecsf mapping:** row_count=12, roles_with_primary_ka=8, roles_with_no_primary_ka=4
+- **categories:** 5
+- **knowledge areas:** 21
+- **topics:** 119
+- **indicative material:** 477
+- **topics without indicative material:** 2
+- **a to z rows:** 493
+- **a to z rows knowledge areas:** 482
+- **a to z rows resolved:** 366
+- **a to z status:** resolved=366, term under a different topic in the tree=1, topic and term not in tree=12, topic resolved, term not in tree=52, topic worded differently, term in tree=51
+- **a to z rows introduction:** 11
+- **a to z rows introduction resolved:** 7
+- **verbatim checked:** 622
+- **verbatim found:** 622
+- **crosswalk ka names resolved:** 27
+- **crosswalk ka names unresolved:** 0
 
 ### Licensing
-- **source license:** Open Government Licence (Crown Copyright / NCSC 2025) for the CyBOK-ECSF compatibility study; SFIA Foundation site terms for the CyBOK-SFIA mapping table. Verify before any source-text redistribution.
-- **redistribution:** Analytical derivatives (the two crosswalk CSVs staged here) treated as safe; full CyBOK Knowledge Area text is out of scope for this Tier A ingest.
+- **source license:** Open Government Licence v3.0. The Introduction (p. 1) and the A-to-Z document both read: "© Crown Copyright, The National Cyber Security Centre 2021. This information is licensed under the Open Government Licence v3.0."
+- **attribution:** CyBOK © Crown Copyright, The National Cyber Security Centre 2021, licensed under the Open Government Licence: http://www.nationalarchives.gov.uk/doc/open-government-licence/.
+- **terms url:** http://www.nationalarchives.gov.uk/doc/open-government-licence/
+- **status:** full_with_attribution
 
 ## CyQUAL (`cyqual`)
 
@@ -478,7 +495,7 @@ Regenerate with `Rscript scripts/016-summarize-ingestion.R`. Last rendered 2026-
 | CSTA K-12 CS | CSTA K-12 Computer Science Standards ... | 2017 | 25 | 120 | CC BY-NC-SA 4.0 |
 | CSTA PK-12 CS | 2026 CSTA PK-12 Computer Science Stan... | 2026-07 | 53 | 331 | CC BY-NC-SA 4.0 |
 | Cyber.org K-12 | Cyber.org K-12 Learning Standards v1.0 | 2021-09-09 | 116 | 123 | CC BY-NC 4.0 |
-| CyBOK | CyBOK crosswalk (Tier A: cross-refere... | 2021-10-01 | - | - | Open Government Licence (Crown Copyri... |
+| CyBOK | CyBOK v1.1.0 | 2021-07 | 21 | 596 | Open Government Licence v3.0. The Int... |
 | CyQUAL | 1.2.0 | NA | 102 | 2,488 | Published as open data by CyQUAL (Mas... |
 | DCWF | DCWF v5.1 | 2025-07-25 | 74 | 2,945 | US Government work, not subject to US... |
 | DigComp | DigComp 3.0 | 2025-11-27 | 5 | 21 | CC BY 4.0 (European Union, 2025; Comm... |
