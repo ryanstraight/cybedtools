@@ -80,6 +80,7 @@ held:
   csec2017: "Steward confirmation pending."
   csta-2026: "Added to the pipeline after this release was cut. Scheduled for the next release."
   scywf: "Added to the pipeline after this release was cut. Scheduled for the next release."
+  cybok: "Added to the pipeline after this release was cut. Scheduled for the next release."
 
 # Refused by policy, in every release. The export stops if a slug listed here
 # has any policy other than local_only, and stops if a local_only slug appears
