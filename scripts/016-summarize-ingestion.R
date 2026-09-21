@@ -260,6 +260,10 @@ render_summary_doc <- function(manifests, summary_tbl) {
       # further organizing axes, not roles, so they are not counted here.
       # The graph carries all 61 units; this column tracks roles.
       otccf    = extraction$job_roles,
+      # Job roles only. SCyWF's competency areas, specialty areas and
+      # categories are further organizing units, not roles. The graph
+      # carries all 81 units; this column tracks roles.
+      scywf    = extraction$job_roles,
       NA
     )
     elem_count <- switch(slug,
@@ -289,6 +293,8 @@ render_summary_doc <- function(manifests, summary_tbl) {
       otccf          = extraction$role_element_breakdown$key_task +
                        extraction$tsc_level_statements +
                        extraction$tsc_range_of_application_rows,
+      # Appendix B's Task, Knowledge and Skill statements.
+      scywf          = extraction$statements,
       NA
     )
 

@@ -47,7 +47,8 @@ ingestion_scripts <- c(
   "scripts/010-ingest-digcomp.R",
   "scripts/010-ingest-cyqual.R",
   "scripts/010-ingest-ccssf.R",
-  "scripts/010-ingest-otccf.R"
+  "scripts/010-ingest-otccf.R",
+  "scripts/010-ingest-scywf.R"
 )
 
 # Pipeline stages after ingestion
