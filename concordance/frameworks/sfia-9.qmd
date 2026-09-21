@@ -3,8 +3,7 @@ title: "SFIA 9"
 subtitle: "Skills Framework for the Information Age"
 jurisdiction: "Global"
 framework-type: "Workforce"
-organizing-units: 147
-elements: 821
+framework-slug: "sfia-9"
 license: "SFIA license"
 date: 2026-05-08
 categories: [workforce, global]
@@ -76,18 +75,44 @@ categories: [workforce, global]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Skills | 147 |
-| Strict elements | 672 |
-| Subpoints (parsed enumeration lists) | 149 |
-| With-examples elements | 821 |
-| Elements per skill, strict | 4.6 |
-| Elements per skill, with-examples | 5.6 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "sfia-9", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$sfia
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Skills",
+    "Strict elements",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per skill, strict",
+    "Elements per skill, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 The elements counted here are level descriptors (one per skill-level
-pairing where the skill is defined at that level). SFIA's seven
-levels of responsibility define the scale itself. Those level
+pairing where the skill is defined at that level). SFIA's
+`r cm(u$level_count)`-level scale of responsibility (levels
+`r min(u$levels)` through `r max(u$levels)` in the ingested data)
+defines the scale itself. Those level
 definitions are part of the framework's overall structure but are not
 counted as per-skill elements.
 
@@ -124,7 +149,7 @@ All use of SFIA is under license from the SFIA Foundation, and that license reac
 ## Caveats
 
 - SFIA enumerates **skills and proficiency levels, not roles**. Cross-framework analyses should not equate `sfia:Skill` with `nice:WorkRole` or `dcwf:WorkRole` without explicit justification.
-- Level descriptors **only make sense relative to SFIA's seven-point level scale**. Cross-framework comparisons of "elements per organizing unit" reflect that scale, not absolute specificity.
+- Level descriptors **only make sense relative to SFIA's `r cm(u$level_count)`-point level scale**. Cross-framework comparisons of "elements per organizing unit" reflect that scale, not absolute specificity.
 - The SFIA license **covers structure as well as text**. The SFIA Foundation's terms define the protected material as the concept, content, and structure of SFIA, and they name a skills database containing SFIA information as a royalty-bearing product. There is no structure-versus-text carve-out. Free tiers cover personal use and single-country corporate internal use. Redistribution and sub-licensing are prohibited at every tier. Anyone staging SFIA to run this pipeline needs a license of their own, and researchers extending cybedtools with downstream publications should verify their use case against the current terms.
 
 ## Related

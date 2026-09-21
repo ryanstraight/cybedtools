@@ -1,0 +1,158 @@
+---
+title: "OTCCF v1.1"
+subtitle: "Operational Technology Cybersecurity Competency Framework"
+jurisdiction: "SG"
+framework-type: "Workforce"
+framework-slug: "otccf-v1.1"
+license: "CSA copyright; non-commercial academic"
+date: 2026-09-21
+categories: [workforce, sg]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Cyber Security Agency of Singapore (CSA), jointly developed with Mercer Singapore |
+| Canonical page | [OTCCF publication](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/) |
+| Version | 1.1 (document self-describes as "version 1.1", effective 2021-10-08) |
+| Source format | PDF |
+| License | Copyright Cyber Security Agency of Singapore. CSA granted written permission to reference and integrate the OTCCF's structure for non-commercial, academic and research purposes |
+| `framework_summary` slug | `otccf-v1.1` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="otccf-structure-title">
+  <title id="otccf-structure-title">OTCCF structural mapping</title>
+  <defs><marker id="otccf-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#otccf-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#otccf-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">otccf:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Job role, TSC category">
+    <rect x="70" y="100" width="320" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Job role</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(15 job roles, plus 30 Technical Skill Competencies)</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">otccf:JobRole</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role = cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Key Task, Critical Core Skill, Knowledge, Ability">
+    <rect x="60" y="212" width="340" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Key Task, Critical Core Skill, Knowledge, Ability</text>
+    <text class="lt" x="230" y="257" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-job-role connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Job-role-to-element connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+<figcaption>Job roles carry Key Tasks through nested Critical Work Functions; Technical Skill Competencies carry per-level Knowledge and Ability statements. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "otccf-v1.1", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$otccf
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (job roles and TSC categories)",
+    "Job roles",
+    "Strict elements",
+    "Unit-relation edges (career-map and TSC cross-references)",
+    "Elements per organizing unit",
+    "Elements per job role"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    cm(n$unit_relation_count),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_role_strict)
+  )
+) |>
+  knitr::kable()
+```
+
+`r cm(n$role_count)` job roles sit under `r cm(u$track_count)`
+career-map tracks, each carrying Key Tasks through nested Critical
+Work Functions, Technical Skills & Competencies at a required
+proficiency level, and Critical Core Skills at a Basic/Intermediate/
+Advanced level. `r cm(u$tsc_count)` Technical Skill Competencies
+carry a multi-level proficiency grid with per-level Knowledge and
+Ability statements. `r cm(u$tsc_skillsfuture_count)` of the
+`r cm(u$tsc_count)` are sourced from the SkillsFuture ICT Framework
+rather than authored by CSA and are flagged as such in the ingested
+data.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+The Operational Technology Cybersecurity Competency Framework PDF, jointly developed by CSA and Mercer Singapore, supported by SkillsFuture Singapore and the Infocomm Media Development Authority.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-otccf.R` parses the Career Map, Skills Map, and TSC sections into the cybed schema, copying source text verbatim with no paraphrase, re-levelling, or summarisation, per the licence's fidelity condition.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Copyright Cyber Security Agency of Singapore. CSA granted written permission to reference and integrate the OTCCF's structure for non-commercial, academic and research use, on two conditions: a fixed attribution string, and that ingestion never misrepresent or alter the intent of CSA's published job roles, skills, or mappings. The grant covers structure only, not statement text. This site shows OTCCF job-role and TSC titles, counts, and mappings, and does not reproduce statement text.
+:::
+
+:::
+
+## Caveats
+
+- The CSA grant is **structure only**. Cross-framework analyses that need OTCCF statement text must consult the source PDF directly; this site and the package's public outputs stop at identifiers, titles, and counts.
+- Eight Technical Skill Competencies are **sourced from the SkillsFuture ICT Framework**, a body separate from CSA, and are flagged in the ingested data rather than folded silently into CSA-authored content.
+- The document names Mercer Singapore as a **joint developer**; whether Mercer holds any interest the CSA grant does not reach is unresolved.
+
+## Related
+
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

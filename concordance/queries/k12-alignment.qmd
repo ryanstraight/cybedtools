@@ -32,6 +32,9 @@ n_gained <- n_full_hit - n_parent_hit
 n_nomatch <- n_cyberorg - n_full_hit
 pct_nomatch <- round(n_nomatch / n_cyberorg * 100)
 n_moderate <- sum(alignment$full_strength %in% c("strong", "moderate"))
+n_csta_subpoints <- cybedtools::framework_summary$subpoint_count[
+  cybedtools::framework_summary$framework_slug == "csta-2017"
+]
 ```
 
 ## The question
@@ -45,6 +48,8 @@ Cyber.org and CSTA are the two most widely-referenced K-12 standards sets coveri
 cybedtools v0.2.0 introduced the reclassification of both forms of clarification content as `cybed:Example` nodes, and v0.3.0 keeps it unchanged. Those nodes are distinct from parent statements and from parser-extracted `cybed:Subpoint` bullets. That vocabulary distinction is what makes a fair cross-framework comparison possible. The full-document text for a parent is the parent statement plus all of its `cybed:hasExample` and `cybed:hasElement` children, concatenated and tokenized as a single document.
 
 The parent-only-vs-full-document contrast is the finding.
+
+This query stays on the 2017 CSTA edition rather than the 2026 edition added to the corpus since this page was written, because the two CSTA editions share no identifier scheme and re-anchoring the comparison is a separate piece of work.
 
 ## The result
 
@@ -188,7 +193,7 @@ The parent pull is read straight out of the prep script, so this block cannot dr
 #| echo: true
 ```
 
-The `anti_join` is required, not optional. `cybed:Subpoint` children retain their parent's framework-native subtype (`csta:Standard`, `cyberorg:Standard`), so a plain type query catches parsed sub-points alongside genuine parents. CSTA carries 20 Subpoints this way. Cyber.org carries none, so its pool was clean by coincidence rather than by construction.
+The `anti_join` is required, not optional. `cybed:Subpoint` children retain their parent's framework-native subtype (`csta:Standard`, `cyberorg:Standard`), so a plain type query catches parsed sub-points alongside genuine parents. CSTA carries `r n_csta_subpoints` Subpoints this way. Cyber.org carries none, so its pool was clean by coincidence rather than by construction.
 
 Element text is then pulled and scoped to the frameworks whose statement text may be published, via the site's publication guard:
 

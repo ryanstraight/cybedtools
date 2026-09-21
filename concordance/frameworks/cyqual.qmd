@@ -1,0 +1,168 @@
+---
+title: "CyQUAL 1.2.0"
+subtitle: "Czech Republic National Cybersecurity Qualifications Framework"
+jurisdiction: "CZ"
+framework-type: "Workforce"
+framework-slug: "cyqual-v1.2.0"
+license: "Open data, attribution required"
+date: 2026-09-21
+categories: [workforce, cz]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | CyQUAL, developed at Masaryk University |
+| Canonical page | [CyQUAL platform](https://platform.cyqual.cz/) |
+| Version | 1.2.0 |
+| Source format | Open-data JSON export |
+| License | Published as open data. Written confirmation from the CyQUAL team permits a derived RDF/JSON-LD graph, on condition of attribution to CyQUAL and to Masaryk University |
+| `framework_summary` slug | `cyqual-v1.2.0` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cyqual-structure-title">
+  <title id="cyqual-structure-title">CyQUAL structural mapping</title>
+  <defs><marker id="cyqual-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#cyqual-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#cyqual-arrow)"/>
+    <line x1="230" y1="282" x2="230" y2="324" marker-end="url(#cyqual-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">cyqual:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Category / specialization area">
+    <rect x="60" y="100" width="340" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Category, specialization area</text>
+    <text class="lp" x="230" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(two grouping tiers above the role)</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Work role">
+    <rect x="120" y="212" width="220" height="70" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Work role</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">cyqual:WorkRole</text>
+    <text class="lt" x="230" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:Role = cybed:OrganizingUnit</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Task, requirement, competency">
+    <rect x="80" y="324" width="300" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="352" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Task, Requirement, Competency</text>
+    <text class="lt" x="230" y="367" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-category connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Category-to-work-role connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Work-role-to-element connection">
+    <text class="ep" x="238" y="308" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element</text>
+    <text class="et" x="238" y="308" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement</text>
+  </g>
+</svg>
+  <figcaption>Category and specialization area nest above the work role; tasks and requirements (the latter classified by a separate competency/competency-group axis) attach below it. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "cyqual-v1.2.0", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Organizing units (categories, specialization areas, work roles)",
+    "Work roles",
+    "Strict elements (tasks and requirements)",
+    "Subpoints (parsed enumeration lists)",
+    "With-examples elements",
+    "Elements per organizing unit, strict",
+    "Elements per work role, strict",
+    "Elements per work role, with-examples"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$role_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_role_strict),
+    d1(n$elements_per_role_with_examples)
+  )
+) |>
+  knitr::kable()
+```
+
+The source hierarchy is category to specialization area to work role,
+with tasks and requirements attached to work roles through two join
+tables that carry no proficiency level, weight, or mandatory flag:
+every association is an unqualified membership edge. Requirements are
+additionally classified by a competency and competency-group axis
+that sits alongside, not beneath, the work-role hierarchy.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+CyQUAL's official open-data JSON export, version 1.2.0, retrieved 2026-09-16.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-cyqual.R` flattens seven entity arrays and two association arrays into tidy tables and parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+The open-data JSON export carries no rights field of any kind. The CyQUAL team at Masaryk University confirmed in writing on 2026-09-16 that the framework is published as open data and publicly available, that a derived RDF/JSON-LD graph may be built from it, and that the only condition is attribution to CyQUAL and to Masaryk University.
+:::
+
+:::
+
+## Caveats
+
+- CyQUAL is ingested from its **English-language export when available**; the Czech export is used otherwise. No translation happens in the pipeline itself. Provenance records which language a given ingestion run used.
+- **Neither join table carries a strength-of-relationship signal.** A task or requirement attached to a work role is a membership edge only; nothing in the source distinguishes a core task from a peripheral one.
+- Organizing-unit counts mix **three structurally different tiers** (category, specialization area, work role). Analyses comparing "organizing units" across frameworks should filter to `cyqual:WorkRole` for a role-level comparison.
+
+## Related
+
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

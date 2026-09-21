@@ -3,8 +3,7 @@ title: "Cyber.org K-12"
 subtitle: "K-12 Cybersecurity Learning Standards"
 jurisdiction: "US"
 framework-type: "Pedagogy"
-organizing-units: 116
-elements: 492
+framework-slug: "cyberorg-k12-v1.0"
 license: "CC BY-NC 4.0"
 date: 2026-05-08
 categories: [pedagogy, us]
@@ -89,14 +88,37 @@ categories: [pedagogy, us]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Standard groups | 116 |
-| Strict elements (numbered standards) | 123 |
-| With-examples elements | 492 |
-| Examples (clarification statements) | 369 |
-| Elements per standard group (strict) | 1.1 |
-| Elements per standard group (with examples) | 4.2 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "cyberorg-k12-v1.0", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Standard groups",
+    "Strict elements (numbered standards)",
+    "With-examples elements",
+    "Examples (clarification statements)",
+    "Elements per standard group (strict)",
+    "Elements per standard group (with examples)"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$element_count_with_examples),
+    cm(n$example_count),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 The strict count reflects only numbered standards. The
 with-examples count promotes each Clarification statement to a

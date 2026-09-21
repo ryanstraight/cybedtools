@@ -3,8 +3,7 @@ title: "NICE Framework v2"
 subtitle: "Workforce Framework for Cybersecurity (NIST SP 800-181r1)"
 jurisdiction: "US"
 framework-type: "Workforce"
-organizing-units: 53
-elements: 2225
+framework-slug: "nice-v2"
 license: "Public domain"
 date: 2026-05-08
 date-modified: 2026-05-08

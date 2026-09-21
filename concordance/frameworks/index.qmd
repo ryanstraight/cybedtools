@@ -1,36 +1,79 @@
 ---
 title: "Frameworks"
 subtitle: "What each framework specifies, where it sits, and what its source license permits"
-listing:
-  # Every .qmd in this folder except this index. A "*-*.qmd" glob silently
-  # dropped any page whose filename carried no hyphen.
-  contents: ["*.qmd", "!index.qmd"]
-  type: table
-  fields: [title, jurisdiction, framework-type, organizing-units, elements, license]
-  field-display-names:
-    title: "Framework"
-    jurisdiction: "Jurisdiction"
-    framework-type: "Type"
-    organizing-units: "Units"
-    elements: "Elements"
-    license: "License"
-  sort: "framework-type asc, jurisdiction asc, title asc"
-  sort-ui: false
-  filter-ui: false
-  page-size: 10
-  table-striped: true
-  table-hover: true
 ---
 
 ```{r}
 #| label: setup
 #| include: false
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(reactable)
+})
 fs <- cybedtools::framework_summary
 n_fw <- nrow(fs)
 n_juris <- length(unique(fs$jurisdiction))
 n_us <- sum(fs$jurisdiction == "US")
 n_ped <- sum(fs$framework_type == "pedagogy")
 ped_juris <- paste(sort(unique(fs$jurisdiction[fs$framework_type == "pedagogy"])), collapse = ", ")
+
+# The `Units`/`Elements` columns must come from framework_summary, computed
+# at render time, never hand-typed per-page frontmatter -- a listing block
+# reading YAML frontmatter cannot do that, so this table is built directly
+# in R instead. `framework-slug` in each page's own frontmatter is the join
+# key; the href map below is the one place the slug-to-filename
+# correspondence has to be spelled out, since filenames don't all match
+# their slug (`digcomp-30.qmd` for `digcomp-3.0`, `ccssf.qmd` for
+# `ccssf-2022`, and so on).
+page_of_slug <- c(
+  "ccssf-2022"        = "ccssf.qmd",
+  "csec2017-v1"       = "csec2017.qmd",
+  "csta-2017"         = "csta-2017.qmd",
+  "csta-2026"         = "csta-2026.qmd",
+  "cyberorg-k12-v1.0" = "cyberorg-k12.qmd",
+  "cybok-v1.1.0"      = "cybok.qmd",
+  "cyqual-v1.2.0"     = "cyqual.qmd",
+  "dcwf-v5.1"         = "dcwf-v51.qmd",
+  "digcomp-3.0"       = "digcomp-30.qmd",
+  "ecsf-v1"           = "ecsf-v1.qmd",
+  "nice-v2"           = "nice-v2.qmd",
+  "otccf-v1.1"        = "otccf.qmd",
+  "scywf-1.5"         = "scywf.qmd",
+  "sfia-9"            = "sfia-9.qmd"
+)
+
+fw_table <- fs |>
+  mutate(
+    Framework  = framework_name,
+    href       = sub("\\.qmd$", ".html", page_of_slug[framework_slug]),
+    Jurisdiction = jurisdiction,
+    Type       = tools::toTitleCase(framework_type),
+    Units      = organizing_unit_count,
+    Elements   = element_count_with_examples,
+    License    = license
+  ) |>
+  arrange(framework_type, jurisdiction, framework_name) |>
+  select(Framework, href, Jurisdiction, Type, Units, Elements, License)
+```
+
+```{r}
+#| label: tbl-frameworks
+reactable(
+  fw_table,
+  columns = list(
+    href = colDef(show = FALSE),
+    Framework = colDef(cell = function(value, index) {
+      htmltools::tags$a(href = fw_table$href[index], value)
+    })
+  ),
+  sortable = TRUE,
+  filterable = FALSE,
+  striped = TRUE,
+  highlight = TRUE,
+  bordered = FALSE,
+  compact = TRUE,
+  defaultPageSize = 10
+)
 ```
 
 The framework corpus splits along two axes: workforce versus

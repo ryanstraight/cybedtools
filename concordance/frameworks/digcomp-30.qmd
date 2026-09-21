@@ -1,0 +1,178 @@
+---
+title: "DigComp 3.0"
+subtitle: "European Digital Competence Framework for Citizens"
+jurisdiction: "EU"
+framework-type: "Pedagogy"
+framework-slug: "digcomp-3.0"
+license: "CC BY 4.0"
+date: 2026-09-21
+categories: [pedagogy, eu]
+---
+
+## At a glance
+
+| | |
+|---|---|
+| Steward | Joint Research Centre, European Commission |
+| Canonical page | [DigComp at the Joint Research Centre](https://joint-research-centre.ec.europa.eu/digcomp_en) |
+| Version | 3.0, fifth edition |
+| Released | 2025-11-27 |
+| Authors | Cosgrove and Cachia |
+| Source format | JSON-LD and XLSX data supplement (JRC144121) |
+| License | Creative Commons BY 4.0, verified against the dataset's own copyright notice, the JRC Data Catalogue record, and the DigComp 3.0 resources page |
+| `framework_summary` slug | `digcomp-3.0` |
+
+## Structure in cybed: terms
+
+::: {.column-page}
+
+```{=html}
+<figure class="schema-diagram">
+<button type="button" class="toggle-all" aria-pressed="false" aria-label="Toggle schema names for all elements"><span class="toggle-icon" aria-hidden="true">▸</span><span class="toggle-text">schema names</span></button>
+<svg viewBox="0 0 460 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="digcomp-structure-title">
+  <title id="digcomp-structure-title">DigComp 3.0 structural mapping</title>
+  <defs><marker id="dc-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" opacity="0.55"/></marker></defs>
+  <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.55">
+    <line x1="230" y1="58" x2="230" y2="100" marker-end="url(#dc-arrow)"/>
+    <line x1="230" y1="170" x2="230" y2="212" marker-end="url(#dc-arrow)"/>
+    <line x1="230" y1="282" x2="230" y2="324" marker-end="url(#dc-arrow)"/>
+  </g>
+
+  <g class="cyb-node" aria-label="Framework">
+    <rect x="150" y="20" width="160" height="40" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Framework</text>
+    <text class="lt" x="230" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">digcomp:Framework</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Competence area">
+    <rect x="60" y="100" width="340" height="70" rx="6" fill="rgba(14,165,233,0.16)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="135" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="currentColor">Competence area</text>
+    <text class="lt" x="230" y="125" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">digcomp:CompetenceArea</text>
+    <text class="lt" x="230" y="145" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:OrganizingUnit</text>
+    <text class="lt" x="230" y="161" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.55">(no cybed:Role)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Competence">
+    <rect x="120" y="212" width="220" height="70" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Competence</text>
+    <text class="lt" x="230" y="237" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="currentColor">digcomp:Competence</text>
+    <text class="lp" x="230" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.65">(also cybed:OrganizingUnit)</text>
+  </g>
+
+  <g class="cyb-node" aria-label="Competence statement / learning outcome">
+    <rect x="100" y="324" width="260" height="60" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0284C7" stroke-width="1.6"/>
+    <text class="lp" x="230" y="352" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="currentColor">Statement / outcome</text>
+    <text class="lt" x="230" y="367" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="currentColor" opacity="0.7">= cybed:RoleElement / cybed:Example</text>
+  </g>
+
+  <g class="cyb-edge-label" aria-label="Framework-to-competence-area connection">
+    <text class="ep" x="238" y="84" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="84" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Competence-area-to-competence connection">
+    <text class="ep" x="238" y="196" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">contains</text>
+    <text class="et" x="238" y="196" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasOrganizingUnit</text>
+  </g>
+  <g class="cyb-edge-label" aria-label="Competence-to-statement connection">
+    <text class="ep" x="238" y="308" font-family="Inter,sans-serif" font-size="11.5" fill="currentColor" opacity="0.7">has element / example</text>
+    <text class="et" x="238" y="308" font-family="JetBrains Mono,monospace" font-size="10" fill="currentColor" opacity="0.7">cybed:hasElement / hasExample</text>
+  </g>
+</svg>
+  <figcaption>DigComp 3.0 nests competences inside areas, both as organizing units. Competence Statements attach as elements; Learning Outcomes attach as examples. Click any box or edge label to flip between plain English and the technical schema name.</figcaption>
+</figure>
+```
+
+:::
+
+## Counts
+
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "digcomp-3.0", ])
+u <- readRDS(here::here("_data", "unit_subtypes.rds"))$digcomp
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Competence Areas",
+    "Competences",
+    "Organizing units (areas + competences)",
+    "Strict elements (Competence Statements)",
+    "Examples (Learning Outcomes, post-errata)",
+    "With-examples elements",
+    "Elements per organizing unit, strict",
+    "Elements per organizing unit, with-examples"
+  ),
+  Value = c(
+    cm(u$competence_area_count),
+    cm(u$competence_count),
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$example_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
+
+DigComp 3.0 replaces 2.2's un-staged "examples of knowledge, skills
+and attitudes" with two typed layers: `r cm(n$element_count_strict)`
+coarse Competence Statements (one per competence times a four-level
+proficiency band) and fine-grained Learning Outcomes, each typed
+Knowledge, Skill, or Attitude. Applying the framework's own published
+errata removes a duplicate outcome, leaving `r cm(n$example_count)`.
+Competence areas and competences carry identical numbering and
+membership to 2.2; a minority of area and competence names were
+revised for 3.0. Proficiency-level descriptors and the glossary are staged from
+the source but not emitted into the graph.
+
+## Provenance
+
+::: {.provenance-cards .column-page}
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-archive"/></svg>
+
+**Source**
+
+DigComp 3.0 data supplement (Cosgrove and Cachia, Joint Research Centre, JRC144121, fifth edition).
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-gear"/></svg>
+
+**Ingestion**
+
+`scripts/010-ingest-digcomp.R` verifies the staged supplement's hash, applies the framework's own published errata, and parses the structure into the cybed schema.
+:::
+
+::: {.provenance-card}
+<svg class="provenance-icon" aria-hidden="true"><use href="#icon-license"/></svg>
+
+**License**
+
+Creative Commons BY 4.0, verified three ways: the dataset's own copyright notice, the JRC Data Catalogue record, and the DigComp 3.0 resources page. Reuse is allowed provided appropriate credit is given and any changes are indicated; the European Commission logo is excluded from reuse, and cybedtools reproduces no logo. The prescribed citation is: Cosgrove, J. and Cachia, R., DigComp 3.0: The Digital Competence Framework for Citizens, EUR 40491, Publications Office of the European Union, Luxembourg, 2025, ISBN 978-92-68-32677-0, doi:10.2760/0001149. Dataset: doi:10.2905/JRC.FR75K8R. The package does not bundle the source supplement. Users stage it locally.
+:::
+
+:::
+
+## Caveats
+
+- DigComp specifies **general digital competences for citizens, not cybersecurity-specific roles or curricula**. Competence Area 4, renamed "Safety, wellbeing and responsible use" in 3.0, carries the most cybersecurity-adjacent content (protecting devices, protecting personal data and privacy), but the framework's specificity sits at general-digital-competence granularity, not at cybersecurity-workforce granularity. Treat DigComp as the citizen baseline that workforce frameworks like NICE and ECSF build above.
+- Three of the framework's own published errata (LO4.3.22, LO5.2.12, LO5.4.13) name only a phrase to insert, with no replacement sentence quoted. Composing new sentence text from that instruction would put cybedtools's words in the steward's name, so those three are carried through unapplied; the other four corrections, including the one structural duplicate removal, are applied.
+- Proficiency-level descriptors and the glossary are **staged but not emitted into the graph**. Full DigComp 3.0 coverage requires consulting the publication's own descriptors directly.
+
+## Related
+
+- [ENISA ECSF v1](ecsf-v1.qmd), the EU workforce framework that
+  picks up where DigComp's citizen baseline leaves off.
+- [Cross-framework density spread](../queries/density-spread.qmd)
+- [The vocabulary](../concepts/vocabulary.qmd)

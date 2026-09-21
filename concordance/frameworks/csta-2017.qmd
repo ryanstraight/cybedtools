@@ -3,8 +3,7 @@ title: "CSTA K-12 CS Standards"
 subtitle: "Computer Science Teachers Association K-12 Standards (Revised 2017)"
 jurisdiction: "US"
 framework-type: "Pedagogy"
-organizing-units: 25
-elements: 258
+framework-slug: "csta-2017"
 license: "CC BY-NC-SA 4.0"
 date: 2026-05-08
 categories: [pedagogy, us]
@@ -89,15 +88,39 @@ categories: [pedagogy, us]
 
 ## Counts
 
-| Measure | Value |
-|---|---|
-| Standard groups | 25 |
-| Strict elements (numbered standards) | 120 |
-| Subpoints (parsed enumeration lists) | 24 |
-| Examples (clarification text) | 114 |
-| With-examples elements | 258 |
-| Elements per standard group (strict) | 4.8 |
-| Elements per standard group (with examples) | 10.3 |
+```{r}
+#| label: setup
+#| include: false
+n <- cybedtools::framework_summary
+n <- as.list(n[n$framework_slug == "csta-2017", ])
+cm <- function(x) format(x, big.mark = ",")
+d1 <- function(x) format(round(x, 1), nsmall = 1)
+```
+
+```{r}
+#| label: tbl-counts
+tibble::tibble(
+  Measure = c(
+    "Standard groups",
+    "Strict elements (numbered standards)",
+    "Subpoints (parsed enumeration lists)",
+    "Examples (clarification text)",
+    "With-examples elements",
+    "Elements per standard group (strict)",
+    "Elements per standard group (with examples)"
+  ),
+  Value = c(
+    cm(n$organizing_unit_count),
+    cm(n$element_count_strict),
+    cm(n$subpoint_count),
+    cm(n$example_count),
+    cm(n$element_count_with_examples),
+    d1(n$elements_per_organizing_unit_strict),
+    d1(n$elements_per_organizing_unit_with_examples)
+  )
+) |>
+  knitr::kable()
+```
 
 Per-unit density approximately doubles when clarification text is
 included alongside numbered standards.
@@ -134,7 +157,7 @@ Creative Commons BY-NC-SA 4.0, non-commercial use with attribution and share-ali
 
 ## Caveats
 
-- CSTA's seven core practices sit in the framework's high-level structure but are **not represented as per-cell numbered elements**. They run alongside the level-by-concept enumeration rather than within it.
+- CSTA's core practices sit in the framework's high-level structure but are **not represented as per-cell numbered elements**, and so are not ingested or counted. They run alongside the level-by-concept enumeration rather than within it.
 - Some clarifications are **constraining specifications and others are illustrative**. The package treats all clarifications uniformly as `cybed:Example` nodes. Analyses that need to distinguish prescriptive scaffolding from illustrative scaffolding will need to read the source text.
 - CSTA's revised 2017 standards **predate the K-12 cybersecurity push** and center general computer science. Cybersecurity content appears within Networks and the Internet and within Impacts of Computing rather than as a dedicated concept area, which is one of the gaps Cyber.org K-12 was authored to fill.
 
