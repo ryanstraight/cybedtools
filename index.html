@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -615,16 +615,77 @@ OGL v3.0
 <div class="section level2">
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
+<p>Install the package, then fetch the public data release: hash-verified per-framework files, downloaded once and cached locally. No source framework text needs to be staged for this path.</p>
+<div class="section level3">
+<h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div>
-<p>The package <strong>does not</strong> redistribute source framework text. To run the pipeline end-to-end, clone the repository and stage each framework’s source file at <code>data/raw/&lt;framework&gt;/</code> per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ryanstraight/cybedtools</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">cd</span> cybedtools</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Stage source files, then:</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-build.R   <span class="co"># ingestion + verification + assembly + export</span></span></code></pre></div>
-<p>The <a href="https://ryanstraight.github.io/cybedtools/articles/getting-started.html"><code>getting-started</code></a> vignette walks through each stage, and the <a href="https://ryanstraight.github.io/cybedtools/reference/">function reference</a> indexes the public API.</p>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"ryanstraight/cybedtools"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">pip</span> install cybedtools</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="fetch-data-and-load-a-graph">Fetch data and load a graph<a class="anchor" aria-label="anchor" href="#fetch-data-and-load-a-graph"></a>
+</h3>
+<p>R:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ryanstraight/cybedtools" class="external-link">cybedtools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Downloads and hash-verifies every shipped framework's release file into</span></span>
+<span><span class="co"># the R user cache directory, then parses them into one rdf object.</span></span>
+<span><span class="va">rdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_graph.html">load_graph</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">framework_summary</span></span></code></pre></div>
+<p>Python:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="im">from</span> cybedtools <span class="im">import</span> load_graph, framework_summary</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>graph <span class="op">=</span> load_graph()</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>framework_summary()</span></code></pre></div>
+<p><code><a href="reference/load_graph.html">load_graph()</a></code> calls <code><a href="reference/cybed_fetch.html">cybed_fetch()</a></code> internally (a no-op for files already cached with a verified hash). Both accept either the versioned framework slug (<code>"nice-v2"</code>) or the short release-file slug (<code>"nice"</code>); see <code><a href="reference/cybed_fetch.html">cybed_fetch()</a></code>’s documentation for the two-vocabulary mapping. The data release backing this package version is archived on Zenodo: <a href="https://doi.org/10.5281/zenodo.22884320" class="external-link">10.5281/zenodo.22884320</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="three-queries">Three queries<a class="anchor" aria-label="anchor" href="#three-queries"></a>
+</h3>
+<p>R:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 1. What's in the corpus?</span></span>
+<span><span class="va">framework_summary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">framework_slug</span>, <span class="va">framework_name</span>, <span class="va">jurisdiction</span>, <span class="va">organizing_unit_count</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2. Which elements does an organizing unit carry?</span></span>
+<span><span class="fu"><a href="reference/unit_element_bindings.html">unit_element_bindings</a></span><span class="op">(</span><span class="va">rdf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Where do two frameworks say the same thing?</span></span>
+<span><span class="fu"><a href="reference/framework_similarity.html">framework_similarity</a></span><span class="op">(</span><span class="va">rdf</span>, from <span class="op">=</span> <span class="st">"nice"</span>, to <span class="op">=</span> <span class="st">"ecsf"</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Python:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># 1. What's in the corpus?</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>framework_summary()[[<span class="st">"framework_slug"</span>, <span class="st">"framework_name"</span>, <span class="st">"jurisdiction"</span>, <span class="st">"organizing_unit_count"</span>]]</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># 2. Which elements does an organizing unit carry?</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="im">from</span> cybedtools <span class="im">import</span> unit_element_bindings</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>unit_element_bindings(graph).head(<span class="dv">10</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># 3. Where do two frameworks say the same thing?</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="im">from</span> cybedtools <span class="im">import</span> framework_similarity</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>framework_similarity(graph, from_<span class="op">=</span><span class="st">"nice"</span>, to<span class="op">=</span><span class="st">"ecsf"</span>, n<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div>
+<p>The <a href="https://ryanstraight.github.io/cybedtools/reference/">function reference</a> indexes the full public API for both languages.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="rebuilding-the-graph-from-source-maintainers">Rebuilding the graph from source (maintainers)<a class="anchor" aria-label="anchor" href="#rebuilding-the-graph-from-source-maintainers"></a>
+</h2>
+<p>Fetching the public release (above) is the path for using the corpus. Rebuilding it from primary sources is a separate, maintainer-only path: the package does not redistribute source framework text, so this requires cloning the repository and staging each framework’s source file at <code>data/raw/&lt;framework&gt;/</code> per <a href="docs/framework-data-sources.html"><code>docs/framework-data-sources.md</code></a>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ryanstraight/cybedtools</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="bu">cd</span> cybedtools</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Stage source files, then:</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/000-build.R   <span class="co"># ingestion + verification + assembly + export</span></span></code></pre></div>
+<p><code>scripts/000-build.R</code> is the pipeline’s entry point: it runs ingestion, verification, JSON-LD assembly, and N-Triples export in order (see <code>scripts/README.md</code> for the full stage list). The <a href="https://ryanstraight.github.io/cybedtools/articles/getting-started.html"><code>getting-started</code></a> vignette walks through each stage.</p>
 </div>
 <div class="section level2">
 <h2 id="citing">Citing<a class="anchor" aria-label="anchor" href="#citing"></a>

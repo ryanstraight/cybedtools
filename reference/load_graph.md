@@ -17,16 +17,19 @@ load_graph(frameworks = NULL, version = NULL)
 
 - frameworks:
 
-  Character vector of framework slugs to fetch (as carried by
-  [framework_summary](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)`$framework_slug`,
-  e.g. `"nice-v2"`, or the release file slug, e.g. `"nice"`), or `NULL`
-  (the default) for every framework the release manifest ships.
+  Character vector of framework slugs to fetch, either the versioned
+  form carried by
+  [framework_summary](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)`$framework_slug`
+  (e.g. `"nice-v2"`) or the short release-file slug (e.g. `"nice"`; see
+  "Two slug vocabularies" above), or `NULL` (the default) for every
+  framework the release manifest ships.
 
 - version:
 
-  Character scalar release version (e.g. `"1.0.0"`), or `NULL` (the
-  default) for the data release this package version was built against,
-  `cybed_data_release`.
+  Character scalar release version, either `"2026.09.2"` or
+  `"data-v2026.09.2"` (a leading `"data-v"`, matching a GitHub release
+  tag, is stripped), or `NULL` (the default) for the data release this
+  package version was built against, `cybed_data_release`.
 
 ## Value
 

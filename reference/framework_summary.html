@@ -33,7 +33,7 @@ originate outside the JSON-LD graph."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,7 +199,11 @@ it. Do not treat this column as a statement of terms; it is a label.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Several frameworks were added in v0.3.0 on steward terms: CyQUAL
+    <p><code>framework_slug</code> is the <strong>versioned</strong> slug vocabulary. A second, <strong>short</strong>
+vocabulary is used by the public data release's files (e.g. <code>"nice"</code> for
+<code>"nice-v2"</code>); see the "Two slug vocabularies" section of <code><a href="cybed_fetch.html">cybed_fetch()</a></code>
+for the full mapping and which functions accept either form.</p>
+<p>Several frameworks were added in v0.3.0 on steward terms: CyQUAL
 (Czech Republic, open data, attribution to CyQUAL and Masaryk
 University), CCSSF (Canada, Government of Canada copyright, used with
 permission of the Canadian Centre for Cyber Security), and OTCCF

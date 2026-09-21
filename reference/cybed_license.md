@@ -30,10 +30,13 @@ cybed_license(slug = NULL)
 - slug:
 
   Character scalar, or `NULL`. Either `"cybedtools"` for the package's
-  own code, or a framework slug as carried by
+  own code, a framework slug as carried by
   [framework_summary](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)`$framework_slug`
-  (for example `"nice-v2"`, `"otccf-v1.1"`). `NULL`, the default,
-  returns every row.
+  (for example `"nice-v2"`, `"otccf-v1.1"`), or the short release-file
+  slug (e.g. `"nice"`, `"otccf"`) documented on
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md).
+  Either form resolves to the same row. `NULL`, the default, returns
+  every row.
 
 ## Value
 

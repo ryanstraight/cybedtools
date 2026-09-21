@@ -51,7 +51,7 @@ says which of the two a given row carries."><meta property="og:image" content="h
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,9 +115,11 @@ says which of the two a given row carries.</p>
 
 <dl><dt id="arg-slug">slug<a class="anchor" aria-label="anchor" href="#arg-slug"></a></dt>
 <dd><p>Character scalar, or <code>NULL</code>. Either <code>"cybedtools"</code> for the
-package's own code, or a framework slug as carried by
+package's own code, a framework slug as carried by
 <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code> (for example <code>"nice-v2"</code>,
-<code>"otccf-v1.1"</code>). <code>NULL</code>, the default, returns every row.</p></dd>
+<code>"otccf-v1.1"</code>), or the short release-file slug (e.g. <code>"nice"</code>,
+<code>"otccf"</code>) documented on <code><a href="cybed_fetch.html">cybed_fetch()</a></code>. Either form resolves to the
+same row. <code>NULL</code>, the default, returns every row.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -13,13 +13,13 @@ Source:
 
 Straight, R. (2026). cybedtools: A Package for Reproducible Analysis of
 Cybersecurity Workforce and Learning Frameworks. R package version
-0.4.0. https://doi.org/10.5281/zenodo.20076116
+0.4.1. https://doi.org/10.5281/zenodo.20076116
 
     @Manual{,
       title = {{cybedtools}: A Package for Reproducible Analysis of Cybersecurity Workforce and Learning Frameworks},
       author = {Ryan Straight},
       year = {2026},
-      note = {R package version 0.4.0},
+      note = {R package version 0.4.1},
       doi = {10.5281/zenodo.20076116},
       url = {https://doi.org/10.5281/zenodo.20076116},
     }

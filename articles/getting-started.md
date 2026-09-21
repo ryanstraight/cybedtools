@@ -38,14 +38,54 @@ elements across every framework in one pass; targeting
 ``` r
 
 # Install from GitHub (not yet on CRAN)
-# install.packages("remotes")
-remotes::install_github("ryanstraight/cybedtools")
+# install.packages("pak")
+pak::pak("ryanstraight/cybedtools")
 ```
 
 The package depends on `rdflib` for RDF/SPARQL, `jsonlite` for JSON-LD
-I/O, and a small subset of the tidyverse (`dplyr`, `purrr`, `tibble`).
+I/O, and a small subset of the tidyverse (`dplyr`, `purrr`, `tibble`). A
+native Python package with the same API is on PyPI:
+`pip install cybedtools`.
 
-## Pipeline overview
+## Fetch the data and load a graph
+
+This is the path most users want:
+[`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+downloads and hash-verifies the public per-framework data release into a
+local cache (a no-op for files already cached with a verified hash), and
+[`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+calls it internally and parses the result into one graph. No staging of
+framework source files is required for this path – that is only needed
+to *rebuild* the release from primary sources (see “Rebuilding the graph
+from source (maintainers)” below).
+
+``` r
+
+library(cybedtools)
+library(dplyr)
+
+rdf <- load_graph()
+
+framework_summary |>
+  arrange(desc(organizing_unit_count))
+```
+
+[`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+and
+[`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+accept either the versioned framework slug (e.g. `"nice-v2"`, as carried
+by `framework_summary$framework_slug`) or the short release-file slug
+(e.g. `"nice"`); see
+[`?cybed_fetch`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+for the two-vocabulary mapping. The data release backing the current
+package version is archived on Zenodo:
+[10.5281/zenodo.22884320](https://doi.org/10.5281/zenodo.22884320).
+
+## Rebuilding the graph from source (maintainers)
+
+Fetching the public release (above) is the path for using the corpus.
+Rebuilding it from primary sources is a separate, maintainer-only path,
+run from a clone of the repository.
 
 The pipeline turns staged framework source files into a queryable RDF
 graph through five scripts. Each stage produces an artifact the next

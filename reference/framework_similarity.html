@@ -73,7 +73,7 @@ contributes no rows on either side (empty document, nothing to compare)."><meta 
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,8 +153,12 @@ contributes no rows on either side (empty document, nothing to compare).</p>
 <dt id="arg-from-to">from, to<a class="anchor" aria-label="anchor" href="#arg-from-to"></a></dt>
 <dd><p>Character scalars, the <code>framework_slug</code> values (from
 <code><a href="organizing_unit_framework_bindings.html">organizing_unit_framework_bindings()</a></code>) whose organizing units are
-compared. May be identical, to find near-duplicate units within one
-framework.</p></dd>
+compared, either as the versioned slug (<code>"nice-v2"</code>) or the short
+release-file slug (<code>"nice"</code>; see <code><a href="cybed_fetch.html">cybed_fetch()</a></code>). May be identical, to
+find near-duplicate units within one framework. An unknown slug (in
+either vocabulary, and not present in <code>rdf</code>) errors with class
+<code>cybedtools_framework_not_found</code> rather than silently returning an
+empty result.</p></dd>
 
 
 <dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>

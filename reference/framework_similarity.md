@@ -44,8 +44,13 @@ framework_similarity(rdf, from, to, n = 5)
 
   Character scalars, the `framework_slug` values (from
   [`organizing_unit_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/organizing_unit_framework_bindings.md))
-  whose organizing units are compared. May be identical, to find
-  near-duplicate units within one framework.
+  whose organizing units are compared, either as the versioned slug
+  (`"nice-v2"`) or the short release-file slug (`"nice"`; see
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)).
+  May be identical, to find near-duplicate units within one framework.
+  An unknown slug (in either vocabulary, and not present in `rdf`)
+  errors with class `cybedtools_framework_not_found` rather than
+  silently returning an empty result.
 
 - n:
 

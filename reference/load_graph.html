@@ -31,7 +31,7 @@ hash) and parses them into one shared rdf object."><meta property="og:image" con
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,14 +84,18 @@ hash) and parses them into one shared rdf object.</p>
 
 
 <dl><dt id="arg-frameworks">frameworks<a class="anchor" aria-label="anchor" href="#arg-frameworks"></a></dt>
-<dd><p>Character vector of framework slugs to fetch (as
-carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code>, e.g. <code>"nice-v2"</code>, or the release file slug, e.g. <code>"nice"</code>), or
-<code>NULL</code> (the default) for every framework the release manifest ships.</p></dd>
+<dd><p>Character vector of framework slugs to fetch, either the
+versioned form carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code> (e.g.
+<code>"nice-v2"</code>) or the short release-file slug (e.g. <code>"nice"</code>; see "Two
+slug vocabularies" above), or <code>NULL</code> (the default) for every framework
+the release manifest ships.</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
-<dd><p>Character scalar release version (e.g. <code>"1.0.0"</code>), or
-<code>NULL</code> (the default) for the data release this package version was built against, <code>cybed_data_release</code>.</p></dd>
+<dd><p>Character scalar release version, either <code>"2026.09.2"</code> or
+<code>"data-v2026.09.2"</code> (a leading <code>"data-v"</code>, matching a GitHub release
+tag, is stripped), or <code>NULL</code> (the default) for the data release this
+package version was built against, <code>cybed_data_release</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

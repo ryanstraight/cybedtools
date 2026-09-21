@@ -140,6 +140,12 @@ Computed from the combined graph produced by
 
 ## Details
 
+`framework_slug` is the **versioned** slug vocabulary. A second,
+**short** vocabulary is used by the public data release's files (e.g.
+`"nice"` for `"nice-v2"`); see the "Two slug vocabularies" section of
+[`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+for the full mapping and which functions accept either form.
+
 Several frameworks were added in v0.3.0 on steward terms: CyQUAL (Czech
 Republic, open data, attribution to CyQUAL and Masaryk University),
 CCSSF (Canada, Government of Canada copyright, used with permission of

@@ -1,5 +1,59 @@
 # Changelog
 
+## cybedtools 0.4.1
+
+First-time-user defect fixes found against the published v0.4.0 / PyPI
+0.1.0, fixed identically in R and Python.
+
+- **CSEC2017 held from the 2026.09.2 data release** (owner correction,
+  on this branch before the fixes below): `docs/data-release.yml` moves
+  `csec2017` from `shipped` to `held`, pending steward confirmation.
+- **Slug alias resolution.**
+  [`cybed_license()`](https://ryanstraight.github.io/cybedtools/reference/cybed_license.md)
+  and
+  [`framework_similarity()`](https://ryanstraight.github.io/cybedtools/reference/framework_similarity.md)
+  now accept either the versioned framework slug (e.g. `"nice-v2"`) or
+  the short release-file slug (e.g. `"nice"`), matching
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)’s
+  existing behavior. The alias map is derived once, in `R/slug-alias.R`
+  (`cybedtools/_slug_alias.py` in Python), from the shipped
+  `framework_summary`/`framework_licenses` tables, reusing the
+  short-slug rule `scripts/030-export-release.R`’s
+  `release_license_row()` applies.
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)’s
+  result now carries both `framework_slug` (canonical, versioned) and
+  `release_slug` (short) columns explicitly, rather than silently
+  substituting one for the other.
+- **[`framework_similarity()`](https://ryanstraight.github.io/cybedtools/reference/framework_similarity.md)
+  errors on an unknown `from`/`to` slug** with class
+  `cybedtools_framework_not_found` (a specific exception in Python),
+  listing the graph’s known slugs, instead of silently returning an
+  empty result.
+- **Python
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)/[`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md)
+  accept a bare string** for `frameworks` as one slug, not an iterable
+  of its characters.
+- **`version` accepts a `data-v`-prefixed value**
+  (e.g. `"data-v2026.09.2"`, matching a GitHub release tag) in both
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)
+  implementations; the leading `data-v` is stripped.
+- **README and quick-start docs lead with the user path**: install, then
+  [`cybed_fetch()`](https://ryanstraight.github.io/cybedtools/reference/cybed_fetch.md)/[`load_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_graph.md),
+  then query examples. The ingestion pipeline (`scripts/000-build.R`)
+  moves to a separate “Rebuilding the graph from source (maintainers)”
+  section, consistent across `README.qmd`,
+  `concordance/start/install.qmd`, and the `getting-started` vignette.
+  The Zenodo data-release DOI (`10.5281/zenodo.22884320`) is now named
+  alongside the data release.
+- **Concordance framework pages’ footer `LICENSE`/asset links** are
+  root-relative, fixing a 404 from any page under a subdirectory
+  (e.g. `frameworks/`).
+- `CITATION.cff` and `DESCRIPTION`’s `Description` no longer describe
+  cybedtools as an R-only pipeline or hand-list frameworks; both now
+  point to
+  [`framework_summary()`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
+  for the current list and note the shared R/Python API.
+
 ## cybedtools 0.4.0
 
 ### New framework

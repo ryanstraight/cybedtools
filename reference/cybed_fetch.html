@@ -43,7 +43,7 @@ re-downloaded."><meta property="og:image" content="https://ryanstraight.github.i
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,22 +102,42 @@ re-downloaded.</p>
 
 
 <dl><dt id="arg-frameworks">frameworks<a class="anchor" aria-label="anchor" href="#arg-frameworks"></a></dt>
-<dd><p>Character vector of framework slugs to fetch (as
-carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code>, e.g. <code>"nice-v2"</code>, or the release file slug, e.g. <code>"nice"</code>), or
-<code>NULL</code> (the default) for every framework the release manifest ships.</p></dd>
+<dd><p>Character vector of framework slugs to fetch, either the
+versioned form carried by <a href="framework_summary.html">framework_summary</a><code>$framework_slug</code> (e.g.
+<code>"nice-v2"</code>) or the short release-file slug (e.g. <code>"nice"</code>; see "Two
+slug vocabularies" above), or <code>NULL</code> (the default) for every framework
+the release manifest ships.</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
-<dd><p>Character scalar release version (e.g. <code>"1.0.0"</code>), or
-<code>NULL</code> (the default) for the data release this package version was built against, <code>cybed_data_release</code>.</p></dd>
+<dd><p>Character scalar release version, either <code>"2026.09.2"</code> or
+<code>"data-v2026.09.2"</code> (a leading <code>"data-v"</code>, matching a GitHub release
+tag, is stripped), or <code>NULL</code> (the default) for the data release this
+package version was built against, <code>cybed_data_release</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Invisibly, a tibble with one row per fetched framework: columns
-<code>framework_slug</code>, <code>path</code> (the cached file's local path),
-<code>sha256_verified</code> (logical, always <code>TRUE</code> on return – a mismatch
-aborts instead of returning <code>FALSE</code>).</p>
+<code>framework_slug</code> (the canonical versioned slug, e.g. <code>"nice-v2"</code>),
+<code>release_slug</code> (the short release-file slug, e.g. <code>"nice"</code>), <code>path</code>
+(the cached file's local path), <code>sha256_verified</code> (logical, always
+<code>TRUE</code> on return – a mismatch aborts instead of returning <code>FALSE</code>).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="two-slug-vocabularies">Two slug vocabularies<a class="anchor" aria-label="anchor" href="#two-slug-vocabularies"></a></h2>
+
+
+<p>Two framework-slug vocabularies exist in this package. <a href="framework_summary.html">framework_summary</a>
+and <a href="framework_licenses.html">framework_licenses</a> use <strong>versioned</strong> slugs (<code>"nice-v2"</code>,
+<code>"otccf-v1.1"</code>), minted into every framework node's IRI. The public data
+release's files use <strong>short</strong> slugs (<code>"nice"</code>, <code>"otccf"</code>), assigned by
+<code>docs/data-release.yml</code> and recorded in the release manifest. This
+function, <code><a href="cybed_license.html">cybed_license()</a></code>, and <code><a href="framework_similarity.html">framework_similarity()</a></code> accept either
+form for a <code>frameworks</code>/<code>slug</code>/<code>from</code>/<code>to</code> argument and resolve it to the
+canonical versioned slug. The returned tibble names both forms explicitly
+(<code>framework_slug</code> and <code>release_slug</code>) rather than silently substituting
+one for the other.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

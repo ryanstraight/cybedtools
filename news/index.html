@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,6 +60,26 @@
       <small>Source: <a href="https://github.com/ryanstraight/cybedtools/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.1" id="cybedtools-041">cybedtools 0.4.1<a class="anchor" aria-label="anchor" href="#cybedtools-041"></a></h2>
+<p>First-time-user defect fixes found against the published v0.4.0 / PyPI 0.1.0, fixed identically in R and Python.</p>
+<ul><li>
+<strong>CSEC2017 held from the 2026.09.2 data release</strong> (owner correction, on this branch before the fixes below): <code>docs/data-release.yml</code> moves <code>csec2017</code> from <code>shipped</code> to <code>held</code>, pending steward confirmation.</li>
+<li>
+<strong>Slug alias resolution.</strong> <code><a href="../reference/cybed_license.html">cybed_license()</a></code> and <code><a href="../reference/framework_similarity.html">framework_similarity()</a></code> now accept either the versioned framework slug (e.g. <code>"nice-v2"</code>) or the short release-file slug (e.g. <code>"nice"</code>), matching <code><a href="../reference/cybed_fetch.html">cybed_fetch()</a></code>’s existing behavior. The alias map is derived once, in <code>R/slug-alias.R</code> (<code>cybedtools/_slug_alias.py</code> in Python), from the shipped <code>framework_summary</code>/<code>framework_licenses</code> tables, reusing the short-slug rule <code>scripts/030-export-release.R</code>’s <code>release_license_row()</code> applies. <code><a href="../reference/cybed_fetch.html">cybed_fetch()</a></code>’s result now carries both <code>framework_slug</code> (canonical, versioned) and <code>release_slug</code> (short) columns explicitly, rather than silently substituting one for the other.</li>
+<li>
+<strong><code><a href="../reference/framework_similarity.html">framework_similarity()</a></code> errors on an unknown <code>from</code>/<code>to</code> slug</strong> with class <code>cybedtools_framework_not_found</code> (a specific exception in Python), listing the graph’s known slugs, instead of silently returning an empty result.</li>
+<li>
+<strong>Python <code><a href="../reference/cybed_fetch.html">cybed_fetch()</a></code>/<code><a href="../reference/load_graph.html">load_graph()</a></code> accept a bare string</strong> for <code>frameworks</code> as one slug, not an iterable of its characters.</li>
+<li>
+<strong><code>version</code> accepts a <code>data-v</code>-prefixed value</strong> (e.g. <code>"data-v2026.09.2"</code>, matching a GitHub release tag) in both <code><a href="../reference/cybed_fetch.html">cybed_fetch()</a></code> implementations; the leading <code>data-v</code> is stripped.</li>
+<li>
+<strong>README and quick-start docs lead with the user path</strong>: install, then <code><a href="../reference/cybed_fetch.html">cybed_fetch()</a></code>/<code><a href="../reference/load_graph.html">load_graph()</a></code>, then query examples. The ingestion pipeline (<code>scripts/000-build.R</code>) moves to a separate “Rebuilding the graph from source (maintainers)” section, consistent across <code>README.qmd</code>, <code>concordance/start/install.qmd</code>, and the <code>getting-started</code> vignette. The Zenodo data-release DOI (<code>10.5281/zenodo.22884320</code>) is now named alongside the data release.</li>
+<li>
+<strong>Concordance framework pages’ footer <code>LICENSE</code>/asset links</strong> are root-relative, fixing a 404 from any page under a subdirectory (e.g. <code>frameworks/</code>).</li>
+<li>
+<code>CITATION.cff</code> and <code>DESCRIPTION</code>’s <code>Description</code> no longer describe cybedtools as an R-only pipeline or hand-list frameworks; both now point to <code><a href="../reference/framework_summary.html">framework_summary()</a></code> for the current list and note the shared R/Python API.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="cybedtools-040">cybedtools 0.4.0<a class="anchor" aria-label="anchor" href="#cybedtools-040"></a></h2>
 <div class="section level3">
