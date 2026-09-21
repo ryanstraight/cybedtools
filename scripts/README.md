@@ -29,7 +29,7 @@ Different upstream frameworks carry different licensing. Some permit redistribut
 | CSTA PK-12 CS (2026) | CC BY-NC-SA 4.0 | non-commercial, share-alike |
 | CSEC2017 | ACM/IEEE/AIS/IFIP, educational use | safe for educational development; analytical derivatives publishable with attribution |
 | DigComp | EU open re-use | typically safe; verify specific terms |
-| SCyWF | written permission of the National Cybersecurity Authority (NCA) | full content with attribution to NCA, carried verbatim; derived edges marked as derived |
+| SCyWF | written permission of the National Cybersecurity Authority (NCA) | full content with attribution to NCA, carried verbatim, derived edges marked as derived |
 
 Analytical derivatives (code frequencies, cross-framework mappings, structural comparisons) are generally publishable with attribution to the source framework, subject to the upstream license.
 
