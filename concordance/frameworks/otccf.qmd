@@ -110,8 +110,11 @@ career-map tracks, each carrying Key Tasks through nested Critical
 Work Functions, Technical Skills & Competencies at a required
 proficiency level, and Critical Core Skills at a Basic/Intermediate/
 Advanced level. `r cm(u$tsc_count)` Technical Skill Competencies
-carry a multi-level proficiency grid with per-level Knowledge and
-Ability statements. `r cm(u$tsc_skillsfuture_count)` of the
+carry a six-level proficiency grid (Level 1 to Level 6) with per-level
+Knowledge and Ability statements on every Technical Skill
+Competency page. Level 1 is never populated for any skill; content
+starts at Level 2, 3, or 4 depending on the skill.
+`r cm(u$tsc_skillsfuture_count)` of the
 `r cm(u$tsc_count)` are sourced from the SkillsFuture ICT Framework
 rather than authored by CSA and are flagged as such in the ingested
 data.
