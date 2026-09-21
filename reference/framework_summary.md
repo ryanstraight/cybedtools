@@ -117,7 +117,16 @@ A tibble with 11 rows and 16 columns.
 
 - license:
 
-  Character. Distribution license as published by the framework owner.
+  Character. Short licence label, **derived**: taken by slug from
+  [framework_licenses](https://ryanstraight.github.io/cybedtools/reference/framework_licenses.md)`$license_short`
+  when this tibble is built, never hand-typed here.
+  [framework_licenses](https://ryanstraight.github.io/cybedtools/reference/framework_licenses.md)
+  owns the detail, including what the source's own document says, the
+  prescribed attribution wording, the public-redistribution class, the
+  terms URL, and the date the terms were last read. Use
+  [`cybed_license()`](https://ryanstraight.github.io/cybedtools/reference/cybed_license.md)
+  to reach it. Do not treat this column as a statement of terms; it is a
+  label.
 
 ## Source
 
@@ -160,11 +169,9 @@ with-examples count, which counts what each framework puts in front of a
 teacher, trainee, or curriculum designer. The strict count is the
 supplementary figure, reported in the cross-framework-analysis vignette.
 
-Note that `docs/framework-invariants.yml` uses the word "strict" in a
-different sense: its `total_elements_strict` is parents plus Subpoints
-excluding Examples, whereas this tibble's `element_count_strict` is
-parents only, so the two figures will not match for any framework with
-Subpoints.
+The related count in `docs/framework-invariants.yml`,
+`total_elements_with_subpoints`, is parents plus Subpoints excluding
+Examples. This tibble's `element_count_strict` is parents only.
 
 ## Units, roles, and density
 

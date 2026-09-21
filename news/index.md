@@ -1,5 +1,91 @@
 # Changelog
 
+## cybedtools 0.3.1
+
+### Fixes
+
+- **CCSSF attribution no longer claims permission.** The Canadian Centre
+  for Cyber Security’s reply asked that its material be referenced when
+  used; it did not grant permission. Every remaining “used with
+  permission” wording for CCSSF (`creditText`, `license`, ingestion
+  comments, `docs/ingestion-summary.md`,
+  `docs/framework-invariants.yml`, and the framework’s provenance
+  manifest) now reads “Copyright Government of Canada. Referenced as the
+  Canadian Centre for Cyber Security asked.” No other framework’s
+  attribution changed, and the assembled graph is byte-identical for all
+  ten other frameworks; only the two CCSSF `creditText`/`license`
+  triples differ.
+
+- **Organizing units and statements no longer share one identifier
+  space.** A node’s IRI was its framework prefix plus its
+  framework-local id, which is safe only when a framework numbers its
+  units and its statements separately. Two frameworks do not. DCWF draws
+  work-role codes and task/KSA numbers from one numeric range, so 33 of
+  its 74 work roles were fused with a statement node and two roles (801
+  and 632) were their own element. Cyber.org K-12 names a grade-band x
+  sub-concept cell after its axes and names the standards inside it the
+  same way, so 109 of its 116 cells were fused with their only standard
+  and every one of those `cybed:hasElement` links pointed at itself.
+  Present since v0.1.0. No published count was affected: fusing a unit
+  with a statement loses nothing, which is why it went unnoticed for
+  three minor versions, and it is a modelling error all the same. Unit
+  IRIs in those two frameworks now carry a discriminator declared as
+  `unit_iri_prefix` in `docs/framework-invariants.yml`, so DCWF work
+  role 462 is `dcwf:role-462` and a Cyber.org cell is
+  `cyberorg:cell-K-2.SEC.AUTH`; each keeps its printed code as a
+  `schema:identifier` literal. Statement IRIs do not move, and neither
+  do the other nine frameworks’ IRIs, which come out byte-identical.
+  **Anyone holding DCWF or Cyber.org K-12 unit IRIs taken from a locally
+  built graph must rebuild.** No graph file has ever been published, so
+  nothing downstream of a release is affected. A new build stage,
+  `scripts/026-verify-graph.R`, now fails the build on any IRI typed
+  both `cybed:OrganizingUnit` and `cybed:RoleElement` and on any
+  self-referential `cybed:hasElement` triple, with no per-framework
+  exemption; `scripts/030-export-release.R` re-runs the same check
+  before it writes. The same stage also enforces the `graph_invariants`
+  block of `docs/framework-invariants.yml`, which declared the assembled
+  graph’s per-framework and combined counts but which nothing had ever
+  read.
+
+### Licensing
+
+- New dataset `framework_licenses` and accessor
+  [`cybed_license()`](https://ryanstraight.github.io/cybedtools/reference/cybed_license.md):
+  one row for the package’s own code and one per framework, with what
+  each source’s own document says, the attribution wording a steward
+  prescribed where there is one, the public-redistribution class, the
+  terms URL, and the date the terms were last read. It is the single
+  owner of licence facts.
+- `framework_summary$license` is now derived from
+  `framework_licenses$license_short`, so the label and the detail cannot
+  disagree. Nine labels change. SFIA read “SFIA Use Policy”; SFIA
+  requires a licence for all use and its terms cover structure as well
+  as text. NICE read as public domain alone; NIST also grants a
+  worldwide royalty-free right that includes derivative works. ECSF read
+  “ENISA re-use notice”; the report PDF is CC BY 4.0 and the ingested
+  data files carry no notice. DigComp read “EU open re-use”; its imprint
+  page states CC BY 4.0. CCSSF no longer says “used with permission”;
+  the Centre asked that its material be referenced when used. Every
+  other column of `framework_summary` is unchanged for all eleven
+  frameworks.
+- `docs/framework-invariants.yml` now marks DigComp 2.2, ECSF, Cyber.org
+  K-12 and CSTA as `full_with_attribution`. They were unmarked, which
+  read as unrestricted.
+
+### Documentation
+
+- New article `ai-assistants`: the rules an AI assistant needs to write
+  cybedtools code that runs. `AGENTS.md` and `context7.json` gain the
+  [`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
+  and
+  [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+  caveats.
+- The README links each framework to its steward’s page and notes that
+  the documentation is indexed in Context7 and published as `llms.txt`.
+- The invariants key `total_elements_strict` is renamed
+  `total_elements_with_subpoints`. It counted parents plus sub-points,
+  which is not what “strict” means in `framework_summary`.
+
 ## cybedtools 0.3.0
 
 Eleven frameworks, up from eight. Two national frameworks join by

@@ -34,3 +34,9 @@
   Six invariants every framework ingestion must satisfy before
   downstream analysis runs, plus the audit-trail mechanics that keep the
   pipeline honest.
+
+- [Using cybedtools with an AI
+  assistant](https://ryanstraight.github.io/cybedtools/articles/ai-assistants.md):
+
+  Where the machine-readable documentation lives, and the rules an
+  assistant has to follow to write cybedtools code that runs.

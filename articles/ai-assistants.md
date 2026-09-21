@@ -1,0 +1,194 @@
+# Using cybedtools with an AI assistant
+
+This article has two readers: a person who wants an assistant to write
+cybedtools code, and the assistant itself, reading its Markdown twin. An
+assistant working from general R and SPARQL knowledge will get several
+things about this package wrong.
+
+`AGENTS.md` in the repository root carries the same rules for coding
+agents working inside a clone.
+
+## Machine-readable documentation
+
+The site publishes a reference index at
+<https://ryanstraight.github.io/cybedtools/llms.txt>, and every
+reference page and article has a Markdown twin at the same URL with
+`.md` appended. The index points at pages, not at the rules below.
+
+The documentation is also indexed in Context7 at
+<https://context7.com/ryanstraight/cybedtools>. If your assistant
+supports Context7, point it there before it writes code.
+
+## Rules
+
+### Use the domain helpers, and keep SPARQL to one triple pattern
+
+``` r
+
+library(cybedtools)
+library(dplyr)
+
+role_framework_bindings(rdf) |>
+  inner_join(role_element_bindings(rdf), by = "role") |>
+  count(framework_name, name = "element_count")
+```
+
+The `librdf` C library that `rdflib` wraps hangs for many minutes on
+multi-pattern SPARQL joins and silently returns zero rows on
+multi-property selects against a single subject. Single basic graph
+patterns execute fast and correctly.
+[`sparql_pairs()`](https://ryanstraight.github.io/cybedtools/reference/sparql_pairs.md)
+and
+[`sparql_subjects()`](https://ryanstraight.github.io/cybedtools/reference/sparql_subjects.md)
+issue those single patterns; the domain helpers compose them and join in
+dplyr. Never write `COUNT`, `GROUP BY`, or `HAVING` into a SPARQL
+string. Aggregate in dplyr.
+
+### Load the graph with a loader, and know the package does not ship one
+
+``` r
+
+rdf <- make_demo_graph()
+
+rdf_full <- load_combined_ntriples_graph()
+```
+
+The installed package does not bundle the framework graph. It ships
+ingestion code and no framework text.
+[`make_demo_graph()`](https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.md)
+returns a synthetic two-framework graph that exercises every domain
+helper without staged data.
+[`load_combined_ntriples_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.md)
+needs a graph you assembled from staged sources.
+
+### Join on IRIs, never on bare statement codes
+
+``` r
+
+element_framework_bindings(rdf_full) |>
+  inner_join(element_text(rdf_full), by = "element")
+```
+
+Statement codes are unique only within a framework. NICE and CCSSF both
+print codes in the `T0516` shape, and they denote different statements.
+CyQUAL reuses the 2017 NICE task codes and shares the `T1xxx` range with
+current NICE for unrelated text. Join on the full IRI, or carry a
+framework column alongside the code.
+
+[`element_text()`](https://ryanstraight.github.io/cybedtools/reference/element_text.md)
+returns `element` and `text`. Parsed sub-points and examples are
+elements and carry text, so parent-statement analyses must anti-join
+[`subpoint_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/subpoint_framework_bindings.md)
+and
+[`example_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.md),
+renaming their `subpoint` and `example` columns to `element`.
+
+### Restrict to roles before counting per role
+
+``` r
+
+role_element_bindings(rdf_full) |>
+  semi_join(role_framework_bindings(rdf_full), by = "role") |>
+  count(role, name = "element_count")
+```
+
+[`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+returns bindings for every organizing unit, not only roles, because
+`cybed:hasElement` is the universal parent-child link. A role-level
+count made without that `semi_join` silently includes SFIA skills and
+DigComp competence areas.
+
+### Say which element count you mean
+
+``` r
+
+cybedtools::framework_summary |>
+  select(framework_name, element_count_strict, element_count_with_examples)
+```
+
+`element_count_with_examples` counts parents plus `cybed:Subpoint`
+children plus `cybed:Example` children. `element_count_strict` counts
+parents only. The README headline density finding uses the with-examples
+count. The related count in `docs/framework-invariants.yml`,
+`total_elements_with_subpoints`, counts parents plus Subpoints and
+excludes Examples.
+
+### Pick the right cross-framework type
+
+``` r
+
+organizing_unit_framework_bindings(rdf_full)
+
+role_framework_bindings(rdf_full)
+```
+
+`cybed:OrganizingUnit` reaches all eleven frameworks. `cybed:Role`
+reaches the six that declare roles: NICE, DCWF, ECSF, CyQUAL, CCSSF, and
+OTCCF. A query written against `cybed:Role` when the question is
+corpus-wide drops five frameworks without saying so.
+
+### Respect the upstream licenses
+
+``` r
+
+framework_metadata(rdf_full) |>
+  select(name, jurisdiction, sector)
+```
+
+Package code is MIT. Framework content keeps its upstream terms.
+`docs/framework-invariants.yml` records a `public_redistribution` policy
+per framework: SFIA is `local_only`, CSEC2017, CCSSF and OTCCF are
+`structure_only`, CyQUAL is `full_with_attribution`. OTCCF and CyQUAL
+are in the package by the written permission of their stewards. CCSSF is
+not: its attribution is “Copyright Government of Canada. Referenced as
+the Canadian Centre for Cyber Security asked.” Do not reproduce
+statement text from a framework marked `local_only` or `structure_only`.
+Titles, counts, categories and mappings are fine. See `LICENSE.md` and
+`LICENSING.md`.
+
+### Cite the package and the stewards
+
+Cite the concept DOI, `10.5281/zenodo.20076116`, which resolves to the
+latest release. Cite the framework stewards for framework content: CSA
+for OTCCF, CyQUAL and Masaryk University for CyQUAL, and the Canadian
+Centre for Cyber Security for CCSSF, which asks that its material be
+referenced when used. Do not credit the assistant.
+
+## A preamble you can paste
+
+> When writing cybedtools code: use the domain helpers
+> (`framework_metadata`, `organizing_unit_framework_bindings`,
+> `role_framework_bindings`, `element_framework_bindings`,
+> `role_element_bindings`, `subpoint_framework_bindings`,
+> `example_framework_bindings`, `element_text`) and the primitives
+> `sparql_pairs` and `sparql_subjects`. Any raw
+> [`rdflib::rdf_query`](https://docs.ropensci.org/rdflib/reference/rdf_query.html)
+> must be a single basic graph pattern, joined in dplyr; librdf hangs on
+> multi-pattern joins and silently returns zero rows on multi-property
+> selects. Load with
+> [`load_combined_ntriples_graph()`](https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.md),
+> or
+> [`make_demo_graph()`](https://ryanstraight.github.io/cybedtools/reference/make_demo_graph.md)
+> when no data is staged; the installed package bundles no framework
+> graph. Never join frameworks on a bare element code, only on full IRIs
+> or framework-qualified ids.
+> [`role_element_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_element_bindings.md)
+> covers every organizing unit, so restrict it with a `semi_join` on
+> [`role_framework_bindings()`](https://ryanstraight.github.io/cybedtools/reference/role_framework_bindings.md)
+> before counting per role. State whether a count is strict or
+> with-examples. Do not reproduce framework statement text. Cite DOI
+> 10.5281/zenodo.20076116 and the framework stewards.
+
+## What not to ask for
+
+Do not ask an assistant to produce a crosswalk or alignment the graph
+does not contain. CCSSF’s citations of 2017-era NICE work roles are
+carried as `cybed:niceCrossReference` literals, never as links, and they
+do not match the NICE v2.2.0 identifiers in this graph. An assistant
+that invents the missing edges is fabricating.
+
+Do not treat a similarity score as equivalence. The Concordance
+alignment tables report full-document Jaccard vocabulary overlap. A best
+match surfaces a structural candidate. Credentialing pathways,
+regulatory contexts, clearance requirements and language fluency are
+separate questions, and the equivalence judgment is human work.

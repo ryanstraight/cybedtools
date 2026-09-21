@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,7 @@
     <li><a class="dropdown-item" href="../articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="../articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="../articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -337,6 +338,59 @@
         </dt>
         <dd>Validate a JSON-LD node's minimum required structure</dd>
       </dl></div><div class="section level2">
+      <h2 id="graph-invariants">Graph invariants<a class="anchor" aria-label="anchor" href="#graph-invariants"></a></h2>
+
+      <div class="section-desc"><p>Checks that only an assembled graph can answer: that no IRI stands for both an organizing unit and a statement, that no cybed:hasElement link points at its own subject, and that the assembled counts sit inside the bands docs/framework-invariants.yml declares. Run as a pipeline stage between the N-Triples export and the data release, and re-run by the release export itself.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="graph_identity_violations.html">graph_identity_violations()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Find organizing units that are also statements, and self-referential links</dd>
+
+        <dt>
+
+          <code><a href="assert_graph_identity.html">assert_graph_identity()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Stop the build when an assembled graph fuses a unit with a statement</dd>
+
+        <dt>
+
+          <code><a href="graph_invariant_counts.html">graph_invariant_counts()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Measure the counts that <code>graph_invariants</code> declares</dd>
+
+        <dt>
+
+          <code><a href="assert_graph_invariants.html">assert_graph_invariants()</a></code>
+          <span class="badge lifecycle lifecycle-stable">stable</span>
+        </dt>
+        <dd>Check an assembled graph against the declared <code>graph_invariants</code> bands</dd>
+      </dl></div><div class="section level2">
+      <h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a></h2>
+
+      <div class="section-desc"><p>Licence facts for the package code and every framework, with one owner.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cybed_license.html">cybed_license()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Look up the licence terms for the package or one framework</dd>
+      </dl></div><div class="section level2">
       <h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a></h2>
 
       <div class="section-desc"><p>Pre-computed summary tibbles shipped with the package.</p></div>
@@ -352,6 +406,13 @@
 
         </dt>
         <dd>Eleven-framework summary tibble</dd>
+
+        <dt>
+
+          <code><a href="framework_licenses.html">framework_licenses</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Licence facts for the package code and every framework</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,7 @@
     <li><a class="dropdown-item" href="articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -97,9 +98,10 @@
 </blockquote>
 <p>A corpus of cybersecurity workforce and learning frameworks. Each carries a different schema and a different vocabulary. Comparing them (what’s specified where, where they overlap, how their structural commitments differ) has historically meant rebuilding the comparison from scratch every time, in a spreadsheet.</p>
 <p>cybedtools makes the comparison one simple query.</p>
-<p>The package ingests seven workforce competency frameworks (NICE, DCWF, SFIA, ENISA ECSF, the Czech CyQUAL, the Canadian Cyber Security Skills Framework, and Singapore’s OTCCF) and four pedagogical or learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE CSEC2017, JRC DigComp 2.2). All eleven are expressed in a shared <code>cybed:</code> semantic schema. A small set of R helpers queries across them as if they were one corpus.</p>
+<p>The package ingests seven workforce competency frameworks (<a href="https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center" class="external-link">NICE</a>, <a href="https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/" class="external-link">DCWF</a>, <a href="https://sfia-online.org/en" class="external-link">SFIA</a>, <a href="https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf" class="external-link">ENISA ECSF</a>, the Czech <a href="https://platform.cyqual.cz/en" class="external-link">CyQUAL</a>, the <a href="https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework" class="external-link">Canadian Cyber Security Skills Framework</a>, and Singapore’s <a href="https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/" class="external-link">OTCCF</a>) and four pedagogical or learning-standards frameworks (<a href="https://cyber.org/k-12-cybersecurity-learning-standards" class="external-link">Cyber.org K-12</a>, <a href="https://csteachers.org/2017standards/interactive/" class="external-link">CSTA K-12 CS</a>, <a href="https://cybered.acm.org/" class="external-link">ACM/IEEE CSEC2017</a>, <a href="https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en" class="external-link">JRC DigComp 2.2</a>). All eleven are expressed in a shared <code>cybed:</code> semantic schema. A small set of R helpers queries across them as if they were one corpus.</p>
 <p>It does not propose a replacement framework or attempt to re-author framework content. Existing frameworks retain their structure and vocabulary. The package adds a comparison layer.</p>
 <p>A native Python package is in development. The name is reserved on <a href="https://pypi.org/project/cybedtools/" class="external-link">PyPI</a>.</p>
+<p>The documentation is indexed in <a href="https://context7.com/ryanstraight/cybedtools" class="external-link">Context7</a> and published as <a href="https://ryanstraight.github.io/cybedtools/llms.txt">llms.txt</a> for AI assistants.</p>
 <p>Who it’s for:</p>
 <ul>
 <li>cybersecurity education researchers comparing curricula across frameworks</li>
@@ -146,7 +148,7 @@ US
 2,225
 </td>
 <td>
-US public domain (17 U.S.C. 105); foreign rights may be reserved; attribute NIST as source
+US public domain + NIST worldwide grant
 </td>
 </tr>
 <tr>
@@ -166,7 +168,7 @@ US
 4,052
 </td>
 <td>
-public domain
+US Government work, no US copyright
 </td>
 </tr>
 <tr>
@@ -186,7 +188,7 @@ EU
 390
 </td>
 <td>
-ENISA re-use notice
+CC BY 4.0 (report); data files unmarked
 </td>
 </tr>
 <tr>
@@ -206,7 +208,7 @@ global
 821
 </td>
 <td>
-SFIA Use Policy
+SFIA Foundation licence required
 </td>
 </tr>
 <tr>
@@ -266,7 +268,7 @@ global
 40
 </td>
 <td>
-ACM/IEEE educational-use
+All rights reserved; educational use
 </td>
 </tr>
 <tr>
@@ -286,7 +288,7 @@ EU
 21
 </td>
 <td>
-EU open re-use
+CC BY 4.0
 </td>
 </tr>
 <tr>
@@ -306,7 +308,7 @@ CZ
 3,340
 </td>
 <td>
-Open data; attribution to CyQUAL and Masaryk University
+Open data, attribution required
 </td>
 </tr>
 <tr>
@@ -326,7 +328,7 @@ CA
 1,345
 </td>
 <td>
-Government of Canada copyright; used with permission
+Government of Canada copyright
 </td>
 </tr>
 <tr>
@@ -346,7 +348,7 @@ SG
 1,612
 </td>
 <td>
-CSA copyright; permission for non-commercial academic and research use
+CSA copyright; non-commercial academic
 </td>
 </tr>
 </tbody>

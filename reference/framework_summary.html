@@ -33,7 +33,7 @@ originate outside the JSON-LD graph."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@ originate outside the JSON-LD graph."><meta property="og:image" content="https:/
     <li><a class="dropdown-item" href="../articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="../articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="../articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -176,8 +177,13 @@ from role-typed units, divided by <code>role_count</code>. <code>NA</code> where
 <code>role_count</code> is <code>NA</code>.</p></dd>
 
 <dt>license</dt>
-<dd><p>Character. Distribution license as published by the
-framework owner.</p></dd>
+<dd><p>Character. Short licence label, <strong>derived</strong>: taken by
+slug from <a href="framework_licenses.html">framework_licenses</a><code>$license_short</code> when this tibble is
+built, never hand-typed here. <a href="framework_licenses.html">framework_licenses</a> owns the detail,
+including what the source's own document says, the prescribed
+attribution wording, the public-redistribution class, the terms URL,
+and the date the terms were last read. Use <code><a href="cybed_license.html">cybed_license()</a></code> to reach
+it. Do not treat this column as a statement of terms; it is a label.</p></dd>
 
 
 </dl></div>
@@ -222,11 +228,9 @@ finding uses the with-examples count, which counts what each framework
 puts in front of a teacher, trainee, or curriculum designer. The strict
 count is the supplementary figure, reported in the
 cross-framework-analysis vignette.</p>
-<p>Note that <code>docs/framework-invariants.yml</code> uses the word "strict" in a
-different sense: its <code>total_elements_strict</code> is parents plus Subpoints
-excluding Examples, whereas this tibble's <code>element_count_strict</code> is
-parents only, so the two figures will not match for any framework with
-Subpoints.</p>
+<p>The related count in <code>docs/framework-invariants.yml</code>,
+<code>total_elements_with_subpoints</code>, is parents plus Subpoints excluding
+Examples. This tibble's <code>element_count_strict</code> is parents only.</p>
     </div>
     <div class="section level2">
     <h2 id="units-roles-and-density">Units, roles, and density<a class="anchor" aria-label="anchor" href="#units-roles-and-density"></a></h2>

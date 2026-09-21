@@ -45,7 +45,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,7 @@
     <li><a class="dropdown-item" href="../articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="../articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="../articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -207,31 +208,60 @@ structure:</p>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">  notes</span><span class="kw">: </span><span class="ch">|</span></span>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>    Justification for the tolerance bands, any known quirks, licensing</span>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>    reminders.</span></code></pre></div>
+<div class="section level3">
+<h3 id="can-a-unit-id-equal-a-statement-id">Can a unit id equal a statement id?<a class="anchor" aria-label="anchor" href="#can-a-unit-id-equal-a-statement-id"></a>
+</h3>
+<p>Answer this before you go further, because getting it wrong is
+silent. A node’s IRI is the framework prefix plus the node’s local id,
+so if Framework X can give an organizing unit and a statement the same
+id, both get the same IRI and the two nodes merge into one. Every count
+still adds up. What you get instead is a unit that is its own element
+and a <code>cybed:hasElement</code> edge that points at itself.</p>
+<p>Check it directly. Intersect the set of unit ids with the set of
+statement ids in your staged tables. If the intersection is empty, and
+the two id spaces are structurally incapable of overlapping, there is
+nothing to do. If it is not empty, declare a discriminator for the unit
+side:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">frameworkx</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="at">  </span><span class="fu">unit_iri_prefix</span><span class="kw">:</span><span class="at"> </span><span class="st">"unit-"</span></span></code></pre></div>
+<p>The assembler passes it to <code><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node()</a></code>
+or <code><a href="../reference/build_role_node.html">build_role_node()</a></code>, which mint
+<code>frameworkx:unit-&lt;id&gt;</code> and keep the framework’s printed
+code as a <code>schema:identifier</code> literal. Statement IRIs are
+untouched, because those are the codes a reader looks up. Two frameworks
+in this package declare one: DCWF numbers work roles and task/KSA
+statements from a single range, and Cyber.org K-12 names a grade-band
+cell after the standard inside it.</p>
+<p>You do not have to catch this by inspection.
+<code>scripts/026-verify-graph.R</code> fails the build on any fused IRI
+and names the framework. But it fails after assembly, and it is cheaper
+to answer the question while you are writing the ingester.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="step-4-verification-field-mappings">Step 4: verification field mappings<a class="anchor" aria-label="anchor" href="#step-4-verification-field-mappings"></a>
 </h2>
 <p>In <code>scripts/015-verify-ingestion.R</code>, add two branches, one
 for count extraction and one for text-integrity checks:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># In framework_actual_counts():</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>frameworkx <span class="ot">=</span> {</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  els <span class="ot">&lt;-</span> <span class="fu">safe_read</span>(<span class="fu">file.path</span>(tables_dir, <span class="st">"elements.csv"</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  roles <span class="ot">&lt;-</span> <span class="fu">safe_read</span>(<span class="fu">file.path</span>(tables_dir, <span class="st">"roles.csv"</span>))</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">roles_count    =</span> <span class="fu">nrow_or_null</span>(roles),</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="at">elements_count =</span> <span class="fu">nrow_or_null</span>(els)</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  )</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>},</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co"># In text_fields_by_framework():</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>frameworkx <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">label =</span> <span class="st">"element-text"</span>, <span class="at">file =</span> <span class="st">"elements.csv"</span>, <span class="at">column =</span> <span class="st">"text"</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>),</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># In verify_id_uniqueness()'s id_specs:</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>frameworkx <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">file =</span> <span class="st">"elements.csv"</span>, <span class="at">id_col =</span> <span class="st">"element_id"</span>, <span class="at">label =</span> <span class="st">"fx-element-id"</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>),</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># In framework_actual_counts():</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>frameworkx <span class="ot">=</span> {</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  els <span class="ot">&lt;-</span> <span class="fu">safe_read</span>(<span class="fu">file.path</span>(tables_dir, <span class="st">"elements.csv"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  roles <span class="ot">&lt;-</span> <span class="fu">safe_read</span>(<span class="fu">file.path</span>(tables_dir, <span class="st">"roles.csv"</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">roles_count    =</span> <span class="fu">nrow_or_null</span>(roles),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="at">elements_count =</span> <span class="fu">nrow_or_null</span>(els)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  )</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>},</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co"># In text_fields_by_framework():</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>frameworkx <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">label =</span> <span class="st">"element-text"</span>, <span class="at">file =</span> <span class="st">"elements.csv"</span>, <span class="at">column =</span> <span class="st">"text"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># In verify_id_uniqueness()'s id_specs:</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>frameworkx <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">file =</span> <span class="st">"elements.csv"</span>, <span class="at">id_col =</span> <span class="st">"element_id"</span>, <span class="at">label =</span> <span class="st">"fx-element-id"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>),</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="step-5-json-ld-assembly-adapter">Step 5: JSON-LD assembly adapter<a class="anchor" aria-label="anchor" href="#step-5-json-ld-assembly-adapter"></a>
@@ -255,7 +285,7 @@ type. Only <code><a href="../reference/build_role_node.html">build_role_node()</
 <code>cybed:Role</code>, restricting workforce-only queries
 appropriately.</p>
 <p>The example below assumes Framework X is workforce-shaped:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">assemble_frameworkx</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Read the manifest and tidy CSVs your ingestion script wrote.</span></span>
 <span>  <span class="va">prov</span>  <span class="op">&lt;-</span> <span class="fu">load_framework_provenance</span><span class="op">(</span><span class="st">"frameworkx"</span><span class="op">)</span></span>
@@ -322,7 +352,7 @@ appropriately.</p>
 <p>If Framework X is non-workforce (it enumerates skills, learning
 standards clusters, or competence areas rather than roles), replace the
 <code><a href="../reference/build_role_node.html">build_role_node()</a></code> call with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node</a></span><span class="op">(</span></span>
 <span>  unit_id           <span class="op">=</span> <span class="va">unit_id</span>,</span>
 <span>  unit_name         <span class="op">=</span> <span class="va">unit_name</span>,</span>
@@ -342,17 +372,21 @@ should follow the same pattern.</p>
 <div class="section level2">
 <h2 id="step-6-run-the-pipeline">Step 6: run the pipeline<a class="anchor" aria-label="anchor" href="#step-6-run-the-pipeline"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Ingest</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-frameworkx.R</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Verify</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># Assemble</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Query (existing queries will now return rows for Framework X)</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Ingest</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="ex">Rscript</span> scripts/010-ingest-frameworkx.R</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="ex">Rscript</span> scripts/015-verify-ingestion.R</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># Assemble</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="ex">Rscript</span> scripts/020-assemble-jsonld.R</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="ex">Rscript</span> scripts/025-export-ntriples.R</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># Check the assembled graph: no fused IRIs, declared counts in band</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="ex">Rscript</span> scripts/026-verify-graph.R</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># Query (existing queries will now return rows for Framework X)</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="ex">Rscript</span> scripts/040-run-sparql.R</span></code></pre></div>
 <p>Existing SPARQL queries automatically include the new framework
 because they match on <code>cybed:Framework</code>,
 <code>cybed:OrganizingUnit</code>, and <code>cybed:RoleElement</code>,
@@ -379,7 +413,7 @@ every target that unit has in a single call. Two calls merged with
 <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> give the node two <code>cybed:relatedUnit</code> keys,
 which is not valid JSON-LD. Targets in more than one framework go in the
 same call, with <code>to_prefix</code> supplied per target.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_related_unit_metadata.html">build_related_unit_metadata</a></span><span class="op">(</span></span>
 <span>  to_unit_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"network-security"</span>, <span class="st">"incident-response"</span><span class="op">)</span>,</span>
 <span>  to_prefix   <span class="op">=</span> <span class="st">"fx"</span></span>
@@ -403,7 +437,7 @@ printed. Do not convert them to numbers and do not normalize them across
 frameworks. One framework’s 4 and another’s Intermediate are not on the
 same scale, and a shared numeric type would assert a comparability the
 sources do not.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_unit_relation_node.html">build_unit_relation_node</a></span><span class="op">(</span></span>
 <span>  from_unit_id      <span class="op">=</span> <span class="st">"ot-security-engineer"</span>,</span>
 <span>  to_unit_id        <span class="op">=</span> <span class="st">"network-security"</span>,</span>
@@ -416,7 +450,7 @@ sources do not.</p>
 optional <code>relation_nodes</code> slot of
 <code><a href="../reference/assemble_framework_document.html">assemble_framework_document()</a></code>. Frameworks with no
 unit-to-unit statements leave it out, and the document is unchanged.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/assemble_framework_document.html">assemble_framework_document</a></span><span class="op">(</span></span>
 <span>  framework_node   <span class="op">=</span> <span class="va">fx_framework</span>,</span>
 <span>  role_nodes       <span class="op">=</span> <span class="va">fx_units</span>,</span>
@@ -436,7 +470,7 @@ sentence to use, put that sentence here without rewording it.
 <code>in_language</code> writes <code>schema:inLanguage</code> and takes
 a BCP 47 tag. Set it when the framework’s text is not English, so a
 reader of the graph is not left to guess.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/build_framework_node.html">build_framework_node</a></span><span class="op">(</span></span>
 <span>  framework_id     <span class="op">=</span> <span class="st">"frameworkx-v1"</span>,</span>
 <span>  framework_name   <span class="op">=</span> <span class="st">"Framework X"</span>,</span>

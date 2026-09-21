@@ -14,13 +14,23 @@ from scratch every time, in a spreadsheet.
 
 cybedtools makes the comparison one simple query.
 
-The package ingests seven workforce competency frameworks (NICE, DCWF,
-SFIA, ENISA ECSF, the Czech CyQUAL, the Canadian Cyber Security Skills
-Framework, and Singapore’s OTCCF) and four pedagogical or
-learning-standards frameworks (Cyber.org K-12, CSTA K-12 CS, ACM/IEEE
-CSEC2017, JRC DigComp 2.2). All eleven are expressed in a shared
-`cybed:` semantic schema. A small set of R helpers queries across them
-as if they were one corpus.
+The package ingests seven workforce competency frameworks
+([NICE](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center),
+[DCWF](https://www.cyberworkforce.mil/Department-Cyber-Workforce-Framework/),
+[SFIA](https://sfia-online.org/en), [ENISA
+ECSF](https://www.enisa.europa.eu/topics/skills-and-competences/skills-development/european-cybersecurity-skills-framework-ecsf),
+the Czech [CyQUAL](https://platform.cyqual.cz/en), the [Canadian Cyber
+Security Skills
+Framework](https://www.cyber.gc.ca/en/education-community/cyber-skills-development/canadian-cyber-security-skills-framework),
+and Singapore’s
+[OTCCF](https://www.csa.gov.sg/resources/publications/operational-technology-cybersecurity-competency-framework--otccf-/))
+and four pedagogical or learning-standards frameworks ([Cyber.org
+K-12](https://cyber.org/k-12-cybersecurity-learning-standards), [CSTA
+K-12 CS](https://csteachers.org/2017standards/interactive/), [ACM/IEEE
+CSEC2017](https://cybered.acm.org/), [JRC DigComp
+2.2](https://joint-research-centre.ec.europa.eu/scientific-activities/key-competences-lifelong-learning/digital-competence-framework-digcomp_en)).
+All eleven are expressed in a shared `cybed:` semantic schema. A small
+set of R helpers queries across them as if they were one corpus.
 
 It does not propose a replacement framework or attempt to re-author
 framework content. Existing frameworks retain their structure and
@@ -28,6 +38,11 @@ vocabulary. The package adds a comparison layer.
 
 A native Python package is in development. The name is reserved on
 [PyPI](https://pypi.org/project/cybedtools/).
+
+The documentation is indexed in
+[Context7](https://context7.com/ryanstraight/cybedtools) and published
+as [llms.txt](https://ryanstraight.github.io/cybedtools/llms.txt) for AI
+assistants.
 
 Who it’s for:
 
@@ -42,17 +57,17 @@ Who it’s for:
 
 | Framework | Type | Jurisdiction | Top-level units | Elements | License |
 |----|----|----|----|----|----|
-| NICE v2.2.0 | workforce | US | 53 | 2,225 | US public domain (17 U.S.C. 105); foreign rights may be reserved; attribute NIST as source |
-| DCWF v5.1 | workforce | US | 74 | 4,052 | public domain |
-| ECSF v1 | workforce | EU | 12 | 390 | ENISA re-use notice |
-| SFIA 9 | workforce | global | 147 | 821 | SFIA Use Policy |
+| NICE v2.2.0 | workforce | US | 53 | 2,225 | US public domain + NIST worldwide grant |
+| DCWF v5.1 | workforce | US | 74 | 4,052 | US Government work, no US copyright |
+| ECSF v1 | workforce | EU | 12 | 390 | CC BY 4.0 (report); data files unmarked |
+| SFIA 9 | workforce | global | 147 | 821 | SFIA Foundation licence required |
 | Cyber.org K-12 v1.0 | pedagogy | US | 116 | 492 | CC BY-NC 4.0 |
 | CSTA K-12 CS (Rev 2017) | pedagogy | US | 25 | 258 | CC BY-NC-SA 4.0 |
-| ACM/IEEE CSEC2017 | pedagogy | global | 8 | 40 | ACM/IEEE educational-use |
-| DigComp 2.2 | pedagogy | EU | 5 | 21 | EU open re-use |
-| CyQUAL 1.2.0 | workforce | CZ | 161 | 3,340 | Open data; attribution to CyQUAL and Masaryk University |
-| CCSSF 2022 | workforce | CA | 59 | 1,345 | Government of Canada copyright; used with permission |
-| OTCCF v1.1 | workforce | SG | 61 | 1,612 | CSA copyright; permission for non-commercial academic and research use |
+| ACM/IEEE CSEC2017 | pedagogy | global | 8 | 40 | All rights reserved; educational use |
+| DigComp 2.2 | pedagogy | EU | 5 | 21 | CC BY 4.0 |
+| CyQUAL 1.2.0 | workforce | CZ | 161 | 3,340 | Open data, attribution required |
+| CCSSF 2022 | workforce | CA | 59 | 1,345 | Government of Canada copyright |
+| OTCCF v1.1 | workforce | SG | 61 | 1,612 | CSA copyright; non-commercial academic |
 
 The “Top-level units” column reports each framework’s own top-level
 enumerated unit, and those units are not the same kind of thing. NICE,

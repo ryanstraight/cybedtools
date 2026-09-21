@@ -48,7 +48,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,7 @@
     <li><a class="dropdown-item" href="../articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="../articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="../articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="../articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -321,6 +322,11 @@ and <code>cybed:cybokCrossReference</code>.</li>
 <li>
 <code>cybed:elementText</code>, literal text of the element.</li>
 <li>
+<code>schema:identifier</code> on an organizing unit, the
+framework’s own printed code for that unit. Present only where the unit
+IRI carries a discriminator (see below), so the code the framework
+prints is still in the graph as data.</li>
+<li>
 <code>cybed:sourceSection</code>, where this element appears in the
 source document.</li>
 <li>
@@ -462,6 +468,71 @@ Per-framework atomic types subclass <code>cybed:RoleElement</code>.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level3">
+<h3 id="unit-iris-when-a-local-id-is-not-enough">Unit IRIs: when a local id is not enough<a class="anchor" aria-label="anchor" href="#unit-iris-when-a-local-id-is-not-enough"></a>
+</h3>
+<p>A node’s IRI is its prefix plus its framework-local id. That works as
+long as a framework numbers its organizing units and its statements out
+of separate id spaces, because then no unit id can equal a statement id
+and no two nodes can land on the same IRI. Nine of the eleven frameworks
+are like that.</p>
+<p>Two are not. DCWF draws work-role codes and task/KSA numbers from one
+numeric range, so work role 462 and statement 462 both wanted
+<code>dcwf:462</code>. Cyber.org K-12 names a grade-band x sub-concept
+cell after its axes and names the standards inside it the same way, so a
+cell holding exactly one standard wanted that standard’s IRI. Where that
+happened the two nodes did not conflict, they merged: one IRI carrying a
+unit’s types and a statement’s types at once, and a
+<code>cybed:hasElement</code> edge running from the node to itself.</p>
+<p>The fix is a discriminator on the unit side only. A framework may
+declare a <code>unit_iri_prefix</code> in
+<code>docs/framework-invariants.yml</code>; the assembler prepends it to
+the unit’s local id when minting the IRI, and the unit’s printed code is
+kept as a <code>schema:identifier</code> literal so nothing the IRI used
+to carry is lost. DCWF declares <code>role-</code>, Cyber.org K-12
+declares <code>cell-</code>.</p>
+<table class="table">
+<colgroup>
+<col width="30%">
+<col width="27%">
+<col width="41%">
+</colgroup>
+<thead><tr class="header">
+<th>Framework</th>
+<th>Unit IRI</th>
+<th>Statement IRI</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>DCWF v5.1</td>
+<td><code>dcwf:role-462</code></td>
+<td><code>dcwf:462</code></td>
+</tr>
+<tr class="even">
+<td>Cyber.org K-12</td>
+<td><code>cyberorg:cell-K-2.SEC.AUTH</code></td>
+<td><code>cyberorg:K-2.SEC.AUTH</code></td>
+</tr>
+</tbody>
+</table>
+<p>Three properties of the rule matter more than the rule itself.</p>
+<p>It is one-sided. Statement IRIs do not move. They are the codes
+people cite, there are about 4,500 of them, and a framework’s own
+numbering is what a reader looks up.</p>
+<p>It is declared, not inferred. A framework with no
+<code>unit_iri_prefix</code> mints the IRIs it has always minted, so the
+other nine frameworks’ graphs are byte-identical to what they were
+before the rule existed. <code><a href="../reference/build_organizing_unit_node.html">build_organizing_unit_node()</a></code> and
+<code><a href="../reference/build_role_node.html">build_role_node()</a></code> take <code>unit_iri_prefix</code> as an
+optional argument that defaults to no discriminator, so a framework of
+your own is unaffected unless you ask for it.</p>
+<p>It is enforced. <code><a href="../reference/assert_graph_identity.html">assert_graph_identity()</a></code> fails the build
+if any IRI is typed both <code>cybed:OrganizingUnit</code> and
+<code>cybed:RoleElement</code>, or if any <code>cybed:hasElement</code>
+triple points at its own subject. There is no exemption list. A
+framework that would need one needs a <code>unit_iri_prefix</code>
+instead.</p>
 <p>The three frameworks added in v0.3.0 mint their Tier 2 terms under
 <code>https://w3id.org/cybed/framework/&lt;slug&gt;#</code> rather than
 under the steward’s own domain. The other eight sit under a namespace
@@ -505,7 +576,10 @@ subtype for the steward’s vocabulary.</p>
 <p>A non-workforce framework parent (Cyber.org K-12 grade-band x
 sub-concept cell) carries <code>cybed:OrganizingUnit</code> only, and
 its standard’s Clarification examples are typed
-<code>cybed:Example</code> linked via <code>cybed:hasExample</code>:</p>
+<code>cybed:Example</code> linked via <code>cybed:hasExample</code>.
+This is also a framework that declares a <code>unit_iri_prefix</code>,
+so the cell’s IRI carries <code>cell-</code> and its printed code sits
+on <code>schema:identifier</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="dt">"schema"</span><span class="fu">:</span> <span class="st">"http://schema.org/"</span><span class="fu">,</span></span>
@@ -514,27 +588,28 @@ its standard’s Clarification examples are typed
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">},</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="dt">"@graph"</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH"</span><span class="fu">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:cell-K-2.SEC.AUTH"</span><span class="fu">,</span></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cyberorg:StandardGroup"</span><span class="ot">,</span> <span class="st">"cybed:OrganizingUnit"</span><span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>      <span class="dt">"schema:name"</span><span class="fu">:</span> <span class="st">"K-2 / Secure Computing / Authentication"</span><span class="fu">,</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>      <span class="dt">"cybed:hasElement"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span> <span class="fu">}</span><span class="ot">]</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span><span class="fu">,</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cyberorg:Standard"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"Describe a good password. Clarification statement: ..."</span><span class="fu">,</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>      <span class="dt">"cybed:hasExample"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span> <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.2"</span> <span class="fu">}</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      <span class="ot">]</span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span><span class="fu">,</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cybed:Example"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"not using common words as passwords"</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>      <span class="dt">"schema:identifier"</span><span class="fu">:</span> <span class="st">"K-2.SEC.AUTH"</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>      <span class="dt">"cybed:hasElement"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span> <span class="fu">}</span><span class="ot">]</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1"</span><span class="fu">,</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cyberorg:Standard"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"Describe a good password. Clarification statement: ..."</span><span class="fu">,</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>      <span class="dt">"cybed:hasExample"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.2"</span> <span class="fu">}</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>      <span class="dt">"@id"</span><span class="fu">:</span> <span class="st">"cyberorg:K-2.SEC.AUTH.1.example.1"</span><span class="fu">,</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>      <span class="dt">"@type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"cybed:Example"</span><span class="ot">,</span> <span class="st">"cybed:RoleElement"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>      <span class="dt">"cybed:elementText"</span><span class="fu">:</span> <span class="st">"not using common words as passwords"</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>The Example node deliberately carries no
 <code>cyberorg:Standard</code> typing and is not in any organizing
 unit’s <code>cybed:hasElement</code>. It is reachable only via the

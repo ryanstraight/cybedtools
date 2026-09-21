@@ -7,6 +7,7 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/LICENSE.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/LICENSING.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/articles/adding-a-framework.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/articles/ai-assistants.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/articles/cross-framework-analysis.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/articles/data-integrity.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/articles/getting-started.html</loc></url>
@@ -17,6 +18,8 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/news/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/assemble_framework_document.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/assert_graph_identity.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/assert_graph_invariants.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_example_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_framework_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_jsonld_context.html</loc></url>
@@ -27,14 +30,18 @@
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_role_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_subpoint_node.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/build_unit_relation_node.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/cybed_license.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/cybedtools-package.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/element_framework_bindings.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/element_text.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/example_framework_bindings.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/expand_with_subpoints.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/extend_role_element_ids.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_licenses.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_metadata.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/framework_summary.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/graph_identity_violations.html</loc></url>
+<url><loc>https://ryanstraight.github.io/cybedtools/reference/graph_invariant_counts.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/index.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_combined_ntriples_graph.html</loc></url>
 <url><loc>https://ryanstraight.github.io/cybedtools/reference/load_combined_rdf_graph.html</loc></url>

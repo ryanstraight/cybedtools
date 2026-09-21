@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">cybedtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,7 @@
     <li><a class="dropdown-item" href="articles/namespace-architecture.html">JSON-LD namespace architecture</a></li>
     <li><a class="dropdown-item" href="articles/sparql-strategy.html">SPARQL query strategy</a></li>
     <li><a class="dropdown-item" href="articles/data-integrity.html">Data integrity protocol</a></li>
+    <li><a class="dropdown-item" href="articles/ai-assistants.html">Using cybedtools with an AI assistant</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -85,7 +86,7 @@
 </div>
 <div class="section level2">
 <h2 id="test-document-build">Test, document, build<a class="anchor" aria-label="anchor" href="#test-document-build"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Run the test suite (53+ tests, ~7 seconds)</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Run the test suite (roughly 550 tests)</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test()"</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Regenerate man/ + NAMESPACE after roxygen comment changes</span></span>
@@ -113,8 +114,9 @@
 <p>The package’s design discipline is therefore:</p>
 <ol style="list-style-type: decimal"><li>SPARQL queries are single basic graph patterns.</li>
 <li>Joins, multi-property assembly, and aggregation happen in R via dplyr.</li>
-</ol><p>This is implemented by <code>R/sparql-helpers.R</code>. The two primitives (<code>sparql_pairs</code>, <code>sparql_subjects</code>) issue exactly one triple match; the domain helpers (<code>framework_metadata</code>, <code>role_framework_bindings</code>, <code>element_framework_bindings</code>, <code>role_element_bindings</code>, <code>element_text</code>) compose one or more single-BGP calls and join in R.</p>
-<p><strong>If you, the agent, are asked to write a multi-pattern SPARQL query against this package’s graphs: don’t. Decompose into single-BGP calls and join in dplyr.</strong> A future v0.2+ release may add an Apache Jena Fuseki backend that lifts this constraint.</p>
+</ol><p>This is implemented by <code>R/sparql-helpers.R</code>. The two primitives (<code>sparql_pairs</code>, <code>sparql_subjects</code>) issue exactly one triple match; the domain helpers (<code>framework_metadata</code>, <code>organizing_unit_framework_bindings</code>, <code>role_framework_bindings</code>, <code>element_framework_bindings</code>, <code>role_element_bindings</code>, <code>subpoint_framework_bindings</code>, <code>example_framework_bindings</code>, <code>element_text</code>) compose one or more single-BGP calls and join in R.</p>
+<p><strong>If you, the agent, are asked to write a multi-pattern SPARQL query against this package’s graphs: don’t. Decompose into single-BGP calls and join in dplyr.</strong> A future release may add an Apache Jena Fuseki backend that lifts this constraint.</p>
+<p><strong><code><a href="reference/role_element_bindings.html">role_element_bindings()</a></code> is not role-restricted.</strong> It returns <code>cybed:hasElement</code> bindings for every organizing unit, so restrict it with <code>semi_join(role_framework_bindings(rdf), by = "role")</code> before any per-role aggregate. Without that, a role-level count silently includes skills and competence areas.</p>
 </div>
 <div class="section level2">
 <h2 id="error-handling">Error handling<a class="anchor" aria-label="anchor" href="#error-handling"></a></h2>
@@ -130,6 +132,12 @@
 </tr><tr><td><code>cybedtools_framework_not_found</code></td>
 <td>
 <code><a href="reference/load_single_framework_graph.html">load_single_framework_graph()</a></code> on an unknown slug</td>
+</tr><tr><td><code>cybedtools_graph_identity</code></td>
+<td>
+<code><a href="reference/assert_graph_identity.html">assert_graph_identity()</a></code> when one IRI is both a unit and a statement</td>
+</tr><tr><td><code>cybedtools_graph_invariant</code></td>
+<td>
+<code><a href="reference/assert_graph_invariants.html">assert_graph_invariants()</a></code> on a count outside its declared band</td>
 </tr></tbody></table><p>Recovery pattern:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
@@ -150,6 +158,8 @@
 <li>
 <code>R/rdf-graph.R</code>: graph loaders for staged data (<code>load_*_graph</code>).</li>
 <li>
+<code>R/graph-invariants.R</code>: the checks only an assembled graph can answer. Identity (no IRI is both an organizing unit and a statement, no <code>cybed:hasElement</code> self-loops) and the declared <code>graph_invariants</code> counts. Run as <code>scripts/026-verify-graph.R</code> and re-run by <code>scripts/030-export-release.R</code>.</li>
+<li>
 <code>R/demo-graph.R</code>: <code><a href="reference/make_demo_graph.html">make_demo_graph()</a></code> synthetic two-framework fixture for sanity checks.</li>
 <li>
 <code>R/cybedtools-package.R</code>: <code><a href="reference/cybedtools-package.html">?cybedtools</a></code> package-level help.</li>
@@ -162,7 +172,7 @@
 <li>
 <code>docs/framework-data-sources.md</code>: per-framework source URLs, licensing, staging path.</li>
 <li>
-<code>docs/framework-invariants.yml</code>: declared count bounds per framework (used by <code>scripts/015-verify-ingestion.R</code>).</li>
+<code>docs/framework-invariants.yml</code>: declared count bounds per framework (used by <code>scripts/015-verify-ingestion.R</code>), the post-assembly <code>graph_invariants</code> bands (used by <code>scripts/026-verify-graph.R</code>), and each framework’s optional <code>unit_iri_prefix</code>.</li>
 <li>
 <code>vignettes/articles/data-integrity.Rmd</code>: the six-invariant verification contract (rendered as a pkgdown article).</li>
 <li>
@@ -173,6 +183,10 @@
 <code>vignettes/cross-framework-analysis.Rmd</code>: worked analytical examples plus librdf gotchas.</li>
 <li>
 <code>vignettes/adding-a-framework.Rmd</code>: six-step extension guide.</li>
+<li>
+<code>vignettes/articles/ai-assistants.Rmd</code>: the same rules as this file, written for an assistant working from the published site.</li>
+<li>
+<code>python/</code>: a placeholder Python package that reserves the name on PyPI. It installs and reports its version. It queries nothing yet.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="common-tasks">Common tasks<a class="anchor" aria-label="anchor" href="#common-tasks"></a></h2>
@@ -188,7 +202,7 @@
 <p>Six steps. Full walkthrough in <code>vignettes/adding-a-framework.Rmd</code>. Summary:</p>
 <ol style="list-style-type: decimal"><li>Pick a slug (filesystem) and prefix (JSON-LD namespace). Add the prefix to <code>cybed_namespaces</code> and <code>valid_framework_prefixes</code> in <code>R/jsonld-helpers.R</code>.</li>
 <li>Stage the source under <code>data/raw/&lt;slug&gt;/</code> and write <code>scripts/010-ingest-&lt;slug&gt;.R</code> producing tidy CSVs and <code>provenance.yml</code>.</li>
-<li>Add an entry to <code>docs/framework-invariants.yml</code> with expected role and element count bounds.</li>
+<li>Add an entry to <code>docs/framework-invariants.yml</code> with expected role and element count bounds. Check there whether the framework can give an organizing unit and a statement the same id; if it can, declare a <code>unit_iri_prefix</code> for it, or the two nodes mint one IRI and fuse.</li>
 <li>Add verification field mappings in <code>scripts/015-verify-ingestion.R</code>.</li>
 <li>Add a JSON-LD assembly adapter in <code>scripts/020-assemble-jsonld.R</code>.</li>
 <li>Run <code>scripts/000-build.R</code>. Existing SPARQL queries automatically include the new framework because they target framework-agnostic types (<code>cybed:Framework</code>, <code>cybed:OrganizingUnit</code>, <code>cybed:RoleElement</code>). Queries that target the workforce-restricted <code>cybed:Role</code> subtype pick up the new framework only when <code><a href="reference/build_role_node.html">build_role_node()</a></code> was used (workforce-shaped frameworks).</li>
@@ -247,7 +261,8 @@
 </div>
 <div class="section level2">
 <h2 id="licensing-for-data-redistribution">Licensing for data redistribution<a class="anchor" aria-label="anchor" href="#licensing-for-data-redistribution"></a></h2>
-<p>The package code is MIT. Framework source text is <strong>not</strong> redistributed in the repo because licenses differ per framework (SFIA Use Policy, Cyber.org K-12 CC BY-NC, CSTA CC BY-NC-SA, etc.). If you are an agent generating example outputs from staged framework data, derivative analytical outputs (counts, mappings, structural comparisons) are generally publishable with attribution. Raw source-text excerpts may not be.</p>
+<p>The package code is MIT. Framework source text is <strong>not</strong> redistributed in the repo because the terms differ per framework. Read <code>LICENSING.md</code> and <code>docs/framework-data-sources.md</code> for the per-framework terms rather than assuming any of them from the framework’s name. One worth stating here: SFIA’s terms protect concept, content and structure, and all use of SFIA is under licence from the SFIA Foundation.</p>
+<p><code>docs/framework-invariants.yml</code> records a <code>public_redistribution</code> value per framework. If you are an agent generating example outputs from staged framework data, derivative analytical outputs (counts, mappings, structural comparisons) are generally publishable with attribution. Raw source-text excerpts may not be.</p>
 </div>
 <div class="section level2">
 <h2 id="what-this-package-is-not">What this package is NOT<a class="anchor" aria-label="anchor" href="#what-this-package-is-not"></a></h2>

@@ -147,9 +147,47 @@ cross-framework-analysis for worked examples.
 - [`validate_jsonld_node()`](https://ryanstraight.github.io/cybedtools/reference/validate_jsonld_node.md)
   **\[stable\]** : Validate a JSON-LD node's minimum required structure
 
+## Graph invariants
+
+Checks that only an assembled graph can answer: that no IRI stands for
+both an organizing unit and a statement, that no cybed:hasElement link
+points at its own subject, and that the assembled counts sit inside the
+bands docs/framework-invariants.yml declares. Run as a pipeline stage
+between the N-Triples export and the data release, and re-run by the
+release export itself.
+
+- [`graph_identity_violations()`](https://ryanstraight.github.io/cybedtools/reference/graph_identity_violations.md)
+  **\[stable\]** : Find organizing units that are also statements, and
+  self-referential links
+
+- [`assert_graph_identity()`](https://ryanstraight.github.io/cybedtools/reference/assert_graph_identity.md)
+  **\[stable\]** : Stop the build when an assembled graph fuses a unit
+  with a statement
+
+- [`graph_invariant_counts()`](https://ryanstraight.github.io/cybedtools/reference/graph_invariant_counts.md)
+  **\[stable\]** :
+
+  Measure the counts that `graph_invariants` declares
+
+- [`assert_graph_invariants()`](https://ryanstraight.github.io/cybedtools/reference/assert_graph_invariants.md)
+  **\[stable\]** :
+
+  Check an assembled graph against the declared `graph_invariants` bands
+
+## Licensing
+
+Licence facts for the package code and every framework, with one owner.
+
+- [`cybed_license()`](https://ryanstraight.github.io/cybedtools/reference/cybed_license.md)
+  **\[experimental\]** : Look up the licence terms for the package or
+  one framework
+
 ## Datasets
 
 Pre-computed summary tibbles shipped with the package.
 
 - [`framework_summary`](https://ryanstraight.github.io/cybedtools/reference/framework_summary.md)
   : Eleven-framework summary tibble
+- [`framework_licenses`](https://ryanstraight.github.io/cybedtools/reference/framework_licenses.md)
+  **\[experimental\]** : Licence facts for the package code and every
+  framework

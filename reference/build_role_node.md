@@ -23,7 +23,8 @@ build_role_node(
   element_ids = character(0),
   framework_id = NA_character_,
   opm_codes = character(0),
-  metadata = list()
+  metadata = list(),
+  unit_iri_prefix = NULL
 )
 ```
 
@@ -79,6 +80,17 @@ build_role_node(
 
   Named list, optional additional fields to include.
 
+- unit_iri_prefix:
+
+  Character, optional discriminator for the minted role IRI, passed
+  through to
+  [`build_organizing_unit_node()`](https://ryanstraight.github.io/cybedtools/reference/build_organizing_unit_node.md).
+  Supply it for a framework that numbers its roles and its statements
+  out of one id space, such as DCWF, where a work-role code and a
+  task/KSA number can be the same number. The role's printed code is
+  then kept as a `schema:identifier` literal. Defaults to `NULL`, the
+  bare IRI.
+
 ## Value
 
 Named list (JSON-LD node).
@@ -122,4 +134,19 @@ role_opm <- build_role_node(
 )
 role_opm[["cybed:opmCode"]]
 #> [1] "631" "632"
+
+# DCWF numbers work roles and task/KSA statements from one range, so its
+# role IRIs carry a discriminator and the printed code becomes a literal.
+dcwf_role <- build_role_node(
+  role_id             = "462",
+  role_name           = "Systems Security Analyst",
+  framework_prefix    = "dcwf",
+  framework_role_type = "WorkRole",
+  framework_id        = "dcwf-v5.1",
+  unit_iri_prefix     = "role-"
+)
+dcwf_role[["@id"]]
+#> dcwf:role-462
+dcwf_role[["schema:identifier"]]
+#> [1] "462"
 ```
