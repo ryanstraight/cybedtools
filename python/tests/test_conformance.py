@@ -53,21 +53,9 @@ def test_fixture_copy_matches_source() -> None:
         )
 
 
-@pytest.mark.skip(reason="framework_metadata() is not yet implemented in the Python port.")
-def test_framework_metadata_matches_golden() -> None:
-    """Placeholder: framework_metadata(graph) will match goldens/framework_metadata.csv."""
-
-
-@pytest.mark.skip(reason="unit_element_bindings() is not yet implemented in the Python port.")
-def test_unit_element_bindings_matches_golden() -> None:
-    """Placeholder: unit_element_bindings(graph) will match goldens/unit_element_bindings.csv."""
-
-
-@pytest.mark.skip(reason="unit_relation_bindings() is not yet implemented in the Python port.")
-def test_unit_relation_bindings_matches_golden() -> None:
-    """Placeholder: unit_relation_bindings(graph) will match goldens/unit_relation_bindings.csv."""
-
-
-@pytest.mark.skip(reason="framework_similarity() is not yet implemented in the Python port.")
-def test_framework_similarity_matches_golden() -> None:
-    """Placeholder: framework_similarity(graph, from_, to, n) will match goldens/framework_similarity.csv."""
+# framework_metadata(), unit_element_bindings(), and unit_relation_bindings()
+# conformance now lives in test_queries.py, exercised against fixture.nt +
+# their respective goldens.
+#
+# framework_similarity() conformance now lives in test_similarity.py, exercised
+# against the shipped fixture.nt + goldens/framework_similarity.csv.

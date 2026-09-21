@@ -1,0 +1,4 @@
+framework,name,jurisdiction,sector,specificity,framework_slug
+https://w3id.org/cybed/ontology#framework/fixture-ped1,Fixture Pedagogy Framework One,global,education,cybersecurity-specific,fixture-ped1
+https://w3id.org/cybed/ontology#framework/fixture-wf1,Fixture Workforce Framework One,US,civilian,cybersecurity-specific,fixture-wf1
+https://w3id.org/cybed/ontology#framework/fixture-wf2,Fixture Workforce Framework Two,EU,civilian,cybersecurity-specific,fixture-wf2
